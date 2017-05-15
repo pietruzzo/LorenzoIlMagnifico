@@ -20,7 +20,7 @@ public abstract class Carta {
     public Carta(String nome, int periodo, Effetto effettoImmediato, Effetto effettoPermanente)
     {
         this.Nome = nome;
-        this.Periodo = periodo;
+        this.Periodo = periodo + 1 - 1;
         this.EffettoImmediato = effettoImmediato;
         this.EffettoPermanente = effettoPermanente;
     }
