@@ -17,7 +17,7 @@ public class SpazioAzioneProduzione extends SpazioAzione {
      */
     public SpazioAzioneProduzione(int valore, int limiteFamiliari, int malusValore)
     {
-        super(valore, 0,0,0,0,0);
+        super(valore, new Risorsa());
         this.FamiliariPiazzati = new ArrayList<>();
         this.LimiteFamiliari = limiteFamiliari;
         this.MalusValore = malusValore;

@@ -1,7 +1,5 @@
 package Domain;
 
-import jdk.management.resource.NotifyingMeter;
-
 import java.awt.*;
 import java.util.*;
 
@@ -19,14 +17,7 @@ public class Giocatore {
     protected java.util.List<CartaImpresa> CarteImpresa;
     protected java.util.List<Familiare> Familiari;
 
-    protected int Legni;
-    protected int Pietre;
-    protected int Servitori;
-    protected int Monete;
-
-    protected int PuntiFede;
-    protected int PuntiMilitari;
-    protected int PuntiVittoria;
+    protected Risorsa Risorse;
     //endregion
 
     /**
@@ -36,13 +27,8 @@ public class Giocatore {
     {
         this.Nome = nome;
         this.Colore = colore;
-        this.Monete = monete;
-        this.Legni = 2;
-        this.Pietre = 2;
-        this.Servitori = 3;
-        this.PuntiFede = 0;
-        this.PuntiMilitari = 0;
-        this.PuntiVittoria = 0;
+
+        this.Risorse = new Risorsa(2, 2, 3, monete, 0, 0, 0 );
 
         this.CarteTerritorio = new ArrayList<>();
         this.CarteEdificio = new ArrayList<>();
@@ -83,32 +69,18 @@ public class Giocatore {
     /**
      * Incrementa le risorse ottenute da un familiare su uno spazio azione
      */
-    public void OttieniBonusSpazioAzione(int legni, int pietre, int servitori, int monete, int puntiMilitari)
+    public void OttieniBonusSpazioAzione(Risorsa risorseSpazioAzione)
     {
-        this.Legni += legni;
-        this.Pietre += pietre;
-        this.Servitori += servitori;
-        this.Monete += monete;
-        this.PuntiMilitari += puntiMilitari;
+        this.Risorse.add(risorseSpazioAzione);
     }
 
     /**
      * Paga le risorse necessarie per prendere una carta
      */
-    public void PagaRisorse(int legni, int pietre, int servitori, int monete)
+    public void PagaRisorse(Risorsa costoRisorse)
     {
-        this.Legni -= legni;
-        this.Pietre -= pietre;
-        this.Servitori -= servitori;
-        this.Monete -= monete;
+        this.Risorse.sub(costoRisorse);
     }
 
-    /**
-     * Paga i punti militari necessari per prendere una carta
-     */
-    public void PagaPuntiMilitari(int puntiMilitari)
-    {
-        this.PuntiMilitari -= puntiMilitari;
-    }
 }
 

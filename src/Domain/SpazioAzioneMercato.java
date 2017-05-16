@@ -10,9 +10,9 @@ public class SpazioAzioneMercato extends SpazioAzione {
     /**
      * Costruttore
      */
-    public SpazioAzioneMercato(int valore, int bonusLegni, int bonusPietre, int bonusServitori, int bonusMonete, int bonusMilitare)
+    public SpazioAzioneMercato(int valore, Risorsa bonusRisorse)
     {
-        super(valore, bonusLegni, bonusPietre, bonusServitori, bonusMonete, bonusMilitare);
+        super(valore, bonusRisorse);
         this.Tipo = TipoSpazioAzione.Mercato;
     }
 

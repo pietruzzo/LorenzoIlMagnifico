@@ -8,23 +8,25 @@ public abstract class Carta {
     //region Proprieta
     protected String Nome;
     protected int Periodo;
+    protected Risorsa CostoRisorse;
     protected Effetto EffettoImmediato;
     protected Effetto EffettoPermanente;
     //endregion
 
-    public Carta() {}
+    public Carta() { CostoRisorse=new Risorsa();}
 
     /**
      * Costruttore
      */
-    public Carta(String nome, int periodo, Effetto effettoImmediato, Effetto effettoPermanente)
+    public Carta(String nome, int periodo, Risorsa costoRisorse, Effetto effettoImmediato, Effetto effettoPermanente)
     {
         this.Nome = nome;
         this.Periodo = periodo;
         this.EffettoImmediato = effettoImmediato;
+        this.CostoRisorse = costoRisorse;
         this.EffettoPermanente = effettoPermanente;
     }
 
-    abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre, Boolean torreOccupata) throws Exception;
-    abstract protected void AssegnaGiocatore(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre, Boolean torreOccupata);
+    abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws Exception;
+    abstract protected void AssegnaGiocatore(Giocatore giocatore);
 }

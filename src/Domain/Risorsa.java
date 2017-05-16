@@ -7,19 +7,20 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Risorsa {
 
-    private final static short NUMRISORSE = 6;
+    private final static short NUMRISORSE = 7;
     private short[] risorse = new short[NUMRISORSE];
 
     Risorsa(){}
-    public Risorsa(int legno, int pietra, int servi, int puntiVittoria, int puntiMilitari, int puntiFede ){
+    public Risorsa(int legno, int pietra, int servi, int monete, int puntiVittoria, int puntiMilitari, int puntiFede ){
         this.risorse[0]=(short) legno;
         this.risorse[1]= (short) pietra;
         this.risorse[2]= (short) servi;
-        this.risorse[3]= (short) puntiVittoria;
-        this.risorse[4]= (short) puntiMilitari;
-        this.risorse[5]= (short) puntiFede;
+        this.risorse[3]= (short) monete;
+        this.risorse[4]= (short) puntiVittoria;
+        this.risorse[5]= (short) puntiMilitari;
+        this.risorse[6]= (short) puntiFede;
     }
-    public Risorsa(int risorsa, TipoRisorsa tipoRisorsa){
+    public Risorsa(TipoRisorsa tipoRisorsa, int risorsa){
         setRisorse(tipoRisorsa, risorsa);
     }
     Risorsa(short[] array){
@@ -28,13 +29,13 @@ public class Risorsa {
     }
 
 
-
     public int getLegno(){return risorse[0];}
     public int getPietra(){return risorse[1];}
     public int getServi(){return risorse[2];}
-    public int getPuntiVittoria(){return risorse[3];}
-    public int getPuntiFede(){return risorse[4];}
-    public int getPuntiMilitari(){return risorse[5];}
+    public int getMonete(){return risorse[3];}
+    public int getPuntiVittoria(){return risorse[4];}
+    public int getPuntiFede(){return risorse[5];}
+    public int getPuntiMilitari(){return risorse[6];}
 
     short[] getArrayRisorse(){return risorse;}
 
@@ -44,6 +45,7 @@ public class Risorsa {
 
     public void add(Risorsa risorsa){this.setRisorse(add(this, risorsa));}
     public void sub(Risorsa sottrattore){this.setRisorse(sub(this, sottrattore));}
+    @NotNull
     public static Risorsa add (Risorsa risorsa1, Risorsa risorsa2){
         short[] array1 = risorsa1.getArrayRisorse();
         short[] array2 = risorsa2.getArrayRisorse();
@@ -63,13 +65,19 @@ public class Risorsa {
         }
         return new Risorsa(result);
     }
+    public boolean isPositivo(){
+        for (short r : risorse){
+            if (r<0) return false;
+        }
+        return true;
+    }
 
     private void setRisorse(Risorsa risorse){
         this.risorse=risorse.getArrayRisorse().clone();
     }
 
     public enum TipoRisorsa{
-        LEGNO("Legno", 0), PIETRA("Pietra", 1), SERVI("Servi", 2), PVITTORIA("Punti Vittoria", 3), PFEDE("Punti Fede", 4), PMILITARI("Punti Militari", 5);
+        LEGNO("Legno", 0), PIETRA("Pietra", 1), SERVI("Servi", 2), MONETE("Monete", 3), PVITTORIA("Punti Vittoria", 4), PFEDE("Punti Fede", 5), PMILITARI("Punti Militari", 6);
 
         private final String tipoRisorsa;
         private final short posizione;

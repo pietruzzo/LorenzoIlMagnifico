@@ -10,12 +10,7 @@ public class SpazioAzione {
     //region Proprieta
     protected int Valore;
     protected TipoSpazioAzione Tipo;
-
-    protected int BonusLegni;
-    protected int BonusPietre;
-    protected int BonusServitori;
-    protected int BonusMonete;
-    protected int BonusMilitare;
+    protected Risorsa BonusRisorse;
 
     //endregion
 
@@ -24,14 +19,10 @@ public class SpazioAzione {
     /**
      * Costruttore SpazioAzione
      */
-    protected SpazioAzione(int valore, int bonusLegni, int bonusPietre, int bonusServitori, int bonusMonete, int bonusMilitare)
+    protected SpazioAzione(int valore, Risorsa bonusRisorse)
     {
         this.Valore = valore;
-        this.BonusLegni = bonusLegni;
-        this.BonusPietre = bonusPietre;
-        this.BonusServitori = bonusServitori;
-        this.BonusMonete = bonusMonete;
-        this.BonusMilitare = bonusMilitare;
+        this.BonusRisorse = bonusRisorse;
     }
 
     /**
@@ -46,6 +37,7 @@ public class SpazioAzione {
      * Validazione base per poter piazzare un familiare
       */
     protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+        //TODO aggiungere bonus effetti permanent, carte scomunica
         if(familiare.Valore < this.Valore)
             throw new Exception(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
     }

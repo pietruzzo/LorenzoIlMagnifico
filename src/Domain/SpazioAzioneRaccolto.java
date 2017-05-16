@@ -17,7 +17,7 @@ public class SpazioAzioneRaccolto extends SpazioAzione {
      */
     public SpazioAzioneRaccolto(int valore, int limiteFamiliari, int malusValore)
     {
-        super(valore, 0,0,0,0,0);
+        super(valore, new Risorsa());
         this.FamiliariPiazzati = new ArrayList<>();
         this.LimiteFamiliari = limiteFamiliari;
         this.MalusValore = malusValore;

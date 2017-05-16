@@ -47,7 +47,7 @@ public class Torre {
                     break;
             }
 
-            SpaziAzione.add(new SpazioAzioneTorre(valore, bonusLegni, bonusPietre, bonusMonete, bonusMilitare ));
+            SpaziAzione.add(new SpazioAzioneTorre(valore, new Risorsa(bonusLegni, bonusPietre,0, bonusMonete,0, bonusMilitare,0)));
         }
     }
 

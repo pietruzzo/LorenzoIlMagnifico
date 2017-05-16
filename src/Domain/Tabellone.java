@@ -33,7 +33,6 @@ public class Tabellone {
         this.SpaziAzioneProduzione = new ArrayList<>();
         this.SpaziAzioneRaccolto = new ArrayList<>();
         this.SpaziAzioneMercato = new ArrayList<>();
-        this.SpazioAzioneConsiglio = new SpazioAzioneConsiglio(1, 1, 1, 2, 3, 2);
 
         //Inizializza le 4 torri
         for (TipoCarta tipo : TipoCarta.values()) {
@@ -51,13 +50,14 @@ public class Tabellone {
         //endregion
 
         //region Spazi Mercato
-        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, 0,0, 0, 5, 0));
-        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, 0,0, 5, 0, 0));
-        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, 0,0, 0, 2, 3));
-        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, 0,0, 0, 0 ,0));
+
+        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, new Risorsa(0, 0, 0, 5, 0, 0, 0)));
+        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, new Risorsa(0, 0, 5, 0, 0, 0, 0)));
+        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, new Risorsa(0, 0, 0, 2, 0, 3, 0)));
+        this.SpaziAzioneMercato.add(new SpazioAzioneMercato(1, new Risorsa(0, 0, 0, 5, 0, 0, 0)));
         //endregion
 
-        this.SpazioAzioneConsiglio = new SpazioAzioneConsiglio(1, 0, 0, 0, 0, 0);
+        this.SpazioAzioneConsiglio = new SpazioAzioneConsiglio(1, new Risorsa(0, 0, 0, 1, 0, 0, 0));
     }
 
     /**

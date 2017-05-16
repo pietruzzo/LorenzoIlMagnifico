@@ -13,9 +13,9 @@ public class SpazioAzioneConsiglio extends SpazioAzione {
     /**
      * Costruttore
      */
-    public SpazioAzioneConsiglio(int valore, int bonusLegni, int bonusPietre, int bonusServitori, int bonusMonete, int bonusMilitare)
+    public SpazioAzioneConsiglio(int valore, Risorsa bonusRisorse)
     {
-        super(valore, bonusLegni, bonusPietre, bonusServitori, bonusMonete, bonusMilitare);
+        super(valore, bonusRisorse);
         this.FamiliariPiazzati = new ArrayList<>();
         this.Tipo = TipoSpazioAzione.Consiglio;
     }

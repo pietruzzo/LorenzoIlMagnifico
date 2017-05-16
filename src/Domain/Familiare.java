@@ -37,9 +37,7 @@ public class Familiare {
     public void OttieniBonusSpazioAzione()
     {
         if(this.SpazioAzioneAttuale != null)
-            this.Giocatore.OttieniBonusSpazioAzione(this.SpazioAzioneAttuale.BonusLegni, this.SpazioAzioneAttuale.BonusPietre,
-                                                    this.SpazioAzioneAttuale.BonusServitori, this.SpazioAzioneAttuale.BonusMonete,
-                                                    this.SpazioAzioneAttuale.BonusMilitare);
+            this.Giocatore.Risorse.add(this.SpazioAzioneAttuale.BonusRisorse);
     }
 }
 
