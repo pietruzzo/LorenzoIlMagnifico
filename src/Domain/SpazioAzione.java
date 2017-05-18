@@ -26,6 +26,13 @@ public class SpazioAzione {
     }
 
     /**
+     * @return copia di BonusRisorse
+     */
+    public Risorsa getBonusRisorse() {
+        return new Risorsa(BonusRisorse.getArrayRisorse());
+    }
+
+    /**
      * Metodo base per aggiornare i parametri del giocatore in funzione dei bonus dello spazio azione
      */
     public void PiazzaFamiliare(Familiare familiare) throws Exception {

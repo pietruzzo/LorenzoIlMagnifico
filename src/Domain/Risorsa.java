@@ -10,7 +10,7 @@ public class Risorsa {
     private final static short NUMRISORSE = 7;
     private short[] risorse = new short[NUMRISORSE];
 
-    Risorsa(){}
+    public Risorsa(){}
     public Risorsa(int legno, int pietra, int servi, int monete, int puntiVittoria, int puntiMilitari, int puntiFede ){
         this.risorse[0]=(short) legno;
         this.risorse[1]= (short) pietra;
@@ -70,6 +70,14 @@ public class Risorsa {
             if (r<0) return false;
         }
         return true;
+    }
+    public Risorsa multScalare(int scalare){
+        short[] array = this.getArrayRisorse();
+        short[] newArray = new short[NUMRISORSE];
+        for (int i=0; i<NUMRISORSE; i++){
+            newArray[i]=(short) (array[i]*scalare);
+        }
+        return new Risorsa(newArray);
     }
 
     private void setRisorse(Risorsa risorse){

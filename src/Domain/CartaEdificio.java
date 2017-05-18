@@ -22,4 +22,9 @@ public class CartaEdificio extends Carta {
 
         //TODO gestione effetti immediati
     }
+
+    @Override
+    public TipoCarta getTipoCarta() {
+        return TipoCarta.Edificio;
+    }
 }

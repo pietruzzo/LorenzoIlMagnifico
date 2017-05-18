@@ -29,4 +29,5 @@ public abstract class Carta {
 
     abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws Exception;
     abstract protected void AssegnaGiocatore(Giocatore giocatore);
+    abstract public TipoCarta getTipoCarta();
 }

@@ -47,4 +47,9 @@ public class CartaTerritorio extends Carta {
     {
         giocatore.CarteTerritorio.add(this);
     }
+
+    @Override
+    public TipoCarta getTipoCarta() {
+        return TipoCarta.Territorio;
+    }
 }

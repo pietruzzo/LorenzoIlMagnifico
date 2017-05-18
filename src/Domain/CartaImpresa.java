@@ -42,4 +42,9 @@ public class CartaImpresa extends Carta {
 
         //TODO gestione effetti immediati
     }
+
+    @Override
+    public TipoCarta getTipoCarta() {
+        return TipoCarta.Impresa;
+    }
 }
