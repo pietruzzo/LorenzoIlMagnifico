@@ -1,4 +1,4 @@
-package Domain.Effetti;
+package Domain.Effetti.lista.effectInterface;
 
 /**
  * Created by pietro on 18/05/17.

@@ -1,7 +1,7 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
-import Domain.Effetti.Validabile;
+import Domain.Effetti.lista.effectInterface.Validabile;
 import Domain.Risorsa;
 import Domain.SpazioAzione;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;

@@ -1,9 +1,9 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
-import Domain.Effetti.Azionabile;
-import Domain.Effetti.Trigger;
-import Domain.Effetti.Validabile;
+import Domain.Effetti.lista.effectInterface.Azionabile;
+import Domain.Effetti.lista.effectInterface.Trigger;
+import Domain.Effetti.lista.effectInterface.Validabile;
 import Domain.Risorsa;
 import Domain.SpazioAzione;
 import Domain.SpazioAzioneTorre;

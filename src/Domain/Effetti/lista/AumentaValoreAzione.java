@@ -1,8 +1,6 @@
 package Domain.Effetti.lista;
 
-import Domain.Effetti.Azionabile;
-import Domain.Effetti.ModificaValoreAzione;
-import Domain.Effetti.Validabile;
+import Domain.Effetti.lista.effectInterface.ModificaValoreAzione;
 import Domain.TipoAzione;
 
 /**

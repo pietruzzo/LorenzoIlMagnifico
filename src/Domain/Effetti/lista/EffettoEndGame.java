@@ -1,7 +1,7 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
-import Domain.Effetti.EndGame;
+import Domain.Effetti.lista.effectInterface.EndGame;
 import Domain.Risorsa;
 
 import java.util.List;

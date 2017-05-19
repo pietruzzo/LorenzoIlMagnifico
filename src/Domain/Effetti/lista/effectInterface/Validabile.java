@@ -1,4 +1,4 @@
-package Domain.Effetti;
+package Domain.Effetti.lista.effectInterface;
 
 import Domain.Carta;
 import Domain.Risorsa;

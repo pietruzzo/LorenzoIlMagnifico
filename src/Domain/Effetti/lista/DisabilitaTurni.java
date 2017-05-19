@@ -1,6 +1,6 @@
 package Domain.Effetti.lista;
 
-import Domain.Effetti.InizioTurno;
+import Domain.Effetti.lista.effectInterface.InizioTurno;
 import Exceptions.SaltaTurnoException;
 
 /**

@@ -1,7 +1,7 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
-import Domain.Effetti.Azionabile;
+import Domain.Effetti.lista.effectInterface.Azionabile;
 import Domain.Risorsa;
 import Domain.SpazioAzione;
 

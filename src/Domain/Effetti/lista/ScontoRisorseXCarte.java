@@ -1,8 +1,8 @@
 package Domain.Effetti.lista;
 
 import Domain.*;
-import Domain.Effetti.Azionabile;
-import Domain.Effetti.Validabile;
+import Domain.Effetti.lista.effectInterface.Azionabile;
+import Domain.Effetti.lista.effectInterface.Validabile;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
 
 import java.util.List;

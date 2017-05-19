@@ -1,5 +1,7 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
+
 /**
  * Created by Portatile on 12/05/2017.
  */
@@ -38,4 +40,12 @@ public abstract class Carta {
     abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws Exception;
     abstract protected void AssegnaGiocatore(Giocatore giocatore);
     abstract public TipoCarta getTipoCarta();
+
+    public Effetto getEffettoImmediato() {
+        return EffettoImmediato;
+    }
+
+    public Effetto getEffettoPermanente() {
+        return EffettoPermanente;
+    }
 }
