@@ -1,5 +1,7 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
+
 /**
  * Created by Portatile on 12/05/2017.
  */

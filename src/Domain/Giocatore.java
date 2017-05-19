@@ -22,16 +22,8 @@ public class Giocatore {
     protected Risorsa Risorse;
     //endregion
 
-    /**
-     * Costruttore
-     */
-    public Giocatore(String nome, Color colore, int monete)
+    protected Giocatore( )
     {
-        this.Nome = nome;
-        this.Colore = colore;
-
-        this.Risorse = new Risorsa(2, 2, 3, monete, 0, 0, 0 );
-
         this.CarteTerritorio = new ArrayList<>();
         this.CarteEdificio = new ArrayList<>();
         this.CartePersonaggio = new ArrayList<>();
@@ -66,6 +58,18 @@ public class Giocatore {
             this.Familiari.add(new Familiare(this, coloreFamiliare, neutro));
         }
         //endregion
+    }
+
+    /**
+     * Costruttore
+     */
+    public Giocatore(String nome, Color colore, int monete)
+    {
+        new Giocatore();
+        this.Nome = nome;
+        this.Colore = colore;
+
+        this.Risorse = new Risorsa(2, 2, 3, monete, 0, 0, 0 );
     }
 
     /**
