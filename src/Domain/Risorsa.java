@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by pietro on 15/05/17.
+ * Lo sconto risorse deve essere scalato dal costo della carta (non complessivo)
  */
 public class Risorsa {
 
@@ -42,6 +43,10 @@ public class Risorsa {
     public void setRisorse(TipoRisorsa tipoRisorsa, int value){
         this.risorse[tipoRisorsa.getPosizione()]= (short) value;
     }
+    //TODO: uniformare getRisorse con getLegno, getPietra...
+    public int getRisorse(TipoRisorsa tipoRisorsa){
+        return this.risorse[tipoRisorsa.getPosizione()];
+    }
 
     public void add(Risorsa risorsa){this.setRisorse(add(this, risorsa));}
     public void sub(Risorsa sottrattore){this.setRisorse(sub(this, sottrattore));}
@@ -78,6 +83,14 @@ public class Risorsa {
             newArray[i]=(short) (array[i]*scalare);
         }
         return new Risorsa(newArray);
+    }
+    public Risorsa clone(){ return new Risorsa(this.getArrayRisorse().clone());}
+    public static Risorsa setNegToZero(Risorsa risorsa){
+        short[] newRisorse = risorsa.getArrayRisorse().clone();
+        for (short s: newRisorse) {
+            if (s<0) s=0;
+        }
+        return new Risorsa(newRisorse);
     }
 
     private void setRisorse(Risorsa risorse){

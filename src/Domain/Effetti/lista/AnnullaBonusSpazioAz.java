@@ -16,12 +16,12 @@ import java.util.List;
 public class AnnullaBonusSpazioAz implements Validabile, Azionabile, Trigger{
     boolean trigger= false;
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
         scalaBonus(costo, casella);
     }
 
     @Override
-    public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella) {
+    public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
         scalaBonus(costo, casella);
     }
 

@@ -19,7 +19,7 @@ public class BonusRisorseXCarte implements Azionabile{
     Risorsa risorseBonus;
 
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
         int numCarte=0;
         for (Carta carta: carteGiocatore) {
             if(carta.getTipoCarta()==tipoCarta){

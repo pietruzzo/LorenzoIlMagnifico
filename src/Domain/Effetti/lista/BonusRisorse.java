@@ -15,7 +15,7 @@ public class BonusRisorse implements Azionabile{
     private Risorsa bonusRisorse;
 
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
         costo.sub(bonusRisorse);
     }
 }

@@ -27,6 +27,14 @@ public abstract class Carta {
         this.EffettoPermanente = effettoPermanente;
     }
 
+    /**
+     *
+     * @return copia del costo delle risorse
+     */
+    public Risorsa getCostoRisorse() {
+        return CostoRisorse.clone();
+    }
+
     abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws Exception;
     abstract protected void AssegnaGiocatore(Giocatore giocatore);
     abstract public TipoCarta getTipoCarta();

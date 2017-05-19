@@ -2,6 +2,7 @@ package Domain;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -11,11 +12,12 @@ public class Giocatore {
     //region Proprietà
     protected String Nome;
     protected Color Colore;
-    protected java.util.List<CartaTerritorio> CarteTerritorio;
-    protected java.util.List<CartaEdificio> CarteEdificio;
-    protected java.util.List<CartaPersonaggio> CartePersonaggio;
-    protected java.util.List<CartaImpresa> CarteImpresa;
-    protected java.util.List<Familiare> Familiari;
+    protected List<CartaTerritorio> CarteTerritorio;
+    protected List<CartaEdificio> CarteEdificio;
+    protected List<CartaPersonaggio> CartePersonaggio;
+    protected List<CartaImpresa> CarteImpresa;
+    protected List<Familiare> Familiari;
+    protected List<Carta> CarteScomunica; //TODO: Carte Scomunica?
 
     protected Risorsa Risorse;
     //endregion
@@ -82,5 +84,14 @@ public class Giocatore {
         this.Risorse.sub(costoRisorse);
     }
 
+    public List<Carta> getListaCarte(){
+        List<Carta> listaCarte=new ArrayList<Carta>();
+        listaCarte.addAll(CarteTerritorio);
+        listaCarte.addAll(CarteEdificio);
+        listaCarte.addAll(CartePersonaggio);
+        listaCarte.addAll(CarteImpresa);
+        listaCarte.addAll(CarteScomunica);
+        return  listaCarte;
+    }
 }
 

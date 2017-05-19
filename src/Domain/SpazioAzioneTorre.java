@@ -64,4 +64,8 @@ public class SpazioAzioneTorre extends SpazioAzione {
 
         this.CartaAssociata.ValidaPresaCarta(familiare.Giocatore, this);
     }
+
+    public Carta getCartaAssociata() {
+        return CartaAssociata;
+    }
 }
