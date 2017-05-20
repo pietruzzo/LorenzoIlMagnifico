@@ -13,7 +13,6 @@ public class AumentaValoreAzione implements ModificaValoreAzione {
     @Override
     public void aggiungiValoreAzione(Integer valoreAzione, TipoAzione tipoAzioneCorrente) {
         if (tipoAzioneCorrente==tipoAzione) valoreAzione=valoreAzione+incrementoAzione;
-
     }
     //Aumenta il valore di una azione specifica
 }

@@ -16,12 +16,12 @@ public class DimezzaRisorsaAllocata implements Validabile, Azionabile, Trigger {
     Risorsa.TipoRisorsa tipoRisorsa;
     boolean trigger=false;
     @Override
-    public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
+    public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
         dimezzaRisorsa(risorseAllocate, costo);
     }
 
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
         dimezzaRisorsa(risorseAllocate, costo);
     }
 

@@ -48,7 +48,9 @@ public class Risorsa {
         return this.risorse[tipoRisorsa.getPosizione()];
     }
 
+    @Deprecated
     public void add(Risorsa risorsa){this.setRisorse(add(this, risorsa));}
+    @Deprecated
     public void sub(Risorsa sottrattore){this.setRisorse(sub(this, sottrattore));}
     @NotNull
     public static Risorsa add (Risorsa risorsa1, Risorsa risorsa2){
@@ -93,6 +95,7 @@ public class Risorsa {
         return new Risorsa(newRisorse);
     }
 
+    @Deprecated
     private void setRisorse(Risorsa risorse){
         this.risorse=risorse.getArrayRisorse().clone();
     }

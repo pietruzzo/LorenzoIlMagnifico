@@ -1,9 +1,7 @@
 package Domain.Effetti;
 
 import Domain.*;
-import Domain.Effetti.lista.effectInterface.ModificaValoreAzione;
-import Domain.Effetti.lista.effectInterface.Trigger;
-import Domain.Effetti.lista.effectInterface.Validabile;
+import Domain.Effetti.lista.effectInterface.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,6 +9,10 @@ import java.util.List;
 
 /**
  * Created by pietro on 18/05/17.
+ * La gestione degli effetti permette partite in parallelo a patto che lo stesso giocatore non possa partecipare
+ * contemporaneamente a più partite e che ci sia un mazzo di carte per ogni partita. Per giocare più partite con lo
+ * stezzo mazzo è necessario gestire l'eventuale concorrenza tra trigger (es validaAzione e esegui effetto synchronized)
+ *
  */
 public class GestoreEffettiGiocatore {
 
@@ -18,21 +20,25 @@ public class GestoreEffettiGiocatore {
 
     private Risorsa malusRisorsaScomunica;
     private List<Effetto> listaEffettiValidati;
+    private List<Carta> carteCorrenti; //Carte selezionate da Validazione
+    private Effetto effettoImmediato; //Estratto da Validazione
 
 
     public GestoreEffettiGiocatore(Giocatore giocatoreCorrente) {
         this.giocatoreCorrente = giocatoreCorrente;
     }
 
-
     /**
      * @param costo modificato dagli effetti
      * @param azione valore dei dadi, verrà modificato dagli effetti
      * @param casella casella corrente del familiare
      * @param risorseAllocate le risorse spese dal giocatore per piazzare il familiare
+     * @apiNote La carta presente in Torre non deve essere stata aggiunta a giocatore, costo ed azione vengono
+     * sovrascritti, casella e risorseAllocate solo letti
      */
     public void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate){
-        Effetto effettoImmediato;
+
+        malusRisorsaScomunica=new Risorsa();
 
         //ottieni effetto immediato
         effettoImmediato=estraiEffettoImmediato(casella);
@@ -54,13 +60,13 @@ public class GestoreEffettiGiocatore {
 
         //esegui effetto immediato se Validabile
         if (effettoImmediato!=null && effettoImmediato instanceof Validabile){
-            ((Validabile)effettoImmediato).valida(costo, azione, casella, carteCorrenti, risorseAllocate);
+            ((Validabile)effettoImmediato).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
         }
 
         //Esegui Validabile
         for (Carta c: carteCorrenti) {
             if (c.getEffettoPermanente()!=null && c.getEffettoPermanente() instanceof Validabile){
-                ((Validabile)c.getEffettoPermanente()).valida(costo, azione, casella, carteCorrenti, risorseAllocate);
+                ((Validabile)c.getEffettoPermanente()).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
             }
         }
         //Azzera trigger
@@ -70,28 +76,47 @@ public class GestoreEffettiGiocatore {
 
     public void effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate){
 
-        //Filtra Carte Contesto Azione
-        
-
-        //Esegui ModificaValoreAzione
-
-        //Filtra carte attive (non include la carta che prendo)
+        validaAzione(costo, azione, casella, risorseAllocate);
 
         //esegui effetto immediato se di Azionabile
+        if (effettoImmediato!=null && effettoImmediato instanceof Azionabile){
+            ((Azionabile)effettoImmediato).aziona(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+        }
 
-        //Rimuovi effetto immediato se Azionabile
-
-        //Esegui Validabile
+        //Esegui Azionabile
+        for (Carta c: carteCorrenti) {
+            if (c.getEffettoPermanente()!=null && c.getEffettoPermanente() instanceof Azionabile){
+                ((Azionabile)c.getEffettoPermanente()).aziona(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+            }
+        }
 
         //Azzera trigger
+        azzeraTrigger(giocatoreCorrente.getListaCarte());
     }
 
-    public static void inizioTurno(List<Carta> carteGiocatore){}
+    public void inizioTurno(int turno){
+        List<Carta> listaCarte= giocatoreCorrente.getListaCarte();
 
-    public static void endGame(List<Carta> carteGiocatore, Risorsa risorseGiocatore){}
+        for (Carta c : listaCarte){
+            if (c.getEffettoPermanente() instanceof InizioTurno){
+                InizioTurno effetto = (InizioTurno) c.getEffettoPermanente();
+                effetto.setupTurno(turno);
+            }
+        }
 
-    private static void eliminaImmediati(List<Carta> carteGiocatore){}
-    private static void fineMossa(){}
+        azzeraTrigger(giocatoreCorrente.getListaCarte());
+    }
+
+    public void endGame(Risorsa risorseGiocatore){
+        List<Carta> listaCarte= giocatoreCorrente.getListaCarte();
+
+        for (Carta c : listaCarte){
+            if (c.getEffettoPermanente() instanceof EndGame){
+                EndGame effetto = (EndGame) c.getEffettoPermanente();
+                effetto.azioneTerminale(risorseGiocatore, listaCarte);
+            }
+        }
+    }
 
     /**
      * @param tipoAzione tipo di azione che si compie
@@ -117,16 +142,17 @@ public class GestoreEffettiGiocatore {
      * @param valoreAzione valore dell'Azione finale
      * @param lista lista di carte da filtrare
      * @return nuova lista con carte di valore <= valoreAzione
-     * @implSpec
+     * @apiNote  per ogni carta da lista, se il valore di attivazione è <= valoreAzione allora lo ritorno nella lista
      */
     private List<Carta> selezionaCartePerValore(int valoreAzione, List<Carta> lista){
-        //TODO
+        //TODO come ottengo il valore di attivazione dalla carta?
+
         return new ArrayList<Carta>();
         }
 
     /**
      * @param listaCarte
-     * @implSpec azzera tutti gli eventuali Trigger sugli effetti
+     * @apiNote  azzera tutti gli eventuali Trigger sugli effetti
      */
     private void azzeraTrigger(List<Carta> listaCarte){
         for (Carta c: listaCarte) {

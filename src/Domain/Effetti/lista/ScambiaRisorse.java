@@ -1,6 +1,7 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
+import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Azionabile;
 import Domain.Effetti.lista.effectInterface.Validabile;
 import Domain.Risorsa;
@@ -15,14 +16,17 @@ import java.util.List;
 public class ScambiaRisorse implements Validabile, Azionabile{
     Opzioni opzioni;
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
         Risorsa[] opzioneScelta= opzioni.getOpzione();
         costo.add(opzioneScelta[0]);
         costo.sub(opzioneScelta[1]);
+        //Calcolo ed aggiunta del malusAttivazioneBonus
+        Risorsa malus = Effetto.applicaMalus(opzioneScelta[1], malusRisorsa);
+        costo.add(costo, malusRisorsa);
     }
 
     @Override
-    public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate) throws SpazioAzioneDisabilitatoEffettoException {
+    public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) throws SpazioAzioneDisabilitatoEffettoException {
         Risorsa[] opzioneScelta= opzioni.getOpzione();
         costo.add(opzioneScelta[0]);
     }

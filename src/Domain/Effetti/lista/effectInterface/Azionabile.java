@@ -10,5 +10,5 @@ import java.util.List;
  * Created by pietro on 18/05/17.
  */
 public interface Azionabile {
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate);
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa);
 }
