@@ -1,7 +1,9 @@
-package Server.Socket;
+package server.Socket;
 
-import Server.GiocatoreRemoto;
+import server.GiocatoreRemoto;
+import server.Server;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,6 +16,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
 
     //region Proprieta
     private final Socket socket;
+    private final Server server;
     private final ObjectInputStream inputStream;
     private final ObjectOutputStream outputStream;
     private final SocketServerProtocol protocol;
@@ -22,12 +25,13 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      * Costruttore
      */
-    protected GiocatoreSocket(Socket socket) throws IOException {
+    protected GiocatoreSocket(Socket socket, Server server) throws IOException {
         this.socket = socket;
-        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        this.server = server;
+        outputStream = new ObjectOutputStream(this.socket.getOutputStream());
         outputStream.flush();
-        inputStream = new ObjectInputStream(socket.getInputStream());
-        protocol = new SocketServerProtocol(inputStream, outputStream);
+        inputStream = new ObjectInputStream(this.socket.getInputStream());
+        protocol = new SocketServerProtocol(inputStream, outputStream, this);
     }
 
     /**
@@ -40,7 +44,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
                 while(true)
                 {
                     Object obcjet = inputStream.readObject();
-                    //TODO: gestione oggetto ricevuto
+                    protocol.HandleRequest(obcjet);
                 }
         }
         catch (IOException e) {
@@ -48,5 +52,9 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void Login(String nome, Color colore) throws Exception {
+        this.server.AggiungiGiocatore(nome, colore, this);
     }
 }

@@ -22,6 +22,9 @@ public class Giocatore {
     protected Risorsa Risorse;
     //endregion
 
+    /**
+     * Costruttore
+     */
     protected Giocatore( )
     {
         this.CarteTerritorio = new ArrayList<>();
@@ -61,11 +64,10 @@ public class Giocatore {
     }
 
     /**
-     * Costruttore
+     *  Setta le proprietà al login del giocatore
      */
-    public Giocatore(String nome, Color colore, int monete)
+    public void SettaProprietaIniziali(String nome, Color colore, int monete)
     {
-        new Giocatore();
         this.Nome = nome;
         this.Colore = colore;
 

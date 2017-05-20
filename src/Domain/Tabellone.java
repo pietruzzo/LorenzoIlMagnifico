@@ -63,7 +63,7 @@ public class Tabellone {
     /**
      * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
      */
-    public void AggiungiGiocatore(String nome, Color colore) throws Exception {
+    public void AggiungiGiocatore(String nome, Color colore, Giocatore giocatore) throws Exception {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
             throw new Exception("E' stato raggiunto il numero limite di giocatori");
@@ -71,7 +71,7 @@ public class Tabellone {
         //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
 
-        Giocatore giocatore = new Giocatore(nome, colore, monete);
+        giocatore.SettaProprietaIniziali(nome, colore, monete);
         this.Giocatori.add(giocatore);
     }
 

@@ -1,8 +1,9 @@
-package RMI;
+package rmi;
 
-import Network.AbstractClient;
-import Server.RMI.IRMIServer;
+import network.AbstractClient;
+import server.rmi.IRMIServer;
 
+import java.awt.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -17,7 +18,7 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     private IRMIServer server;
 
     /**
-     * Costruttore del Client RMI
+     * Costruttore del Client rmi
      */
     public RMIClient(String indirizzoIp, int porta)
     {
@@ -25,7 +26,7 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     }
 
     /**
-     * Stabilisce il collegamento con il registro RMI
+     * Stabilisce il collegamento con il registro rmi
      */
     @Override
     public void ConnessioneServer() {
@@ -43,11 +44,18 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     }
 
     /**
-     * Inizializza RMI
+     * Inizializza rmi
      */
     @Override
     public void InizializzaSocketProtocol() {
     }
 
-
+    /**
+     * Effettua il login di un giocatore (aggiungendolo al tabellone)
+     * @throws Exception
+     */
+    @Override
+    public void Login(String nome, Color colore) throws Exception {
+        server.Login(nome, colore, this);
+    }
 }

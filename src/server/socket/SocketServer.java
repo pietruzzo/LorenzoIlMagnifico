@@ -1,6 +1,7 @@
-package Server.Socket;
+package server.socket;
 
-import Server.AbstractServer;
+import server.AbstractServer;
+import server.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,6 +16,14 @@ public class SocketServer extends AbstractServer{
     private ServerSocket socket;
 
     //endregion
+
+    /**
+     * Costruttore
+     */
+    public SocketServer(Server server)
+    {
+        super(server);
+    }
 
     /**
      * Avvia il socket lato server
@@ -37,7 +46,7 @@ public class SocketServer extends AbstractServer{
             while(true){
                 try {
                     java.net.Socket clientSocket = socket.accept();
-                    GiocatoreSocket giocatoreSocket = new GiocatoreSocket(clientSocket);
+                    GiocatoreSocket giocatoreSocket = new GiocatoreSocket(clientSocket, getServer());
                     new Thread(giocatoreSocket).start();
                 } catch (IOException e) {
                     e.printStackTrace();

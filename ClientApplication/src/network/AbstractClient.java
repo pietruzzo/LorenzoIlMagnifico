@@ -1,4 +1,6 @@
-package Network;
+package network;
+
+import java.awt.*;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -31,4 +33,6 @@ public abstract class AbstractClient {
     public abstract void ConnessioneServer();
 
     public abstract void InizializzaSocketProtocol();
+
+    public abstract void Login(String nome, Color colore) throws Exception;
 }

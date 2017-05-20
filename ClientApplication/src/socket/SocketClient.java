@@ -1,7 +1,8 @@
-package Socket;
+package socket;
 
-import Network.AbstractClient;
+import network.AbstractClient;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +20,7 @@ public class SocketClient extends AbstractClient {
 
     private ObjectOutputStream outputStream;
 
-    private SocketProtocol socketProtocol;
+    private socket.SocketClientProtocol socketClientProtocol;
     //endregion
 
 
@@ -52,6 +53,13 @@ public class SocketClient extends AbstractClient {
      */
     public void InizializzaSocketProtocol()
     {
-        this.socketProtocol = new SocketProtocol(this.inputStream, this.outputStream);
+        this.socketClientProtocol = new SocketClientProtocol(this.inputStream, this.outputStream);
+    }
+
+    /**
+     * Effettua il login del giocatore
+     */
+    public void Login(String nome, Color colore) throws Exception {
+        this.socketClientProtocol.Login(nome, colore);
     }
 }
