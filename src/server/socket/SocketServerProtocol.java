@@ -59,10 +59,11 @@ public class SocketServerProtocol {
      * Effettua il login del giocatore e comunica l'esito dell'operazione al client
      */
     private void LoginGiocatore(String nome, Color colore) throws IOException {
-        int codiceRisposta = ProtocolEvents.OK;
+        int codiceRisposta;
 
         try {
             this.giocatore.Login(nome, colore);
+            codiceRisposta = ProtocolEvents.OK;
         } catch (Exception e) {
             codiceRisposta = ProtocolEvents.USER_ESISTENTE;
         }

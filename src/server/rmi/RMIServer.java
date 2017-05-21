@@ -1,7 +1,11 @@
-package Server.RMI;
+package server.rmi;
 
-import Server.AbstractServer;
+import rmi.IRMIClient;
+import server.AbstractServer;
+import server.GiocatoreRemoto;
+import server.Server;
 
+import java.awt.*;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -14,7 +18,15 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIServer extends AbstractServer implements IRMIServer {
 
     /**
-     * Avvia il server RMI
+     * Costruttore
+     */
+    public RMIServer(Server server)
+    {
+        super(server);
+    }
+
+    /**
+     * Avvia il server rmi
      */
     @Override
     public void StartServer(int porta) throws Exception {
@@ -42,8 +54,24 @@ public class RMIServer extends AbstractServer implements IRMIServer {
         try {
             return LocateRegistry.getRegistry(porta);
         } catch (RemoteException e) {
-            throw new Exception("Impossibile avviare il registro RMI");
+            throw new Exception("Impossibile avviare il registro rmi");
         }
+    }
 
+
+    /**
+     * Ottiene il giocatore dato l'id
+     */
+    private GiocatoreRemoto GetGiocatoreById(short idGiocatore)
+    {
+        return getServer().GetGiocatoreById(idGiocatore);
+    }
+
+    /**
+     * Effettua il login del giocatore
+     * Salva anche il riferimento per chiamare i metodi lato client attraverso rmi
+     */
+    public short Login(String nome, Color colore, IRMIClient rmiClient) throws Exception {
+        return getServer().AggiungiGiocatore(nome, colore, new GiocatoreRMI(rmiClient));
     }
 }

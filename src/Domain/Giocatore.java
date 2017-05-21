@@ -10,6 +10,7 @@ import java.util.List;
 public class Giocatore {
 
     //region Proprietà
+    protected short IdGiocatore;
     protected String Nome;
     protected Color Colore;
     protected List<CartaTerritorio> CarteTerritorio;
@@ -66,8 +67,9 @@ public class Giocatore {
     /**
      *  Setta le proprietà al login del giocatore
      */
-    public void SettaProprietaIniziali(String nome, Color colore, int monete)
+    public void SettaProprietaIniziali(short idGiocatore, String nome, Color colore, int monete)
     {
+        this.IdGiocatore = idGiocatore;
         this.Nome = nome;
         this.Colore = colore;
 

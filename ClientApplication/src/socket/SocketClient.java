@@ -61,5 +61,36 @@ public class SocketClient extends AbstractClient {
      */
     public void Login(String nome, Color colore) throws Exception {
         this.socketClientProtocol.Login(nome, colore);
+        this.AvviaThreadRicezioneMessaggi();
+    }
+
+
+    /**
+     * Avvia il thread che gestisce la ricezione dei messaggi da parte del server
+     */
+    private void AvviaThreadRicezioneMessaggi()
+    {
+        ResponseHandler responseHandler = new ResponseHandler();
+        responseHandler.start();
+    }
+
+    private class ResponseHandler extends Thread {
+
+        //Gestisce i messaggi in arrivo dal server
+        @Override
+        public void run() {
+            while(true){
+                boolean esci = false;
+                try {
+                    Object object = inputStream.readObject();
+                    socketClientProtocol.HandleResponse(object);
+                } catch (IOException | ClassNotFoundException  e ) {
+                    e.printStackTrace();
+                    esci = true;
+                }
+                if(esci)
+                    break;
+            }
+        }
     }
 }

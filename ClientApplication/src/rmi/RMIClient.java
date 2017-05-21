@@ -15,7 +15,10 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RMIClient extends AbstractClient implements IRMIClient {
 
+    //region Proprieta
     private IRMIServer server;
+    private short idGiocatore;
+    //endregion
 
     /**
      * Costruttore del Client rmi
@@ -56,6 +59,6 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      */
     @Override
     public void Login(String nome, Color colore) throws Exception {
-        server.Login(nome, colore, this);
+        idGiocatore = server.Login(nome, colore, this);
     }
 }

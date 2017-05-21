@@ -85,7 +85,7 @@ public class GestoreEffettiGiocatore {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
      */
-    public Risorsa effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
+    public void effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException {
 
         Risorsa costoRitorno = costo.clone();

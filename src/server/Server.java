@@ -1,7 +1,12 @@
-package Server;
+package server;
 
-import Server.RMI.RMIServer;
-import Server.Socket.SocketServer;
+import Domain.Tabellone;
+import server.rmi.RMIServer;
+import server.socket.SocketServer;
+import sun.security.ssl.Debug;
+
+import java.awt.*;
+import java.util.HashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -12,7 +17,11 @@ public class Server {
 
     private SocketServer socketServer;
     private RMIServer rmiServer;
+    private Tabellone tabellone;
+    private HashMap<String, GiocatoreRemoto> listaGiocatori;
 
+    //Usato per gestire un login alla volta
+    private static final Object MUTEX_GIOCATORI = new Object();
     //endregion
 
     /**
@@ -20,8 +29,9 @@ public class Server {
      */
     private Server()
     {
-        socketServer = new SocketServer();
-        rmiServer = new RMIServer();
+        this.socketServer = new SocketServer(this);
+        this.rmiServer = new RMIServer(this);
+        this.listaGiocatori = new HashMap<>();
     }
 
     /**
@@ -46,6 +56,37 @@ public class Server {
     private void StartServer(int portaSocket, int portaRMI) throws Exception {
         socketServer.StartServer(portaSocket);
         rmiServer.StartServer(portaRMI);
+        this.tabellone = new Tabellone();
     }
 
+    /**
+     * Aggiunge un giocatore alla partita
+     * @return l'id del giocatore appena inserito
+     */
+     public short AggiungiGiocatore(String nome, Color colore, GiocatoreRemoto giocatore) throws Exception {
+        synchronized (MUTEX_GIOCATORI)
+        {
+            //Verifica la presenza di un altro giocatore con lo stesso username
+            if(!listaGiocatori.containsKey(nome))
+            {
+                this.listaGiocatori.put(nome, giocatore);
+                short idGiocatore = this.tabellone.AggiungiGiocatore(nome, colore, giocatore);
+                System.out.println(String.format("Aggiunto il giocatore {0} con id {1}", nome, idGiocatore));
+                return idGiocatore;
+            }
+            else
+                throw new Exception("Esiste già un giocatore con lo stesso username.");
+        }
+    }
+
+    /**
+     * Ritorna il giocatore remoto dato il suo id
+     * @param idGiocatore
+     * @return
+     */
+    public GiocatoreRemoto GetGiocatoreById(short idGiocatore)
+    {
+        String nome = this.tabellone.GetNomeGiocatoreById(idGiocatore);
+        return this.listaGiocatori.get(nome);
+    }
 }

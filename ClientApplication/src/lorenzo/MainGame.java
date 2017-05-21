@@ -1,8 +1,11 @@
-package Lorenzo;
+package lorenzo;
 
-import Network.AbstractClient;
-import RMI.RMIClient;
-import Socket.SocketClient;
+import network.AbstractClient;
+import rmi.RMIClient;
+import socket.SocketClient;
+
+import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -22,10 +25,17 @@ public class MainGame {
     public void Start()
     {
         this.SetConnessioneServer();
+        try {
+            Random rnd = new Random();
+            int rndNumber = rnd.nextInt(10);
+            this.Login("michele"+rndNumber, Color.BLUE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
-     * Effettua la connessione al server tramite Socket o RMI
+     * Effettua la connessione al server tramite socket o rmi
      */
     public void SetConnessioneServer()
     {
@@ -33,12 +43,21 @@ public class MainGame {
         int portaSocket = 1337;
         int portaRMI = 1338;
 
-        if(1 == 2)
+        if(1 == 1)
             client = new SocketClient(indirizzoIP, portaSocket);
         else
             client = new RMIClient(indirizzoIP, portaRMI);
 
         client.ConnessioneServer();
-        client.InizializzaSocketProtocol(); //Se il client è RMI il metodo non fa nulla
+        client.InizializzaSocketProtocol(); //Se il client è rmi il metodo non fa nulla
     }
+
+    /**
+     * Effettua il login del giocatore
+     */
+    public void Login(String nome, Color colore) throws Exception {
+        client.Login(nome, colore);
+    }
+
+
 }

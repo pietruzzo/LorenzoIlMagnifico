@@ -2,6 +2,7 @@ package Domain;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
 public class Tabellone {
 
     //region Proprieta
+    private static short IdGiocatore = 0;
     protected int Turno;
     protected int Periodo;
 
@@ -63,16 +65,37 @@ public class Tabellone {
     /**
      * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
      */
-    public void AggiungiGiocatore(String nome, Color colore, Giocatore giocatore) throws Exception {
+    public short AggiungiGiocatore(String nome, Color colore, Giocatore giocatore) throws Exception {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
             throw new Exception("E' stato raggiunto il numero limite di giocatori");
 
         //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
+        //incrementa la variabile globale della gestione degli id dei giocatori
+        this.IdGiocatore++;
 
-        giocatore.SettaProprietaIniziali(nome, colore, monete);
+        giocatore.SettaProprietaIniziali(this.IdGiocatore, nome, colore, monete);
         this.Giocatori.add(giocatore);
+
+        return giocatore.IdGiocatore;
+    }
+
+    /**
+     * Ritorna il giocatore dato il suo id
+     * @param idGiocatore
+     */
+    private Giocatore GetGiocatoreById(short idGiocatore)
+    {
+        return this.Giocatori.stream().filter(x -> x.IdGiocatore == idGiocatore).findFirst().orElse(null);
+    }
+
+    /**
+     * Ritorna il nome del giocatore dato il suo id
+     */
+    public String GetNomeGiocatoreById (short idGiocatore)
+    {
+        return this.GetGiocatoreById(idGiocatore).Nome;
     }
 
     /**
