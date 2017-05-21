@@ -33,7 +33,7 @@ public class AnnullaBonusSpazioAz implements Validabile, Azionabile, Trigger{
         if ((casella instanceof SpazioAzioneTorre) && (casella != null) && !trigger){
             SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
             Risorsa bonusRisorse=spazioAzioneTorre.getBonusRisorse();
-            costo.add(bonusRisorse);
+            costo = Risorsa.add(costo,bonusRisorse);
             this.trigger=true;
         }
     }

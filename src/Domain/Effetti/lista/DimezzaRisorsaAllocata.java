@@ -27,7 +27,7 @@ public class DimezzaRisorsaAllocata implements Validabile, Azionabile, Trigger {
 
     private void dimezzaRisorsa(Risorsa risorseAllocate, Risorsa costo){
         if (risorseAllocate!=null && !trigger){
-            costo.setRisorse(tipoRisorsa, risorseAllocate.getRisorse(tipoRisorsa)/2);
+            costo= costo.setRisorse(tipoRisorsa, risorseAllocate.getRisorse(tipoRisorsa)/2);
             setTrigger(true);
         }
     }

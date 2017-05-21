@@ -56,7 +56,7 @@ public class SpazioAzioneTorre extends SpazioAzione {
             if(familiare.Giocatore.Risorse.getMonete() < 3)
                 throw new Exception("Siccome la torre è occupata, sono necessarie almeno 3 monete per prendere la carta.");
             else
-                malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
+                malusTorreOccupata= malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
 
         //TODO gestione effetti carte permanenti e scomunica
         if(!Risorsa.sub(Risorsa.add(familiare.Giocatore.Risorse, this.BonusRisorse), Risorsa.add(this.CartaAssociata.CostoRisorse, malusTorreOccupata)).isPositivo())

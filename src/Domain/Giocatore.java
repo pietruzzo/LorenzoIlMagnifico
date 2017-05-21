@@ -79,7 +79,7 @@ public class Giocatore {
      */
     public void OttieniBonusSpazioAzione(Risorsa risorseSpazioAzione)
     {
-        this.Risorse.add(risorseSpazioAzione);
+        this.Risorse = Risorsa.add(this.Risorse, risorseSpazioAzione);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Giocatore {
      */
     public void PagaRisorse(Risorsa costoRisorse)
     {
-        this.Risorse.sub(costoRisorse);
+        this.Risorse = Risorsa.sub(this.Risorse, costoRisorse);
     }
 
     public List<Carta> getListaCarte(){

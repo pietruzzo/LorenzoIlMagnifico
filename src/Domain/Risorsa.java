@@ -22,7 +22,7 @@ public class Risorsa {
         this.risorse[6]= (short) puntiFede;
     }
     public Risorsa(TipoRisorsa tipoRisorsa, int risorsa){
-        setRisorse(tipoRisorsa, risorsa);
+        risorse[tipoRisorsa.getPosizione()]=(short) risorsa;
     }
     Risorsa(short[] array){
         if (array.length!=NUMRISORSE) throw new UnsupportedOperationException("Array di dimensioni inadeguate");
@@ -40,18 +40,24 @@ public class Risorsa {
 
     short[] getArrayRisorse(){return risorse;}
 
-    public void setRisorse(TipoRisorsa tipoRisorsa, int value){
-        this.risorse[tipoRisorsa.getPosizione()]= (short) value;
+    /**
+     *
+     * @param tipoRisorsa
+     * @param value
+     * @return ritorna copia dell'oggetto corrente con TipoRisorsa settata a value
+     */
+    public Risorsa setRisorse(TipoRisorsa tipoRisorsa, int value){
+        short[] risorsaCorrente = this.getArrayRisorse();
+        short[] nuovaRisorsa = risorsaCorrente.clone();
+        nuovaRisorsa[tipoRisorsa.getPosizione()]=(short)value;
+        return new Risorsa(nuovaRisorsa);
+
     }
     //TODO: uniformare getRisorse con getLegno, getPietra...
     public int getRisorse(TipoRisorsa tipoRisorsa){
         return this.risorse[tipoRisorsa.getPosizione()];
     }
-
-    @Deprecated
-    public void add(Risorsa risorsa){this.setRisorse(add(this, risorsa));}
-    @Deprecated
-    public void sub(Risorsa sottrattore){this.setRisorse(sub(this, sottrattore));}
+    
     @NotNull
     public static Risorsa add (Risorsa risorsa1, Risorsa risorsa2){
         short[] array1 = risorsa1.getArrayRisorse();
@@ -95,10 +101,6 @@ public class Risorsa {
         return new Risorsa(newRisorse);
     }
 
-    @Deprecated
-    private void setRisorse(Risorsa risorse){
-        this.risorse=risorse.getArrayRisorse().clone();
-    }
 
     public enum TipoRisorsa{
         LEGNO("Legno", 0), PIETRA("Pietra", 1), SERVI("Servi", 2), MONETE("Monete", 3), PVITTORIA("Punti Vittoria", 4), PFEDE("Punti Fede", 5), PMILITARI("Punti Militari", 6);
