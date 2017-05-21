@@ -120,12 +120,19 @@ public class GestoreEffettiGiocatore {
 
     /**
      * @param tipoAzione tipo di azione che si compie
-     * @return la lista delle carte che andranno verificati in relazione al tipo di Azione
+     * @return la lista delle carte che andranno verificate in relazione al tipo di Azione
      */
     @NotNull
     private List<Carta> selezionaCartePerTipo(TipoAzione tipoAzione, List<Carta> listaCompleta){
-        //TODO
-        return new ArrayList<Carta>();
+
+        List<Carta> lista= new ArrayList<>();
+        for (Carta c : listaCompleta){
+            if(c.getTipoCarta()==TipoCarta.Impresa||c.getTipoCarta()==TipoCarta.Personaggio
+                    ||true/*TODO:Se carta scomunica*/)lista.add(c);
+            else if((c.getTipoCarta()==TipoCarta.Edificio && tipoAzione==TipoAzione.PRODUZIONE)
+                    || (c.getTipoCarta()==TipoCarta.Territorio && tipoAzione==TipoAzione.RACCOLTO)) lista.add(c);
+        }
+        return lista;
     }
 
     /**
@@ -134,7 +141,9 @@ public class GestoreEffettiGiocatore {
      * @throws NullPointerException
      */
     private TipoAzione getTipoAzione(SpazioAzione casella) throws NullPointerException{
-        //TODO
+        if(casella instanceof SpazioAzioneRaccolto) return TipoAzione.RACCOLTO;
+        if(casella instanceof SpazioAzioneProduzione) return TipoAzione.PRODUZIONE;
+        if(casella instanceof SpazioAzioneTorre) {}//TODO come riconosco da quale torre viene?
         return TipoAzione.GENERICA;
         }
 
@@ -146,7 +155,6 @@ public class GestoreEffettiGiocatore {
      */
     private List<Carta> selezionaCartePerValore(int valoreAzione, List<Carta> lista){
         //TODO come ottengo il valore di attivazione dalla carta?
-
         return new ArrayList<Carta>();
         }
 

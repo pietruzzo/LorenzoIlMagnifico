@@ -78,7 +78,7 @@ public class Tabellone {
     /**
      * Ritorna la torre dato il tipo
      */
-    private Torre GetTorreByTipo(TipoCarta tipo) {
+    private Torre getTorreByTipo(TipoCarta tipo) {
         return this.Torri.stream().filter(x -> x.Tipo == tipo).findFirst().orElse(null);
     }
 
@@ -87,7 +87,7 @@ public class Tabellone {
      * Consente di piazzare un familiare in una torre, nella torre indicata dal tipo
      */
     public void PiazzaFamiliareTorre(Familiare familiare, TipoCarta tipo, int valore) throws Exception {
-        Torre torre = this.GetTorreByTipo(tipo);
+        Torre torre = this.getTorreByTipo(tipo);
         torre.PiazzaFamiliare(familiare, valore);
     }
 
