@@ -29,6 +29,8 @@ public class MainGame {
             Random rnd = new Random();
             int rndNumber = rnd.nextInt(10);
             this.Login("michele"+rndNumber, Color.BLUE);
+
+            //this.IniziaPartita();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,5 +61,11 @@ public class MainGame {
         client.Login(nome, colore);
     }
 
-
+    /**
+     * Comincia la partita, sarà il turno del primo giocatore loggato
+     */
+    public void IniziaPartita()
+    {
+        client.IniziaPartita();
+    }
 }

@@ -54,7 +54,27 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         }
     }
 
+    /**
+     * Effettua il login del giocatore
+     */
     public void Login(String nome, Color colore) throws Exception {
         this.server.AggiungiGiocatore(nome, colore, this);
     }
+
+    /**
+     *  Inizia la partita
+     */
+    public void IniziaPartita()
+    {
+        this.server.IniziaPartita();
+    }
+
+    /**
+     * Comunica al client l'inzio della partita
+     */
+    public void PartitaIniziata()
+    {
+        this.protocol.PartitaIniziata();
+    }
+
 }

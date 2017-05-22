@@ -36,6 +36,7 @@ public class SocketServerProtocol {
     private void PopolaListaEventHandler()
     {
         this.listaEventHandler.put(ProtocolEvents.LOGIN, this::Login);
+        this.listaEventHandler.put(ProtocolEvents.INIZIA_PARTITA, this::IniziaPartita);
     }
 
 
@@ -55,6 +56,8 @@ public class SocketServerProtocol {
     }
     //endregion
 
+
+    //region Metodi dal Client al Server
     /**
      * Effettua il login del giocatore e comunica l'esito dell'operazione al client
      */
@@ -71,6 +74,32 @@ public class SocketServerProtocol {
         outputStream.writeObject(codiceRisposta);
         outputStream.flush();
     }
+
+    /**
+     * Inizia la partita
+     */
+    private void IniziaPartita()
+    {
+        this.giocatore.IniziaPartita();
+    }
+    //endregion
+
+
+    //region Messaggi dal Server al Client
+    /**
+     * Comunica ai client l'avvenuto inizio della partita
+     */
+    public void PartitaIniziata()
+    {
+        try {
+            this.outputStream.writeObject(ProtocolEvents.PARTITA_INIZIATA);
+            this.outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //endregion
+
 
     /**
      * Dato uno specifico evento fa partire il metodo destinato a gestirlo

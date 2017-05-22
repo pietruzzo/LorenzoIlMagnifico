@@ -7,5 +7,6 @@ import java.rmi.Remote;
  */
 public interface IRMIClient extends Remote {
 
+    void PartitaIniziata();
 
 }

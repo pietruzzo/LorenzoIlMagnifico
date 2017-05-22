@@ -19,4 +19,12 @@ public class GiocatoreRMI extends GiocatoreRemoto {
         this.clientRMI = clientRmi;
     }
 
+    /**
+     * Comunica al client l'inizio della partita
+     */
+    public void PartitaIniziata()
+    {
+        this.clientRMI.PartitaIniziata();
+    }
+
 }

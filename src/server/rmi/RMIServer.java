@@ -74,4 +74,12 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     public short Login(String nome, Color colore, IRMIClient rmiClient) throws Exception {
         return getServer().AggiungiGiocatore(nome, colore, new GiocatoreRMI(rmiClient));
     }
+
+    /**
+     * Inizia una nuova partita
+     */
+    public void IniziaPartita()
+    {
+        getServer().IniziaPartita();
+    }
 }

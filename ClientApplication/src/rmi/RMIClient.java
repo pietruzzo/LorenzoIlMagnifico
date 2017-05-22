@@ -61,4 +61,20 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     public void Login(String nome, Color colore) throws Exception {
         idGiocatore = server.Login(nome, colore, this);
     }
+
+    /**
+     * Comunica al server di iniziare la partita
+     */
+    @Override
+    public void IniziaPartita() {
+        server.IniziaPartita();
+    }
+
+    /**
+     * Gestisce gli eventi relativi all'inizio di una partita
+     */
+    @Override
+    public void PartitaIniziata() {
+        //TODO: disabilita il bottone per iniziare la partita
+    }
 }

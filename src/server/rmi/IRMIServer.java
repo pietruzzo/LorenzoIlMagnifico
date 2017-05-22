@@ -10,4 +10,5 @@ import java.rmi.Remote;
  */
 public interface IRMIServer extends Remote {
     short Login(String nome, Color colore, IRMIClient rmiClient) throws Exception;
+    void IniziaPartita();
 }

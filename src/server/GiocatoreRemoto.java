@@ -9,4 +9,5 @@ public abstract class GiocatoreRemoto extends Giocatore{
 
     protected GiocatoreRemoto(){}
 
+    public void PartitaIniziata(){}
 }

@@ -64,6 +64,13 @@ public class SocketClient extends AbstractClient {
         this.AvviaThreadRicezioneMessaggi();
     }
 
+    /**
+     * Comunica al server di inziare la partita
+     */
+    public void IniziaPartita()  {
+        this.socketClientProtocol.IniziaPartita();
+    }
+
 
     /**
      * Avvia il thread che gestisce la ricezione dei messaggi da parte del server

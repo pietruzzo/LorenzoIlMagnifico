@@ -3,7 +3,6 @@ package server;
 import Domain.Tabellone;
 import server.rmi.RMIServer;
 import server.socket.SocketServer;
-import sun.security.ssl.Debug;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ public class Server {
     private RMIServer rmiServer;
     private Tabellone tabellone;
     private HashMap<String, GiocatoreRemoto> listaGiocatori;
+    private boolean accettaNuoviGiocatori;
 
     //Usato per gestire un login alla volta
     private static final Object MUTEX_GIOCATORI = new Object();
@@ -31,6 +31,7 @@ public class Server {
     {
         this.socketServer = new SocketServer(this);
         this.rmiServer = new RMIServer(this);
+        this.accettaNuoviGiocatori = true;
         this.listaGiocatori = new HashMap<>();
     }
 
@@ -66,16 +67,18 @@ public class Server {
      public short AggiungiGiocatore(String nome, Color colore, GiocatoreRemoto giocatore) throws Exception {
         synchronized (MUTEX_GIOCATORI)
         {
-            //Verifica la presenza di un altro giocatore con lo stesso username
-            if(!listaGiocatori.containsKey(nome))
-            {
-                this.listaGiocatori.put(nome, giocatore);
-                short idGiocatore = this.tabellone.AggiungiGiocatore(nome, colore, giocatore);
-                System.out.println(String.format("Aggiunto il giocatore {0} con id {1}", nome, idGiocatore));
-                return idGiocatore;
+            if(accettaNuoviGiocatori) {
+                //Verifica la presenza di un altro giocatore con lo stesso username
+                if (!listaGiocatori.containsKey(nome)) {
+                    this.listaGiocatori.put(nome, giocatore);
+                    short idGiocatore = this.tabellone.AggiungiGiocatore(nome, colore, giocatore);
+                    System.out.println(String.format("Aggiunto il giocatore {0} con id {1}", nome, idGiocatore));
+                    return idGiocatore;
+                } else
+                    throw new Exception("Esiste già un giocatore con lo stesso username.");
             }
             else
-                throw new Exception("Esiste già un giocatore con lo stesso username.");
+                throw new Exception("La partita è già iniziata.");
         }
     }
 
@@ -88,5 +91,19 @@ public class Server {
     {
         String nome = this.tabellone.GetNomeGiocatoreById(idGiocatore);
         return this.listaGiocatori.get(nome);
+    }
+
+    /**
+     * Inizia la partita e avvia il primo turno
+     */
+    public void IniziaPartita()
+    {
+        this.accettaNuoviGiocatori = false;
+        //Comunica l'inzio della partita agli altri giocatori
+
+        for (GiocatoreRemoto giocatore : this.listaGiocatori.values()) {
+            giocatore.PartitaIniziata();
+        }
+
     }
 }

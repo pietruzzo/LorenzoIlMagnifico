@@ -36,6 +36,15 @@ public class SocketClientProtocol {
      */
     private void PopolaListaEventHandler()
     {
+        this.listaEventHandler.put(ProtocolEvents.PARTITA_INIZIATA, this::PartitaIniziata);
+    }
+
+    /**
+     * Gestisce l'inizio di una partita
+     */
+    private void PartitaIniziata()
+    {
+        //TODO: disabilita il bottone per iniziare la partita
     }
 
     /**
@@ -59,6 +68,19 @@ public class SocketClientProtocol {
         //Se era già presente un utente con l'username specificato
         if(codiceRisposta == ProtocolEvents.USER_ESISTENTE)
             throw new Exception("Esiste già un utente con questo username");
+    }
+
+    /**
+     * Comunica al server di iniziare la partita
+     */
+    public void IniziaPartita()
+    {
+        try {
+            outputStream.writeObject(ProtocolEvents.INIZIA_PARTITA);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
