@@ -28,7 +28,7 @@ public class MainGame {
         try {
             Random rnd = new Random();
             int rndNumber = rnd.nextInt(10);
-            this.Login("michele"+rndNumber, Color.BLUE);
+            this.Login("michele"+rndNumber);
 
             //this.IniziaPartita();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class MainGame {
         int portaSocket = 1337;
         int portaRMI = 1338;
 
-        if(1 == 1)
+        if(1 == 12)
             client = new SocketClient(indirizzoIP, portaSocket);
         else
             client = new RMIClient(indirizzoIP, portaRMI);
@@ -57,15 +57,14 @@ public class MainGame {
     /**
      * Effettua il login del giocatore
      */
-    public void Login(String nome, Color colore) throws Exception {
-        client.Login(nome, colore);
+    public void Login(String nome) throws Exception {
+        client.Login(nome);
     }
 
     /**
      * Comincia la partita, sarà il turno del primo giocatore loggato
      */
-    public void IniziaPartita()
-    {
+    public void IniziaPartita() throws Exception {
         client.IniziaPartita();
     }
 }

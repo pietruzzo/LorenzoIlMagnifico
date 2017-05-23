@@ -57,16 +57,22 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      * Effettua il login del giocatore
      */
-    public void Login(String nome, Color colore) throws Exception {
-        this.server.AggiungiGiocatore(nome, colore, this);
+    public void Login(String nome) throws Exception {
+        this.server.AggiungiGiocatore(nome,this);
+    }
+
+    /**
+     * Se ci sono 4 giocatori la partita inizia in automatico
+     */
+    public void VerificaInizioPartita() throws Exception {
+        this.getPartita().VerificaInizioAutomatico();
     }
 
     /**
      *  Inizia la partita
      */
-    public void IniziaPartita()
-    {
-        this.server.IniziaPartita();
+    public void IniziaPartita() throws Exception {
+        this.getPartita().IniziaPartita();
     }
 
     /**

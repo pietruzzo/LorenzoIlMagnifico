@@ -7,7 +7,21 @@ import Domain.Giocatore;
  */
 public abstract class GiocatoreRemoto extends Giocatore{
 
+    /**
+     * Indica la partita alla quale il giocatore sta partecipando
+     */
+    private Partita partita;
+
     protected GiocatoreRemoto(){}
 
-    public void PartitaIniziata(){}
+    protected void setPartita(Partita partita) { this.partita = partita; };
+
+    /**
+     * Ritorna la partita del giocatore
+     */
+    public Partita getPartita() {
+        return partita;
+    }
+
+    public void PartitaIniziata() throws Exception {}
 }

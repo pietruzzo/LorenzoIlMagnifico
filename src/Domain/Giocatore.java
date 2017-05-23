@@ -12,7 +12,7 @@ import java.util.List;
 public class Giocatore {
 
     //region Proprietà
-    protected short IdGiocatore;
+    private short IdGiocatore;
     protected String Nome;
     protected Color Colore;
     protected List<CartaTerritorio> CarteTerritorio;
@@ -24,6 +24,16 @@ public class Giocatore {
     protected GestoreEffettiGiocatore gestoreEffettiGiocatore;
 
     protected Risorsa Risorse;
+    //endregion
+
+    //region Getters
+    public short getIdGiocatore() {
+        return IdGiocatore;
+    }
+
+    public Risorsa getRisorse() {
+        return Risorse;
+    }
     //endregion
 
     /**
@@ -105,8 +115,5 @@ public class Giocatore {
         return  listaCarte;
     }
 
-    public Risorsa getRisorse() {
-        return Risorse;
-    }
 }
 

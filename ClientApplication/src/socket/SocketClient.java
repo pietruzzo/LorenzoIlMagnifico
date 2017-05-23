@@ -59,8 +59,8 @@ public class SocketClient extends AbstractClient {
     /**
      * Effettua il login del giocatore
      */
-    public void Login(String nome, Color colore) throws Exception {
-        this.socketClientProtocol.Login(nome, colore);
+    public void Login(String nome) throws Exception {
+        this.socketClientProtocol.Login(nome);
         this.AvviaThreadRicezioneMessaggi();
     }
 

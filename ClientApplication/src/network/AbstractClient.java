@@ -34,7 +34,7 @@ public abstract class AbstractClient {
 
     public abstract void InizializzaSocketProtocol();
 
-    public abstract void Login(String nome, Color colore) throws Exception;
+    public abstract void Login(String nome) throws Exception;
 
-    public abstract void IniziaPartita();
+    public abstract void IniziaPartita() throws Exception;
 }

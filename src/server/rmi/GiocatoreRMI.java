@@ -22,8 +22,7 @@ public class GiocatoreRMI extends GiocatoreRemoto {
     /**
      * Comunica al client l'inizio della partita
      */
-    public void PartitaIniziata()
-    {
+    public void PartitaIniziata() throws Exception {
         this.clientRMI.PartitaIniziata();
     }
 

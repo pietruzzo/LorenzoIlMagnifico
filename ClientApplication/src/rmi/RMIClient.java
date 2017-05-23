@@ -58,16 +58,16 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      * @throws Exception
      */
     @Override
-    public void Login(String nome, Color colore) throws Exception {
-        idGiocatore = server.Login(nome, colore, this);
+    public void Login(String nome) throws Exception {
+        idGiocatore = server.Login(nome, this);
     }
 
     /**
      * Comunica al server di iniziare la partita
      */
     @Override
-    public void IniziaPartita() {
-        server.IniziaPartita();
+    public void IniziaPartita() throws Exception {
+        server.IniziaPartita(idGiocatore);
     }
 
     /**
@@ -75,6 +75,7 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      */
     @Override
     public void PartitaIniziata() {
+        System.out.println("Il server rmi mi ha detto che la partita è iniziata");
         //TODO: disabilita il bottone per iniziare la partita
     }
 }

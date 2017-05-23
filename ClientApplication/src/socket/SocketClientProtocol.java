@@ -44,18 +44,18 @@ public class SocketClientProtocol {
      */
     private void PartitaIniziata()
     {
+        System.out.println("Il server socket mi ha detto che la partita è iniziata");
         //TODO: disabilita il bottone per iniziare la partita
     }
 
     /**
      * Comunica al server le informazioni per aggiungere il giocatore alla partita
      */
-    public void Login(String nome, Color colore) throws Exception {
+    public void Login(String nome) throws Exception {
         int codiceRisposta = ProtocolEvents.OK;
         try {
             outputStream.writeObject(ProtocolEvents.LOGIN);
             outputStream.writeObject(nome);
-            outputStream.writeObject(colore);
 
             outputStream.flush();
             codiceRisposta = (int)inputStream.readObject();

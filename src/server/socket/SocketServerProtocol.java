@@ -39,33 +39,36 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.INIZIA_PARTITA, this::IniziaPartita);
     }
 
-
     //region Handler eventi
     private void Login()
     {
         try {
             String nomeUtente = (String) this.inputStream.readObject();
-            Color colore = (Color) this.inputStream.readObject();
+            this.LoginGiocatore(nomeUtente);
 
-            this.LoginGiocatore(nomeUtente, colore);
+            //Mi assicuro che venga tirato su l'handler lato client
+            Thread.sleep(500);
+            this.giocatore.VerificaInizioPartita();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //endregion
 
 
-    //region Metodi dal Client al Server
+    //region Metodi per gestire i messaggi ricevuti Client
     /**
      * Effettua il login del giocatore e comunica l'esito dell'operazione al client
      */
-    private void LoginGiocatore(String nome, Color colore) throws IOException {
+    private void LoginGiocatore(String nome) throws IOException {
         int codiceRisposta;
 
         try {
-            this.giocatore.Login(nome, colore);
+            this.giocatore.Login(nome);
             codiceRisposta = ProtocolEvents.OK;
         } catch (Exception e) {
             codiceRisposta = ProtocolEvents.USER_ESISTENTE;
@@ -80,7 +83,12 @@ public class SocketServerProtocol {
      */
     private void IniziaPartita()
     {
-        this.giocatore.IniziaPartita();
+        try {
+            this.giocatore.IniziaPartita();
+        } catch (Exception e) {
+            //TODO gestione eccezioni
+            e.printStackTrace();
+        }
     }
     //endregion
 

@@ -5,6 +5,7 @@ import server.rmi.RMIServer;
 import server.socket.SocketServer;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,9 +17,9 @@ public class Server {
 
     private SocketServer socketServer;
     private RMIServer rmiServer;
-    private Tabellone tabellone;
-    private HashMap<String, GiocatoreRemoto> listaGiocatori;
-    private boolean accettaNuoviGiocatori;
+    private ArrayList<GiocatoreRemoto> listaGiocatori;
+    private ArrayList<Partita> listaPartite;
+    private static short maxIdGiocatore = 0;
 
     //Usato per gestire un login alla volta
     private static final Object MUTEX_GIOCATORI = new Object();
@@ -31,8 +32,8 @@ public class Server {
     {
         this.socketServer = new SocketServer(this);
         this.rmiServer = new RMIServer(this);
-        this.accettaNuoviGiocatori = true;
-        this.listaGiocatori = new HashMap<>();
+        this.listaGiocatori = new ArrayList<>();
+        this.listaPartite = new ArrayList<>();
     }
 
     /**
@@ -57,28 +58,21 @@ public class Server {
     private void StartServer(int portaSocket, int portaRMI) throws Exception {
         socketServer.StartServer(portaSocket);
         rmiServer.StartServer(portaRMI);
-        this.tabellone = new Tabellone();
     }
 
     /**
-     * Aggiunge un giocatore alla partita
+     * Aggiunge un giocatore alla partita da iniziare
      * @return l'id del giocatore appena inserito
      */
-     public short AggiungiGiocatore(String nome, Color colore, GiocatoreRemoto giocatore) throws Exception {
+     public short AggiungiGiocatore(String nome, GiocatoreRemoto giocatore) throws Exception {
         synchronized (MUTEX_GIOCATORI)
         {
-            if(accettaNuoviGiocatori) {
-                //Verifica la presenza di un altro giocatore con lo stesso username
-                if (!listaGiocatori.containsKey(nome)) {
-                    this.listaGiocatori.put(nome, giocatore);
-                    short idGiocatore = this.tabellone.AggiungiGiocatore(nome, colore, giocatore);
-                    System.out.println(String.format("Aggiunto il giocatore {0} con id {1}", nome, idGiocatore));
-                    return idGiocatore;
-                } else
-                    throw new Exception("Esiste già un giocatore con lo stesso username.");
-            }
-            else
-                throw new Exception("La partita è già iniziata.");
+            Partita partitaDaIniziare = this.GetPartitaDaIniziare();
+            maxIdGiocatore++;
+            partitaDaIniziare.AggiungiGiocatore(maxIdGiocatore, nome, giocatore);
+            this.listaGiocatori.add(giocatore);
+            System.out.println(String.format("Aggiunto il giocatore %s con id %d", nome, maxIdGiocatore));
+            return maxIdGiocatore;
         }
     }
 
@@ -89,21 +83,28 @@ public class Server {
      */
     public GiocatoreRemoto GetGiocatoreById(short idGiocatore)
     {
-        String nome = this.tabellone.GetNomeGiocatoreById(idGiocatore);
-        return this.listaGiocatori.get(nome);
+        return this.listaGiocatori.stream().filter(x -> x.getIdGiocatore() == idGiocatore).findFirst().orElse(null);
     }
 
     /**
-     * Inizia la partita e avvia il primo turno
+     * Ritorna la partita da iniziare
+     * @return
      */
-    public void IniziaPartita()
+    private Partita GetPartitaDaIniziare()
     {
-        this.accettaNuoviGiocatori = false;
-        //Comunica l'inzio della partita agli altri giocatori
+        //Cerca una partita ancora da iniziare
+        Partita partitaToStart = this.listaPartite.stream().filter(x -> !x.isIniziata()).findFirst().orElse(null);
 
-        for (GiocatoreRemoto giocatore : this.listaGiocatori.values()) {
-            giocatore.PartitaIniziata();
+        //se non ci sono partite ancora da iniziare ne crea una nuova
+        if(partitaToStart == null)
+        {
+            partitaToStart = new Partita(this);
+            this.listaPartite.add(partitaToStart);
+
+            System.out.println("Partita Creata");
         }
 
+        return partitaToStart;
     }
+
 }

@@ -1,8 +1,9 @@
 package Domain;
 
+import server.Partita;
+
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
 public class Tabellone {
 
     //region Proprieta
-    private static short IdGiocatore = 0;
+    protected Partita Partita;
     protected int Turno;
     protected int Periodo;
 
@@ -26,8 +27,9 @@ public class Tabellone {
     /**
      * Costruttore Tabellone
      */
-    public Tabellone()
+    public Tabellone(Partita partita)
     {
+        this.Partita = partita;
         this.Turno = 1;
         this.Periodo = 1;
         this.Giocatori = new ArrayList<>();
@@ -65,20 +67,18 @@ public class Tabellone {
     /**
      * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
      */
-    public short AggiungiGiocatore(String nome, Color colore, Giocatore giocatore) throws Exception {
+    public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws Exception {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
             throw new Exception("E' stato raggiunto il numero limite di giocatori");
+        if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
+            throw new Exception("Esiste già un giocatore con lo stesso username.");
 
         //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
-        //incrementa la variabile globale della gestione degli id dei giocatori
-        this.IdGiocatore++;
 
-        giocatore.SettaProprietaIniziali(this.IdGiocatore, nome, colore, monete);
+        giocatore.SettaProprietaIniziali(idGiocatore, nome, Color.BLUE, monete);
         this.Giocatori.add(giocatore);
-
-        return giocatore.IdGiocatore;
     }
 
     /**
@@ -87,7 +87,7 @@ public class Tabellone {
      */
     private Giocatore GetGiocatoreById(short idGiocatore)
     {
-        return this.Giocatori.stream().filter(x -> x.IdGiocatore == idGiocatore).findFirst().orElse(null);
+        return this.Giocatori.stream().filter(x -> x.getIdGiocatore() == idGiocatore).findFirst().orElse(null);
     }
 
     /**
