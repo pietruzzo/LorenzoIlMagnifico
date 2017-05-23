@@ -47,7 +47,7 @@ public class SpazioAzioneTorre extends SpazioAzione {
         if(this.CartaAssociata == null)
             throw new Exception("A questo spazio azione non è associata alcuna carta!");
 
-        super.ValidaPiazzamentoFamiliare(familiare);
+        Risorsa costoEffetti = super.ValidaValoreAzione(familiare);
 
         //Calcola il malus dovuto dall'occupazione della torre
         //Se la torre è occupata il malus è di -3 monete
@@ -58,14 +58,48 @@ public class SpazioAzioneTorre extends SpazioAzione {
             else
                 malusTorreOccupata= malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
 
-        //TODO gestione effetti carte permanenti e scomunica
-        if(!Risorsa.sub(Risorsa.add(familiare.Giocatore.Risorse, this.BonusRisorse), Risorsa.add(this.CartaAssociata.CostoRisorse, malusTorreOccupata)).isPositivo())
+        //Valuta se il giocatore rimarrebbe con tutte le risorse in positivo prendendo la carta
+        //Considera il bonus dello spazio azione, il costo della carta, il malus della torre occupata e gli effetti delle carte (anche le carte scomunica)
+        if(!Risorsa.sub(Risorsa.add(familiare.Giocatore.Risorse, this.BonusRisorse),
+                        Risorsa.add(Risorsa.add(this.CartaAssociata.CostoRisorse, malusTorreOccupata), costoEffetti)).isPositivo())
             throw new Exception("Non si dispone di risorse sufficienti per poter prendere la carta.");
 
+        //Valuta se il giocatore ha abbastanza spazio nella plancia per prendere la carta
         this.CartaAssociata.ValidaPresaCarta(familiare.Giocatore, this);
+
+        if(this.CartaAssociata instanceof CartaTerritorio)
+            this.ValidaCartaTerritorio(familiare.Giocatore, costoEffetti.getPuntiMilitari());
     }
 
     public Carta getCartaAssociata() {
         return CartaAssociata;
+    }
+
+    /**
+     * Valuta se il giocatore ha abbastanza punti militari per poter piazzare la carta nella plancia
+     */
+    private void ValidaCartaTerritorio(Giocatore giocatore, int costoPuntiMilitariEffetti) throws Exception {
+        int minimoPuntiMilitari = 0;
+        switch (giocatore.CarteTerritorio.size())
+        {
+            case 2:
+                minimoPuntiMilitari = 1;
+                break;
+
+            case 3:
+                minimoPuntiMilitari = 4;
+                break;
+
+            case 4:
+                minimoPuntiMilitari = 10;
+                break;
+
+            case 5:
+                minimoPuntiMilitari = 20;
+                break;
+        }
+
+        if((giocatore.Risorse.getPuntiMilitari() + this.BonusRisorse.getPuntiMilitari() - costoPuntiMilitariEffetti) < minimoPuntiMilitari)
+            throw new Exception(String.format("Per poter prendere questa carta sono necessari almeno {0} punti militari", minimoPuntiMilitari));
     }
 }

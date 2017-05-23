@@ -57,7 +57,7 @@ public class Risorsa {
     public int getRisorse(TipoRisorsa tipoRisorsa){
         return this.risorse[tipoRisorsa.getPosizione()];
     }
-    
+
     @NotNull
     public static Risorsa add (Risorsa risorsa1, Risorsa risorsa2){
         short[] array1 = risorsa1.getArrayRisorse();

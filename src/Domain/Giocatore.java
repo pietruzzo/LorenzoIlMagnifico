@@ -1,5 +1,7 @@
 package Domain;
 
+import Domain.Effetti.GestoreEffettiGiocatore;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -19,6 +21,7 @@ public class Giocatore {
     protected List<CartaImpresa> CarteImpresa;
     protected List<Familiare> Familiari;
     protected List<Carta> CarteScomunica; //TODO: Carte Scomunica?
+    protected GestoreEffettiGiocatore gestoreEffettiGiocatore;
 
     protected Risorsa Risorse;
     //endregion
@@ -32,7 +35,7 @@ public class Giocatore {
         this.CarteEdificio = new ArrayList<>();
         this.CartePersonaggio = new ArrayList<>();
         this.CarteImpresa = new ArrayList<>();
-
+        gestoreEffettiGiocatore= new GestoreEffettiGiocatore(this);
         //region Inizializzazione Familiari
         //Inizializzazione Familiari
         this.Familiari = new ArrayList<>();
@@ -100,6 +103,10 @@ public class Giocatore {
         listaCarte.addAll(CarteImpresa);
         listaCarte.addAll(CarteScomunica);
         return  listaCarte;
+    }
+
+    public Risorsa getRisorse() {
+        return Risorse;
     }
 }
 

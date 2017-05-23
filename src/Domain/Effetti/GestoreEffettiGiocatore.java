@@ -37,7 +37,7 @@ public class GestoreEffettiGiocatore {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti
      */
-    public void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
+    private void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException {
 
         malusRisorsaScomunica = new Risorsa();
@@ -75,6 +75,9 @@ public class GestoreEffettiGiocatore {
         azzeraTrigger(giocatoreCorrente.getListaCarte());
 
     }
+    public void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella){
+        validaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
+    }
 
     /**
      * @param costo           modificato dagli effetti (costo con cui validare la mossa)
@@ -85,7 +88,7 @@ public class GestoreEffettiGiocatore {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
      */
-    public void effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
+    private Risorsa effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException {
 
         Risorsa costoRitorno = costo.clone();
@@ -104,8 +107,15 @@ public class GestoreEffettiGiocatore {
 
         //Azzera trigger
         azzeraTrigger(giocatoreCorrente.getListaCarte());
+
+        //Ritorna Costo ritorno
+        return costoRitorno;
     }
 
+    public Risorsa effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella)
+            throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException{
+        return effettuaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
+    }
     public void inizioTurno(int turno) {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
