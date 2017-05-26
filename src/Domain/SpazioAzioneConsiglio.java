@@ -24,7 +24,6 @@ public class SpazioAzioneConsiglio extends SpazioAzione {
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
     public void PiazzaFamiliare(Familiare familiare) throws Exception {
-        super.ValidaPiazzamentoFamiliare(familiare);
         this.FamiliariPiazzati.add(familiare);
         super.PiazzaFamiliare(familiare);
     }

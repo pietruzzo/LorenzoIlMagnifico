@@ -37,7 +37,7 @@ public class SpazioAzioneTorre extends SpazioAzione {
 
         this.CartaAssociata.AssegnaGiocatore(familiare.Giocatore);
         this.CartaAssociata = null;
-        //TODO gestione effetti permanenti, scomunica
+
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */

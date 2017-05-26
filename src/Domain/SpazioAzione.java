@@ -38,8 +38,17 @@ public class SpazioAzione {
      * Metodo base per aggiornare i parametri del giocatore in funzione dei bonus dello spazio azione
      */
     public void PiazzaFamiliare(Familiare familiare) throws Exception {
+        Risorsa costoComplessivoEffetti;
+
+        ValidaPiazzamentoFamiliare(familiare);
+
+        costoComplessivoEffetti = familiare.Giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), familiare.Valore, this);
+
+        familiare.Giocatore.PagaRisorse(costoComplessivoEffetti);
         familiare.SetSpazioAzioneAttuale(this);
         familiare.OttieniBonusSpazioAzione();
+
+
     }
 
     /**
