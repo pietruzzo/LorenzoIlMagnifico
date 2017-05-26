@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="309.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.LoginPage">
+   <children>
+      <Label alignment="TOP_CENTER" graphicTextGap="9.0" layoutX="93.0" layoutY="46.0" text="Lorenzo il Magnifico" textAlignment="CENTER" textFill="#eb4f4f">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username_input" layoutX="147.0" layoutY="124.0" />
+      <Label layoutX="63.0" layoutY="129.0" text="Username" />
+      <Button layoutX="273.0" layoutY="270.0" mnemonicParsing="false" text="Play" />
+      <ChoiceBox fx:id="communication_choice" layoutX="188.0" layoutY="176.0" />
+      <Label layoutX="63.0" layoutY="181.0" text="Communication" />
+      <Label layoutX="63.0" layoutY="227.0" text="Interface" />
+      <HBox layoutX="148.0" layoutY="222.0" prefHeight="25.0" prefWidth="130.0">
+         <children>
+            <RadioButton mnemonicParsing="false" text="GUI" />
+            <RadioButton mnemonicParsing="false" text="CLI" textAlignment="RIGHT" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+   </children>
+</AnchorPane>

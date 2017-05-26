@@ -24,6 +24,7 @@ public class MainGame {
 
     public void Start()
     {
+
         this.SetConnessioneServer();
         try {
             Random rnd = new Random();
