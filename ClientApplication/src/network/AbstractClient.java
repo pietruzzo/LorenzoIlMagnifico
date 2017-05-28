@@ -1,5 +1,7 @@
 package network;
 
+import lorenzo.MainGame;
+
 import java.awt.*;
 
 /**
@@ -10,12 +12,14 @@ public abstract class AbstractClient {
     //region Proprieta
     private final String indirizzoIp;
     private final int porta;
+    private final MainGame mainGame;
     //endregion
 
     /**
      * Costruttore
      */
-    public AbstractClient(String indirizzoIp, int porta){
+    public AbstractClient(MainGame mainGame, String indirizzoIp, int porta){
+        this.mainGame = mainGame;
         this.indirizzoIp = indirizzoIp;
         this.porta = porta;
     }
@@ -28,6 +32,11 @@ public abstract class AbstractClient {
     public int getPorta() {
         return porta;
     }
+
+    public MainGame getMainGame() {
+        return mainGame;
+    }
+
     //endregion
 
     public abstract void ConnessioneServer();
@@ -36,5 +45,5 @@ public abstract class AbstractClient {
 
     public abstract void Login(String nome) throws Exception;
 
-    public abstract void IniziaPartita() throws Exception;
+    public abstract void IniziaPartita();
 }

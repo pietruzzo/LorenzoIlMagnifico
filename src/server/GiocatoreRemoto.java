@@ -1,6 +1,8 @@
 package server;
 
 import Domain.Giocatore;
+import Exceptions.DomainException;
+import Exceptions.NetworkException;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -23,5 +25,5 @@ public abstract class GiocatoreRemoto extends Giocatore{
         return partita;
     }
 
-    public void PartitaIniziata() throws Exception {}
+    public void PartitaIniziata() throws NetworkException {}
 }

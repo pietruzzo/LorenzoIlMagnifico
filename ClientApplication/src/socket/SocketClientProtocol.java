@@ -1,5 +1,6 @@
 package socket;
 
+import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
 import java.awt.*;
@@ -18,13 +19,16 @@ public class SocketClientProtocol {
     private final ObjectInputStream inputStream;
 
     private final HashMap<Object, ResponseHandler> listaEventHandler;
+
+    private final MainGame mainGame;
     //endregion
 
     /**
      * Costruttore
      */
-    public SocketClientProtocol(ObjectInputStream inputStream, ObjectOutputStream outputStream)
+    public SocketClientProtocol(ObjectInputStream inputStream, ObjectOutputStream outputStream, MainGame mainGame)
     {
+        this.mainGame = mainGame;
         this.outputStream = outputStream;
         this.inputStream = inputStream;
         this.listaEventHandler = new HashMap<>();
@@ -36,7 +40,26 @@ public class SocketClientProtocol {
      */
     private void PopolaListaEventHandler()
     {
+        this.listaEventHandler.put(ProtocolEvents.TIRATA_ECCEZIONE, this::HandleException);
         this.listaEventHandler.put(ProtocolEvents.PARTITA_INIZIATA, this::PartitaIniziata);
+    }
+
+    //region Handler Eventi del server
+
+    /**
+     * Gestisce l'arrivo di una eccezione, mostra a video il messaggio
+     */
+    private void HandleException()
+    {
+        try{
+            String message = (String) inputStream.readObject();
+            System.out.println(String.format("E' arrivato l'errore '%s'", message));
+            mainGame.MostraEccezione(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -45,9 +68,12 @@ public class SocketClientProtocol {
     private void PartitaIniziata()
     {
         System.out.println("Il server socket mi ha detto che la partita è iniziata");
-        //TODO: disabilita il bottone per iniziare la partita
+        mainGame.PartitaIniziata();
     }
 
+    //endregion
+
+    //region Messaggi dal client al server
     /**
      * Comunica al server le informazioni per aggiungere il giocatore alla partita
      */
@@ -82,6 +108,7 @@ public class SocketClientProtocol {
             e.printStackTrace();
         }
     }
+    //endregion
 
     /**
      * Dato uno specifico evento fa partire il metodo destinato a gestirlo

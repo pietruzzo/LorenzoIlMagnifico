@@ -1,5 +1,6 @@
 package socket;
 
+import lorenzo.MainGame;
 import network.AbstractClient;
 
 import java.awt.*;
@@ -27,9 +28,9 @@ public class SocketClient extends AbstractClient {
     /**
      * Costruttore
      */
-    public SocketClient(String indirizzoIp, int porta)
+    public SocketClient(MainGame mainGame, String indirizzoIp, int porta)
     {
-        super(indirizzoIp, porta);
+        super(mainGame, indirizzoIp, porta);
     }
 
     /**
@@ -37,7 +38,6 @@ public class SocketClient extends AbstractClient {
      */
     @Override
     public void ConnessioneServer() {
-        //TODO gestione eccezione
         try {
             socket = new Socket(getIndirizzoIp(), getPorta());
             outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -53,7 +53,7 @@ public class SocketClient extends AbstractClient {
      */
     public void InizializzaSocketProtocol()
     {
-        this.socketClientProtocol = new SocketClientProtocol(this.inputStream, this.outputStream);
+        this.socketClientProtocol = new SocketClientProtocol(this.inputStream, this.outputStream, this.getMainGame());
     }
 
     /**

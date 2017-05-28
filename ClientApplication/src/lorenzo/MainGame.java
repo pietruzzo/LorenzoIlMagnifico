@@ -24,17 +24,12 @@ public class MainGame {
 
     public void Start()
     {
-
         this.SetConnessioneServer();
-        try {
-            Random rnd = new Random();
-            int rndNumber = rnd.nextInt(10);
-            this.Login("michele"+rndNumber);
+        Random rnd = new Random();
+        int rndNumber = rnd.nextInt(10);
+        this.Login("michele" +rndNumber);
 
-            //this.IniziaPartita();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //this.IniziaPartita();
     }
 
     /**
@@ -46,10 +41,10 @@ public class MainGame {
         int portaSocket = 1337;
         int portaRMI = 1338;
 
-        if(1 == 12)
-            client = new SocketClient(indirizzoIP, portaSocket);
+        if(1 == 1)
+            client = new SocketClient(this, indirizzoIP, portaSocket);
         else
-            client = new RMIClient(indirizzoIP, portaRMI);
+            client = new RMIClient(this, indirizzoIP, portaRMI);
 
         client.ConnessioneServer();
         client.InizializzaSocketProtocol(); //Se il client è rmi il metodo non fa nulla
@@ -58,14 +53,33 @@ public class MainGame {
     /**
      * Effettua il login del giocatore
      */
-    public void Login(String nome) throws Exception {
-        client.Login(nome);
+    public void Login(String nome) {
+        try {
+            client.Login(nome);
+        } catch (Exception e) {
+            MostraEccezione(e.getMessage());
+        }
     }
 
     /**
      * Comincia la partita, sarà il turno del primo giocatore loggato
      */
-    public void IniziaPartita() throws Exception {
+    public void IniziaPartita() {
         client.IniziaPartita();
+    }
+
+    /**
+     * Metodo chiamato quando viene confermato l'inizio di una nuova partita
+     */
+    public void PartitaIniziata() {
+        //TODO: disabilita il bottone per iniziare la partita
+    }
+
+    /**
+     * Mostra l'errore all'utente
+     * @param message messaggio d'errore
+     */
+    public void MostraEccezione(String message) {
+        //TODO: chiamare l'interfaccia per mostrare il messaggio di errore (piccola form con l'icona di errore e il bottone OK?)
     }
 }

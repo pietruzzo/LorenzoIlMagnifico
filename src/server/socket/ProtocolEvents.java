@@ -10,6 +10,7 @@ public class ProtocolEvents {
     public static final String INIZIA_PARTITA = "inziaPartita";
 
     //Eventi lanciati dal server verso il client
+    public static final String TIRATA_ECCEZIONE = "tirataEccezione";
     public static final String PARTITA_INIZIATA = "partitaIniziata";
 
     //Codici delle risposte date dal server al client (HTTP style)

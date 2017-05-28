@@ -1,6 +1,7 @@
 package Domain;
 
 import Domain.Effetti.Effetto;
+import Exceptions.DomainException;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -29,10 +30,10 @@ public class CartaImpresa extends Carta {
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */
-    public void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws Exception {
+    public void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws DomainException {
         //Verifica se il giocatore ha abbastanza spazio per prendere la carta
         if(giocatore.CarteImpresa.size() >= 6)
-            throw new Exception("E' stato raggiunto il limite di carte Impresa.");
+            throw new DomainException("E' stato raggiunto il limite di carte Impresa.");
     }
 
     /**

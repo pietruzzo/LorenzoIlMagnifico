@@ -1,5 +1,7 @@
 package Domain;
 
+import Exceptions.DomainException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,9 @@ public class SpazioAzioneConsiglio extends SpazioAzione {
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws Exception {
-        this.FamiliariPiazzati.add(familiare);
+    public void PiazzaFamiliare(Familiare familiare) throws DomainException
+    {
         super.PiazzaFamiliare(familiare);
+        this.FamiliariPiazzati.add(familiare);
     }
 }

@@ -1,6 +1,7 @@
 package Domain;
 
 import Domain.Effetti.Effetto;
+import Exceptions.DomainException;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class SpazioAzione {
     /**
      * Metodo base per aggiornare i parametri del giocatore in funzione dei bonus dello spazio azione
      */
-    public void PiazzaFamiliare(Familiare familiare) throws Exception {
+    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
         Risorsa costoComplessivoEffetti;
 
         ValidaPiazzamentoFamiliare(familiare);
@@ -54,14 +55,14 @@ public class SpazioAzione {
     /**
      * Validazione base per poter piazzare un familiare
       */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
         this.ValidaValoreAzione(familiare);
     }
 
     /**
      * Effettua la validazione ritornando le risorse calcolate in base agli effetti delle carte del giocatore
      */
-    protected Risorsa ValidaValoreAzione(Familiare familiare)throws Exception {
+    protected Risorsa ValidaValoreAzione(Familiare familiare)throws DomainException {
         Risorsa costoEffetti = new Risorsa();
         Integer valoreAzioneFinale=familiare.Valore;
 
@@ -69,7 +70,7 @@ public class SpazioAzione {
         familiare.Giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
 
         if(valoreAzioneFinale < this.Valore)
-            throw new Exception(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
+            throw new DomainException(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
 
         return costoEffetti;
     }

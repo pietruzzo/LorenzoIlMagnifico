@@ -1,6 +1,7 @@
 package server;
 
 import Domain.Tabellone;
+import Exceptions.DomainException;
 import server.rmi.RMIServer;
 import server.socket.SocketServer;
 
@@ -45,7 +46,6 @@ public class Server {
 
         //Mette il server in running
         try {
-            //TODO:gestione eccezione, deve tirare un eccezione gestita
             server.StartServer(1337, 1338);
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class Server {
      * Aggiunge un giocatore alla partita da iniziare
      * @return l'id del giocatore appena inserito
      */
-     public short AggiungiGiocatore(String nome, GiocatoreRemoto giocatore) throws Exception {
+     public short AggiungiGiocatore(String nome, GiocatoreRemoto giocatore) throws DomainException {
         synchronized (MUTEX_GIOCATORI)
         {
             Partita partitaDaIniziare = this.GetPartitaDaIniziare();

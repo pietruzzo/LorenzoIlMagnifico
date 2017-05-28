@@ -1,5 +1,6 @@
 package Domain;
 
+import Exceptions.DomainException;
 import server.Partita;
 
 import java.awt.*;
@@ -67,12 +68,12 @@ public class Tabellone {
     /**
      * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
      */
-    public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws Exception {
+    public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws DomainException {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
-            throw new Exception("E' stato raggiunto il numero limite di giocatori");
+            throw new DomainException("E' stato raggiunto il numero limite di giocatori");
         if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
-            throw new Exception("Esiste già un giocatore con lo stesso username.");
+            throw new DomainException("Esiste già un giocatore con lo stesso username.");
 
         //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
@@ -109,7 +110,7 @@ public class Tabellone {
     /**
      * Consente di piazzare un familiare in una torre, nella torre indicata dal tipo
      */
-    public void PiazzaFamiliareTorre(Familiare familiare, TipoCarta tipo, int valore) throws Exception {
+    public void PiazzaFamiliareTorre(Familiare familiare, TipoCarta tipo, int valore) throws DomainException {
         Torre torre = this.getTorreByTipo(tipo);
         torre.PiazzaFamiliare(familiare, valore);
     }
@@ -117,13 +118,13 @@ public class Tabellone {
     /**
      * Piazza il familiare nella zona produzione (1 lo spazio piccolo, 2 quello grande)
      */
-    public void PiazzaFamiliareProduzione(Familiare familiare, int posizione) throws Exception {
+    public void PiazzaFamiliareProduzione(Familiare familiare, int posizione) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
         //Un giocatore può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneProduzione.stream().
             anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                                                                 &&  y.Neutro == familiare.Neutro)))
-            throw new Exception("E' già presente un familiare dello stesso colore nella zona Produzione.");
+            throw new DomainException("E' già presente un familiare dello stesso colore nella zona Produzione.");
 
         SpazioAzioneProduzione spazioAzioneProduzione = this.SpaziAzioneProduzione.get(posizione);
         spazioAzioneProduzione.PiazzaFamiliare(familiare);
@@ -132,13 +133,13 @@ public class Tabellone {
     /**
      * Piazza il familiare nella zona raccolto (1 lo spazio piccolo, 2 quello grande)
      */
-    public void PiazzaFamiliareRaccolto(Familiare familiare, int posizione) throws Exception {
+    public void PiazzaFamiliareRaccolto(Familiare familiare, int posizione) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
         //Un giocatore può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneRaccolto.stream().
                 anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                         &&  y.Neutro == familiare.Neutro)))
-            throw new Exception("E' già presente un familiare dello stesso colore nella zona Produzione.");
+            throw new DomainException("E' già presente un familiare dello stesso colore nella zona Produzione.");
 
         SpazioAzioneRaccolto spazioAzioneRaccolto = this.SpaziAzioneRaccolto.get(posizione);
         spazioAzioneRaccolto.PiazzaFamiliare(familiare);
@@ -147,7 +148,7 @@ public class Tabellone {
     /**
      * Piazza il familiare nella zona mercato (1, 2, 3, 4 da sx a dx)
      */
-    public void PiazzaFamiliareMercato(Familiare familiare, int posizione) throws Exception {
+    public void PiazzaFamiliareMercato(Familiare familiare, int posizione) throws DomainException {
         SpazioAzioneMercato spazioAzioneMercato = this.SpaziAzioneMercato.get(posizione);
         spazioAzioneMercato.PiazzaFamiliare(familiare);
     }
@@ -155,7 +156,7 @@ public class Tabellone {
     /**
      * Piazza il familiare nella zona consiglio
      */
-    public void PiazzaFamiliareConsiglio(Familiare familiare) throws Exception {
+    public void PiazzaFamiliareConsiglio(Familiare familiare) throws DomainException {
         this.SpazioAzioneConsiglio.PiazzaFamiliare(familiare);
     }
     //endregion
