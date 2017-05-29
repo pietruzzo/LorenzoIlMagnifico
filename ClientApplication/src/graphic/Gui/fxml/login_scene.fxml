@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
+   <center>
+      <AnchorPane prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="usernameInput" layoutX="300.0" layoutY="122.0" />
+            <Button layoutX="426.0" layoutY="281.0" mnemonicParsing="false" text="Play" />
+            <Label layoutX="147.0" layoutY="127.0" text="Username" />
+            <Label layoutX="147.0" layoutY="193.0" text="Comunicazione" />
+            <Label layoutX="147.0" layoutY="238.0" text="Interfaccia" />
+            <ChoiceBox fx:id="communicationChoice" layoutX="357.0" layoutY="188.0" prefHeight="25.0" prefWidth="114.0" />
+            <RadioButton fx:id="radioGui" layoutX="357.0" layoutY="237.0" mnemonicParsing="false" selected="true" text="GUI">
+               <toggleGroup>
+                  <ToggleGroup fx:id="interfaccia" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioCli" layoutX="426.0" layoutY="237.0" mnemonicParsing="false" text="CLI" toggleGroup="$interfaccia" />
+            <Label layoutX="198.0" layoutY="38.0" text="Lorenzo il Magnifico" textFill="#fc0000">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="messaggioErrore" layoutX="147.0" layoutY="340.0" prefHeight="15.0" prefWidth="327.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </center>
+</BorderPane>

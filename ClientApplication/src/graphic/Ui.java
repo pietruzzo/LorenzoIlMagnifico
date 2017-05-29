@@ -13,4 +13,5 @@ public abstract class Ui {
     public abstract void mossePossibili();
     public abstract void visualizzaPrivilegioConsiglio();
     public abstract void tuoTurno();
+    public abstract void stampaMessaggio();
 }
