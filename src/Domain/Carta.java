@@ -1,6 +1,7 @@
 package Domain;
 
 import Domain.Effetti.Effetto;
+import Exceptions.DomainException;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -37,7 +38,7 @@ public abstract class Carta {
         return CostoRisorse.clone();
     }
 
-    abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws Exception;
+    abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws DomainException;
     abstract protected void AssegnaGiocatore(Giocatore giocatore);
     abstract public TipoCarta getTipoCarta();
 

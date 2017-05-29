@@ -1,5 +1,7 @@
 package Domain;
 
+import Exceptions.DomainException;
+
 /**
  * Created by Portatile on 13/05/2017.
  */
@@ -19,16 +21,16 @@ public class SpazioAzioneMercato extends SpazioAzione {
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws Exception {
+    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
         this.ValidaPiazzamentoFamiliare(familiare);
-        this.FamiliarePiazzato = familiare;
         super.PiazzaFamiliare(familiare);
+        this.FamiliarePiazzato = familiare;
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
         if(this.FamiliarePiazzato != null)
-            throw new Exception("Questo spazio azione è già occupato da un altro familiare!");
+            throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
         super.ValidaPiazzamentoFamiliare(familiare);
     }
 }

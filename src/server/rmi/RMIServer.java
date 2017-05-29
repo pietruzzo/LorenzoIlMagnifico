@@ -1,5 +1,6 @@
 package server.rmi;
 
+import Exceptions.DomainException;
 import rmi.IRMIClient;
 import server.AbstractServer;
 import server.GiocatoreRemoto;
@@ -71,7 +72,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
      * Effettua il login del giocatore
      * Salva anche il riferimento per chiamare i metodi lato client attraverso rmi
      */
-    public short Login(String nome, IRMIClient rmiClient) throws Exception {
+    public short Login(String nome, IRMIClient rmiClient) throws DomainException {
         short idGiocatore = getServer().AggiungiGiocatore(nome, new GiocatoreRMI(rmiClient));
         GetGiocatoreById(idGiocatore).getPartita().VerificaInizioAutomatico();
         return idGiocatore;
@@ -80,7 +81,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     /**
      * Inizia una nuova partita
      */
-    public void IniziaPartita(short idGiocatore) throws Exception {
+    public void IniziaPartita(short idGiocatore) throws DomainException {
         GetGiocatoreById(idGiocatore).getPartita().IniziaPartita();
     }
 }

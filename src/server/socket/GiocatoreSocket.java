@@ -1,5 +1,6 @@
 package server.socket;
 
+import Exceptions.DomainException;
 import server.GiocatoreRemoto;
 import server.Server;
 
@@ -57,22 +58,31 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      * Effettua il login del giocatore
      */
-    public void Login(String nome) throws Exception {
+    public void Login(String nome) throws DomainException {
         this.server.AggiungiGiocatore(nome,this);
     }
 
     /**
      * Se ci sono 4 giocatori la partita inizia in automatico
      */
-    public void VerificaInizioPartita() throws Exception {
-        this.getPartita().VerificaInizioAutomatico();
+    public void VerificaInizioPartita() {
+        try {
+            if(this.getPartita() != null)
+                this.getPartita().VerificaInizioAutomatico();
+        } catch (DomainException e) {
+            protocol.ComunicaEccezione(e.getMessage());
+        }
     }
 
     /**
      *  Inizia la partita
      */
-    public void IniziaPartita() throws Exception {
-        this.getPartita().IniziaPartita();
+    public void IniziaPartita(){
+        try {
+            this.getPartita().IniziaPartita();
+        } catch (DomainException e) {
+            protocol.ComunicaEccezione(e.getMessage());
+        }
     }
 
     /**

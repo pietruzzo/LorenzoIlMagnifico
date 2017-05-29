@@ -1,9 +1,12 @@
 package rmi;
 
+import Exceptions.DomainException;
+import lorenzo.MainGame;
 import network.AbstractClient;
 import server.rmi.IRMIServer;
 
 import java.awt.*;
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,9 +26,9 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     /**
      * Costruttore del Client rmi
      */
-    public RMIClient(String indirizzoIp, int porta)
+    public RMIClient(MainGame mainGame, String indirizzoIp, int porta)
     {
-        super(indirizzoIp, porta);
+        super(mainGame, indirizzoIp, porta);
     }
 
     /**
@@ -34,7 +37,6 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     @Override
     public void ConnessioneServer() {
         Registry registry = null;
-        //TODO: gestione eccezioni
         try {
             registry = LocateRegistry.getRegistry(getIndirizzoIp(), getPorta());
             server = (IRMIServer) registry.lookup("IRMIServer");
@@ -53,12 +55,12 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     public void InizializzaSocketProtocol() {
     }
 
+    //region Chiamate al server
     /**
      * Effettua il login di un giocatore (aggiungendolo al tabellone)
-     * @throws Exception
      */
     @Override
-    public void Login(String nome) throws Exception {
+    public void Login(String nome) throws IOException {
         idGiocatore = server.Login(nome, this);
     }
 
@@ -66,16 +68,31 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      * Comunica al server di iniziare la partita
      */
     @Override
-    public void IniziaPartita() throws Exception {
-        server.IniziaPartita(idGiocatore);
+    public void IniziaPartita() {
+        try {
+            server.IniziaPartita(idGiocatore);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
     }
+    //endregion
 
+    //region Chiamate dal server
     /**
      * Gestisce gli eventi relativi all'inizio di una partita
      */
     @Override
     public void PartitaIniziata() {
         System.out.println("Il server rmi mi ha detto che la partita è iniziata");
-        //TODO: disabilita il bottone per iniziare la partita
+        this.getMainGame().PartitaIniziata();
+    }
+    //endregion
+
+    /**
+     * Gestisce le eccezioni lanciate lato server
+     */
+    private void HandleException(IOException eccezione)
+    {
+        this.getMainGame().MostraEccezione(eccezione.getMessage());
     }
 }

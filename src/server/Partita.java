@@ -1,6 +1,9 @@
 package server;
 
 import Domain.Tabellone;
+import Exceptions.DomainException;
+import Exceptions.NetworkException;
+import sun.nio.ch.Net;
 
 import java.util.ArrayList;
 
@@ -42,7 +45,7 @@ public class Partita {
     /**
      * Aggiunge un giocatore alla partita
      */
-    public void AggiungiGiocatore(short idGiocatore, String nome, GiocatoreRemoto giocatore) throws Exception {
+    public void AggiungiGiocatore(short idGiocatore, String nome, GiocatoreRemoto giocatore) throws DomainException {
         synchronized (MUTEX_PARTITA)
         {
             this.tabellone.AggiungiGiocatore(idGiocatore, nome, giocatore);
@@ -54,7 +57,7 @@ public class Partita {
     /**
      * Se ci sono 4 giocatori e la partita non è ancora iniziata, viene iniziata in automatico
      */
-    public void VerificaInizioAutomatico() throws Exception {
+    public void VerificaInizioAutomatico() throws DomainException {
         if(this.giocatoriPartita.size() == this.MAX_GIOCATORI)
             this.IniziaPartita();
     }
@@ -62,7 +65,7 @@ public class Partita {
     /**
      * Inizia la partita
      */
-    public void IniziaPartita() throws Exception {
+    public void IniziaPartita() throws DomainException {
         if(this.giocatoriPartita.size() >= this.MIN_GIOCATORI) {
             synchronized (MUTEX_PARTITA) {
                 if (this.iniziata == false) {
@@ -71,12 +74,15 @@ public class Partita {
 
                     //Comunica l'inizio della partita agli altri giocatori
                     for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
-                        giocatore.PartitaIniziata();
+                        try{ giocatore.PartitaIniziata(); }
+                        catch (NetworkException e) {
+                            System.out.println("Giocatore non più connesso");
+                        }
                     }
                 }
             }
         }
         else
-            throw new Exception("E' necessario che ci siano almeno due utenti connessi alla partita per cominciare.");
+            throw new DomainException("E' necessario che ci siano almeno due utenti connessi alla partita per cominciare.");
     }
 }

@@ -17,6 +17,7 @@ public class SocketServerProtocol {
     private final GiocatoreSocket giocatore;
 
     private final HashMap<Object, RequestHandler> listaEventHandler;
+    private static final Object WRITE_TO_CLIENT_MUTEX = new Object();
     //endregion
 
     /**
@@ -53,7 +54,7 @@ public class SocketServerProtocol {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -83,27 +84,41 @@ public class SocketServerProtocol {
      */
     private void IniziaPartita()
     {
-        try {
-            this.giocatore.IniziaPartita();
-        } catch (Exception e) {
-            //TODO gestione eccezioni
-            e.printStackTrace();
-        }
+        this.giocatore.IniziaPartita();
     }
     //endregion
 
 
     //region Messaggi dal Server al Client
     /**
+     * Comunica l'eccezione al client
+     */
+    public void ComunicaEccezione(String exceptionMessage)
+    {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try{
+                outputStream.writeObject(ProtocolEvents.TIRATA_ECCEZIONE);
+                outputStream.writeObject(exceptionMessage);
+                outputStream.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Comunica ai client l'avvenuto inizio della partita
      */
     public void PartitaIniziata()
     {
-        try {
-            this.outputStream.writeObject(ProtocolEvents.PARTITA_INIZIATA);
-            this.outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.PARTITA_INIZIATA);
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     //endregion

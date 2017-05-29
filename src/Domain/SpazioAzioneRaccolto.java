@@ -1,5 +1,7 @@
 package Domain;
 
+import Exceptions.DomainException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,18 +29,18 @@ public class SpazioAzioneRaccolto extends SpazioAzione {
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws Exception {
+    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
         this.ValidaPiazzamentoFamiliare(familiare);
-        this.FamiliariPiazzati.add(familiare);
         super.PiazzaFamiliare(familiare);
+        this.FamiliariPiazzati.add(familiare);
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
         if(this.FamiliariPiazzati.size() >= this.LimiteFamiliari)
-            throw new Exception("E' stato raggiunto il numero massimo di familiari per questo spazio azione!");
+            throw new DomainException("E' stato raggiunto il numero massimo di familiari per questo spazio azione!");
         if(this.FamiliariPiazzati.stream().anyMatch(x -> x.Giocatore.Colore == familiare.Giocatore.Colore && x.Neutro == familiare.Neutro))
-            throw new Exception("E' già presente un familiare di questo colore in questo spazio azione!");
+            throw new DomainException("E' già presente un familiare di questo colore in questo spazio azione!");
         super.ValidaPiazzamentoFamiliare(familiare);
     }
 }

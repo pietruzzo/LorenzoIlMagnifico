@@ -1,5 +1,7 @@
 package Domain;
 
+import Exceptions.DomainException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class Torre {
     /**
      * Consente di piazzare un familiare nella torre, sullo spazio azione indicato dal valore
      */
-    public void PiazzaFamiliare(Familiare familiare, int valore) throws Exception {
+    public void PiazzaFamiliare(Familiare familiare, int valore) throws DomainException {
         this.ValidaPiazzamentoFamiliare(familiare);
 
         SpazioAzioneTorre spazioAzione = this.GetSpazioAzioneByValore(valore);
@@ -79,11 +81,11 @@ public class Torre {
     /**
      * Verifica se è possibile piazzare il familiare nella torre
      */
-    private void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+    private void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
         if(this.SpaziAzione.stream().anyMatch(x -> x.FamiliarePiazzato != null
                                                 && x.FamiliarePiazzato.Giocatore == familiare.Giocatore
                                                 && x.FamiliarePiazzato.Neutro == familiare.Neutro))
-            throw new Exception("Non è possibile piazzare un altro familiare dello stesso colore nella torre!");
+            throw new DomainException("Non è possibile piazzare un altro familiare dello stesso colore nella torre!");
     }
 
 }
