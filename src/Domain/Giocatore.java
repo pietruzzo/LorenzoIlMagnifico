@@ -49,30 +49,29 @@ public class Giocatore {
         //region Inizializzazione Familiari
         //Inizializzazione Familiari
         this.Familiari = new ArrayList<>();
-        Color coloreFamiliare = null;
-        Boolean neutro = false;
+        ColoreDado coloreFamiliare = null;
 
         for(int i = 0; i <= 3; i++)
         {
             switch (i)
             {
                 case 0:
-                    coloreFamiliare = Color.WHITE;
+                    coloreFamiliare = ColoreDado.BIANCO;
                     break;
 
                 case 1:
-                    coloreFamiliare = Color.ORANGE;
+                    coloreFamiliare = ColoreDado.ARANCIO;
                     break;
 
                 case 2:
-                    coloreFamiliare = Color.BLACK;
+                    coloreFamiliare = ColoreDado.NERO;
                     break;
 
                 case 3:
-                    neutro = true;
+                    coloreFamiliare= ColoreDado.NEUTRO;
                     break;
             }
-            this.Familiari.add(new Familiare(this, coloreFamiliare, neutro));
+            this.Familiari.add(new Familiare(this, coloreFamiliare));
         }
         //endregion
     }

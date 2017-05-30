@@ -53,11 +53,12 @@ public class MainGame {
     /**
      * Effettua il login del giocatore
      */
-    public void Login(String nome) {
+    public String Login(String nome) {
         try {
             client.Login(nome);
+            return "";
         } catch (Exception e) {
-            MostraEccezione(e.getMessage());
+            return e.getMessage();
         }
     }
 

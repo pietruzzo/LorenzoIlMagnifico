@@ -21,8 +21,6 @@ public class CartaEdificio extends Carta {
      */
     public void AssegnaGiocatore(Giocatore giocatore) {
         giocatore.CarteEdificio.add(this);
-
-        //TODO gestione effetti immediati
     }
 
     @Override

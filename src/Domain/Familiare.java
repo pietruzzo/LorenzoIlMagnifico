@@ -9,7 +9,7 @@ public class Familiare {
 
     //region Proprieta
     protected Giocatore Giocatore;
-    protected Color ColoreDado;
+    protected ColoreDado ColoreDado;
     protected Boolean Neutro;
     protected int Valore;
     protected SpazioAzione SpazioAzioneAttuale;
@@ -23,11 +23,16 @@ public class Familiare {
     /**
      * Costruttore
      */
-    public Familiare(Giocatore giocatore, Color coloreDado, Boolean neutro)
+    public Familiare(Giocatore giocatore, ColoreDado coloreDado)
     {
         this.Giocatore = giocatore;
         this.ColoreDado = coloreDado;
-        this.Neutro = neutro;
+
+        if(coloreDado == ColoreDado.NEUTRO)
+            this.Neutro = true;
+        else
+            this.Neutro = false;
+
         this.Valore = 0;
     }
 

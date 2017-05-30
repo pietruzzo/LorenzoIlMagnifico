@@ -109,6 +109,8 @@ public class Tabellone {
     //region Piazzamento familiari
     /**
      * Consente di piazzare un familiare in una torre, nella torre indicata dal tipo
+     * @param tipo individua
+     * @param valore valore della casella SpazioAzioneTorre
      */
     public void PiazzaFamiliareTorre(Familiare familiare, TipoCarta tipo, int valore) throws DomainException {
         Torre torre = this.getTorreByTipo(tipo);

@@ -42,8 +42,6 @@ public class CartaImpresa extends Carta {
     public void AssegnaGiocatore(Giocatore giocatore)
     {
         giocatore.CarteImpresa.add(this);
-
-        //TODO gestione effetti immediati
     }
 
     @Override
