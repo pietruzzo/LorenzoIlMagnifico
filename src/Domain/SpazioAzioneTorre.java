@@ -9,13 +9,16 @@ public class SpazioAzioneTorre extends SpazioAzione {
 
     protected Familiare FamiliarePiazzato;
     protected Carta CartaAssociata;
+    protected Torre Torre;
 
     /**
      * Costruttore
      */
-    public SpazioAzioneTorre(int valore, Risorsa bonusRisorse) {
+    public SpazioAzioneTorre(int valore, Risorsa bonusRisorse, Torre torre) {
         super(valore, bonusRisorse);
+
         this.Tipo = TipoSpazioAzione.Torre;
+        this.Torre = torre;
     }
 
     /**
@@ -29,7 +32,9 @@ public class SpazioAzioneTorre extends SpazioAzione {
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare, Boolean torreOccupata) throws DomainException {
+    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
+        Boolean torreOccupata = this.Torre.TorreOccupata();
+
         this.ValidaPiazzamentoFamiliare(familiare, torreOccupata);
         super.PiazzaFamiliare(familiare);
         this.FamiliarePiazzato = familiare;
@@ -44,6 +49,10 @@ public class SpazioAzioneTorre extends SpazioAzione {
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, Boolean torreOccupata) throws DomainException {
+        //Effettua i controlli legati alla torre di appartenenza
+        this.Torre.ValidaPiazzamentoFamiliare(familiare);
+        super.ValidaPiazzamentoFamiliare(familiare);
+
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
         if(this.CartaAssociata == null)

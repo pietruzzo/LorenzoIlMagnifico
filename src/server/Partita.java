@@ -22,6 +22,8 @@ public class Partita {
     private Tabellone tabellone;
     private ArrayList<GiocatoreRemoto> giocatoriPartita;
     private boolean iniziata;
+    protected int turno;
+    protected int periodo;
     //endregion
 
     /**
@@ -31,6 +33,8 @@ public class Partita {
     {
         this.server = server;
         this.iniziata = false;
+        this.turno = 1;
+        this.periodo = 1;
         this.tabellone = new Tabellone(this);
         this.giocatoriPartita = new ArrayList<>();
     }

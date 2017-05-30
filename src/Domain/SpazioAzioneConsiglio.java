@@ -27,6 +27,7 @@ public class SpazioAzioneConsiglio extends SpazioAzione {
      */
     public void PiazzaFamiliare(Familiare familiare) throws DomainException
     {
+        super.ValidaPiazzamentoFamiliare(familiare);
         super.PiazzaFamiliare(familiare);
         this.FamiliariPiazzati.add(familiare);
     }

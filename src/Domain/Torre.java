@@ -49,20 +49,10 @@ public class Torre {
                     break;
             }
 
-            SpaziAzione.add(new SpazioAzioneTorre(valore, new Risorsa(bonusLegni, bonusPietre,0, bonusMonete,0, bonusMilitare,0)));
+            SpaziAzione.add(new SpazioAzioneTorre(valore, new Risorsa(bonusLegni, bonusPietre,0, bonusMonete,0, bonusMilitare,0), this));
         }
     }
 
-    /**
-     * Consente di piazzare un familiare nella torre, sullo spazio azione indicato dal valore
-     */
-    public void PiazzaFamiliare(Familiare familiare, int valore) throws DomainException {
-        this.ValidaPiazzamentoFamiliare(familiare);
-
-        SpazioAzioneTorre spazioAzione = this.GetSpazioAzioneByValore(valore);
-        Boolean torreOccupata = this.TorreOccupata();
-        spazioAzione.PiazzaFamiliare(familiare, torreOccupata);
-    }
 
     /**
      * Ritorna lo spazioAzione dato il suo valore (univoco nella torre)
@@ -74,14 +64,14 @@ public class Torre {
     /**
      * Ritorna true se la torre risulta occupata da un qualsiasi altro familiare
      */
-    private Boolean TorreOccupata() {
+    protected Boolean TorreOccupata() {
         return this.SpaziAzione.stream().anyMatch(x -> x.FamiliarePiazzato != null);
     }
 
     /**
      * Verifica se è possibile piazzare il familiare nella torre
      */
-    private void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
         if(this.SpaziAzione.stream().anyMatch(x -> x.FamiliarePiazzato != null
                                                 && x.FamiliarePiazzato.Giocatore == familiare.Giocatore
                                                 && x.FamiliarePiazzato.Neutro == familiare.Neutro))

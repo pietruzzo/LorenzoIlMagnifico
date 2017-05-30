@@ -29,8 +29,9 @@ public class SpazioAzioneMercato extends SpazioAzione {
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
     protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
+        super.ValidaPiazzamentoFamiliare(familiare);
+
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
-        super.ValidaPiazzamentoFamiliare(familiare);
     }
 }

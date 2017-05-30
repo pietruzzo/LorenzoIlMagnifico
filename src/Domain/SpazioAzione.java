@@ -11,6 +11,7 @@ import java.util.List;
 public class SpazioAzione {
 
     //region Proprieta
+    private int idSpazioAzione;
     protected int Valore;
     protected TipoSpazioAzione Tipo;
     protected Risorsa BonusRisorse;
@@ -24,8 +25,19 @@ public class SpazioAzione {
      */
     protected SpazioAzione(int valore, Risorsa bonusRisorse)
     {
+        Tabellone.maxIdSpazioAzione = Tabellone.maxIdSpazioAzione+1;
+
+        this.idSpazioAzione = Tabellone.maxIdSpazioAzione;
         this.Valore = valore;
         this.BonusRisorse = bonusRisorse;
+
+    }
+
+    /**
+     * Ritorna l'id dello spazio azione
+     */
+    public int getIdSpazioAzione() {
+        return idSpazioAzione;
     }
 
     /**
@@ -38,18 +50,13 @@ public class SpazioAzione {
     /**
      * Metodo base per aggiornare i parametri del giocatore in funzione dei bonus dello spazio azione
      */
-    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
+    protected void PiazzaFamiliare(Familiare familiare) throws DomainException {
         Risorsa costoComplessivoEffetti;
-
-        ValidaPiazzamentoFamiliare(familiare);
-
         costoComplessivoEffetti = familiare.Giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), familiare.Valore, this);
 
         familiare.Giocatore.PagaRisorse(costoComplessivoEffetti);
         familiare.SetSpazioAzioneAttuale(this);
         familiare.OttieniBonusSpazioAzione();
-
-
     }
 
     /**
