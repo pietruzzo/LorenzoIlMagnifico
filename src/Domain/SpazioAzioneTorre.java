@@ -22,6 +22,13 @@ public class SpazioAzioneTorre extends SpazioAzione {
     }
 
     /**
+     * Ritorna la carta associata allo spazioAzione
+     */
+    public Carta getCartaAssociata() {
+        return CartaAssociata;
+    }
+
+    /**
      * Associa una carta allo spazio azione
      */
     public void AssociaCarta(Carta cartaDaAssociare)
@@ -46,6 +53,7 @@ public class SpazioAzioneTorre extends SpazioAzione {
         this.CartaAssociata = null;
 
     }
+
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, Boolean torreOccupata) throws DomainException {
@@ -82,10 +90,6 @@ public class SpazioAzioneTorre extends SpazioAzione {
             this.ValidaCartaTerritorio(familiare.Giocatore, costoEffetti.getPuntiMilitari());
     }
 
-    public Carta getCartaAssociata() {
-        return CartaAssociata;
-    }
-
     /**
      * Valuta se il giocatore ha abbastanza punti militari per poter piazzare la carta nella plancia
      */
@@ -112,5 +116,13 @@ public class SpazioAzioneTorre extends SpazioAzione {
 
         if((giocatore.Risorse.getPuntiMilitari() + this.BonusRisorse.getPuntiMilitari() - costoPuntiMilitariEffetti) < minimoPuntiMilitari)
             throw new DomainException(String.format("Per poter prendere questa carta sono necessari almeno {0} punti militari", minimoPuntiMilitari));
+    }
+
+    /**
+     * Toglie tutti i familiari dallo spazio azione
+     */
+    @Override
+    protected void RimuoviFamiliari() {
+        this.FamiliarePiazzato = null;
     }
 }

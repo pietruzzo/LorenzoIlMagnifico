@@ -1,10 +1,12 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 import server.Partita;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ public class Tabellone {
     protected List<SpazioAzioneRaccolto> SpaziAzioneRaccolto;
     protected List<SpazioAzioneMercato> SpaziAzioneMercato;
     protected SpazioAzioneConsiglio SpazioAzioneConsiglio;
+    protected List<Carta> mazzoCarte;
 
     protected List<SpazioAzione> SpaziAzione;
     protected static int maxIdSpazioAzione = 0;
@@ -37,6 +40,7 @@ public class Tabellone {
         this.SpaziAzioneRaccolto = new ArrayList<>();
         this.SpaziAzioneMercato = new ArrayList<>();
         this.SpaziAzione = new ArrayList<>();
+        this.mazzoCarte = new ArrayList<>();
 
         //Inizializza le 4 torri
         for (TipoCarta tipo : TipoCarta.values()) {
@@ -69,6 +73,43 @@ public class Tabellone {
         this.SpaziAzione.addAll(this.SpaziAzioneRaccolto);
         this.SpaziAzione.addAll(this.SpaziAzioneMercato);
         this.SpaziAzione.add(this.SpazioAzioneConsiglio);
+
+        //region Creazioe carte
+        String nome;
+        Effetto effetto = new Effetto();
+        Risorsa risorsa = new Risorsa();
+
+        for (int period = 0; period < 3; period++)
+        {
+            for(int tipo = 0; tipo < 4; tipo++)
+            {
+                for (int num = 0; num < 8; num++)
+                {
+                    nome = String.format("%d_%d_%d", period, tipo, num);
+
+                    //Ci sono 8 carte di ogni tipo per ogni periodo
+                    switch (tipo)
+                    {
+                        case 0:
+                            this.mazzoCarte.add(new CartaTerritorio(nome, period, risorsa, effetto, effetto));
+                            break;
+
+                        case 1:
+                            this.mazzoCarte.add(new CartaEdificio(nome, period, risorsa, effetto, effetto));
+                            break;
+
+                        case 2:
+                            this.mazzoCarte.add(new CartaPersonaggio(nome, period, risorsa, effetto, effetto));
+                            break;
+
+                        case 3:
+                            this.mazzoCarte.add(new CartaImpresa(nome, period, risorsa, effetto, effetto));
+                            break;
+                    }
+                }
+            }
+        }
+        //endregion
     }
 
     /**
@@ -156,4 +197,26 @@ public class Tabellone {
     }
 
     //endregion
+
+    /**
+     * Pulisce il tabellone e carica le carte negli spazi azione torre
+     * @return
+     */
+    public HashMap<Integer, String> IniziaTurno()
+    {
+        //Toglie i familiari dagli spazi azione
+        this.SpaziAzione.forEach(s -> s.RimuoviFamiliari());
+        this.Giocatori.forEach(g -> g.Familiari.forEach(f -> f.SpazioAzioneAttuale = null));
+
+        //Associa le carte agli spazi azione
+        this.Torri.forEach(t -> t.PescaCarte(this.Partita.getPeriodo(), this.mazzoCarte));
+
+        //Rimuove dal mazzo tutte le carte pescate
+        //e ritorna la lista con l'associazione spazioAzione-Carta
+        HashMap<Integer, String> mappaCarte = new HashMap<>();
+        this.Torri.forEach(t -> t.SpaziAzione.forEach(s -> this.mazzoCarte.remove(s.getCartaAssociata())));
+        this.Torri.forEach(t -> t.SpaziAzione.forEach(s -> mappaCarte.put(s.getIdSpazioAzione(), s.getCartaAssociata().Nome)));
+
+        return mappaCarte;
+    }
 }

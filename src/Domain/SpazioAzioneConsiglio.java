@@ -31,4 +31,13 @@ public class SpazioAzioneConsiglio extends SpazioAzione {
         super.PiazzaFamiliare(familiare);
         this.FamiliariPiazzati.add(familiare);
     }
+
+
+    /**
+     * Toglie tutti i familiari dallo spazio azione
+     */
+    @Override
+    protected void RimuoviFamiliari() {
+        this.FamiliariPiazzati = new ArrayList<>();
+    }
 }

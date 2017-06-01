@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -93,4 +94,11 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         this.protocol.PartitaIniziata();
     }
 
+    /**
+     *  Comunica al client l'inzio di un nuovo turno
+     */
+    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte)
+    {
+        this.protocol.IniziaTurno(esitoDadi, mappaCarte);
+    }
 }

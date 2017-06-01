@@ -1,11 +1,20 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
 /**
  * Created by Portatile on 12/05/2017.
  */
 public class CartaTerritorio extends Carta {
+
+    /**
+     * Costruttore
+     */
+    public CartaTerritorio (String nome, int periodo, Risorsa costoRisorse, Effetto effettoImmediato, Effetto effettoPermanente)
+    {
+        super(nome, periodo, costoRisorse, effettoImmediato, effettoPermanente);
+    }
 
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
@@ -15,7 +24,6 @@ public class CartaTerritorio extends Carta {
         if(giocatore.CarteTerritorio.size() >= 6)
             throw new DomainException("E' stato raggiunto il limite di carte Territorio.");
     }
-
 
     /**
      * Associa la carta al giocatore

@@ -47,4 +47,12 @@ public class SpazioAzioneRaccolto extends SpazioAzione {
         if(this.FamiliariPiazzati.stream().anyMatch(x -> x.Giocatore.Colore == familiare.Giocatore.Colore && x.Neutro == familiare.Neutro))
             throw new DomainException("E' già presente un familiare di questo colore in questo spazio azione!");
     }
+
+    /**
+     * Toglie tutti i familiari dallo spazio azione
+     */
+    @Override
+    protected void RimuoviFamiliari() {
+        this.FamiliariPiazzati = new ArrayList<>();
+    }
 }

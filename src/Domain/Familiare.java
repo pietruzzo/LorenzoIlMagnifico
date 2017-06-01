@@ -11,13 +11,15 @@ public class Familiare {
     protected Giocatore Giocatore;
     protected ColoreDado ColoreDado;
     protected Boolean Neutro;
-    protected int Valore;
+    private int Valore;
     protected SpazioAzione SpazioAzioneAttuale;
 
     public void SetSpazioAzioneAttuale(SpazioAzione spazioAzione)
     {
         this.SpazioAzioneAttuale = spazioAzione;
     }
+    public int getValore() { return Valore; }
+    public void setValore(int valore) { Valore = valore;  }
     //endregion
 
     /**

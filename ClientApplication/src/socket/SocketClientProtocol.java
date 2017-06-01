@@ -42,6 +42,7 @@ public class SocketClientProtocol {
     {
         this.listaEventHandler.put(ProtocolEvents.TIRATA_ECCEZIONE, this::HandleException);
         this.listaEventHandler.put(ProtocolEvents.PARTITA_INIZIATA, this::PartitaIniziata);
+        this.listaEventHandler.put(ProtocolEvents.INIZIO_TURNO, this::IniziaTurno);
     }
 
     //region Handler Eventi del server
@@ -67,8 +68,24 @@ public class SocketClientProtocol {
      */
     private void PartitaIniziata()
     {
-        System.out.println("Il server socket mi ha detto che la partita è iniziata");
         mainGame.PartitaIniziata();
+    }
+
+    /**
+     * Gestisce l'evento di inizio turno
+     */
+    private void IniziaTurno()
+    {
+        try {
+            int[] esitoDadi = (int[]) this.inputStream.readObject();
+            HashMap<Integer, String> mappaCarte = (HashMap<Integer, String>) this.inputStream.readObject();
+
+            mainGame.IniziaTurno(esitoDadi, mappaCarte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     //endregion

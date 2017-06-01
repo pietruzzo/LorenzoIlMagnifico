@@ -4,6 +4,8 @@ import Domain.Giocatore;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
 
+import java.util.HashMap;
+
 /**
  * Created by Portatile on 18/05/2017.
  */
@@ -25,5 +27,13 @@ public abstract class GiocatoreRemoto extends Giocatore{
         return partita;
     }
 
+    /**
+     * Comunica ai giocatori l'inzio della partita
+     */
     public void PartitaIniziata() throws NetworkException {}
+
+    /**
+     * Comunica ai giocatori l'inizio di un nuovo turno di gioco
+     */
+    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException {}
 }

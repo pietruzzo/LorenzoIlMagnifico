@@ -121,6 +121,26 @@ public class SocketServerProtocol {
             }
         }
     }
+
+
+    /**
+     * Comunica ai client l'inizio di un nuovo turno
+     */
+    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte)
+    {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.INIZIO_TURNO);
+                this.outputStream.writeObject(esitoDadi);
+                this.outputStream.writeObject(mappaCarte);
+
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     //endregion
 
 

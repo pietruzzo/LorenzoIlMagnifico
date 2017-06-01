@@ -34,4 +34,12 @@ public class SpazioAzioneMercato extends SpazioAzione {
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
     }
+
+    /**
+     * Toglie tutti i familiari dallo spazio azione
+     */
+    @Override
+    protected void RimuoviFamiliari() {
+        this.FamiliarePiazzato = null;
+    }
 }

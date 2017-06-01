@@ -16,7 +16,7 @@ public abstract class Carta {
     protected Effetto EffettoPermanente;
     //endregion
 
-    public Carta() { CostoRisorse=new Risorsa();}
+    protected Carta() { CostoRisorse=new Risorsa();}
 
     /**
      * Costruttore

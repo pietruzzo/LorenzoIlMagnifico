@@ -5,6 +5,7 @@ import graphic.Ui;
 import network.AbstractClient;
 import rmi.RMIClient;
 import socket.SocketClient;
+import java.util.HashMap;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -58,14 +59,6 @@ public class MainGame {
     }
 
     /**
-     * Effettua il login del giocatore
-     */
-    public void Login(String nome) throws Exception {
-        client.Login(nome);
-
-    }
-
-    /**
      * Avvia l'interfaccia utente appropriata e chiudi GUI se non necessaria
      *
      * @param applicazione
@@ -81,34 +74,53 @@ public class MainGame {
     }
 
 
+    //region Metodi di comunicazione verso il server
+    /**
+     * Effettua il login del giocatore
+     */
+    public void Login(String nome) throws Exception {
+        client.Login(nome);
+
+    }
+
     /**
      * Comincia la partita, sarà il turno del primo giocatore loggato
      */
     public void IniziaPartita() {
         client.IniziaPartita();
     }
+    //endregion
+
+
+    //region Metodi per gli eventi ricevuti dal server
 
     /**
      * Metodo chiamato quando viene confermato l'inizio di una nuova partita
      */
     public void PartitaIniziata() {
-        //TODO: disabilita il bottone per iniziare la partita
+        System.out.println("Il server mi ha detto che la partita è iniziata");
+        //ui.inizializzaPartita();
     }
 
     /**
+     * Metodo chiamato quando inizia un nuovo turno
+     */
+    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
+        System.out.println("Turno iniziato");
+        //ui.iniziaTurno(esitoDadi, mappaCarte);
+    }
+    //endregion
+
+
+    /**
      * Mostra l'errore all'utente
-     *
      * @param message messaggio d'errore
      */
     public void MostraEccezione(String message) {
-        //TODO: chiamare l'interfaccia per mostrare il messaggio di errore (piccola form con l'icona di errore e il bottone OK?)
+        //ui.stampaMessaggio(message);
     }
 
-    public enum TipoConnessione {RMI, Socket}
+    public enum TipoConnessione {RMI, Socket};
 
-    ;
-
-    public enum TipoInterfaccia {CLI, GUI}
-
-    ;
+    public enum TipoInterfaccia {CLI, GUI};
 }

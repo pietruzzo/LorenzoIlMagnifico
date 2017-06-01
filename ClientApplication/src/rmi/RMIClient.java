@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -83,9 +84,20 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      */
     @Override
     public void PartitaIniziata() {
-        System.out.println("Il server rmi mi ha detto che la partita è iniziata");
         this.getMainGame().PartitaIniziata();
     }
+
+    /**
+     * Gestisce l'evento di inizio turno
+     * @param esitoDadi valore dei dadi da mantenere per tutto il turno
+     * @param mappaCarte posizione delle carte sulle torri
+     * @throws RemoteException
+     */
+    @Override
+    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
+        this.getMainGame().IniziaTurno(esitoDadi, mappaCarte);
+    }
+
     //endregion
 
     /**

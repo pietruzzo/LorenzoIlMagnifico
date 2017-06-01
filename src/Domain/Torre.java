@@ -2,8 +2,10 @@ package Domain;
 
 import Exceptions.DomainException;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Portatile on 13/05/2017.
@@ -78,4 +80,51 @@ public class Torre {
             throw new DomainException("Non è possibile piazzare un altro familiare dello stesso colore nella torre!");
     }
 
+    /**
+     * Associa le carte agli spazi azione
+     */
+    protected void PescaCarte(int periodo, List<Carta> carteDisponibili)
+    {
+        List<Carta> carteDaPescare = new ArrayList<>();
+        int numeroSpaziAzione = this.SpaziAzione.size(); //sempre 4
+
+        //region Scelta carte da pescare
+        switch (this.Tipo)
+        {
+            case Territorio:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaTerritorio)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            case Personaggio:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaPersonaggio)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            case Impresa:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaImpresa)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            case Edificio:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaEdificio)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            default:
+                carteDaPescare = new ArrayList<>();
+                break;
+        }
+        //endregion
+
+        //Associa una carta ad ogni spazio azione
+        for (int i = 0; i < carteDaPescare.size(); i++)
+        {
+            this.SpaziAzione.get(i).AssociaCarta(carteDaPescare.get(i));
+        }
+    }
 }

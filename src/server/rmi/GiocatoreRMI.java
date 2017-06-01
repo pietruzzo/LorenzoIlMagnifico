@@ -5,6 +5,7 @@ import rmi.IRMIClient;
 import server.GiocatoreRemoto;
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 /**
  * Created by Portatile on 19/05/2017.
@@ -28,6 +29,15 @@ public class GiocatoreRMI extends GiocatoreRemoto {
     public void PartitaIniziata() throws NetworkException {
         try {
             this.clientRMI.PartitaIniziata();
+        } catch (RemoteException e) {
+            throw new NetworkException(e);
+        }
+    }
+
+    @Override
+    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException {
+        try {
+            this.clientRMI.IniziaTurno(esitoDadi, mappaCarte);
         } catch (RemoteException e) {
             throw new NetworkException(e);
         }

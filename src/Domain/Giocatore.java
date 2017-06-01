@@ -24,6 +24,7 @@ public class Giocatore {
     protected GestoreEffettiGiocatore gestoreEffettiGiocatore;
 
     protected Risorsa Risorse;
+    protected int ordineTurno;
     //endregion
 
     //region Getters
@@ -82,6 +83,7 @@ public class Giocatore {
     public void SettaProprietaIniziali(short idGiocatore, String nome, Color colore, int monete)
     {
         this.IdGiocatore = idGiocatore;
+        this.ordineTurno = idGiocatore;
         this.Nome = nome;
         this.Colore = colore;
 
@@ -102,6 +104,34 @@ public class Giocatore {
     public void PagaRisorse(Risorsa costoRisorse)
     {
         this.Risorse = Risorsa.sub(this.Risorse, costoRisorse);
+    }
+
+    /**
+     * Aggiorna il valore delle azioni dei singoli familiari
+     * @param esitoDadi valore dei dadi tirati all'inizio del turno
+     */
+    public void SettaValoreFamiliare(int[] esitoDadi)
+    {
+        for (Familiare fam : this.Familiari) {
+            switch(fam.ColoreDado)
+            {
+                case NERO:
+                    fam.setValore(esitoDadi[0]);
+                    break;
+
+                case BIANCO:
+                    fam.setValore(esitoDadi[1]);
+                    break;
+
+                case ARANCIO:
+                    fam.setValore(esitoDadi[2]);
+                    break;
+
+                case NEUTRO: //Il familiare neutro non ha valore
+                    fam.setValore(0);
+                    break;
+            }
+        }
     }
 
     public List<Carta> getListaCarte(){

@@ -52,7 +52,7 @@ public class SpazioAzione {
      */
     protected void PiazzaFamiliare(Familiare familiare) throws DomainException {
         Risorsa costoComplessivoEffetti;
-        costoComplessivoEffetti = familiare.Giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), familiare.Valore, this);
+        costoComplessivoEffetti = familiare.Giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), familiare.getValore(), this);
 
         familiare.Giocatore.PagaRisorse(costoComplessivoEffetti);
         familiare.SetSpazioAzioneAttuale(this);
@@ -71,7 +71,7 @@ public class SpazioAzione {
      */
     protected Risorsa ValidaValoreAzione(Familiare familiare)throws DomainException {
         Risorsa costoEffetti = new Risorsa();
-        Integer valoreAzioneFinale=familiare.Valore;
+        Integer valoreAzioneFinale = familiare.getValore();
 
         //Modifica costoEffetti e valoreAzioneFinale
         familiare.Giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
@@ -81,4 +81,9 @@ public class SpazioAzione {
 
         return costoEffetti;
     }
+
+    /**
+     * Toglie tutti i familiari dallo spazio azione
+     */
+    protected void RimuoviFamiliari(){};
 }

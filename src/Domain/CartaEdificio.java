@@ -1,11 +1,20 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
 /**
  * Created by Portatile on 12/05/2017.
  */
 public class CartaEdificio extends Carta {
+
+    /**
+     * Costruttore
+     */
+    public CartaEdificio (String nome, int periodo, Risorsa costoRisorse, Effetto effettoImmediato, Effetto effettoPermanente)
+    {
+        super(nome, periodo, costoRisorse, effettoImmediato, effettoPermanente);
+    }
 
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
