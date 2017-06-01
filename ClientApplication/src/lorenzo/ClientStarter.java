@@ -1,6 +1,6 @@
 package lorenzo;
 
-import graphic.Gui.ApplicationGUI;
+import javafx.application.Platform;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -14,11 +14,6 @@ public class ClientStarter {
      */
     public static void main(String[] args)
     {
-        MainGame mainGame = new MainGame();
-        mainGame.Start();
-
-        /*Debug Only*/
-        ApplicationGUI ag = new ApplicationGUI();
-        ag.startGUI(args);
+        javafx.application.Application.launch(Applicazione.class);
     }
 }

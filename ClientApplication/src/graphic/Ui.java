@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by casa on 26/05/17.
  */
-public abstract class Ui {
+public interface Ui {
 
     /**
      * Disabilita casella indicata da

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
    <center>
       <AnchorPane prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="usernameInput" layoutX="300.0" layoutY="122.0" />
-            <Button layoutX="426.0" layoutY="281.0" mnemonicParsing="false" text="Play" />
+            <Button layoutX="426.0" layoutY="281.0" mnemonicParsing="false" onAction="#tryLogin" text="Play" />
             <Label layoutX="147.0" layoutY="127.0" text="Username" />
             <Label layoutX="147.0" layoutY="193.0" text="Comunicazione" />
             <Label layoutX="147.0" layoutY="238.0" text="Interfaccia" />
