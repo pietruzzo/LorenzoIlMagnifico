@@ -3,13 +3,14 @@ package Domain;
 import Domain.Effetti.GestoreEffettiGiocatore;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
 /**
  * Created by Portatile on 12/05/2017.
  */
-public class Giocatore {
+public class Giocatore implements Serializable {
 
     //region Proprietà
     private short IdGiocatore;
@@ -21,7 +22,7 @@ public class Giocatore {
     protected List<CartaImpresa> CarteImpresa;
     protected List<Familiare> Familiari;
     protected List<Carta> CarteScomunica; //TODO: Carte Scomunica?
-    protected GestoreEffettiGiocatore gestoreEffettiGiocatore;
+    protected transient GestoreEffettiGiocatore gestoreEffettiGiocatore;
 
     protected Risorsa Risorse;
     protected int ordineTurno;

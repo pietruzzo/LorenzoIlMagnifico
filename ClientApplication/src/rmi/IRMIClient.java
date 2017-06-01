@@ -1,5 +1,7 @@
 package rmi;
 
+import Domain.Tabellone;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -9,6 +11,6 @@ import java.util.HashMap;
  */
 public interface IRMIClient extends Remote {
 
-    void PartitaIniziata() throws RemoteException;
+    void PartitaIniziata(Tabellone tabellone) throws RemoteException;
     void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws RemoteException;
 }

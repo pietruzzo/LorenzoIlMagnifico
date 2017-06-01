@@ -1,5 +1,6 @@
 package server.socket;
 
+import Domain.Tabellone;
 import Exceptions.DomainException;
 import server.GiocatoreRemoto;
 import server.Server;
@@ -17,11 +18,11 @@ import java.util.HashMap;
 public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
 
     //region Proprieta
-    private final Socket socket;
-    private final Server server;
-    private final ObjectInputStream inputStream;
-    private final ObjectOutputStream outputStream;
-    private final SocketServerProtocol protocol;
+    private final transient Socket socket;
+    private final transient Server server;
+    private final transient ObjectInputStream inputStream;
+    private final transient ObjectOutputStream outputStream;
+    private final transient SocketServerProtocol protocol;
     //endregion
 
     /**
@@ -89,9 +90,9 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      * Comunica al client l'inzio della partita
      */
-    public void PartitaIniziata()
+    public void PartitaIniziata(Tabellone tabellone)
     {
-        this.protocol.PartitaIniziata();
+        this.protocol.PartitaIniziata(tabellone);
     }
 
     /**

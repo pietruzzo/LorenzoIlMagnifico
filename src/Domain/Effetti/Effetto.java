@@ -2,10 +2,12 @@ package Domain.Effetti;
 
 import Domain.Risorsa;
 
+import java.io.Serializable;
+
 /**
  * Created by pietro on 18/05/17.
  */
-public class Effetto {
+public class Effetto  implements Serializable {
     private boolean immediato;
 
     /**

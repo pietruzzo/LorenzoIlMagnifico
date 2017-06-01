@@ -1,5 +1,6 @@
 package socket;
 
+import Domain.Tabellone;
 import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
@@ -68,7 +69,14 @@ public class SocketClientProtocol {
      */
     private void PartitaIniziata()
     {
-        mainGame.PartitaIniziata();
+        try {
+            Tabellone tabellone = (Tabellone)this.inputStream.readObject();
+            mainGame.PartitaIniziata(tabellone);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

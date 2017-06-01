@@ -1,5 +1,6 @@
 package lorenzo;
 
+import Domain.Tabellone;
 import graphic.Cli.ControllerCli;
 import graphic.Ui;
 import network.AbstractClient;
@@ -97,8 +98,8 @@ public class MainGame {
     /**
      * Metodo chiamato quando viene confermato l'inizio di una nuova partita
      */
-    public void PartitaIniziata() {
-        System.out.println("Il server mi ha detto che la partita è iniziata");
+    public void PartitaIniziata(Tabellone tabellone) {
+        System.out.println(String.format("Partita è iniziata con %d giocatori", tabellone.getGiocatori().size()));
         //ui.inizializzaPartita();
     }
 

@@ -2,13 +2,14 @@ package Domain;
 
 import Exceptions.DomainException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Portatile on 13/05/2017.
  */
-public class SpazioAzioneConsiglio extends SpazioAzione {
+public class SpazioAzioneConsiglio extends SpazioAzione  implements Serializable {
 
     protected List<Familiare> FamiliariPiazzati;
 

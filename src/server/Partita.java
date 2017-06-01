@@ -6,6 +6,7 @@ import Exceptions.DomainException;
 import Exceptions.NetworkException;
 import sun.nio.ch.Net;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Portatile on 23/05/2017.
  */
-public class Partita {
+public class Partita  implements Serializable {
 
     //region Proprieta
     private static final short MIN_GIOCATORI = 2;
@@ -93,7 +94,7 @@ public class Partita {
 
                     //Comunica l'inizio della partita agli altri giocatori
                     for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
-                        try{ giocatore.PartitaIniziata(); }
+                        try{ giocatore.PartitaIniziata(this.tabellone); }
                         catch (NetworkException e) {
                             System.out.println("Giocatore non più connesso");
                         }

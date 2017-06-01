@@ -1,5 +1,6 @@
 package server.rmi;
 
+import Domain.Tabellone;
 import Exceptions.NetworkException;
 import rmi.IRMIClient;
 import server.GiocatoreRemoto;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 public class GiocatoreRMI extends GiocatoreRemoto {
 
     //Riferimento per chiamare i metodi del client rmi
-    private IRMIClient clientRMI;
+    private transient IRMIClient clientRMI;
 
     /**
      * Costruttore
@@ -26,9 +27,9 @@ public class GiocatoreRMI extends GiocatoreRemoto {
     /**
      * Comunica al client l'inizio della partita
      */
-    public void PartitaIniziata() throws NetworkException {
+    public void PartitaIniziata(Tabellone tabellone) throws NetworkException {
         try {
-            this.clientRMI.PartitaIniziata();
+            this.clientRMI.PartitaIniziata(tabellone);
         } catch (RemoteException e) {
             throw new NetworkException(e);
         }

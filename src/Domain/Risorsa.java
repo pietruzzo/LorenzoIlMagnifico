@@ -2,11 +2,13 @@ package Domain;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * Created by pietro on 15/05/17.
  * Lo sconto risorse deve essere scalato dal costo della carta (non complessivo)
  */
-public class Risorsa {
+public class Risorsa  implements Serializable {
 
     private final static short NUMRISORSE = 7;
     private short[] risorse = new short[NUMRISORSE];

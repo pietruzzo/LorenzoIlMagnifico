@@ -3,10 +3,12 @@ package Domain;
 import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
+import java.io.Serializable;
+
 /**
  * Created by Portatile on 12/05/2017.
  */
-public class CartaEdificio extends Carta {
+public class CartaEdificio extends Carta  implements Serializable {
 
     /**
      * Costruttore

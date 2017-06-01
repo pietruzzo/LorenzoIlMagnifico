@@ -6,6 +6,7 @@ import Exceptions.SaltaTurnoException;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * contemporaneamente a più partite e che ci sia un mazzo di carte per ogni partita. Per giocare più partite con lo
  * stezzo mazzo è necessario gestire l'eventuale concorrenza tra trigger (es validaAzione e esegui effetto synchronized)
  */
-public class GestoreEffettiGiocatore {
+public class GestoreEffettiGiocatore  {
 
     private Giocatore giocatoreCorrente;
 

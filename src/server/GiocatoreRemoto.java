@@ -1,6 +1,7 @@
 package server;
 
 import Domain.Giocatore;
+import Domain.Tabellone;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
 
@@ -14,11 +15,11 @@ public abstract class GiocatoreRemoto extends Giocatore{
     /**
      * Indica la partita alla quale il giocatore sta partecipando
      */
-    private Partita partita;
+    private transient Partita partita;
 
     protected GiocatoreRemoto(){}
 
-    protected void setPartita(Partita partita) { this.partita = partita; };
+    protected void setPartita(Partita partita) { this.partita = partita; }
 
     /**
      * Ritorna la partita del giocatore
@@ -30,7 +31,7 @@ public abstract class GiocatoreRemoto extends Giocatore{
     /**
      * Comunica ai giocatori l'inzio della partita
      */
-    public void PartitaIniziata() throws NetworkException {}
+    public void PartitaIniziata(Tabellone tabellone) throws NetworkException {}
 
     /**
      * Comunica ai giocatori l'inizio di un nuovo turno di gioco

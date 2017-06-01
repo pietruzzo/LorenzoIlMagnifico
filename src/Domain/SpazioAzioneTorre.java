@@ -2,10 +2,13 @@ package Domain;
 
 import Exceptions.DomainException;
 
+import java.io.Serializable;
+
 /**
  * Created by Portatile on 13/05/2017.
  */
-public class SpazioAzioneTorre extends SpazioAzione {
+public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
+{
 
     protected Familiare FamiliarePiazzato;
     protected Carta CartaAssociata;

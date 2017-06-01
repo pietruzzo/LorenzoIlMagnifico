@@ -1,5 +1,6 @@
 package rmi;
 
+import Domain.Tabellone;
 import Exceptions.DomainException;
 import lorenzo.MainGame;
 import network.AbstractClient;
@@ -83,8 +84,8 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      * Gestisce gli eventi relativi all'inizio di una partita
      */
     @Override
-    public void PartitaIniziata() {
-        this.getMainGame().PartitaIniziata();
+    public void PartitaIniziata(Tabellone tabellone) {
+        this.getMainGame().PartitaIniziata(tabellone);
     }
 
     /**

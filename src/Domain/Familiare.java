@@ -1,11 +1,12 @@
 package Domain;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by Portatile on 12/05/2017.
  */
-public class Familiare {
+public class Familiare  implements Serializable {
 
     //region Proprieta
     protected Giocatore Giocatore;

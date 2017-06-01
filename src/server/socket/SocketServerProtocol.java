@@ -1,5 +1,8 @@
 package server.socket;
 
+import Domain.Tabellone;
+import javafx.scene.control.Tab;
+
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -110,11 +113,12 @@ public class SocketServerProtocol {
     /**
      * Comunica ai client l'avvenuto inizio della partita
      */
-    public void PartitaIniziata()
+    public void PartitaIniziata(Tabellone tabellone)
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.PARTITA_INIZIATA);
+                this.outputStream.writeObject(tabellone);
                 this.outputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();

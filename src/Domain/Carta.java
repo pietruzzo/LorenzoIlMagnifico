@@ -3,10 +3,12 @@ package Domain;
 import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
+import java.io.Serializable;
+
 /**
  * Created by Portatile on 12/05/2017.
  */
-public abstract class Carta {
+public abstract class Carta implements Serializable{
 
     //region Proprieta
     protected String Nome;

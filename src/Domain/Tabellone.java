@@ -5,6 +5,7 @@ import Exceptions.DomainException;
 import server.Partita;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +13,10 @@ import java.util.List;
 /**
  * Created by Portatile on 12/05/2017.
  */
-public class Tabellone {
+public class Tabellone implements Serializable {
 
     //region Proprieta
-    protected Partita Partita;
+    protected transient Partita Partita;
     protected List<Giocatore> Giocatori;
     protected List<Torre> Torri;
     protected List<SpazioAzioneProduzione> SpaziAzioneProduzione;
@@ -130,6 +131,28 @@ public class Tabellone {
     }
 
     //region Getters
+
+    /**
+     * Ritorna i giocatori
+     */
+    public List<Giocatore> getGiocatori() {
+        return Giocatori;
+    }
+
+    /**
+     * Ritorna gli spazi azione
+     */
+    public List<SpazioAzione> getSpaziAzione() {
+        return SpaziAzione;
+    }
+
+    /**
+     * Ritorna le carte da gioco disponibili
+     */
+    public List<Carta> getMazzoCarte() {
+        return mazzoCarte;
+    }
+
     /**
      * Ritorna il giocatore dato il suo id
      * @param idGiocatore
