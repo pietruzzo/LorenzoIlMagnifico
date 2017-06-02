@@ -61,7 +61,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
 
 
     /**
-     * Ottiene il giocatore dato l'id
+     * Ottiene il GiocatoreGraphic dato l'id
      */
     private GiocatoreRemoto GetGiocatoreById(short idGiocatore)
     {
@@ -69,7 +69,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     }
 
     /**
-     * Effettua il login del giocatore
+     * Effettua il login del GiocatoreGraphic
      * Salva anche il riferimento per chiamare i metodi lato client attraverso rmi
      */
     public short Login(String nome, IRMIClient rmiClient) throws DomainException {

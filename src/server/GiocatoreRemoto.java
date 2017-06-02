@@ -13,7 +13,7 @@ import java.util.HashMap;
 public abstract class GiocatoreRemoto extends Giocatore{
 
     /**
-     * Indica la partita alla quale il giocatore sta partecipando
+     * Indica la partita alla quale il GiocatoreGraphic sta partecipando
      */
     private transient Partita partita;
 
@@ -22,7 +22,7 @@ public abstract class GiocatoreRemoto extends Giocatore{
     protected void setPartita(Partita partita) { this.partita = partita; }
 
     /**
-     * Ritorna la partita del giocatore
+     * Ritorna la partita del GiocatoreGraphic
      */
     public Partita getPartita() {
         return partita;

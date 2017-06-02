@@ -58,7 +58,7 @@ public class SocketServerProtocol {
     }
 
     /**
-     * Effettua il login del giocatore e comunica l'esito dell'operazione al client
+     * Effettua il login del GiocatoreGraphic e comunica l'esito dell'operazione al client
      */
     private void LoginGiocatore(String nome) throws IOException {
         int codiceRisposta;

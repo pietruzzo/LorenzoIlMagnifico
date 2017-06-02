@@ -57,7 +57,7 @@ public class SocketClient extends AbstractClient {
     }
 
     /**
-     * Effettua il login del giocatore
+     * Effettua il login del GiocatoreGraphic
      */
     public void Login(String nome) throws Exception {
         this.socketClientProtocol.Login(nome);

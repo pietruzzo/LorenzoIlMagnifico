@@ -49,7 +49,7 @@ public class SpazioAzione  implements Serializable {
     }
 
     /**
-     * Metodo base per aggiornare i parametri del giocatore in funzione dei bonus dello spazio azione
+     * Metodo base per aggiornare i parametri del GiocatoreGraphic in funzione dei bonus dello spazio azione
      */
     protected void PiazzaFamiliare(Familiare familiare) throws DomainException {
         Risorsa costoComplessivoEffetti;
@@ -68,7 +68,7 @@ public class SpazioAzione  implements Serializable {
     }
 
     /**
-     * Effettua la validazione ritornando le risorse calcolate in base agli effetti delle carte del giocatore
+     * Effettua la validazione ritornando le risorse calcolate in base agli effetti delle carte del GiocatoreGraphic
      */
     protected Risorsa ValidaValoreAzione(Familiare familiare)throws DomainException {
         Risorsa costoEffetti = new Risorsa();

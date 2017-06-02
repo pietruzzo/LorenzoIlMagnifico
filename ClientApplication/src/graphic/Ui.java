@@ -31,13 +31,13 @@ public interface Ui {
     public abstract void inizializzaPartita(Tabellone tabellone);
 
     /**
-     * Aggiorna le risorse del giocatore e la posizione delle pedine del giocatore (non i familiari, quelle dei punti)
+     * Aggiorna le risorse del GiocatoreGraphic e la posizione delle pedine del GiocatoreGraphic (non i familiari, quelle dei punti)
      */
     public abstract void aggiornaRisorse(int idGiocatore, Risorsa risorsa);
 
     /**
-     * Il familiare viene indicato univocamente dal giocatore e dal colore del dado (ci sarà anche il colore per il neutro)
-     * Se è uno spazio azione torre deve anche prendere la carta dello spazio azione e aggiungerla alla plancia del giocatore (solo se è il giocatore corrente,
+     * Il familiare viene indicato univocamente dal GiocatoreGraphic e dal colore del dado (ci sarà anche il colore per il neutro)
+     * Se è uno spazio azione torre deve anche prendere la carta dello spazio azione e aggiungerla alla plancia del GiocatoreGraphic (solo se è il GiocatoreGraphic corrente,
      * altrimenti la toglie e basta, perchè non si vedono le carte degli altri)
      */
     public abstract void spostaFamiliare(int idGiocatore, ColoreDado coloreDado, int idSpazioAzione);
@@ -58,7 +58,7 @@ public interface Ui {
 
     /**
      * Forse verranno aggiunte le mosse possibili (così Pietro è contento)
-     * Per ora ci limitiamo ad abilitare cose (tipo lo spostamento dei familiari) se sono il giocatore interessato
+     * Per ora ci limitiamo ad abilitare cose (tipo lo spostamento dei familiari) se sono il GiocatoreGraphic interessato
      * altrimenti disabilita le cose
      */
     public abstract void iniziaMossa(int idGiocatore);

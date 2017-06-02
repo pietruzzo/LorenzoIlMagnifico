@@ -116,16 +116,16 @@ public class Tabellone implements Serializable {
     }
 
     /**
-     * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
+     * Aggiunge un GiocatoreGraphic alla partita (ci possono essere al massimo 4 giocatori)
      */
     public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws DomainException {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
             throw new DomainException("E' stato raggiunto il numero limite di giocatori");
         if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
-            throw new DomainException("Esiste già un giocatore con lo stesso username.");
+            throw new DomainException("Esiste già un GiocatoreGraphic con lo stesso username.");
 
-        //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
+        //il primo GiocatoreGraphic riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
         ColoreGiocatore colore = ColoreGiocatore.values()[this.Giocatori.size()];
         giocatore.SettaProprietaIniziali(idGiocatore, nome, colore, monete);
@@ -181,7 +181,7 @@ public class Tabellone implements Serializable {
     }
 
     /**
-     * Ritorna il giocatore dato il suo id
+     * Ritorna il GiocatoreGraphic dato il suo id
      * @param idGiocatore
      */
     private Giocatore GetGiocatoreById(short idGiocatore)
@@ -190,7 +190,7 @@ public class Tabellone implements Serializable {
     }
 
     /**
-     * Ritorna il nome del giocatore dato il suo id
+     * Ritorna il nome del GiocatoreGraphic dato il suo id
      */
     public String GetNomeGiocatoreById (short idGiocatore)
     {
@@ -227,7 +227,7 @@ public class Tabellone implements Serializable {
      */
     protected void ValidaPiazzamentoFamiliareProduzione(Familiare familiare) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
-        //Un giocatore può piazzare un familiare colorato e il familiare neutro
+        //Un GiocatoreGraphic può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneProduzione.stream().
             anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                                                                 &&  y.Neutro == familiare.Neutro)))
@@ -239,7 +239,7 @@ public class Tabellone implements Serializable {
      */
     protected void ValidaPiazzamentoFamiliareRaccolto(Familiare familiare) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
-        //Un giocatore può piazzare un familiare colorato e il familiare neutro
+        //Un GiocatoreGraphic può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneRaccolto.stream().
                 anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                         &&  y.Neutro == familiare.Neutro)))

@@ -59,7 +59,7 @@ public class RMIClient extends AbstractClient implements IRMIClient {
 
     //region Chiamate al server
     /**
-     * Effettua il login di un giocatore (aggiungendolo al tabellone)
+     * Effettua il login di un GiocatoreGraphic (aggiungendolo al tabellone)
      */
     @Override
     public void Login(String nome) throws IOException {

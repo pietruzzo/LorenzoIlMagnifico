@@ -67,7 +67,7 @@ public class Partita  implements Serializable {
     }
 
     /**
-     * Aggiunge un giocatore alla partita
+     * Aggiunge un GiocatoreGraphic alla partita
      */
     public void AggiungiGiocatore(short idGiocatore, String nome, GiocatoreRemoto giocatore) throws DomainException {
         synchronized (MUTEX_PARTITA)

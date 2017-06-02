@@ -10,6 +10,8 @@ import socket.SocketClient;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static java.io.File.separator;
+
 /**
  * Created by Portatile on 17/05/2017.
  */
@@ -32,6 +34,7 @@ public class MainGame {
         this.applicazione=applicazione;
     }
 
+    @Deprecated
     public void Start() throws InterruptedException {
         /*
         this.SetConnessioneServer();
@@ -41,7 +44,7 @@ public class MainGame {
         */
         //this.IniziaPartita();
 
-        applicazione.startLogin();
+        //applicazione.startLogin();
     }
 
     /**
@@ -79,7 +82,7 @@ public class MainGame {
 
     //region Metodi di comunicazione verso il server
     /**
-     * Effettua il login del giocatore
+     * Effettua il login del GiocatoreGraphic
      */
     public void Login(String nome) throws Exception {
         client.Login(nome);
@@ -93,7 +96,7 @@ public class MainGame {
     }
 
     /**
-     * Comincia la partita, sarà il turno del primo giocatore loggato
+     * Comincia la partita, sarà il turno del primo GiocatoreGraphic loggato
      */
     public void IniziaPartita() {
         client.IniziaPartita();

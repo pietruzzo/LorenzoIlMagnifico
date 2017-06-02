@@ -53,7 +53,7 @@ public class Applicazione extends Application {
                 finestra.setTitle("Login");
                 finestra.setScene(new Scene(login));
             } catch (IOException e) {
-                System.err.println("login_scene.fxml non trovato");
+                System.err.println("login_scene.fxml non trovato, prova a controllare il PATH");
                 stopGUI();
             }
 
@@ -73,8 +73,9 @@ public class Applicazione extends Application {
             gioco = new Scene(campo);
             finestra.setTitle("Lorenzo il Magnifico");
             finestra.setScene(gioco);
+            finestra.setFullScreen(true);
         } catch (IOException e){
-            System.err.println("campo_gioco_scene.fxml non trovato");
+            System.err.println("campo_gioco_scene.fxml non trovato, prova a controllare il PATH");
             stopGUI();
         }
         return controllerCampoGioco;
@@ -112,5 +113,9 @@ public class Applicazione extends Application {
 
     public MainGame getMainGame(){
         return mainGame;
+    }
+
+    public Stage getFinestra(){
+        return finestra;
     }
 }

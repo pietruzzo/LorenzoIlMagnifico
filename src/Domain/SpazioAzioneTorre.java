@@ -80,13 +80,13 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
             else
                 malusTorreOccupata= malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
 
-        //Valuta se il giocatore rimarrebbe con tutte le risorse in positivo prendendo la carta
+        //Valuta se il GiocatoreGraphic rimarrebbe con tutte le risorse in positivo prendendo la carta
         //Considera il bonus dello spazio azione, il costo della carta, il malus della torre occupata e gli effetti delle carte (anche le carte scomunica)
         if(!Risorsa.sub(Risorsa.add(familiare.Giocatore.Risorse, this.BonusRisorse),
                         Risorsa.add(Risorsa.add(this.CartaAssociata.CostoRisorse, malusTorreOccupata), costoEffetti)).isPositivo())
             throw new DomainException("Non si dispone di risorse sufficienti per poter prendere la carta.");
 
-        //Valuta se il giocatore ha abbastanza spazio nella plancia per prendere la carta
+        //Valuta se il GiocatoreGraphic ha abbastanza spazio nella plancia per prendere la carta
         this.CartaAssociata.ValidaPresaCarta(familiare.Giocatore, this);
 
         if(this.CartaAssociata instanceof CartaTerritorio)
@@ -94,7 +94,7 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
     }
 
     /**
-     * Valuta se il giocatore ha abbastanza punti militari per poter piazzare la carta nella plancia
+     * Valuta se il GiocatoreGraphic ha abbastanza punti militari per poter piazzare la carta nella plancia
      */
     private void ValidaCartaTerritorio(Giocatore giocatore, int costoPuntiMilitariEffetti) throws DomainException {
         int minimoPuntiMilitari = 0;
