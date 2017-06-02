@@ -26,6 +26,8 @@ public class Tabellone implements Serializable {
     protected List<SpazioAzioneMercato> SpaziAzioneMercato;
     protected SpazioAzioneConsiglio SpazioAzioneConsiglio;
     protected List<Carta> mazzoCarte;
+    protected List<TesseraScomunica> carteScomunica;
+    protected HashMap<Integer, Integer> bonusVittoriaPerPuntiFede;
 
     protected List<SpazioAzione> SpaziAzione;
     protected static int maxIdSpazioAzione = 0;
@@ -44,6 +46,7 @@ public class Tabellone implements Serializable {
         this.SpaziAzioneMercato = new ArrayList<>();
         this.SpaziAzione = new ArrayList<>();
         this.mazzoCarte = new ArrayList<>();
+        this.carteScomunica = new ArrayList<>();
 
         //Inizializza le 4 torri
         for (TipoCarta tipo : TipoCarta.values()) {
@@ -84,6 +87,9 @@ public class Tabellone implements Serializable {
 
         for (int period = 1; period <= 3; period++)
         {
+            //Aggiunge le 3 carte scomunica
+            this.carteScomunica.add(new TesseraScomunica(period, effetto));
+
             for(int tipo = 0; tipo < 4; tipo++)
             {
                 for (int num = 0; num < 8; num++)
@@ -112,6 +118,28 @@ public class Tabellone implements Serializable {
                 }
             }
         }
+        //endregion
+
+
+        //region Set del bonus vittoria per punti fede
+        //I punti fede sono la chiave dell'hashmap
+        //Il bonus punti vittoria sono il valore corrispondente
+        this.bonusVittoriaPerPuntiFede.put(0,0);
+        this.bonusVittoriaPerPuntiFede.put(1,1);
+        this.bonusVittoriaPerPuntiFede.put(2,2);
+        this.bonusVittoriaPerPuntiFede.put(3,3);
+        this.bonusVittoriaPerPuntiFede.put(4,4);
+        this.bonusVittoriaPerPuntiFede.put(5,5);
+        this.bonusVittoriaPerPuntiFede.put(6,7);
+        this.bonusVittoriaPerPuntiFede.put(7,9);
+        this.bonusVittoriaPerPuntiFede.put(8,11);
+        this.bonusVittoriaPerPuntiFede.put(9,13);
+        this.bonusVittoriaPerPuntiFede.put(10,15);
+        this.bonusVittoriaPerPuntiFede.put(11,17);
+        this.bonusVittoriaPerPuntiFede.put(12,19);
+        this.bonusVittoriaPerPuntiFede.put(13,22);
+        this.bonusVittoriaPerPuntiFede.put(14,25);
+        this.bonusVittoriaPerPuntiFede.put(15,30);
         //endregion
     }
 
@@ -211,6 +239,14 @@ public class Tabellone implements Serializable {
         return this.SpaziAzione.stream().filter(x -> x.getIdSpazioAzione() == idSpazioAzione).findFirst().orElse(null);
     }
 
+    /**
+     * Ritorna il bonus vittoria associato ai punti fede specificati
+     */
+    public int getBonusVittoriaByPuntiFede(int puntiFede)
+    {
+        return this.bonusVittoriaPerPuntiFede.get(puntiFede);
+    }
+
     //endregion
 
     //region Piazzamento familiari
@@ -260,6 +296,18 @@ public class Tabellone implements Serializable {
                 ));
     }
     //endregion
+
+    /**
+     * Scomunica un giocatore
+     */
+    public void ScomunicaGiocatore(Giocatore giocatore)
+    {
+        //Recupera il periodo di gioco e la relativa carta scomunica
+        int periodo = this.Partita.getPeriodo();
+        TesseraScomunica tesseraScomunica = this.carteScomunica.get(periodo-1);
+        tesseraScomunica.AssegnaGiocatore(giocatore);
+        giocatore.setRapportoVaticanoEffettuato(true);
+    }
 
     /**
      * Pulisce il tabellone e carica le carte negli spazi azione torre

@@ -12,4 +12,5 @@ public interface IRMIServer extends Remote {
     short Login(String nome, IRMIClient rmiClient) throws IOException;
     void VerificaInizioAutomatico(short idGiocatore) throws IOException;
     void IniziaPartita(short idGiocatore) throws IOException;
+    void RispostaSostegnoChiesa(short idGiocatore, Boolean risposta) throws IOException;
 }

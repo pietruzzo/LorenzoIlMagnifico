@@ -88,12 +88,12 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
-    public void aggiungiScomunica(int idGiocatore, int periodo) {
+    public void aggiungiScomunica(int[] idGiocatoriScomunicati, int periodo) {
 
     }
 
     @Override
-    public void iniziaTurno(int[] dadi, Map<Integer, String> carte) {
+    public void iniziaTurno(int[] ordineGiocatori, int[] dadi, Map<Integer, String> carte) {
 
     }
 
@@ -103,7 +103,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
-    public void finePeriodo() {
+    public void sceltaSostegnoChiesa() {
 
     }
 

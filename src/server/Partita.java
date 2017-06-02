@@ -5,13 +5,13 @@ import Domain.Giocatore;
 import Domain.Tabellone;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import sun.nio.ch.Net;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -140,12 +140,16 @@ public class Partita  implements Serializable {
         //Inizializza il valore dei familiari in base all'esito dei dadi
         this.giocatoriPartita.forEach(x -> x.SettaValoreFamiliare(esitoDadi));
 
+        //Azzera i dati relativi ai rapporti al vaticano effettuati
+        this.giocatoriPartita.forEach(x -> x.setRapportoVaticanoEffettuato(false));
+
         //"Pulisce" il tabellone e pesca le 16 carte da mettere sulle torri
         HashMap<Integer, String> mappaCarte = this.tabellone.IniziaTurno();
+        int[] ordineGiocatori = this.giocatoriPartita.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
 
         //Comunica ai giocatori l'inzio del nuovo turno
         for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
-            try{ giocatore.IniziaTurno(this.esitoDadi, mappaCarte); }
+            try{ giocatore.IniziaTurno(ordineGiocatori, this.esitoDadi, mappaCarte); }
             catch (NetworkException e) {
                 System.out.println("Giocatore non più connesso");
             }
@@ -166,6 +170,7 @@ public class Partita  implements Serializable {
         //allora viene comunicato l'inizio della sua mossa ai client
         if(nextGiocatore != null)
         {
+            this.ordineMossaCorrente = nextGiocatore.getOrdineTurno();
             this.ComunicaInizioMossa(nextGiocatore.getIdGiocatore());
         }
         else
@@ -185,7 +190,7 @@ public class Partita  implements Serializable {
                 //Se siamo alla fine del periodo parte il rapporto al vaticano
                 if(this.turno % 2 == 0)
                 {
-                    //TODO: comunica Rapporto in Vaticano
+                    this.EffettuaRapportoVaticano();
                 }
                 else {
                     //Alla fine dei turni dispari si comincia semplicemente un nuovo turno
@@ -225,5 +230,105 @@ public class Partita  implements Serializable {
     private Boolean EsistonoFamiliariPiazzabili()
     {
         return this.tabellone.EsistonoFamiliariPiazzabili();
+    }
+
+
+    //region Rapporto Vaticano
+    /**
+     * Effettua le operazioni per il rapporto al vaticano
+     */
+    private void EffettuaRapportoVaticano()
+    {
+        //Individua i giocatori che non hanno abbastanza punti fede per il periodo corrente
+        List<GiocatoreRemoto> giocatoriDaScomunicare = this.giocatoriPartita.stream()
+                                                        .filter(g -> g.getRisorse().getPuntiFede() < (this.periodo + 2))
+                                                        .collect(Collectors.toList());
+
+        //Agli altri giocatori verrà data la possibilità di scegliere
+        List<GiocatoreRemoto> giocatoriCheScelgono = this.giocatoriPartita.stream().filter(g -> !giocatoriDaScomunicare.contains(g)).collect(Collectors.toList());
+
+        //Scomunica i giocatori appena individuati
+        giocatoriDaScomunicare.forEach(g -> this.tabellone.ScomunicaGiocatore(g));
+
+        //Comunica la scomunica ai client
+        int[] idGiocatoriScomunicati = giocatoriDaScomunicare.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
+        this.ComunicaScomunica(idGiocatoriScomunicati);
+
+        //Se qualche giocatore ha la possibilità di scegliere gli viene data la possibilità
+        if(giocatoriCheScelgono.size() > 0)
+        {
+            //Comunica la possibilità di scelta ai soli client abilitati
+            for (GiocatoreRemoto giocatore : giocatoriCheScelgono) {
+                try {
+                    giocatore.SceltaSostegnoChiesa();
+                } catch (NetworkException e) {
+                    System.out.println("Giocatore non più connesso");
+                }
+            }
+        }
+        else //Altrimenti si prosegue normalmente
+        {
+            if (this.periodo < 3)
+                this.InizioNuovoTurno();
+            else
+                this.FinePartita();
+        }
+    }
+
+    /**
+     * Comunica ai client la scomunica di giocatori
+     * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
+     */
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati)
+    {
+        for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
+            try{ giocatore.ComunicaScomunica(idGiocatoriScomunicati, this.periodo); }
+            catch (NetworkException e) {
+                System.out.println("Giocatore non più connesso");
+            }
+        }
+    }
+
+
+    /**
+     *  Gestisce la risposta del client alla domanda sul sostegno della chiesa
+     *  @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(GiocatoreRemoto giocatore, Boolean risposta){
+        if(risposta == true)
+        {
+            //Se il giocatore ha scelto di sostenere la chiesa:
+            // * deve spendere tutti i suoi punti fede
+            // * ottiene un certo numero di punti vittoria in base ai punti fede spesi
+            int bonusVittoria = this.tabellone.getBonusVittoriaByPuntiFede(giocatore.getRisorse().getPuntiFede());
+            giocatore.SostieniLaChiesa(bonusVittoria);
+
+            //TODO: notificare tutti i giocatori dei cambiamenti al giocatore che ha sostenuto la chiesa
+        }
+        else
+        {
+            //Se il giocatore non vuole sostenere la chiesa viene scomunicato
+            this.tabellone.ScomunicaGiocatore(giocatore);
+            this.ComunicaScomunica(new int[] {giocatore.getIdGiocatore()} );
+        }
+
+        //Se tutti i giocatori hanno effettuato il rapporto al vaticano si può andare avanti
+        if(this.giocatoriPartita.stream().allMatch(g -> g.getRapportoVaticanoEffettuato()))
+        {
+            if(periodo < 3)
+                this.InizioNuovoTurno();
+            else
+                this.FinePartita();
+        }
+
+    }
+    //endregion
+
+    /**
+     * Calcola il punteggio e lo comunica ai client
+     */
+    public void FinePartita()
+    {
+        //TODO: implementare logiche fine partita
     }
 }

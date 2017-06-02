@@ -4,6 +4,7 @@ import Domain.Tabellone;
 import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
+import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,6 +46,8 @@ public class SocketClientProtocol {
         this.listaEventHandler.put(ProtocolEvents.PARTITA_INIZIATA, this::PartitaIniziata);
         this.listaEventHandler.put(ProtocolEvents.INIZIO_TURNO, this::IniziaTurno);
         this.listaEventHandler.put(ProtocolEvents.INIZIO_MOSSA, this::IniziaMossa);
+        this.listaEventHandler.put(ProtocolEvents.GIOCATORI_SCOMUNICATI, this::ComunicaScomunica);
+        this.listaEventHandler.put(ProtocolEvents.SOSTEGNO_CHIESA, this::SceltaSostegnoChiesa);
     }
 
     //region Handler Eventi del server
@@ -86,10 +89,11 @@ public class SocketClientProtocol {
     private void IniziaTurno()
     {
         try {
+            int[] ordineGiocatori = (int[]) this.inputStream.readObject();
             int[] esitoDadi = (int[]) this.inputStream.readObject();
             HashMap<Integer, String> mappaCarte = (HashMap<Integer, String>) this.inputStream.readObject();
 
-            mainGame.IniziaTurno(esitoDadi, mappaCarte);
+            mainGame.IniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -112,6 +116,32 @@ public class SocketClientProtocol {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Gestisce l'evento di scomunica di giocatori
+     */
+    private void ComunicaScomunica()
+    {
+        try {
+            int[] idGiocatoriScomunicati = (int[]) this.inputStream.readObject();
+            int periodo = (int) this.inputStream.readObject();
+            mainGame.ComunicaScomunica(idGiocatoriScomunicati, periodo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gestisce l'evento di scelta di sostegno alla chiesa
+     */
+    public void SceltaSostegnoChiesa()
+    {
+        mainGame.SceltaSostegnoChiesa();
+    }
+
     //endregion
 
     //region Messaggi dal client al server
@@ -162,6 +192,22 @@ public class SocketClientProtocol {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Comunica al server la risposta al sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(Boolean risposta)
+    {
+        try {
+            outputStream.writeObject(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA);
+            outputStream.writeObject(risposta);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //endregion
 
     /**

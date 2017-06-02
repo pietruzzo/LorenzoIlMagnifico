@@ -57,6 +57,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         }
     }
 
+    //region Messaggi dal client al server
     /**
      * Effettua il login del GiocatoreGraphic
      */
@@ -88,8 +89,19 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     }
 
     /**
+     *  Gestisce la risposta del client alla domanda sul sostegno della chiesa
+     *  @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(Boolean risposta){
+        this.getPartita().RispostaSostegnoChiesa(this, risposta);
+    }
+    //endregion
+
+    //region Messaggi dal server al client
+    /**
      * Comunica al client l'inzio della partita
      */
+    @Override
     public void PartitaIniziata(Tabellone tabellone)
     {
         this.protocol.PartitaIniziata(tabellone);
@@ -98,17 +110,40 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      *  Comunica al client l'inzio di un nuovo turno
      */
-    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte)
+    @Override
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte)
     {
-        this.protocol.IniziaTurno(esitoDadi, mappaCarte);
+        this.protocol.IniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
     }
 
     /**
      * Comunica al client l'inzio di una nuova mossa
      * @param idGiocatore id del giocatore che deve effettuare la mossa
      */
+    @Override
     public void IniziaMossa(int idGiocatore)
     {
         this.protocol.IniziaMossa(idGiocatore);
     }
+
+    /**
+     * Comunica ai client la scomunica di giocatori
+     * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
+     * @param periodo periodo nel quale avviene la scomunica
+     */
+    @Override
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
+    {
+        this.protocol.ComunicaScomunica(idGiocatoriScomunicati, periodo);
+    }
+
+    /**
+     * Comunica a determinati giocatori che devono scegliere se sostenere o meno la chiesa
+     */
+    @Override
+    public void SceltaSostegnoChiesa()
+    {
+        this.protocol.SceltaSostegnoChiesa();
+    }
+    //endregion
 }

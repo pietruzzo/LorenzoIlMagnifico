@@ -101,6 +101,16 @@ public class MainGame {
     public void IniziaPartita() {
         client.IniziaPartita();
     }
+
+    /**
+     * Risposta dell'utente alla domanda sul sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(Boolean risposta)
+    {
+        client.RispostaSostegnoChiesa(risposta);
+    }
+
     //endregion
 
 
@@ -117,9 +127,9 @@ public class MainGame {
     /**
      * Metodo chiamato quando inizia un nuovo turno
      */
-    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
         System.out.println("Turno iniziato");
-        userInterface.iniziaTurno(esitoDadi, mappaCarte);
+        userInterface.iniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
     }
 
     /**
@@ -129,6 +139,25 @@ public class MainGame {
     {
         System.out.println(String.format("Tocca al giocatore con id %d", idGiocatore));
         userInterface.iniziaMossa(idGiocatore);
+    }
+
+    /**
+     * Metodo chiamato quando vengono scomunicati dei giocatori
+     */
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
+    {
+        System.out.println(String.format("Sono stati scomunicati %d giocatori", idGiocatoriScomunicati.length));
+        userInterface.aggiungiScomunica(idGiocatoriScomunicati, periodo);
+    }
+
+
+    /**
+     * Metodo chiamato quando l'utente deve scegliere se sostenere la chiesa o meno
+     */
+    public void SceltaSostegnoChiesa()
+    {
+        System.out.println("Hai abbastanza punti fede per sostenere la chiesa, la vuoi sostenere?");
+        userInterface.sceltaSostegnoChiesa();
     }
     //endregion
 

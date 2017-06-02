@@ -89,4 +89,14 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     public void IniziaPartita(short idGiocatore) throws DomainException {
         GetGiocatoreById(idGiocatore).getPartita().IniziaPartita();
     }
+
+    /**
+     * Gestisce la risposta del client alla domanda sul sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(short idGiocatore, Boolean risposta) {
+        GiocatoreRemoto giocatoreRemoto = GetGiocatoreById(idGiocatore);
+        giocatoreRemoto.getPartita().RispostaSostegnoChiesa(giocatoreRemoto, risposta);
+    }
+
 }

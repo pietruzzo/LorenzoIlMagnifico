@@ -12,6 +12,9 @@ import java.util.HashMap;
 public interface IRMIClient extends Remote {
 
     void PartitaIniziata(Tabellone tabellone) throws RemoteException;
-    void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws RemoteException;
+    void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws RemoteException;
     void IniziaMossa(int idGiocatore) throws RemoteException;
+    void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) throws RemoteException;
+    void SceltaSostegnoChiesa() throws RemoteException;
+
 }
