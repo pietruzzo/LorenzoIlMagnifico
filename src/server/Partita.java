@@ -1,6 +1,7 @@
 package server;
 
 import Domain.Dado;
+import Domain.Giocatore;
 import Domain.Tabellone;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
@@ -8,6 +9,7 @@ import sun.nio.ch.Net;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ public class Partita  implements Serializable {
     private int turno;
     private int periodo;
     private int[] esitoDadi;
+    private int ordineMossaCorrente;
     //endregion
 
     /**
@@ -41,7 +44,8 @@ public class Partita  implements Serializable {
         this.server = server;
         this.iniziata = false;
         this.turno = 0;
-        this.periodo = 0;
+        this.periodo = 1;
+        this.ordineMossaCorrente = 0;
         this.tabellone = new Tabellone(this);
         this.giocatoriPartita = new ArrayList<>();
         this.esitoDadi = new int[NUM_DADI];
@@ -109,10 +113,20 @@ public class Partita  implements Serializable {
             throw new DomainException("E' necessario che ci siano almeno due utenti connessi alla partita per cominciare.");
     }
 
+    /**
+     * Comunica ai giocatori l'inizio di un nuovo turno
+     * Deve passare quindi l'esito dei dadi e le carte da mettere sulle torri
+     */
     public void InizioNuovoTurno()
     {
         //Incrementa il turno
         this.turno++;
+
+        //Azzera l'ordine delle mosse della partita in corso
+        this.ordineMossaCorrente = 0;
+
+        //Aggiorna l'ordine dei giocatori in base allo spazio azione del consiglio
+        this.tabellone.AggiornaOrdineGiocatori();
 
         //Se necessario, incrementa anche il periodo
         if(this.turno % 2 == 0) this.periodo++;
@@ -126,7 +140,7 @@ public class Partita  implements Serializable {
         //Inizializza il valore dei familiari in base all'esito dei dadi
         this.giocatoriPartita.forEach(x -> x.SettaValoreFamiliare(esitoDadi));
 
-        //Pesca le 16 carte da mettere sulle torri
+        //"Pulisce" il tabellone e pesca le 16 carte da mettere sulle torri
         HashMap<Integer, String> mappaCarte = this.tabellone.IniziaTurno();
 
         //Comunica ai giocatori l'inzio del nuovo turno
@@ -136,5 +150,80 @@ public class Partita  implements Serializable {
                 System.out.println("Giocatore non più connesso");
             }
         }
+
+        //Parte il primo giro di mosse del turno appena iniziato
+        this.IniziaNuovaMossa();
+    }
+
+    /**
+     * Comunica il giocatore che deve effettuare la prossima mossa
+     */
+    public void IniziaNuovaMossa()
+    {
+        GiocatoreRemoto nextGiocatore = this.GetNextGiocatore();
+
+        //Se è stato individuato il prossimo giocatore che deve effettuare la mossa
+        //allora viene comunicato l'inizio della sua mossa ai client
+        if(nextGiocatore != null)
+        {
+            this.ComunicaInizioMossa(nextGiocatore.getIdGiocatore());
+        }
+        else
+        {
+            //Se non è stato individuato il prossimo giocatore significa che tutti hanno fatto il loro giro di mosse
+            //Se non ci sono giocatori che possono piazzare un familiare si inizia un nuovo turno
+            //Se invece i giocatori hanno ancora mosse a disposizione si inizia un nuovo giro di mosse
+            if(this.EsistonoFamiliariPiazzabili())
+            {
+                //L'ordine dei giocatori rimane lo stesso e si ricomincia il giro
+                this.ordineMossaCorrente = 0;
+                this.IniziaNuovaMossa();
+            }
+            else
+            {
+                //Se non ci sono più familiari piazzabili si inizia un nuovo turno
+                //Se siamo alla fine del periodo parte il rapporto al vaticano
+                if(this.turno % 2 == 0)
+                {
+                    //TODO: comunica Rapporto in Vaticano
+                }
+                else {
+                    //Alla fine dei turni dispari si comincia semplicemente un nuovo turno
+                    //Si arriverà qui solo al termine del primo, terzo e quinto turno
+                    this.InizioNuovoTurno();
+                }
+            }
+        }
+    }
+
+    /**
+     * Ritorna l'id del giocatore che deve fare la prossima mossa
+     */
+    private GiocatoreRemoto GetNextGiocatore()
+    {
+        return this.giocatoriPartita.stream().filter(g -> g.getOrdineTurno() > this.ordineMossaCorrente)
+                                                .sorted(Comparator.comparingInt(Giocatore::getOrdineTurno))
+                                                .findFirst().orElse(null);
+    }
+
+    /**
+     * Effettua la chiamata ai client per comunicare l'inizio della mossa di qualcuno
+     */
+    private void ComunicaInizioMossa(int idGiocatore)
+    {
+        for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
+            try{ giocatore.IniziaMossa(idGiocatore); }
+            catch (NetworkException e) {
+                System.out.println("Giocatore non più connesso");
+            }
+        }
+    }
+
+    /**
+     * Ritorna true se c'è almeno un giocatore che ha ancora dei familiari da piazzare
+     */
+    private Boolean EsistonoFamiliariPiazzabili()
+    {
+        return this.tabellone.EsistonoFamiliariPiazzabili();
     }
 }

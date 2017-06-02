@@ -6,6 +6,8 @@ import graphic.Ui;
 import network.AbstractClient;
 import rmi.RMIClient;
 import socket.SocketClient;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -81,7 +83,13 @@ public class MainGame {
      */
     public void Login(String nome) throws Exception {
         client.Login(nome);
+    }
 
+    /**
+     * Verifica se è stato raggiunto il numero massimo di
+     */
+    public void VerificaInizioAutomatico() throws IOException {
+        client.VerificaInizioAutomatico();
     }
 
     /**
@@ -100,7 +108,7 @@ public class MainGame {
      */
     public void PartitaIniziata(Tabellone tabellone) {
         System.out.println(String.format("Partita è iniziata con %d giocatori", tabellone.getGiocatori().size()));
-        //ui.inizializzaPartita();
+        userInterface.inizializzaPartita(tabellone);
     }
 
     /**
@@ -108,7 +116,16 @@ public class MainGame {
      */
     public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
         System.out.println("Turno iniziato");
-        //ui.iniziaTurno(esitoDadi, mappaCarte);
+        userInterface.iniziaTurno(esitoDadi, mappaCarte);
+    }
+
+    /**
+     * Metodo chiamato quando inizia una nuova mossa
+     */
+    public void IniziaMossa(int idGiocatore)
+    {
+        System.out.println(String.format("Tocca al giocatore con id %d", idGiocatore));
+        userInterface.iniziaMossa(idGiocatore);
     }
     //endregion
 
@@ -118,7 +135,7 @@ public class MainGame {
      * @param message messaggio d'errore
      */
     public void MostraEccezione(String message) {
-        //ui.stampaMessaggio(message);
+        userInterface.stampaMessaggio(message);
     }
 
     public enum TipoConnessione {RMI, Socket};

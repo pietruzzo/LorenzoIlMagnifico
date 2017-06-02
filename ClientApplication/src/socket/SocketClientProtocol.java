@@ -44,6 +44,7 @@ public class SocketClientProtocol {
         this.listaEventHandler.put(ProtocolEvents.TIRATA_ECCEZIONE, this::HandleException);
         this.listaEventHandler.put(ProtocolEvents.PARTITA_INIZIATA, this::PartitaIniziata);
         this.listaEventHandler.put(ProtocolEvents.INIZIO_TURNO, this::IniziaTurno);
+        this.listaEventHandler.put(ProtocolEvents.INIZIO_MOSSA, this::IniziaMossa);
     }
 
     //region Handler Eventi del server
@@ -96,6 +97,21 @@ public class SocketClientProtocol {
         }
     }
 
+
+    /**
+     * Gestisce l'evento di inizio mossa
+     */
+    private void IniziaMossa()
+    {
+        try {
+            int idGiocatore = (int) this.inputStream.readObject();
+            mainGame.IniziaMossa(idGiocatore);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     //endregion
 
     //region Messaggi dal client al server
@@ -119,6 +135,19 @@ public class SocketClientProtocol {
         //Se era già presente un utente con l'username specificato
         if(codiceRisposta == ProtocolEvents.USER_ESISTENTE)
             throw new Exception("Esiste già un utente con questo username");
+    }
+
+    /**
+     * La partita inizia automaticamente se è stato raggiunto il numero massimo di giocatori
+     */
+    public void VerificaInizioAutomatico()
+    {
+        try {
+            outputStream.writeObject(ProtocolEvents.INIZIO_AUTOMATICO);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

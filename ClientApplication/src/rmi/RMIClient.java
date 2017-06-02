@@ -67,6 +67,14 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     }
 
     /**
+     * La partita inizia automaticamente se è stato raggiunto il numero massimo di giocatori
+     */
+    @Override
+    public void VerificaInizioAutomatico() throws IOException {
+        server.VerificaInizioAutomatico(idGiocatore);
+    }
+
+    /**
      * Comunica al server di iniziare la partita
      */
     @Override
@@ -97,6 +105,15 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     @Override
     public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
         this.getMainGame().IniziaTurno(esitoDadi, mappaCarte);
+    }
+
+    /**
+     * Comunica l'inzio di una nuova mossa
+     * @param idGiocatore id del giocatore che deve effettuare la mossa
+     */
+    @Override
+    public void IniziaMossa(int idGiocatore) {
+        this.getMainGame().IniziaMossa(idGiocatore);
     }
 
     //endregion

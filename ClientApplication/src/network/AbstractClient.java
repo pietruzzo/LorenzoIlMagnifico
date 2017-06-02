@@ -3,6 +3,7 @@ package network;
 import lorenzo.MainGame;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -44,6 +45,8 @@ public abstract class AbstractClient {
     public abstract void InizializzaSocketProtocol();
 
     public abstract void Login(String nome) throws Exception;
+
+    public abstract void VerificaInizioAutomatico() throws IOException;
 
     public abstract void IniziaPartita();
 }

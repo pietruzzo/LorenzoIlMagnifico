@@ -102,4 +102,13 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     {
         this.protocol.IniziaTurno(esitoDadi, mappaCarte);
     }
+
+    /**
+     * Comunica al client l'inzio di una nuova mossa
+     * @param idGiocatore id del giocatore che deve effettuare la mossa
+     */
+    public void IniziaMossa(int idGiocatore)
+    {
+        this.protocol.IniziaMossa(idGiocatore);
+    }
 }

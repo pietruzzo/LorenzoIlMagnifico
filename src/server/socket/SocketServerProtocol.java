@@ -41,6 +41,7 @@ public class SocketServerProtocol {
     {
         this.listaEventHandler.put(ProtocolEvents.LOGIN, this::Login);
         this.listaEventHandler.put(ProtocolEvents.INIZIA_PARTITA, this::IniziaPartita);
+        this.listaEventHandler.put(ProtocolEvents.INIZIO_AUTOMATICO, this::VerificaInizioPartita);
     }
 
     //region Handler eventi
@@ -49,22 +50,13 @@ public class SocketServerProtocol {
         try {
             String nomeUtente = (String) this.inputStream.readObject();
             this.LoginGiocatore(nomeUtente);
-
-            //Mi assicuro che venga tirato su l'handler lato client
-            Thread.sleep(500);
-            this.giocatore.VerificaInizioPartita();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
-    //endregion
 
-
-    //region Metodi per gestire i messaggi ricevuti Client
     /**
      * Effettua il login del giocatore e comunica l'esito dell'operazione al client
      */
@@ -80,6 +72,14 @@ public class SocketServerProtocol {
 
         outputStream.writeObject(codiceRisposta);
         outputStream.flush();
+    }
+
+    /**
+     * Se è stato raggiunto il limite massimo di giocatori la partita inizia automaticamente
+     */
+    private void VerificaInizioPartita()
+    {
+        this.giocatore.VerificaInizioPartita();
     }
 
     /**
@@ -145,6 +145,23 @@ public class SocketServerProtocol {
         }
     }
 
+    /**
+     * Comunica attraverso i socket al client l'inzio di una nuova mossa
+     * @param idGiocatore id del giocatore che deve effettuare la mossa
+     */
+    public void IniziaMossa(int idGiocatore)
+    {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.INIZIO_MOSSA);
+                this.outputStream.writeObject(idGiocatore);
+
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     //endregion
 
 

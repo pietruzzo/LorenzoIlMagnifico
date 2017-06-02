@@ -37,4 +37,9 @@ public abstract class GiocatoreRemoto extends Giocatore{
      * Comunica ai giocatori l'inizio di un nuovo turno di gioco
      */
     public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException {}
+
+    /**
+     * Comunica ai giocatori l'inizio di una nuova mossa
+     */
+    public void IniziaMossa(int idGiocatore) throws NetworkException {}
 }

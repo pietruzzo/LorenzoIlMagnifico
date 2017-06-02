@@ -58,6 +58,7 @@ public class ControllerLogin implements Controller {
         try {
             mainGame.Login(nomeUtente);
             mainGame.AvviaUI(applicazione, tipoInterfaccia);
+            mainGame.VerificaInizioAutomatico();
         } catch (Exception e) {
             messaggioErrore.setText(e.getMessage());
         }

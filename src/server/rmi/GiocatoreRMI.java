@@ -35,6 +35,11 @@ public class GiocatoreRMI extends GiocatoreRemoto {
         }
     }
 
+    /**
+     * Comunica ai giocatori l'inizio di un nuovo turno di gioco
+     * @param esitoDadi valore dei dadi per il turno
+     * @param mappaCarte posizione delle carte negli spazi azione della torre
+     */
     @Override
     public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException {
         try {
@@ -44,4 +49,16 @@ public class GiocatoreRMI extends GiocatoreRemoto {
         }
     }
 
+    /**
+     * Comunica l'inzio di una nuova mossa
+     * @param idGiocatore id del giocatore che deve effettuare la mossa
+     */
+    @Override
+    public void IniziaMossa(int idGiocatore) throws NetworkException {
+        try {
+            this.clientRMI.IniziaMossa(idGiocatore);
+        } catch (RemoteException e) {
+            throw new NetworkException(e);
+        }
+    }
 }

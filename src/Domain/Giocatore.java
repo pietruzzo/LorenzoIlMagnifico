@@ -15,7 +15,7 @@ public class Giocatore implements Serializable {
     //region Proprietà
     private short IdGiocatore;
     protected String Nome;
-    protected Color Colore;
+    protected ColoreGiocatore Colore;
     protected List<CartaTerritorio> CarteTerritorio;
     protected List<CartaEdificio> CarteEdificio;
     protected List<CartaPersonaggio> CartePersonaggio;
@@ -25,7 +25,7 @@ public class Giocatore implements Serializable {
     protected transient GestoreEffettiGiocatore gestoreEffettiGiocatore;
 
     protected Risorsa Risorse;
-    protected int ordineTurno;
+    private int ordineTurno;
     //endregion
 
     //region Getters
@@ -33,8 +33,16 @@ public class Giocatore implements Serializable {
         return IdGiocatore;
     }
 
+    public int getOrdineTurno() { return ordineTurno; }
+
     public Risorsa getRisorse() {
         return Risorse;
+    }
+    //endregion
+
+    //region Setters
+    public void setOrdineTurno(int ordineTurno) {
+        this.ordineTurno = ordineTurno;
     }
     //endregion
 
@@ -81,7 +89,7 @@ public class Giocatore implements Serializable {
     /**
      *  Setta le proprietà al login del giocatore
      */
-    public void SettaProprietaIniziali(short idGiocatore, String nome, Color colore, int monete)
+    public void SettaProprietaIniziali(short idGiocatore, String nome, ColoreGiocatore colore, int monete)
     {
         this.IdGiocatore = idGiocatore;
         this.ordineTurno = idGiocatore;

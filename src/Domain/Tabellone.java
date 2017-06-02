@@ -7,8 +7,10 @@ import server.Partita;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -80,7 +82,7 @@ public class Tabellone implements Serializable {
         Effetto effetto = new Effetto();
         Risorsa risorsa = new Risorsa();
 
-        for (int period = 0; period < 3; period++)
+        for (int period = 1; period <= 3; period++)
         {
             for(int tipo = 0; tipo < 4; tipo++)
             {
@@ -125,9 +127,34 @@ public class Tabellone implements Serializable {
 
         //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
-
-        giocatore.SettaProprietaIniziali(idGiocatore, nome, Color.BLUE, monete);
+        ColoreGiocatore colore = ColoreGiocatore.values()[this.Giocatori.size()];
+        giocatore.SettaProprietaIniziali(idGiocatore, nome, colore, monete);
         this.Giocatori.add(giocatore);
+    }
+
+    /**
+     * Aggiorna l'ordine dei giocatori in base ai familiari piazzati nello spazio azione del consiglio
+     */
+    public void AggiornaOrdineGiocatori()
+    {
+        //Recupera i gicatori piazzati nello spazio azione consiglio
+        List<Giocatore> giocatoriConConsiglio = this.SpazioAzioneConsiglio.FamiliariPiazzati.stream().map(f -> f.Giocatore).distinct().collect(Collectors.toList());
+        //Recupera i giocatori che non hanno piazzato familiari nello spazio azione del consiglio, ordinati con l'ordine di gioco
+        List<Giocatore> giocatoriSenzaConsiglio = this.Giocatori.stream().filter(g -> !giocatoriConConsiglio.contains(g))
+                                                                        .sorted(Comparator.comparingInt(Giocatore::getOrdineTurno))
+                                                                        .collect(Collectors.toList());
+
+        //Unisce le liste
+        List<Giocatore> giocatoriOrdinati = new ArrayList<>();
+        giocatoriOrdinati.addAll(giocatoriConConsiglio);
+        giocatoriOrdinati.addAll(giocatoriSenzaConsiglio);
+
+        //Setta il nuovo ordine di gioco
+        int ordineGioco = 1;
+        for (Giocatore giocatore : giocatoriOrdinati) {
+            giocatore.setOrdineTurno(ordineGioco);
+            ordineGioco++;
+        }
     }
 
     //region Getters
@@ -219,6 +246,19 @@ public class Tabellone implements Serializable {
             throw new DomainException("E' già presente un familiare dello stesso colore nella zona Produzione.");
     }
 
+    /**
+     * Ritorna true se ci sono dei giocatori che hanno ancora dei familiari da piazzare e se hanno la possibilità di piazzarli
+     * (mi basta controllare se ho almeno un servitore per il neutro, perchè in quel caso è sempre possibile piazzarlo
+     *  nello spazio azione del consiglio, se non è neutro non è necessario neanche un servitore)
+     */
+    public Boolean EsistonoFamiliariPiazzabili()
+    {
+        return this.Giocatori.stream().anyMatch(g ->
+                g.Familiari.stream().anyMatch(
+                        f -> f.SpazioAzioneAttuale == null
+                        &&  ((!f.Neutro) || (g.Risorse.getServi() > 0))
+                ));
+    }
     //endregion
 
     /**

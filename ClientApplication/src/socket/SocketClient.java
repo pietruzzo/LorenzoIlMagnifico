@@ -65,6 +65,15 @@ public class SocketClient extends AbstractClient {
     }
 
     /**
+     * La partita inizia automaticamente se è stato raggiunto il numero massimo di giocatori
+     */
+    @Override
+    public void VerificaInizioAutomatico() throws IOException {
+        this.socketClientProtocol.VerificaInizioAutomatico();
+    }
+
+
+    /**
      * Comunica al server di inziare la partita
      */
     public void IniziaPartita()  {

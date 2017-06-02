@@ -73,9 +73,14 @@ public class RMIServer extends AbstractServer implements IRMIServer {
      * Salva anche il riferimento per chiamare i metodi lato client attraverso rmi
      */
     public short Login(String nome, IRMIClient rmiClient) throws DomainException {
-        short idGiocatore = getServer().AggiungiGiocatore(nome, new GiocatoreRMI(rmiClient));
+        return getServer().AggiungiGiocatore(nome, new GiocatoreRMI(rmiClient));
+    }
+
+    /**
+     * Se è stato raggiunto il limite massimo di giocatori la partita inizia automaticamente
+     */
+    public void VerificaInizioAutomatico(short idGiocatore) throws DomainException {
         GetGiocatoreById(idGiocatore).getPartita().VerificaInizioAutomatico();
-        return idGiocatore;
     }
 
     /**
