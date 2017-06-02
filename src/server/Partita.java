@@ -8,10 +8,9 @@ import Exceptions.NetworkException;
 import sun.nio.ch.Net;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -142,10 +141,11 @@ public class Partita  implements Serializable {
 
         //"Pulisce" il tabellone e pesca le 16 carte da mettere sulle torri
         HashMap<Integer, String> mappaCarte = this.tabellone.IniziaTurno();
+        int[] ordineGiocatori = this.giocatoriPartita.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
 
         //Comunica ai giocatori l'inzio del nuovo turno
         for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
-            try{ giocatore.IniziaTurno(this.esitoDadi, mappaCarte); }
+            try{ giocatore.IniziaTurno(ordineGiocatori, this.esitoDadi, mappaCarte); }
             catch (NetworkException e) {
                 System.out.println("Giocatore non più connesso");
             }
@@ -166,6 +166,7 @@ public class Partita  implements Serializable {
         //allora viene comunicato l'inizio della sua mossa ai client
         if(nextGiocatore != null)
         {
+            this.ordineMossaCorrente = nextGiocatore.getOrdineTurno();
             this.ComunicaInizioMossa(nextGiocatore.getIdGiocatore());
         }
         else
@@ -185,7 +186,7 @@ public class Partita  implements Serializable {
                 //Se siamo alla fine del periodo parte il rapporto al vaticano
                 if(this.turno % 2 == 0)
                 {
-                    //TODO: comunica Rapporto in Vaticano
+                    this.EffettuaRapportoVaticano();
                 }
                 else {
                     //Alla fine dei turni dispari si comincia semplicemente un nuovo turno
@@ -225,5 +226,68 @@ public class Partita  implements Serializable {
     private Boolean EsistonoFamiliariPiazzabili()
     {
         return this.tabellone.EsistonoFamiliariPiazzabili();
+    }
+
+    /**
+     * Effettua le operazioni per il rapporto al vaticano
+     */
+    private void EffettuaRapportoVaticano()
+    {
+        //Individua i giocatori che non hanno abbastanza punti fede per il periodo corrente
+        List<GiocatoreRemoto> giocatoriDaScomunicare = this.giocatoriPartita.stream()
+                                                        .filter(g -> g.getRisorse().getPuntiFede() < (this.periodo + 2))
+                                                        .collect(Collectors.toList());
+
+        //Agli altri giocatori verrà data la possibilità di scegliere
+        List<GiocatoreRemoto> giocatoriCheScelgono = this.giocatoriPartita.stream().filter(g -> !giocatoriDaScomunicare.contains(g)).collect(Collectors.toList());
+
+        //Scomunica i giocatori appena individuati
+        giocatoriDaScomunicare.forEach(g -> this.tabellone.ScomunicaGiocatore(g));
+
+        //Comunica la scomunica ai client
+        int[] idGiocatoriScomunicati = giocatoriDaScomunicare.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
+        this.ComunicaScomunica(idGiocatoriScomunicati);
+
+        //Se qualche giocatore ha la possibilità di scegliere gli viene data la possibilità
+        if(giocatoriCheScelgono.size() > 0)
+        {
+            //Comunica la possibilità di scelta ai soli client abilitati
+            for (GiocatoreRemoto giocatore : giocatoriCheScelgono) {
+                try {
+                    giocatore.SceltaSostegnoChiesa();
+                } catch (NetworkException e) {
+                    System.out.println("Giocatore non più connesso");
+                }
+            }
+        }
+        else //Altrimenti si prosegue normalmente
+        {
+            if (this.periodo < 3)
+                this.InizioNuovoTurno();
+            else
+                this.FinePartita();
+        }
+    }
+
+    /**
+     * Comunica ai client la scomunica di giocatori
+     * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
+     */
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati)
+    {
+        for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
+            try{ giocatore.ComunicaScomunica(idGiocatoriScomunicati, this.periodo); }
+            catch (NetworkException e) {
+                System.out.println("Giocatore non più connesso");
+            }
+        }
+    }
+
+    /**
+     * Calcola il punteggio e lo comunica ai client
+     */
+    public void FinePartita()
+    {
+        //TODO: implementare logiche fine partita
     }
 }

@@ -103,8 +103,8 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      * @throws RemoteException
      */
     @Override
-    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
-        this.getMainGame().IniziaTurno(esitoDadi, mappaCarte);
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
+        this.getMainGame().IniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
     }
 
     /**
@@ -116,6 +116,24 @@ public class RMIClient extends AbstractClient implements IRMIClient {
         this.getMainGame().IniziaMossa(idGiocatore);
     }
 
+    /**
+     * Comunica la scomunica di giocatori
+     * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
+     * @param periodo periodo nel quale avviene la scomunica
+     */
+    @Override
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) {
+        this.getMainGame().ComunicaScomunica(idGiocatoriScomunicati, periodo);
+    }
+
+    /**
+     * Comunica che deve scegliere se sostenere o meno la chiesa
+     */
+    @Override
+    public void SceltaSostegnoChiesa()
+    {
+        this.getMainGame().SceltaSostegnoChiesa();
+    }
     //endregion
 
     /**

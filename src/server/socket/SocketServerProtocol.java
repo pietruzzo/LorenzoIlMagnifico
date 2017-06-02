@@ -130,11 +130,12 @@ public class SocketServerProtocol {
     /**
      * Comunica ai client l'inizio di un nuovo turno
      */
-    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte)
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte)
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.INIZIO_TURNO);
+                this.outputStream.writeObject(ordineGiocatori);
                 this.outputStream.writeObject(esitoDadi);
                 this.outputStream.writeObject(mappaCarte);
 
@@ -156,6 +157,41 @@ public class SocketServerProtocol {
                 this.outputStream.writeObject(ProtocolEvents.INIZIO_MOSSA);
                 this.outputStream.writeObject(idGiocatore);
 
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Comunica ai client la scomunica di giocatori
+     * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
+     * @param periodo periodo nel quale avviene la scomunica
+     */
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
+    {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.GIOCATORI_SCOMUNICATI);
+                this.outputStream.writeObject(idGiocatoriScomunicati);
+                this.outputStream.writeObject(periodo);
+
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Comunica al client che deve scegliere se sostenere o meno la chiesa
+     */
+    public void SceltaSostegnoChiesa()
+    {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.SOSTEGNO_CHIESA);
                 this.outputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();

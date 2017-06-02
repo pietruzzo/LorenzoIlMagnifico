@@ -21,11 +21,11 @@ public class Giocatore implements Serializable {
     protected List<CartaPersonaggio> CartePersonaggio;
     protected List<CartaImpresa> CarteImpresa;
     protected List<Familiare> Familiari;
-    protected List<Carta> CarteScomunica; //TODO: Carte Scomunica?
+    protected List<TesseraScomunica> CarteScomunica;
     protected transient GestoreEffettiGiocatore gestoreEffettiGiocatore;
-
     protected Risorsa Risorse;
     private int ordineTurno;
+    private Boolean rapportoVaticanoEffettuato;
     //endregion
 
     //region Getters
@@ -44,6 +44,10 @@ public class Giocatore implements Serializable {
     public void setOrdineTurno(int ordineTurno) {
         this.ordineTurno = ordineTurno;
     }
+
+    public void setRapportoVaticanoEffettuato(Boolean rapportoVaticanoEffettuato) {
+        this.rapportoVaticanoEffettuato = rapportoVaticanoEffettuato;
+    }
     //endregion
 
     /**
@@ -55,6 +59,7 @@ public class Giocatore implements Serializable {
         this.CarteEdificio = new ArrayList<>();
         this.CartePersonaggio = new ArrayList<>();
         this.CarteImpresa = new ArrayList<>();
+        this.CarteScomunica = new ArrayList<>();
         gestoreEffettiGiocatore= new GestoreEffettiGiocatore(this);
         //region Inizializzazione Familiari
         //Inizializzazione Familiari
@@ -95,6 +100,7 @@ public class Giocatore implements Serializable {
         this.ordineTurno = idGiocatore;
         this.Nome = nome;
         this.Colore = colore;
+        this.rapportoVaticanoEffettuato = false;
 
         this.Risorse = new Risorsa(2, 2, 3, monete, 0, 0, 0 );
     }

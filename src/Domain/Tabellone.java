@@ -26,6 +26,7 @@ public class Tabellone implements Serializable {
     protected List<SpazioAzioneMercato> SpaziAzioneMercato;
     protected SpazioAzioneConsiglio SpazioAzioneConsiglio;
     protected List<Carta> mazzoCarte;
+    protected List<TesseraScomunica> carteScomunica;
 
     protected List<SpazioAzione> SpaziAzione;
     protected static int maxIdSpazioAzione = 0;
@@ -44,6 +45,7 @@ public class Tabellone implements Serializable {
         this.SpaziAzioneMercato = new ArrayList<>();
         this.SpaziAzione = new ArrayList<>();
         this.mazzoCarte = new ArrayList<>();
+        this.carteScomunica = new ArrayList<>();
 
         //Inizializza le 4 torri
         for (TipoCarta tipo : TipoCarta.values()) {
@@ -84,6 +86,9 @@ public class Tabellone implements Serializable {
 
         for (int period = 1; period <= 3; period++)
         {
+            //Aggiunge le 3 carte scomunica
+            this.carteScomunica.add(new TesseraScomunica(period, effetto));
+
             for(int tipo = 0; tipo < 4; tipo++)
             {
                 for (int num = 0; num < 8; num++)
@@ -260,6 +265,18 @@ public class Tabellone implements Serializable {
                 ));
     }
     //endregion
+
+    /**
+     * Scomunica un giocatore
+     */
+    public void ScomunicaGiocatore(Giocatore giocatore)
+    {
+        //Recupera il periodo di gioco e la relativa carta scomunica
+        int periodo = this.Partita.getPeriodo();
+        TesseraScomunica tesseraScomunica = this.carteScomunica.get(periodo-1);
+        tesseraScomunica.AssegnaGiocatore(giocatore);
+        giocatore.setRapportoVaticanoEffettuato(true);
+    }
 
     /**
      * Pulisce il tabellone e carica le carte negli spazi azione torre

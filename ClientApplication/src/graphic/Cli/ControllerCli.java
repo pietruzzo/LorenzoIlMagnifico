@@ -57,12 +57,12 @@ public class ControllerCli implements Ui {
     }
 
     @Override
-    public void aggiungiScomunica(int idGiocatore, int periodo) {
+    public void aggiungiScomunica(int[] idGiocatoriScomunicati, int periodo) {
 
     }
 
     @Override
-    public void iniziaTurno(int[] dadi, Map<Integer, String> carte) {
+    public void iniziaTurno(int[] ordineGiocatori, int[] dadi, Map<Integer, String> carte) {
 
     }
 
@@ -72,7 +72,7 @@ public class ControllerCli implements Ui {
     }
 
     @Override
-    public void finePeriodo() {
+    public void sceltaSostegnoChiesa() {
 
     }
 

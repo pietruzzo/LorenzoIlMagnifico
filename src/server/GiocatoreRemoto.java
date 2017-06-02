@@ -36,10 +36,23 @@ public abstract class GiocatoreRemoto extends Giocatore{
     /**
      * Comunica ai giocatori l'inizio di un nuovo turno di gioco
      */
-    public void IniziaTurno(int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException {}
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException {}
 
     /**
      * Comunica ai giocatori l'inizio di una nuova mossa
      */
     public void IniziaMossa(int idGiocatore) throws NetworkException {}
+
+    /**
+     * Comunica ai client la scomunica di giocatori
+     * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
+     * @param periodo periodo nel quale avviene la scomunica
+     */
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) throws NetworkException {}
+
+    /**
+     * Comunica a determinati giocatori che devono scegliere se sostenere o meno la chiesa
+     */
+    public void SceltaSostegnoChiesa() throws NetworkException {}
+
 }
