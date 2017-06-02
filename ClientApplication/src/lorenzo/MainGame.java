@@ -98,6 +98,16 @@ public class MainGame {
     public void IniziaPartita() {
         client.IniziaPartita();
     }
+
+    /**
+     * Risposta dell'utente alla domanda sul sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(Boolean risposta)
+    {
+        client.RispostaSostegnoChiesa(risposta);
+    }
+
     //endregion
 
 

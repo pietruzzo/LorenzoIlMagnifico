@@ -57,6 +57,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         }
     }
 
+    //region Messaggi dal client al server
     /**
      * Effettua il login del giocatore
      */
@@ -87,6 +88,16 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         }
     }
 
+    /**
+     *  Gestisce la risposta del client alla domanda sul sostegno della chiesa
+     *  @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(Boolean risposta){
+        this.getPartita().RispostaSostegnoChiesa(this, risposta);
+    }
+    //endregion
+
+    //region Messaggi dal server al client
     /**
      * Comunica al client l'inzio della partita
      */
@@ -134,4 +145,5 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     {
         this.protocol.SceltaSostegnoChiesa();
     }
+    //endregion
 }

@@ -42,6 +42,7 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.LOGIN, this::Login);
         this.listaEventHandler.put(ProtocolEvents.INIZIA_PARTITA, this::IniziaPartita);
         this.listaEventHandler.put(ProtocolEvents.INIZIO_AUTOMATICO, this::VerificaInizioPartita);
+        this.listaEventHandler.put(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA, this::RispostaSostegnoChiesa);
     }
 
     //region Handler eventi
@@ -89,6 +90,22 @@ public class SocketServerProtocol {
     {
         this.giocatore.IniziaPartita();
     }
+
+    /**
+     * Gestisce la risposta del client alla domanda sul sostegno della chiesa
+     */
+    private void RispostaSostegnoChiesa()
+    {
+        try {
+            Boolean risposta = (Boolean)this.inputStream.readObject();
+            this.giocatore.RispostaSostegnoChiesa(risposta);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     //endregion
 
 

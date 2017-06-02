@@ -85,6 +85,19 @@ public class RMIClient extends AbstractClient implements IRMIClient {
             this.HandleException(e);
         }
     }
+
+    /**
+     * Comunica al server la risposta al sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    @Override
+    public void RispostaSostegnoChiesa(Boolean risposta) {
+        try {
+            server.RispostaSostegnoChiesa(idGiocatore, risposta);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
     //endregion
 
     //region Chiamate dal server

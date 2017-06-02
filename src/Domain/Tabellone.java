@@ -27,6 +27,7 @@ public class Tabellone implements Serializable {
     protected SpazioAzioneConsiglio SpazioAzioneConsiglio;
     protected List<Carta> mazzoCarte;
     protected List<TesseraScomunica> carteScomunica;
+    protected HashMap<Integer, Integer> bonusVittoriaPerPuntiFede;
 
     protected List<SpazioAzione> SpaziAzione;
     protected static int maxIdSpazioAzione = 0;
@@ -117,6 +118,28 @@ public class Tabellone implements Serializable {
                 }
             }
         }
+        //endregion
+
+
+        //region Set del bonus vittoria per punti fede
+        //I punti fede sono la chiave dell'hashmap
+        //Il bonus punti vittoria sono il valore corrispondente
+        this.bonusVittoriaPerPuntiFede.put(0,0);
+        this.bonusVittoriaPerPuntiFede.put(1,1);
+        this.bonusVittoriaPerPuntiFede.put(2,2);
+        this.bonusVittoriaPerPuntiFede.put(3,3);
+        this.bonusVittoriaPerPuntiFede.put(4,4);
+        this.bonusVittoriaPerPuntiFede.put(5,5);
+        this.bonusVittoriaPerPuntiFede.put(6,7);
+        this.bonusVittoriaPerPuntiFede.put(7,9);
+        this.bonusVittoriaPerPuntiFede.put(8,11);
+        this.bonusVittoriaPerPuntiFede.put(9,13);
+        this.bonusVittoriaPerPuntiFede.put(10,15);
+        this.bonusVittoriaPerPuntiFede.put(11,17);
+        this.bonusVittoriaPerPuntiFede.put(12,19);
+        this.bonusVittoriaPerPuntiFede.put(13,22);
+        this.bonusVittoriaPerPuntiFede.put(14,25);
+        this.bonusVittoriaPerPuntiFede.put(15,30);
         //endregion
     }
 
@@ -214,6 +237,14 @@ public class Tabellone implements Serializable {
      */
     private SpazioAzione getSpazioAzioneById(int idSpazioAzione) {
         return this.SpaziAzione.stream().filter(x -> x.getIdSpazioAzione() == idSpazioAzione).findFirst().orElse(null);
+    }
+
+    /**
+     * Ritorna il bonus vittoria associato ai punti fede specificati
+     */
+    public int getBonusVittoriaByPuntiFede(int puntiFede)
+    {
+        return this.bonusVittoriaPerPuntiFede.get(puntiFede);
     }
 
     //endregion

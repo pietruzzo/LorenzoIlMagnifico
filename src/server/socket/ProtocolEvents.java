@@ -9,6 +9,7 @@ public class ProtocolEvents {
     public static final String LOGIN = "login";
     public static final String INIZIO_AUTOMATICO = "inizioAutomatico";
     public static final String INIZIA_PARTITA = "inziaPartita";
+    public static final String RISPOSTA_SOSTEGNO_CHIESA = "rispostaSostegnoChiesa";
 
     //Eventi lanciati dal server verso il client
     public static final String TIRATA_ECCEZIONE = "tirataEccezione";

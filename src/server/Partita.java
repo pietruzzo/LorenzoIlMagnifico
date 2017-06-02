@@ -5,6 +5,7 @@ import Domain.Giocatore;
 import Domain.Tabellone;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import sun.nio.ch.Net;
 
 import java.io.Serializable;
@@ -139,6 +140,9 @@ public class Partita  implements Serializable {
         //Inizializza il valore dei familiari in base all'esito dei dadi
         this.giocatoriPartita.forEach(x -> x.SettaValoreFamiliare(esitoDadi));
 
+        //Azzera i dati relativi ai rapporti al vaticano effettuati
+        this.giocatoriPartita.forEach(x -> x.setRapportoVaticanoEffettuato(false));
+
         //"Pulisce" il tabellone e pesca le 16 carte da mettere sulle torri
         HashMap<Integer, String> mappaCarte = this.tabellone.IniziaTurno();
         int[] ordineGiocatori = this.giocatoriPartita.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
@@ -228,6 +232,8 @@ public class Partita  implements Serializable {
         return this.tabellone.EsistonoFamiliariPiazzabili();
     }
 
+
+    //region Rapporto Vaticano
     /**
      * Effettua le operazioni per il rapporto al vaticano
      */
@@ -282,6 +288,41 @@ public class Partita  implements Serializable {
             }
         }
     }
+
+
+    /**
+     *  Gestisce la risposta del client alla domanda sul sostegno della chiesa
+     *  @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(GiocatoreRemoto giocatore, Boolean risposta){
+        if(risposta == true)
+        {
+            //Se il giocatore ha scelto di sostenere la chiesa:
+            // * deve spendere tutti i suoi punti fede
+            // * ottiene un certo numero di punti vittoria in base ai punti fede spesi
+            int bonusVittoria = this.tabellone.getBonusVittoriaByPuntiFede(giocatore.getRisorse().getPuntiFede());
+            giocatore.SostieniLaChiesa(bonusVittoria);
+
+            //TODO: notificare tutti i giocatori dei cambiamenti al giocatore che ha sostenuto la chiesa
+        }
+        else
+        {
+            //Se il giocatore non vuole sostenere la chiesa viene scomunicato
+            this.tabellone.ScomunicaGiocatore(giocatore);
+            this.ComunicaScomunica(new int[] {giocatore.getIdGiocatore()} );
+        }
+
+        //Se tutti i giocatori hanno effettuato il rapporto al vaticano si può andare avanti
+        if(this.giocatoriPartita.stream().allMatch(g -> g.getRapportoVaticanoEffettuato()))
+        {
+            if(periodo < 3)
+                this.InizioNuovoTurno();
+            else
+                this.FinePartita();
+        }
+
+    }
+    //endregion
 
     /**
      * Calcola il punteggio e lo comunica ai client

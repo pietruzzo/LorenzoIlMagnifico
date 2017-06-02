@@ -49,4 +49,6 @@ public abstract class AbstractClient {
     public abstract void VerificaInizioAutomatico() throws IOException;
 
     public abstract void IniziaPartita();
+
+    public abstract void RispostaSostegnoChiesa(Boolean risposta);
 }

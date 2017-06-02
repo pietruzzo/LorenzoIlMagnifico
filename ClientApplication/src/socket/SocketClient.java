@@ -51,6 +51,7 @@ public class SocketClient extends AbstractClient {
     /**
      * Configura il protocollo del socket
      */
+    @Override
     public void InizializzaSocketProtocol()
     {
         this.socketClientProtocol = new SocketClientProtocol(this.inputStream, this.outputStream, this.getMainGame());
@@ -59,6 +60,7 @@ public class SocketClient extends AbstractClient {
     /**
      * Effettua il login del giocatore
      */
+    @Override
     public void Login(String nome) throws Exception {
         this.socketClientProtocol.Login(nome);
         this.AvviaThreadRicezioneMessaggi();
@@ -72,12 +74,21 @@ public class SocketClient extends AbstractClient {
         this.socketClientProtocol.VerificaInizioAutomatico();
     }
 
-
     /**
      * Comunica al server di inziare la partita
      */
+    @Override
     public void IniziaPartita()  {
         this.socketClientProtocol.IniziaPartita();
+    }
+
+    /**
+     * Comunica al server la risposta al sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    @Override
+    public void RispostaSostegnoChiesa(Boolean risposta) {
+        this.socketClientProtocol.RispostaSostegnoChiesa(risposta);
     }
 
 

@@ -38,6 +38,21 @@ public class Giocatore implements Serializable {
     public Risorsa getRisorse() {
         return Risorse;
     }
+
+    public List<Carta> getListaCarte(){
+        List<Carta> listaCarte=new ArrayList<Carta>();
+        listaCarte.addAll(CarteTerritorio);
+        listaCarte.addAll(CarteEdificio);
+        listaCarte.addAll(CartePersonaggio);
+        listaCarte.addAll(CarteImpresa);
+        listaCarte.addAll(CarteScomunica);
+        return  listaCarte;
+    }
+
+    public Boolean getRapportoVaticanoEffettuato() {
+        return rapportoVaticanoEffettuato;
+    }
+
     //endregion
 
     //region Setters
@@ -149,15 +164,15 @@ public class Giocatore implements Serializable {
         }
     }
 
-    public List<Carta> getListaCarte(){
-        List<Carta> listaCarte=new ArrayList<Carta>();
-        listaCarte.addAll(CarteTerritorio);
-        listaCarte.addAll(CarteEdificio);
-        listaCarte.addAll(CartePersonaggio);
-        listaCarte.addAll(CarteImpresa);
-        listaCarte.addAll(CarteScomunica);
-        return  listaCarte;
+    /**
+     * Spende tutti i suoi punti fede
+     * ottiene un certo numero di punti vittoria in base ai punti fede spesi
+     */
+    public void SostieniLaChiesa(int bonusPuntiVittoria)
+    {
+        this.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, this.Risorse.getPuntiVittoria() + bonusPuntiVittoria );
+        this.Risorse.setRisorse(Risorsa.TipoRisorsa.PFEDE, 0);
+        this.setRapportoVaticanoEffettuato(true);
     }
-
 }
 

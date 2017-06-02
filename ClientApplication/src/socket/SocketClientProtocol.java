@@ -4,6 +4,7 @@ import Domain.Tabellone;
 import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
+import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -191,6 +192,22 @@ public class SocketClientProtocol {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Comunica al server la risposta al sostegno della chiesa
+     * @param risposta true se sostiene, con false il giocatore viene scomunicato
+     */
+    public void RispostaSostegnoChiesa(Boolean risposta)
+    {
+        try {
+            outputStream.writeObject(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA);
+            outputStream.writeObject(risposta);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //endregion
 
     /**
