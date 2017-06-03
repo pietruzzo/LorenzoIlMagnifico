@@ -1,15 +1,14 @@
 package server;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Dado;
 import Domain.Giocatore;
 import Domain.Tabellone;
+import Domain.DTO.UpdateGiocatoreDTO;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import sun.nio.ch.Net;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -233,6 +232,31 @@ public class Partita  implements Serializable {
     }
 
 
+    /**
+     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * @param update nuove caratteristiche del giocatore
+     */
+    private void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update)
+    {
+        for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
+            try{ giocatore.ComunicaAggiornaGiocatore(update); }
+            catch (NetworkException e) {
+                System.out.println("Giocatore non più connesso");
+            }
+        }
+    }
+
+
+    /**
+     * Tenta di effettuare il piazzamento indicato nei parametri
+     * @param pfDTO parametri indicanti il piazzamento da effettuare
+     */
+    public void PiazzaFamiliare(PiazzaFamiliareDTO pfDTO) throws DomainException {
+        UpdateGiocatoreDTO update = this.tabellone.PiazzaFamiliare(pfDTO.getIdGiocatore(), pfDTO.getColoreDado(), pfDTO.getIdSpazioAzione(), pfDTO.getServitoriAggiunti());
+        this.ComunicaAggiornaGiocatore(update);
+        this.IniziaNuovaMossa();
+    }
+
     //region Rapporto Vaticano
     /**
      * Effettua le operazioni per il rapporto al vaticano
@@ -289,7 +313,6 @@ public class Partita  implements Serializable {
         }
     }
 
-
     /**
      *  Gestisce la risposta del client alla domanda sul sostegno della chiesa
      *  @param risposta true se sostiene, con false il giocatore viene scomunicato
@@ -301,10 +324,10 @@ public class Partita  implements Serializable {
             // * deve spendere tutti i suoi punti fede
             // * ottiene un certo numero di punti vittoria in base ai punti fede spesi
             int bonusVittoria = this.tabellone.getBonusVittoriaByPuntiFede(giocatore.getRisorse().getPuntiFede());
-            giocatore.SostieniLaChiesa(bonusVittoria);
+            UpdateGiocatoreDTO update = giocatore.SostieniLaChiesa(bonusVittoria);
 
-            //TODO: notificare tutti i giocatori dei cambiamenti al giocatore che ha sostenuto la chiesa
-        }
+            this.ComunicaAggiornaGiocatore(update);
+    }
         else
         {
             //Se il giocatore non vuole sostenere la chiesa viene scomunicato
@@ -322,6 +345,7 @@ public class Partita  implements Serializable {
         }
 
     }
+
     //endregion
 
     /**

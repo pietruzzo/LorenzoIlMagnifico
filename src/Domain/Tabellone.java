@@ -1,10 +1,10 @@
 package Domain;
 
+import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 import server.Partita;
 
-import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -212,7 +212,7 @@ public class Tabellone implements Serializable {
      * Ritorna il GiocatoreGraphic dato il suo id
      * @param idGiocatore
      */
-    private Giocatore GetGiocatoreById(short idGiocatore)
+    private Giocatore getGiocatoreById(short idGiocatore)
     {
         return this.Giocatori.stream().filter(x -> x.getIdGiocatore() == idGiocatore).findFirst().orElse(null);
     }
@@ -220,9 +220,9 @@ public class Tabellone implements Serializable {
     /**
      * Ritorna il nome del GiocatoreGraphic dato il suo id
      */
-    public String GetNomeGiocatoreById (short idGiocatore)
+    public String getNomeGiocatoreById (short idGiocatore)
     {
-        return this.GetGiocatoreById(idGiocatore).Nome;
+        return this.getGiocatoreById(idGiocatore).Nome;
     }
 
     /**
@@ -253,9 +253,13 @@ public class Tabellone implements Serializable {
     /**
      * Consente di piazzare un familiare in uno spazio azione
      */
-    public void PiazzaFamiliare(int idSpazioAzione, Familiare familiare) throws DomainException {
+    public UpdateGiocatoreDTO PiazzaFamiliare(short idGiocatore, ColoreDado coloreDado, int idSpazioAzione, int servitoriAggiunti) throws DomainException {
+        Giocatore giocatore = this.getGiocatoreById(idGiocatore);
+        Familiare familiare = giocatore.getFamiliareByColor(coloreDado);
         SpazioAzione spazioAzione = this.getSpazioAzioneById(idSpazioAzione);
-        spazioAzione.PiazzaFamiliare(familiare);
+        spazioAzione.PiazzaFamiliare(familiare, servitoriAggiunti);
+
+        return new UpdateGiocatoreDTO(idGiocatore, giocatore.getRisorse(), coloreDado, idSpazioAzione);
     }
 
     /**

@@ -26,10 +26,11 @@ public class SpazioAzioneConsiglio extends SpazioAzione  implements Serializable
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws DomainException
+    @Override
+    public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException
     {
-        super.ValidaPiazzamentoFamiliare(familiare);
-        super.PiazzaFamiliare(familiare);
+        super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+        super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliariPiazzati.add(familiare);
     }
 

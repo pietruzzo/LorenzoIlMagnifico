@@ -1,6 +1,10 @@
 package lorenzo;
 
+import Domain.ColoreDado;
+import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Tabellone;
+import Domain.DTO.UpdateGiocatoreDTO;
+import Exceptions.NetworkException;
 import graphic.Cli.ControllerCli;
 import graphic.Ui;
 import network.AbstractClient;
@@ -9,8 +13,6 @@ import socket.SocketClient;
 
 import java.io.IOException;
 import java.util.HashMap;
-
-import static java.io.File.separator;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -99,7 +101,11 @@ public class MainGame {
      * Comincia la partita, sarà il turno del primo GiocatoreGraphic loggato
      */
     public void IniziaPartita() {
-        client.IniziaPartita();
+        try {
+            client.IniziaPartita();
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione inizio partita. %s", e.getMessage()));
+        }
     }
 
     /**
@@ -108,7 +114,24 @@ public class MainGame {
      */
     public void RispostaSostegnoChiesa(Boolean risposta)
     {
-        client.RispostaSostegnoChiesa(risposta);
+        try {
+            client.RispostaSostegnoChiesa(risposta);
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione risposta sostegno. %s", e.getMessage()));
+        }
+    }
+
+    /**
+     * Manda la richiesta di piazzamento al server
+     * Effettua anche la validazione, in caso di errori viene mostrato l'errore a video
+     */
+    public void PiazzaFamiliare(short idGiocatore, ColoreDado coloreDado, int idSpazioAzione, int servitoriAggiunti)
+    {
+        try {
+            client.PiazzaFamiliare(new PiazzaFamiliareDTO(idGiocatore, coloreDado, idSpazioAzione, servitoriAggiunti));
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione piazzamento familiare. %s", e.getMessage()));
+        }
     }
 
     //endregion
@@ -158,6 +181,20 @@ public class MainGame {
     {
         System.out.println("Hai abbastanza punti fede per sostenere la chiesa, la vuoi sostenere?");
         userInterface.sceltaSostegnoChiesa();
+    }
+
+    /**
+     * Metodo chiamato per aggiornare le proprietà di un giocatore
+     * @param update proprietà del giocatore da aggiornare
+     */
+    public void AggiornaGiocatore(UpdateGiocatoreDTO update)
+    {
+        System.out.println(String.format("Aggiornamento del giocatore %d", update.getIdGiocatore()));
+        //In base ai parametri ricevuti aggiorna solo le risorse o anche la posizione di un familiare
+        if(update.getColoreDado() == null || update.getIdSpazioAzione() == null)
+            userInterface.aggiornaRisorse(update.getIdGiocatore(), update.getRisorse());
+        else
+            userInterface.aggiornaGiocatore(update.getIdGiocatore(), update.getRisorse(), update.getColoreDado(), update.getIdSpazioAzione());
     }
     //endregion
 

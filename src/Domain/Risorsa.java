@@ -13,7 +13,21 @@ public class Risorsa  implements Serializable {
     private final static short NUMRISORSE = 7;
     private short[] risorse = new short[NUMRISORSE];
 
+    /**
+     * Costruttore base
+     */
     public Risorsa(){}
+
+    /**
+     * Costruttore parametrizzato
+     * @param legno numero di legni iniziali
+     * @param pietra numero di pietre iniziali
+     * @param servi numero di servitori iniziali
+     * @param monete numero di monete iniziali
+     * @param puntiVittoria numero di punti vittoria iniziali
+     * @param puntiMilitari numero di punti militari iniziali
+     * @param puntiFede numero di punti fede iniziali
+     */
     public Risorsa(int legno, int pietra, int servi, int monete, int puntiVittoria, int puntiMilitari, int puntiFede ){
         this.risorse[0]=(short) legno;
         this.risorse[1]= (short) pietra;
@@ -23,15 +37,26 @@ public class Risorsa  implements Serializable {
         this.risorse[5]= (short) puntiMilitari;
         this.risorse[6]= (short) puntiFede;
     }
+
+    /**
+     * Costruttore per tipo di risorsa
+     * @param tipoRisorsa tipo di risorsa da creare
+     * @param risorsa quantitativo di risorsa da creare
+     */
     public Risorsa(TipoRisorsa tipoRisorsa, int risorsa){
         risorse[tipoRisorsa.getPosizione()]=(short) risorsa;
     }
+
+    /**
+     * Costruttore della risorsa dato l'array
+     * @param array array delle risorse
+     */
     Risorsa(short[] array){
         if (array.length!=NUMRISORSE) throw new UnsupportedOperationException("Array di dimensioni inadeguate");
         risorse=array.clone();
     }
 
-
+    //region Getters
     public int getLegno(){return risorse[0];}
     public int getPietra(){return risorse[1];}
     public int getServi(){return risorse[2];}
@@ -39,8 +64,12 @@ public class Risorsa  implements Serializable {
     public int getPuntiVittoria(){return risorse[4];}
     public int getPuntiFede(){return risorse[5];}
     public int getPuntiMilitari(){return risorse[6];}
-
     short[] getArrayRisorse(){return risorse;}
+
+    public int getRisorse(TipoRisorsa tipoRisorsa){
+        return this.risorse[tipoRisorsa.getPosizione()];
+    }
+    //endregion
 
     /**
      *
@@ -55,11 +84,12 @@ public class Risorsa  implements Serializable {
         return new Risorsa(nuovaRisorsa);
 
     }
-    //TODO: uniformare getRisorse con getLegno, getPietra...
-    public int getRisorse(TipoRisorsa tipoRisorsa){
-        return this.risorse[tipoRisorsa.getPosizione()];
-    }
 
+    /**
+     * Ritorna la somma delle risorse passate
+     * @param risorsa1 prima risorsa da sommare
+     * @param risorsa2 seconda risorsa da sommare
+     */
     @NotNull
     public static Risorsa add (Risorsa risorsa1, Risorsa risorsa2){
         short[] array1 = risorsa1.getArrayRisorse();
@@ -70,6 +100,12 @@ public class Risorsa  implements Serializable {
         }
         return new Risorsa(result);
     }
+
+    /**
+     * Ritorna la differenza delle risorse passate
+     * @param minuendo risorsa minuendo
+     * @param sottrattore risorsa sottraendo
+     */
     @NotNull
     public static Risorsa sub(Risorsa minuendo, Risorsa sottrattore){
         short[]array1=minuendo.getArrayRisorse();
@@ -80,12 +116,21 @@ public class Risorsa  implements Serializable {
         }
         return new Risorsa(result);
     }
+
+    /**
+     * Torna true se tutte le risorse sono positive
+     */
     public boolean isPositivo(){
         for (short r : risorse){
             if (r<0) return false;
         }
         return true;
     }
+
+    /**
+     * Moltiplica tutte le risorse per uno scalare
+     * @param scalare scalare che moltiplica le risorse
+     */
     public Risorsa multScalare(int scalare){
         short[] array = this.getArrayRisorse();
         short[] newArray = new short[NUMRISORSE];
@@ -94,7 +139,17 @@ public class Risorsa  implements Serializable {
         }
         return new Risorsa(newArray);
     }
+
+    /**
+     * Clona una risorsa
+     * @return la risorsa passata come parametro clonata
+     */
     public Risorsa clone(){ return new Risorsa(this.getArrayRisorse().clone());}
+
+    /**
+     * Setta tutte le risorse negative pari a zero
+     * @param risorsa risorsa da controllare
+     */
     public static Risorsa setNegToZero(Risorsa risorsa){
         short[] newRisorse = risorsa.getArrayRisorse().clone();
         for (short s: newRisorse) {
@@ -103,7 +158,9 @@ public class Risorsa  implements Serializable {
         return new Risorsa(newRisorse);
     }
 
-
+    /**
+     * Inidica i tipi di risorsa possibili
+     */
     public enum TipoRisorsa{
         LEGNO("Legno", 0), PIETRA("Pietra", 1), SERVI("Servi", 2), MONETE("Monete", 3), PVITTORIA("Punti Vittoria", 4), PFEDE("Punti Fede", 5), PMILITARI("Punti Militari", 6);
 

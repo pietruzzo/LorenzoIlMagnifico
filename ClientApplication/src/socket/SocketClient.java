@@ -1,5 +1,6 @@
 package socket;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import lorenzo.MainGame;
 import network.AbstractClient;
 
@@ -91,6 +92,14 @@ public class SocketClient extends AbstractClient {
         this.socketClientProtocol.RispostaSostegnoChiesa(risposta);
     }
 
+    /**
+     * Comunica al server l'intenzione di piazzare un familiare nello spazio azione associato
+     * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
+     */
+    @Override
+    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO)   {
+        this.socketClientProtocol.PiazzaFamiliare(piazzaFamiliareDTO);
+    }
 
     /**
      * Avvia il thread che gestisce la ricezione dei messaggi da parte del server

@@ -42,11 +42,12 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
+    @Override
+    public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         Boolean torreOccupata = this.Torre.TorreOccupata();
 
-        this.ValidaPiazzamentoFamiliare(familiare, torreOccupata);
-        super.PiazzaFamiliare(familiare);
+        this.ValidaPiazzamentoFamiliare(familiare, torreOccupata, servitoriAggiunti);
+        super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliarePiazzato = familiare;
         this.FamiliarePiazzato.Giocatore.PagaRisorse(this.CartaAssociata.CostoRisorse);
         if(torreOccupata)
@@ -59,17 +60,17 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
 
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare, Boolean torreOccupata) throws DomainException {
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare, Boolean torreOccupata, int servitoriAggiunti) throws DomainException {
         //Effettua i controlli legati alla torre di appartenenza
         this.Torre.ValidaPiazzamentoFamiliare(familiare);
-        super.ValidaPiazzamentoFamiliare(familiare);
+        super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
 
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
         if(this.CartaAssociata == null)
             throw new DomainException("A questo spazio azione non è associata alcuna carta!");
 
-        Risorsa costoEffetti = super.ValidaValoreAzione(familiare);
+        Risorsa costoEffetti = super.ValidaValoreAzione(familiare, servitoriAggiunti);
 
         //Calcola il malus dovuto dall'occupazione della torre
         //Se la torre è occupata il malus è di -3 monete
@@ -80,13 +81,13 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
             else
                 malusTorreOccupata= malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
 
-        //Valuta se il GiocatoreGraphic rimarrebbe con tutte le risorse in positivo prendendo la carta
+        //Valuta se il giocatore rimarrebbe con tutte le risorse in positivo prendendo la carta
         //Considera il bonus dello spazio azione, il costo della carta, il malus della torre occupata e gli effetti delle carte (anche le carte scomunica)
         if(!Risorsa.sub(Risorsa.add(familiare.Giocatore.Risorse, this.BonusRisorse),
                         Risorsa.add(Risorsa.add(this.CartaAssociata.CostoRisorse, malusTorreOccupata), costoEffetti)).isPositivo())
             throw new DomainException("Non si dispone di risorse sufficienti per poter prendere la carta.");
 
-        //Valuta se il GiocatoreGraphic ha abbastanza spazio nella plancia per prendere la carta
+        //Valuta se il giocatore ha abbastanza spazio nella plancia per prendere la carta
         this.CartaAssociata.ValidaPresaCarta(familiare.Giocatore, this);
 
         if(this.CartaAssociata instanceof CartaTerritorio)
@@ -94,7 +95,7 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
     }
 
     /**
-     * Valuta se il GiocatoreGraphic ha abbastanza punti militari per poter piazzare la carta nella plancia
+     * Valuta se il giocatore ha abbastanza punti militari per poter piazzare la carta nella plancia
      */
     private void ValidaCartaTerritorio(Giocatore giocatore, int costoPuntiMilitariEffetti) throws DomainException {
         int minimoPuntiMilitari = 0;

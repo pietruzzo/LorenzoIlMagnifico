@@ -23,15 +23,17 @@ public class SpazioAzioneMercato extends SpazioAzione  implements Serializable {
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
-        this.ValidaPiazzamentoFamiliare(familiare);
-        super.PiazzaFamiliare(familiare);
+    @Override
+    public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
+        this.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+        super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliarePiazzato = familiare;
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
-        super.ValidaPiazzamentoFamiliare(familiare);
+    @Override
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
+        super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
 
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
