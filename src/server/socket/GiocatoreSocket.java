@@ -1,11 +1,12 @@
 package server.socket;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Tabellone;
+import Domain.DTO.UpdateGiocatoreDTO;
 import Exceptions.DomainException;
 import server.GiocatoreRemoto;
 import server.Server;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -95,6 +96,19 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     public void RispostaSostegnoChiesa(Boolean risposta){
         this.getPartita().RispostaSostegnoChiesa(this, risposta);
     }
+
+     /**
+      * Gestisce l'evento relativo al tentato piazzamento di un familiare da parte di un client
+      * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
+      */
+    public void PiazzaFamiliare (PiazzaFamiliareDTO piazzaFamiliareDTO)
+    {
+        try {
+            this.getPartita().PiazzaFamiliare(piazzaFamiliareDTO);
+        } catch (DomainException e) {
+            protocol.ComunicaEccezione(e.getMessage());
+        }
+    }
     //endregion
 
     //region Messaggi dal server al client
@@ -145,5 +159,15 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     {
         this.protocol.SceltaSostegnoChiesa();
     }
-    //endregion
+
+    /**
+     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * @param update nuove caratteristiche del giocatore
+     */
+    @Override
+    public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) {
+        this.protocol.AggiornaGiocatore(update);
+    }
+
+        //endregion
 }

@@ -1,5 +1,6 @@
 package server.rmi;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import Exceptions.DomainException;
 import rmi.IRMIClient;
 import server.AbstractServer;
@@ -7,6 +8,7 @@ import server.GiocatoreRemoto;
 import server.Server;
 
 import java.awt.*;
+import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -72,6 +74,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
      * Effettua il login del GiocatoreGraphic
      * Salva anche il riferimento per chiamare i metodi lato client attraverso rmi
      */
+    @Override
     public short Login(String nome, IRMIClient rmiClient) throws DomainException {
         return getServer().AggiungiGiocatore(nome, new GiocatoreRMI(rmiClient));
     }
@@ -79,6 +82,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     /**
      * Se è stato raggiunto il limite massimo di giocatori la partita inizia automaticamente
      */
+    @Override
     public void VerificaInizioAutomatico(short idGiocatore) throws DomainException {
         GetGiocatoreById(idGiocatore).getPartita().VerificaInizioAutomatico();
     }
@@ -86,6 +90,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     /**
      * Inizia una nuova partita
      */
+    @Override
     public void IniziaPartita(short idGiocatore) throws DomainException {
         GetGiocatoreById(idGiocatore).getPartita().IniziaPartita();
     }
@@ -94,9 +99,14 @@ public class RMIServer extends AbstractServer implements IRMIServer {
      * Gestisce la risposta del client alla domanda sul sostegno della chiesa
      * @param risposta true se sostiene, con false il giocatore viene scomunicato
      */
+    @Override
     public void RispostaSostegnoChiesa(short idGiocatore, Boolean risposta) {
         GiocatoreRemoto giocatoreRemoto = GetGiocatoreById(idGiocatore);
         giocatoreRemoto.getPartita().RispostaSostegnoChiesa(giocatoreRemoto, risposta);
     }
 
+    @Override
+    public void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO piazzaFamiliareDTO) throws IOException {
+        GetGiocatoreById(idGiocatore).getPartita().PiazzaFamiliare(piazzaFamiliareDTO);
+    }
 }

@@ -78,11 +78,6 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
-    public void spostaFamiliare(int idGiocatore, ColoreDado coloreDado, int idSpazioAzione) {
-
-    }
-
-    @Override
     public void aggiornaGiocatore(int idGiocatore, Risorsa risorsa, ColoreDado coloreDado, int idSpazioAzione) {
 
     }

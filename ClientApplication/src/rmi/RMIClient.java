@@ -1,12 +1,13 @@
 package rmi;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Tabellone;
-import Exceptions.DomainException;
+import Domain.DTO.UpdateGiocatoreDTO;
+import Exceptions.NetworkException;
 import lorenzo.MainGame;
 import network.AbstractClient;
 import server.rmi.IRMIServer;
 
-import java.awt.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -71,16 +72,16 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      */
     @Override
     public void VerificaInizioAutomatico() throws IOException {
-        server.VerificaInizioAutomatico(idGiocatore);
+        server.VerificaInizioAutomatico(this.idGiocatore);
     }
 
     /**
      * Comunica al server di iniziare la partita
      */
     @Override
-    public void IniziaPartita() {
+    public void IniziaPartita() throws NetworkException {
         try {
-            server.IniziaPartita(idGiocatore);
+            server.IniziaPartita(this.idGiocatore);
         } catch (IOException e) {
             this.HandleException(e);
         }
@@ -91,9 +92,23 @@ public class RMIClient extends AbstractClient implements IRMIClient {
      * @param risposta true se sostiene, con false il giocatore viene scomunicato
      */
     @Override
-    public void RispostaSostegnoChiesa(Boolean risposta) {
+    public void RispostaSostegnoChiesa(Boolean risposta) throws NetworkException {
         try {
-            server.RispostaSostegnoChiesa(idGiocatore, risposta);
+            server.RispostaSostegnoChiesa(this.idGiocatore, risposta);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
+
+
+    /**
+     * Comunica al server l'intenzione di piazzare un familiare nello spazio azione associato
+     * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
+     */
+    @Override
+    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException {
+        try {
+            server.PiazzaFamiliare(this.idGiocatore, piazzaFamiliareDTO);
         } catch (IOException e) {
             this.HandleException(e);
         }
@@ -147,13 +162,25 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     {
         this.getMainGame().SceltaSostegnoChiesa();
     }
+
+
+    /**
+     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * @param update nuove caratteristiche del giocatore
+     */
+    @Override
+    public void AggiornaGiocatore(UpdateGiocatoreDTO update) {
+        this.getMainGame().AggiornaGiocatore(update);
+    }
     //endregion
 
     /**
      * Gestisce le eccezioni lanciate lato server
      */
-    private void HandleException(IOException eccezione)
-    {
-        this.getMainGame().MostraEccezione(eccezione.getMessage());
+    private void HandleException(IOException eccezione) throws NetworkException {
+        if (eccezione instanceof RemoteException)
+            throw new NetworkException(eccezione);
+        else
+            this.getMainGame().MostraEccezione(eccezione.getMessage());
     }
 }

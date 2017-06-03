@@ -1,5 +1,6 @@
 package server.rmi;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import rmi.IRMIClient;
 
 import java.io.IOException;
@@ -13,4 +14,5 @@ public interface IRMIServer extends Remote {
     void VerificaInizioAutomatico(short idGiocatore) throws IOException;
     void IniziaPartita(short idGiocatore) throws IOException;
     void RispostaSostegnoChiesa(short idGiocatore, Boolean risposta) throws IOException;
+    void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO piazzaFamiliareDTO) throws IOException;
 }

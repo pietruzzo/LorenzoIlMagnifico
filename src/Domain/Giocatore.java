@@ -1,8 +1,8 @@
 package Domain;
 
+import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.Effetti.GestoreEffettiGiocatore;
 
-import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
@@ -53,6 +53,10 @@ public class Giocatore implements Serializable {
         return rapportoVaticanoEffettuato;
     }
 
+    public Familiare getFamiliareByColor(ColoreDado coloreDado)
+    {
+        return this.Familiari.stream().filter(f -> f.ColoreDado == coloreDado).findFirst().orElse(null);
+    }
     //endregion
 
     //region Setters
@@ -168,11 +172,13 @@ public class Giocatore implements Serializable {
      * Spende tutti i suoi punti fede
      * ottiene un certo numero di punti vittoria in base ai punti fede spesi
      */
-    public void SostieniLaChiesa(int bonusPuntiVittoria)
+    public UpdateGiocatoreDTO SostieniLaChiesa(int bonusPuntiVittoria)
     {
         this.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, this.Risorse.getPuntiVittoria() + bonusPuntiVittoria );
         this.Risorse.setRisorse(Risorsa.TipoRisorsa.PFEDE, 0);
         this.setRapportoVaticanoEffettuato(true);
+
+        return new UpdateGiocatoreDTO(this.IdGiocatore, this.Risorse, null, null );
     }
 }
 

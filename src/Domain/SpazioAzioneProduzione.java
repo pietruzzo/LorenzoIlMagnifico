@@ -32,17 +32,19 @@ public class SpazioAzioneProduzione extends SpazioAzione  implements Serializabl
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws DomainException {
-        this.ValidaPiazzamentoFamiliare(familiare);
-        super.PiazzaFamiliare(familiare);
+    @Override
+    public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
+        this.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+        super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliariPiazzati.add(familiare);
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
+    @Override
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         //Effettua le validazioni del tabellone
         tabellone.ValidaPiazzamentoFamiliareProduzione(familiare);
-        super.ValidaPiazzamentoFamiliare(familiare);
+        super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
 
         if(this.FamiliariPiazzati.size() >= this.LimiteFamiliari)
             throw new DomainException("E' stato raggiunto il numero massimo di familiari per questo spazio azione!");

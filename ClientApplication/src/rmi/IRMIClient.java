@@ -1,6 +1,7 @@
 package rmi;
 
 import Domain.Tabellone;
+import Domain.DTO.UpdateGiocatoreDTO;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,5 +17,5 @@ public interface IRMIClient extends Remote {
     void IniziaMossa(int idGiocatore) throws RemoteException;
     void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) throws RemoteException;
     void SceltaSostegnoChiesa() throws RemoteException;
-
+    void AggiornaGiocatore(UpdateGiocatoreDTO update) throws RemoteException;
 }

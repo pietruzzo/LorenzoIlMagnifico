@@ -1,9 +1,9 @@
 package server.socket;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Tabellone;
-import javafx.scene.control.Tab;
+import Domain.DTO.UpdateGiocatoreDTO;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -43,6 +43,7 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.INIZIA_PARTITA, this::IniziaPartita);
         this.listaEventHandler.put(ProtocolEvents.INIZIO_AUTOMATICO, this::VerificaInizioPartita);
         this.listaEventHandler.put(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA, this::RispostaSostegnoChiesa);
+        this.listaEventHandler.put(ProtocolEvents.PIAZZA_FAMILIARE, this::PiazzaFamiliare);
     }
 
     //region Handler eventi
@@ -106,6 +107,20 @@ public class SocketServerProtocol {
         }
     }
 
+    /**
+     * Gestisce l'evento relativo al tentato piazzamento di un familiare da parte di un client
+     */
+    private void PiazzaFamiliare()
+    {
+        try {
+            PiazzaFamiliareDTO piazzaFamiliareDTO = (PiazzaFamiliareDTO)this.inputStream.readObject();
+            this.giocatore.PiazzaFamiliare(piazzaFamiliareDTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     //endregion
 
 
@@ -209,6 +224,22 @@ public class SocketServerProtocol {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.SOSTEGNO_CHIESA);
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * @param update nuove caratteristiche del giocatore
+     */
+    public void AggiornaGiocatore(UpdateGiocatoreDTO update) {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.AGGIORNA_GIOCATORE);
+                this.outputStream.writeObject(update);
                 this.outputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();

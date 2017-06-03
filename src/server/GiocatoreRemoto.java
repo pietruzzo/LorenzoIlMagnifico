@@ -2,7 +2,7 @@ package server;
 
 import Domain.Giocatore;
 import Domain.Tabellone;
-import Exceptions.DomainException;
+import Domain.DTO.UpdateGiocatoreDTO;
 import Exceptions.NetworkException;
 
 import java.util.HashMap;
@@ -55,4 +55,10 @@ public abstract class GiocatoreRemoto extends Giocatore{
      */
     public void SceltaSostegnoChiesa() throws NetworkException {}
 
+
+    /**
+     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * @param update nuove caratteristiche del giocatore
+     */
+    public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) throws NetworkException {}
 }

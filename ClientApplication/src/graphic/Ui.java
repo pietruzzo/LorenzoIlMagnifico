@@ -28,24 +28,31 @@ public interface Ui {
      */
     public abstract void stampaMessaggio(String stringa);
 
+    /**
+     * Configura le plancie dei giocatori
+     * Dispone le pedine dei giocatori e i familiari da piazzare
+     * @param tabellone
+     */
     public abstract void inizializzaPartita(Tabellone tabellone);
 
     /**
-     * Aggiorna le risorse del GiocatoreGraphic e la posizione delle pedine del GiocatoreGraphic (non i familiari, quelle dei punti)
+     * Aggiorna le risorse del giocatore e la posizione delle sue pedine (non i familiari, quelle dei punti)
      */
     public abstract void aggiornaRisorse(int idGiocatore, Risorsa risorsa);
 
     /**
-     * Il familiare viene indicato univocamente dal GiocatoreGraphic e dal colore del dado (ci sarà anche il colore per il neutro)
-     * Se è uno spazio azione torre deve anche prendere la carta dello spazio azione e aggiungerla alla plancia del GiocatoreGraphic (solo se è il GiocatoreGraphic corrente,
+     * Il familiare viene indicato univocamente dal Giocatore e dal colore del dado (ci sarà anche il colore per il neutro)
+     * Se è uno spazio azione torre deve anche prendere la carta dello spazio azione e aggiungerla alla plancia del giocatore (solo se è il GiocatoreGraphic corrente,
      * altrimenti la toglie e basta, perchè non si vedono le carte degli altri)
-     */
-    public abstract void spostaFamiliare(int idGiocatore, ColoreDado coloreDado, int idSpazioAzione);
-
-    /**
-     * fa quello che fanno i due prima
+     * Aggiorna le risorse
      */
     public abstract void aggiornaGiocatore(int idGiocatore, Risorsa risorsa, ColoreDado coloreDado, int idSpazioAzione);
+
+    /**
+     * Aggiunge il cubo scomunica nella tessera indicata dal periodo
+     * @param idGiocatoriScomunicati lista dei giocatori scomunicati
+     * @param periodo periodo nel quale è avvenuta la scomunica
+     */
     public abstract void aggiungiScomunica(int[] idGiocatoriScomunicati, int periodo);
 
     /**
@@ -64,9 +71,8 @@ public interface Ui {
      */
     public abstract void iniziaMossa(int idGiocatore);
 
-
     /**
-     * permette di scegliere le cose per la scomunica
+     * permette di scegliere se sostenere o meno la chiesa
      */
     public abstract void sceltaSostegnoChiesa();
 

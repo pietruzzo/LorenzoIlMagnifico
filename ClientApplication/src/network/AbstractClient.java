@@ -1,5 +1,8 @@
 package network;
 
+import Domain.ColoreDado;
+import Domain.DTO.PiazzaFamiliareDTO;
+import Exceptions.NetworkException;
 import lorenzo.MainGame;
 
 import java.awt.*;
@@ -48,7 +51,9 @@ public abstract class AbstractClient {
 
     public abstract void VerificaInizioAutomatico() throws IOException;
 
-    public abstract void IniziaPartita();
+    public abstract void IniziaPartita() throws NetworkException;
 
-    public abstract void RispostaSostegnoChiesa(Boolean risposta);
+    public abstract void RispostaSostegnoChiesa(Boolean risposta) throws NetworkException;
+
+    public abstract void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException;
 }

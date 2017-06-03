@@ -1,11 +1,11 @@
 package socket;
 
+import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Tabellone;
+import Domain.DTO.UpdateGiocatoreDTO;
 import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
-import javax.swing.text.StyledEditorKit;
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,6 +48,7 @@ public class SocketClientProtocol {
         this.listaEventHandler.put(ProtocolEvents.INIZIO_MOSSA, this::IniziaMossa);
         this.listaEventHandler.put(ProtocolEvents.GIOCATORI_SCOMUNICATI, this::ComunicaScomunica);
         this.listaEventHandler.put(ProtocolEvents.SOSTEGNO_CHIESA, this::SceltaSostegnoChiesa);
+        this.listaEventHandler.put(ProtocolEvents.AGGIORNA_GIOCATORE, this::AggiornaGiocatore);
     }
 
     //region Handler Eventi del server
@@ -142,6 +143,21 @@ public class SocketClientProtocol {
         mainGame.SceltaSostegnoChiesa();
     }
 
+
+    /**
+     * Gestisce l'evento di scomunica di giocatori
+     */
+    private void AggiornaGiocatore()
+    {
+        try {
+            UpdateGiocatoreDTO update = (UpdateGiocatoreDTO) this.inputStream.readObject();
+            mainGame.AggiornaGiocatore(update);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     //endregion
 
     //region Messaggi dal client al server
@@ -208,6 +224,19 @@ public class SocketClientProtocol {
         }
     }
 
+    /**
+     * Comunica al server l'intenzione di piazzare un familiare nello spazio azione associato
+     * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
+     */
+    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO)   {
+        try {
+            outputStream.writeObject(ProtocolEvents.PIAZZA_FAMILIARE);
+            outputStream.writeObject(piazzaFamiliareDTO);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     //endregion
 
     /**

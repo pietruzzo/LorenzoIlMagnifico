@@ -18,14 +18,19 @@ import java.util.List;
  */
 public class GestoreEffettiGiocatore  {
 
+    //region Proprieta
     private Giocatore giocatoreCorrente;
 
     private Risorsa malusRisorsaScomunica;
     private List<Effetto> listaEffettiValidati;
     private List<Carta> carteCorrenti; //Carte selezionate da Validazione
     private Effetto effettoImmediato; //Estratto da Validazione
+    //endregion
 
-
+    /**
+     * Costruttore
+     * @param giocatoreCorrente giocatore sul quale considerare gli effetti
+     */
     public GestoreEffettiGiocatore(Giocatore giocatoreCorrente) {
         this.giocatoreCorrente = giocatoreCorrente;
     }
@@ -35,7 +40,7 @@ public class GestoreEffettiGiocatore  {
      * @param azione          valore dei dadi, verrà modificato dagli effetti
      * @param casella         casella corrente del familiare
      * @param risorseAllocate le risorse allocate dal GiocatoreGraphic per piazzare il familiare
-     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a GiocatoreGraphic, costo ed azione vengono
+     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti
      */
     private void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
@@ -76,6 +81,14 @@ public class GestoreEffettiGiocatore  {
         azzeraTrigger(giocatoreCorrente.getListaCarte());
 
     }
+
+    /**
+     * @param costo           modificato dagli effetti (include solo le modifiche che influiscono sulla validità)
+     * @param azione          valore dei dadi, verrà modificato dagli effetti
+     * @param casella         casella corrente del familiare
+     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
+     * sovrascritti, casella e risorseAllocate solo letti
+     */
     public void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella){
         validaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
     }
@@ -113,10 +126,20 @@ public class GestoreEffettiGiocatore  {
         return costoRitorno;
     }
 
+    /**
+     * @param costo           modificato dagli effetti (costo con cui validare la mossa)
+     * @param azione          valore dei dadi, verrà modificato dagli effetti
+     * @param casella         casella corrente del familiare
+     * @return Ritorna Le risorse, conseguenze degli effetti (compreso di tutti i costi e bonus)
+     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a GiocatoreGraphic, costo ed azione vengono
+     * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
+     */
     public Risorsa effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException{
         return effettuaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
     }
+
+
     public void inizioTurno(int turno) {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
@@ -129,6 +152,7 @@ public class GestoreEffettiGiocatore  {
 
         azzeraTrigger(giocatoreCorrente.getListaCarte());
     }
+
 
     public void endGame(Risorsa risorseGiocatore) {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();

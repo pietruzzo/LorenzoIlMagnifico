@@ -1,6 +1,7 @@
 package server.rmi;
 
 import Domain.Tabellone;
+import Domain.DTO.UpdateGiocatoreDTO;
 import Exceptions.NetworkException;
 import rmi.IRMIClient;
 import server.GiocatoreRemoto;
@@ -86,6 +87,21 @@ public class GiocatoreRMI extends GiocatoreRemoto {
     {
         try {
             this.clientRMI.SceltaSostegnoChiesa();
+        } catch (RemoteException e) {
+            throw new NetworkException(e);
+        }
+    }
+
+
+    /**
+     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * @param update nuove caratteristiche del giocatore
+     */
+    @Override
+    public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) throws NetworkException {
+
+        try {
+            this.clientRMI.AggiornaGiocatore(update);
         } catch (RemoteException e) {
             throw new NetworkException(e);
         }
