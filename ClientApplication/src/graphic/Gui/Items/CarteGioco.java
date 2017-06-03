@@ -57,22 +57,4 @@ public class CarteGioco{
 }
 
 
- class CartaGraphic extends ImageView {
 
-    private TipoCarta tipoCarta;
-    private String nome;
-
-    public CartaGraphic (String nome, TipoCarta tipoCarta, Image immagineCarta){
-       super(immagineCarta);
-       this.tipoCarta= tipoCarta;
-       this.nome=nome;
-    }
-
-    public TipoCarta getTipoCarta() {
-       return tipoCarta;
-    }
-
-    public String getNome() {
-       return nome;
-    }
- }

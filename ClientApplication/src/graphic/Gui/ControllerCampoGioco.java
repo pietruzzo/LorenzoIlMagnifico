@@ -23,11 +23,9 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @FXML Pane vedononvedo;
     @FXML AnchorPane pannello;
-    @FXML AnchorPane planciaGiocatore;
-    @FXML GridPane infoPlayersGridPane;
-    @FXML HBox pedineDisponibiliHBox;
-    @FXML AnchorPane bottomAnchorPane;
-    @FXML Text messageText;
+    @FXML AnchorPane planciaGiocatorePane;
+    @FXML GridPane infoGiocatoriPane;
+    @FXML AnchorPane familiariPane;
 
     private MainGame mainGame;
 
@@ -48,7 +46,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
-    public void setArgApplicationGui(Applicazione applicazione) {
+    public void setArgApplicationGui(MainGame mainGame) {
         this.mainGame=mainGame;
     }
 

@@ -24,7 +24,6 @@ public class ControllerLogin implements Controller {
 
     ObservableList<String> communicationChoiceBoxList = FXCollections.observableArrayList("RMI", "Socket");
     private MainGame mainGame;
-    private Applicazione applicazione;
 
     /**
      * Metodo che inizializza alcuni elementi grafici del login_stage
@@ -57,7 +56,7 @@ public class ControllerLogin implements Controller {
 
         try {
             mainGame.Login(nomeUtente);
-            mainGame.AvviaUI(applicazione, tipoInterfaccia);
+            mainGame.AvviaUI(tipoInterfaccia);
             mainGame.VerificaInizioAutomatico();
         } catch (Exception e) {
             messaggioErrore.setText(e.getMessage());
@@ -66,8 +65,7 @@ public class ControllerLogin implements Controller {
     }
 
     @Override
-    public void setArgApplicationGui(Applicazione applicazione) {
-        this.mainGame= applicazione.getMainGame();
-        this.applicazione = applicazione;
+    public void setArgApplicationGui(MainGame mainGame) {
+        this.mainGame= mainGame;
     }
 }

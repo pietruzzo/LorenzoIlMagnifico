@@ -69,10 +69,9 @@ public class MainGame {
     /**
      * Avvia l'interfaccia utente appropriata e chiudi GUI se non necessaria
      *
-     * @param applicazione
      * @param tipoInterfaccia
      */
-    public void AvviaUI(Applicazione applicazione, TipoInterfaccia tipoInterfaccia) {
+    public void AvviaUI(TipoInterfaccia tipoInterfaccia) {
         if (tipoInterfaccia == TipoInterfaccia.CLI) {
             userInterface = new ControllerCli(this);
             applicazione.stopGUI();

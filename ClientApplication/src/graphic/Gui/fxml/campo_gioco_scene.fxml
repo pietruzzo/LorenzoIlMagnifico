@@ -9,7 +9,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
    <children>
       <AnchorPane fx:id="pannello" prefHeight="1300.0" prefWidth="2000.0">
@@ -18,22 +17,13 @@
                <top>
                   <SplitPane dividerPositions="0.45" prefHeight="1300.0" prefWidth="2000.0" BorderPane.alignment="CENTER">
                     <items>
-                      <AnchorPane id="tabelloneGridPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <Circle fill="DODGERBLUE" layoutX="114.0" layoutY="1190.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
-                              <Circle fill="DODGERBLUE" layoutX="100.0" layoutY="106.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
-                           </children>
-                        </AnchorPane>
+                      <AnchorPane id="tabelloneGridPane" fx:id="tabellone" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
                         <SplitPane dividerPositions="0.85" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                           <items>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <AnchorPane id="planciaGiocatore" prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <Circle fill="DODGERBLUE" layoutX="989.0" layoutY="100.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
-                                       </children>
-                                    </AnchorPane>
-                                    <GridPane id="infoPlayersGridPane">
+                                    <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="200.0" prefWidth="200.0" />
+                                    <GridPane id="infoPlayersGridPane" fx:id="infoGiocatoriPane">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="208.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="392.0" minWidth="10.0" prefWidth="392.0" />
@@ -44,15 +34,9 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                     </GridPane>
-                                    <HBox id="pedineDisponibiliHBox" prefHeight="100.0" prefWidth="200.0" />
-                                    <Circle fill="DODGERBLUE" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
                                  </children>
                               </VBox>
-                            <AnchorPane id="bottomAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                 <children>
-                                    <Text id="messageText" layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                 </children>
-                              </AnchorPane>
+                            <AnchorPane id="bottomAnchorPane" fx:id="familiariPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
                           </items>
                         </SplitPane>
                     </items>
