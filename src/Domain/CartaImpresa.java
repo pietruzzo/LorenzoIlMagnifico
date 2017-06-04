@@ -30,7 +30,7 @@ public class CartaImpresa extends Carta  implements Serializable {
     }
 
     /**
-     * Verifica se il GiocatoreGraphic ha la possibilità di prendere la carta
+     * Verifica se il giocatore ha la possibilità di prendere la carta
      */
     public void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws DomainException {
         //Verifica se il GiocatoreGraphic ha abbastanza spazio per prendere la carta
@@ -39,7 +39,7 @@ public class CartaImpresa extends Carta  implements Serializable {
     }
 
     /**
-     * Associa la carta al GiocatoreGraphic
+     * Associa la carta al giocatore
      */
     public void AssegnaGiocatore(Giocatore giocatore)
     {

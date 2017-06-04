@@ -86,7 +86,7 @@ public class Torre  implements Serializable {
      */
     protected void PescaCarte(int periodo, List<Carta> carteDisponibili)
     {
-        List<Carta> carteDaPescare = new ArrayList<>();
+        List<Carta> carteDaPescare;
         int numeroSpaziAzione = this.SpaziAzione.size(); //sempre 4
 
         //region Scelta carte da pescare
