@@ -20,7 +20,7 @@ import static java.io.File.separator;
 public class PlanciaGiocatore extends Pane {
 
     //posizione immagine plancia
-    private static final String pathPlancia = System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"tavolaGiocatore.png";
+    private static final String pathPlancia = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"tavolaGiocatore.png";
     //dimensioni della plancia giocatore
     private static final int DIMPLANCIAX=977;
     private static final int DIMPLANCIAY=622;
@@ -98,13 +98,13 @@ public class PlanciaGiocatore extends Pane {
 
     public void aggiungiCarta(CartaGraphic carta) {
         if (carta.getTipoCarta() == TipoCarta.Edificio) {
-            carta.setX(PRIMACARTAX + numCarteEdificio * OFFSETX);
-            carta.setY(EDIFICIOY);
+            carta.setX(PRIMACARTAX + numCarteEdificio * OFFSETX -carta.getImage().getWidth()/2);
+            carta.setY(EDIFICIOY -carta.getImage().getHeight()/2);
             numCarteEdificio = numCarteEdificio + 1;
         } else if (carta.getTipoCarta() == TipoCarta.Territorio) {
-            carta.setX(PRIMACARTAX + numCarteTerritorio * OFFSETX);
+            carta.setX(PRIMACARTAX + numCarteTerritorio * OFFSETX -carta.getImage().getWidth()/2);
             numCarteTerritorio = numCarteTerritorio + 1;
-            carta.setY(TERRITORIOY);
+            carta.setY(TERRITORIOY -carta.getImage().getHeight()/2);
         } else {
             carta.setX(PRIMACARTAX + 7 * OFFSETX);
             if (carta.getTipoCarta() == TipoCarta.Impresa) {

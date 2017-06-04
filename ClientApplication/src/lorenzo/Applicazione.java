@@ -4,7 +4,6 @@ import graphic.Gui.Controller;
 import graphic.Gui.ControllerCampoGioco;
 import graphic.Gui.ControllerLogin;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by casa on 26/05/17.
@@ -105,7 +105,7 @@ public class Applicazione extends Application {
 
         if (controllerFromFXML instanceof Controller){
             controller = (Controller) controllerFromFXML;
-            controller.setArgApplicationGui(this);
+            controller.setArgApplicationGui(mainGame);
 
         }
         return parent;

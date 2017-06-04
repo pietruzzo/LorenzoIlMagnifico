@@ -2,7 +2,6 @@ package graphic.Gui.Items;
 
 import Domain.TipoCarta;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import static java.io.File.separator;
 
 public class CarteGioco{
 
-   private final static String percorsoFileDescrizione = System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"Carte"+separator;
+   private final static String percorsoFileDescrizione = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"Carte"+separator;
    private final static int cartaW=50;
    private final static int cartaH=100;
    private final static int cartaScomW=30;

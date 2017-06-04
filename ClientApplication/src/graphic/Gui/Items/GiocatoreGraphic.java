@@ -20,34 +20,4 @@ public class GiocatoreGraphic {
     private FamiliareGraphic[] familiari = new FamiliareGraphic[4];
 }
 
-class FamiliareGraphic extends ImageView {
 
-    private static final String percorsoFileDescrizione = System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"Familiari"+separator;
-    private static final int Width = 100;
-    private static final int Height = 100;
-
-    private ColoreDado colore;
-
-    public FamiliareGraphic(ColoreGiocatore coloreGiocatore, ColoreDado coloreDado) {
-
-        super(getImmagine(coloreGiocatore, coloreDado));
-
-    }
-
-    private static Image getImmagine(ColoreGiocatore coloreGiocatore, ColoreDado coloreDado){
-        String URL= percorsoFileDescrizione + coloreGiocatore.toString() + "_" + coloreDado.toString() + ".jpg";;
-        Image immagine= new Image(URL, Width, Height, true, true);
-        if(immagine==null) throw new NullPointerException(URL +" non trovato");
-        return immagine;
-    }
-
-
-
-    /**
-     * Piazza il Familiare corrente nella casella indicata
-     * @param casella
-     */
-    public void piazzaFamiliare(CasellaGraphic casella){
-        casella.aggiungiPedina(this);
-    }
-}
