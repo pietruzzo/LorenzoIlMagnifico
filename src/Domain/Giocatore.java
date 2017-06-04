@@ -57,6 +57,10 @@ public class Giocatore implements Serializable {
     {
         return this.Familiari.stream().filter(f -> f.ColoreDado == coloreDado).findFirst().orElse(null);
     }
+
+    public List<CartaImpresa> getCarteImpresa() {
+        return CarteImpresa;
+    }
     //endregion
 
     //region Setters
@@ -179,6 +183,25 @@ public class Giocatore implements Serializable {
         this.setRapportoVaticanoEffettuato(true);
 
         return new UpdateGiocatoreDTO(this.IdGiocatore, this.Risorse, null, null );
+    }
+
+    /**
+     * Calcola la somma dei Punti Vittoria indicati sulle carte impresa sulla propria plancia giocatore.
+     * In generale applica tutti gli effetti delle carte che si attivano alla fine della partita
+     * Oltre alle carte impresa dunque, considera anche gli effetti delle tessere scomunica
+     */
+    public void updatePuntiVittoriaByEffettiCarte()
+    {
+        this.gestoreEffettiGiocatore.endGame(this.Risorse);
+    }
+
+    /**
+     * Ritorna 1 Punto Vittoria ogni 5 risorse, calcolando tutte le risorse (legno, pietra, servitori, monete) insieme.
+     */
+    public int getPuntiVittoriaByRisorse()
+    {
+        int totaleRisorse = this.Risorse.getLegno() + this.Risorse.getPietra() + this.Risorse.getServi() + this.Risorse.getMonete();
+        return totaleRisorse / 5;
     }
 }
 

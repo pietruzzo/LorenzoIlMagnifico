@@ -4,6 +4,7 @@ import Domain.ColoreDado;
 import Domain.Risorsa;
 import Domain.Tabellone;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -77,8 +78,12 @@ public interface Ui {
     public abstract void sceltaSostegnoChiesa();
 
     /**
+     * Aggiorna le posizioni delle pedine relativamente ai punti vittoria dei giocatori
      * Mostra popup con classifica
+     * @param mappaRisultati mappa ordinata (il primo elemento è il primo della classifica)
+     *                       key: id del giocatore
+     *                       value: punti vittoria corrispondenti
      */
-    public abstract void printaResoconto();
+    public abstract void finePartita(LinkedHashMap<Short, Integer> mappaRisultati);
 
 }

@@ -6,10 +6,8 @@ import Exceptions.DomainException;
 import server.Partita;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +25,10 @@ public class Tabellone implements Serializable {
     protected SpazioAzioneConsiglio SpazioAzioneConsiglio;
     protected List<Carta> mazzoCarte;
     protected List<TesseraScomunica> carteScomunica;
-    protected HashMap<Integer, Integer> bonusVittoriaPerPuntiFede;
+
+    private HashMap<Integer, Integer> bonusVittoriaPerPuntiFede;
+    private HashMap<Integer, Integer> bonusVittoriaPerTerritori;
+    private HashMap<Integer, Integer> bonusVittoriaPerPersonaggi;
 
     protected List<SpazioAzione> SpaziAzione;
     protected static int maxIdSpazioAzione = 0;
@@ -47,10 +48,14 @@ public class Tabellone implements Serializable {
         this.SpaziAzione = new ArrayList<>();
         this.mazzoCarte = new ArrayList<>();
         this.carteScomunica = new ArrayList<>();
+        this.bonusVittoriaPerPuntiFede = new HashMap<>();
+        this.bonusVittoriaPerTerritori = new HashMap<>();
+        this.bonusVittoriaPerPersonaggi = new HashMap<>();
 
         //Inizializza le 4 torri
         for (TipoCarta tipo : TipoCarta.values()) {
-            this.Torri.add(new Torre(tipo));
+            if(tipo != TipoCarta.Scomunica)
+                this.Torri.add(new Torre(tipo));
         }
 
         //region Spazi Produzione
@@ -120,7 +125,6 @@ public class Tabellone implements Serializable {
         }
         //endregion
 
-
         //region Set del bonus vittoria per punti fede
         //I punti fede sono la chiave dell'hashmap
         //Il bonus punti vittoria sono il valore corrispondente
@@ -141,48 +145,29 @@ public class Tabellone implements Serializable {
         this.bonusVittoriaPerPuntiFede.put(14,25);
         this.bonusVittoriaPerPuntiFede.put(15,30);
         //endregion
-    }
 
-    /**
-     * Aggiunge un GiocatoreGraphic alla partita (ci possono essere al massimo 4 giocatori)
-     */
-    public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws DomainException {
-        int numeroGiocatori = this.Giocatori.size();
-        if(numeroGiocatori >= 4)
-            throw new DomainException("E' stato raggiunto il numero limite di giocatori");
-        if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
-            throw new DomainException("Esiste già un GiocatoreGraphic con lo stesso username.");
+        //region Set del bonus vittoria per carte territorio
+        //Il numero di carte territorio del giocatore è la chiave dell'hashmap
+        //Il bonus punti vittoria sono il valore corrispondente
+        this.bonusVittoriaPerTerritori.put(0,0);
+        this.bonusVittoriaPerTerritori.put(1,0);
+        this.bonusVittoriaPerTerritori.put(2,0);
+        this.bonusVittoriaPerTerritori.put(3,1);
+        this.bonusVittoriaPerTerritori.put(4,4);
+        this.bonusVittoriaPerTerritori.put(5,10);
+        this.bonusVittoriaPerTerritori.put(6,20);
+        //endregion
 
-        //il primo GiocatoreGraphic riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
-        int monete = 5 + numeroGiocatori;
-        ColoreGiocatore colore = ColoreGiocatore.values()[this.Giocatori.size()];
-        giocatore.SettaProprietaIniziali(idGiocatore, nome, colore, monete);
-        this.Giocatori.add(giocatore);
-    }
-
-    /**
-     * Aggiorna l'ordine dei giocatori in base ai familiari piazzati nello spazio azione del consiglio
-     */
-    public void AggiornaOrdineGiocatori()
-    {
-        //Recupera i gicatori piazzati nello spazio azione consiglio
-        List<Giocatore> giocatoriConConsiglio = this.SpazioAzioneConsiglio.FamiliariPiazzati.stream().map(f -> f.Giocatore).distinct().collect(Collectors.toList());
-        //Recupera i giocatori che non hanno piazzato familiari nello spazio azione del consiglio, ordinati con l'ordine di gioco
-        List<Giocatore> giocatoriSenzaConsiglio = this.Giocatori.stream().filter(g -> !giocatoriConConsiglio.contains(g))
-                                                                        .sorted(Comparator.comparingInt(Giocatore::getOrdineTurno))
-                                                                        .collect(Collectors.toList());
-
-        //Unisce le liste
-        List<Giocatore> giocatoriOrdinati = new ArrayList<>();
-        giocatoriOrdinati.addAll(giocatoriConConsiglio);
-        giocatoriOrdinati.addAll(giocatoriSenzaConsiglio);
-
-        //Setta il nuovo ordine di gioco
-        int ordineGioco = 1;
-        for (Giocatore giocatore : giocatoriOrdinati) {
-            giocatore.setOrdineTurno(ordineGioco);
-            ordineGioco++;
-        }
+        //region Set del bonus vittoria per carte personaggio
+        //Il numero di carte personaggio del giocatore è la chiave dell'hashmap
+        this.bonusVittoriaPerTerritori.put(0,0);
+        this.bonusVittoriaPerTerritori.put(1,1);
+        this.bonusVittoriaPerTerritori.put(2,3);
+        this.bonusVittoriaPerTerritori.put(3,6);
+        this.bonusVittoriaPerTerritori.put(4,10);
+        this.bonusVittoriaPerTerritori.put(5,15);
+        this.bonusVittoriaPerTerritori.put(6,21);
+        //endregion
     }
 
     //region Getters
@@ -247,7 +232,66 @@ public class Tabellone implements Serializable {
         return this.bonusVittoriaPerPuntiFede.get(puntiFede);
     }
 
+    /**
+     * Ritorna il bonus vittoria associato al numero di carte territorio
+     */
+    public int getBonusVittoriaByTerritori(int numCarteTerritorio)
+    {
+        return this.bonusVittoriaPerTerritori.get(numCarteTerritorio);
+    }
+
+
+    /**
+     * Ritorna il bonus vittoria associato al numero di carte personaggio
+     */
+    public int getBonusVittoriaByPersonaggi(int numCartePersonaggio)
+    {
+        return this.bonusVittoriaPerPersonaggi.get(numCartePersonaggio);
+    }
+
     //endregion
+
+    /**
+     * Aggiunge un GiocatoreGraphic alla partita (ci possono essere al massimo 4 giocatori)
+     */
+    public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws DomainException {
+        int numeroGiocatori = this.Giocatori.size();
+        if(numeroGiocatori >= 4)
+            throw new DomainException("E' stato raggiunto il numero limite di giocatori");
+        if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
+            throw new DomainException("Esiste già un GiocatoreGraphic con lo stesso username.");
+
+        //il primo GiocatoreGraphic riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
+        int monete = 5 + numeroGiocatori;
+        ColoreGiocatore colore = ColoreGiocatore.values()[this.Giocatori.size()];
+        giocatore.SettaProprietaIniziali(idGiocatore, nome, colore, monete);
+        this.Giocatori.add(giocatore);
+    }
+
+    /**
+     * Aggiorna l'ordine dei giocatori in base ai familiari piazzati nello spazio azione del consiglio
+     */
+    public void AggiornaOrdineGiocatori()
+    {
+        //Recupera i gicatori piazzati nello spazio azione consiglio
+        List<Giocatore> giocatoriConConsiglio = this.SpazioAzioneConsiglio.FamiliariPiazzati.stream().map(f -> f.Giocatore).distinct().collect(Collectors.toList());
+        //Recupera i giocatori che non hanno piazzato familiari nello spazio azione del consiglio, ordinati con l'ordine di gioco
+        List<Giocatore> giocatoriSenzaConsiglio = this.Giocatori.stream().filter(g -> !giocatoriConConsiglio.contains(g))
+                                                                        .sorted(Comparator.comparingInt(Giocatore::getOrdineTurno))
+                                                                        .collect(Collectors.toList());
+
+        //Unisce le liste
+        List<Giocatore> giocatoriOrdinati = new ArrayList<>();
+        giocatoriOrdinati.addAll(giocatoriConConsiglio);
+        giocatoriOrdinati.addAll(giocatoriSenzaConsiglio);
+
+        //Setta il nuovo ordine di gioco
+        int ordineGioco = 1;
+        for (Giocatore giocatore : giocatoriOrdinati) {
+            giocatore.setOrdineTurno(ordineGioco);
+            ordineGioco++;
+        }
+    }
 
     //region Piazzamento familiari
     /**
@@ -334,4 +378,71 @@ public class Tabellone implements Serializable {
 
         return mappaCarte;
     }
+
+    /**
+     * Calcola i punteggi finali dei giocatori per stabilire la vittoria
+     */
+    public void CalcolaPunteggiFinali()
+    {
+        //Individua il primo e il secondo punteggio militare
+        int firstPMilitari = this.Giocatori.stream().mapToInt(g -> g.getRisorse().getPuntiMilitari()).max().orElse(0);
+        int secondPMilitari = this.Giocatori.stream().filter(x -> x.getRisorse().getPuntiMilitari() < firstPMilitari)
+                                    .mapToInt(g -> g.getRisorse().getPuntiMilitari()).max().orElse(0);
+
+        //Individua gli id dei giocatori che sono arrivati primi e secondi nella classifica militare
+        int[] giocatoriMaxPunti = this.Giocatori.stream().filter(x -> x.getRisorse().getPuntiMilitari() == firstPMilitari).mapToInt(g -> g.getIdGiocatore()).toArray();
+        int[] giocatoriSecondPunti = this.Giocatori.stream().filter(x -> x.getRisorse().getPuntiMilitari() == secondPMilitari).mapToInt(g -> g.getIdGiocatore()).toArray();
+
+        //Calcola i punteggi per ogni giocatore
+        for (Giocatore giocatore : this.Giocatori) {
+            int pVittoriaToAdd = 0;
+
+            //1/4/10/20 Punti Vittoria per 3/4/5/6 carte territorio sulla propria plancia giocatore.
+            pVittoriaToAdd += this.getBonusVittoriaByTerritori(giocatore.CarteTerritorio.size());
+            //1/3/6/10/15/21 Punti Vittoria per 1/2/3/4/5/6 carte personaggio sulla propria plancia giocatore.
+            pVittoriaToAdd += this.getBonusVittoriaByPersonaggi(giocatore.CartePersonaggio.size());
+            //Guadagna il numero di Punti Vittoria indicato sullo spazio del tracciato dei Punti Fede sul quale si trova
+            pVittoriaToAdd += this.getBonusVittoriaByPuntiFede(giocatore.Risorse.getPuntiFede());
+            //Considera la classifica dei punti militari
+            pVittoriaToAdd += this.getBonusVittoriaByPuntiMilitari(giocatore.getIdGiocatore(), giocatoriMaxPunti, giocatoriSecondPunti);
+
+            //Aggiorna le risorse del giocatore considerando gli effetti delle carte (tutte le carte impresa e eventuali tessere scomunica)
+            giocatore.updatePuntiVittoriaByEffettiCarte();
+
+            //Calcola il punteggio in base alle risorse ( legno, pietra, servitori, monete) del giocatore
+            pVittoriaToAdd += giocatore.getPuntiVittoriaByRisorse();
+
+            //Aggiunge tutti i punti vittoria al giocatore
+            giocatore.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, giocatore.getRisorse().getPuntiVittoria() + pVittoriaToAdd);
+        }
+    }
+
+    /**
+     * Il giocatore più in alto sul tracciato dei Punti Militari guadagna 5 Punti Vittoria, il secondo ne guadagna 2.
+     * (In caso di pareggio al primo posto, entrambi i giocatori guadagnano 5 Punti Vittoria e nessuno ne guadagna 2.
+     * In caso di pareggio al secondo posto, entrambi i giocatori guadagnano 2 Punti Vittoria.)
+     * @param idGiocatore id del giocatore al quale andranno assegnati i punti
+     * @param primiGiocatori array degli id dei giocatori che arrivati primi nella classifica militare
+     * @param secondiGiocatori array degli id dei giocatori che sono arrivati secondi nella classifica militare
+     * @return punti vittoria in base alla posizione
+     */
+    private int getBonusVittoriaByPuntiMilitari(int idGiocatore, int[] primiGiocatori, int[] secondiGiocatori)
+    {
+        //Se il giocatore ha il punteggio massimo prende 5 punti
+        if(Arrays.stream(primiGiocatori).anyMatch(x -> x == idGiocatore))
+            return 5;
+        //Se il giocatore non ha il punteggio massimo, ma è secondo
+        else if(Arrays.stream(secondiGiocatori).anyMatch(x -> x == idGiocatore))
+        {
+            //In caso di pareggio al primo posto gli altri non guadagnano punti
+            if(primiGiocatori.length > 1)
+                return 0;
+            else
+                return 2;
+        }
+
+        //Se non si è in nessuna lista non si ricevono punti
+        return 0;
+    }
+
 }

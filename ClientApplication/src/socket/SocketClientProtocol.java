@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -49,6 +50,7 @@ public class SocketClientProtocol {
         this.listaEventHandler.put(ProtocolEvents.GIOCATORI_SCOMUNICATI, this::ComunicaScomunica);
         this.listaEventHandler.put(ProtocolEvents.SOSTEGNO_CHIESA, this::SceltaSostegnoChiesa);
         this.listaEventHandler.put(ProtocolEvents.AGGIORNA_GIOCATORE, this::AggiornaGiocatore);
+        this.listaEventHandler.put(ProtocolEvents.FINE_PARTITA, this::FinePartita);
     }
 
     //region Handler Eventi del server
@@ -145,7 +147,7 @@ public class SocketClientProtocol {
 
 
     /**
-     * Gestisce l'evento di scomunica di giocatori
+     * Gestisce l'evento di aggiornamento di un giocatore
      */
     private void AggiornaGiocatore()
     {
@@ -158,6 +160,23 @@ public class SocketClientProtocol {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Gestisce l'evento di fine Partita
+     */
+    private void FinePartita()
+    {
+        try {
+            LinkedHashMap<Short, Integer> mappaRisultati= (LinkedHashMap<Short, Integer>) this.inputStream.readObject();
+            mainGame.FinePartita(mappaRisultati);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     //endregion
 
     //region Messaggi dal client al server

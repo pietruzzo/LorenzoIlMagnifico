@@ -13,6 +13,7 @@ import socket.SocketClient;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 17/05/2017.
@@ -194,6 +195,17 @@ public class MainGame {
             userInterface.aggiornaRisorse(update.getIdGiocatore(), update.getRisorse());
         else
             userInterface.aggiornaGiocatore(update.getIdGiocatore(), update.getRisorse(), update.getColoreDado(), update.getIdSpazioAzione());
+    }
+
+    /**
+     * Gestisce l'evento di fine partita
+     * Aggiorna le posizioni delle pedine relativamente ai punti vittoria dei giocatori
+     * Comunica la classifica all'utente
+     */
+    public void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati)
+    {
+        System.out.println(String.format("Partita finita! Ha vinto l'id %d", mappaRisultati.keySet().iterator().next()));
+        userInterface.finePartita(mappaRisultati);
     }
     //endregion
 

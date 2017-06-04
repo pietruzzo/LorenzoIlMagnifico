@@ -6,6 +6,7 @@ import Domain.DTO.UpdateGiocatoreDTO;
 import Exceptions.NetworkException;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -61,4 +62,11 @@ public abstract class GiocatoreRemoto extends Giocatore{
      * @param update nuove caratteristiche del giocatore
      */
     public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) throws NetworkException {}
+
+    /**
+     * Comunica la fine della partita ai client
+     * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
+     * @throws NetworkException
+     */
+    public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws NetworkException {}
 }

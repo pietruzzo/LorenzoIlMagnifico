@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -169,5 +170,13 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         this.protocol.AggiornaGiocatore(update);
     }
 
-        //endregion
+    /**
+     * Comunica la fine della partita ai client
+     * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
+     */
+    @Override
+    public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
+        this.protocol.ComunicaFinePartita(mappaRisultati);
+    }
+    //endregion
 }

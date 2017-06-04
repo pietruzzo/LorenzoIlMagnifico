@@ -8,6 +8,7 @@ import server.GiocatoreRemoto;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 19/05/2017.
@@ -102,6 +103,21 @@ public class GiocatoreRMI extends GiocatoreRemoto {
 
         try {
             this.clientRMI.AggiornaGiocatore(update);
+        } catch (RemoteException e) {
+            throw new NetworkException(e);
+        }
+    }
+
+
+    /**
+     * Comunica la fine della partita ai client
+     * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
+     * @throws NetworkException
+     */
+    @Override
+    public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws NetworkException{
+        try {
+            this.clientRMI.FinePartita(mappaRisultati);
         } catch (RemoteException e) {
             throw new NetworkException(e);
         }

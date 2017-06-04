@@ -15,6 +15,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -165,12 +166,23 @@ public class RMIClient extends AbstractClient implements IRMIClient {
 
 
     /**
-     * Notifica a tutti i client l'aggiornamento di un giocatore
+     * Gestisce l'aggiornamento di un giocatore lato client
      * @param update nuove caratteristiche del giocatore
      */
     @Override
     public void AggiornaGiocatore(UpdateGiocatoreDTO update) {
         this.getMainGame().AggiornaGiocatore(update);
+    }
+
+
+    /**
+     * Gestisce la fine della partita lato client
+     * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
+     */
+    @Override
+    public void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati)
+    {
+        this.getMainGame().FinePartita(mappaRisultati);
     }
     //endregion
 
