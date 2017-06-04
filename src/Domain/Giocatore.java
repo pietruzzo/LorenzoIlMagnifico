@@ -94,15 +94,15 @@ public class Giocatore implements Serializable {
             switch (i)
             {
                 case 0:
-                    coloreFamiliare = ColoreDado.BIANCO;
+                    coloreFamiliare = ColoreDado.NERO;
                     break;
 
                 case 1:
-                    coloreFamiliare = ColoreDado.ARANCIO;
+                    coloreFamiliare = ColoreDado.BIANCO;
                     break;
 
                 case 2:
-                    coloreFamiliare = ColoreDado.NERO;
+                    coloreFamiliare = ColoreDado.ARANCIO;
                     break;
 
                 case 3:

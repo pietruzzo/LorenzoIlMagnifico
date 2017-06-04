@@ -62,8 +62,8 @@ public class Risorsa  implements Serializable {
     public int getServi(){return risorse[2];}
     public int getMonete(){return risorse[3];}
     public int getPuntiVittoria(){return risorse[4];}
-    public int getPuntiFede(){return risorse[5];}
-    public int getPuntiMilitari(){return risorse[6];}
+    public int getPuntiMilitari(){return risorse[5];}
+    public int getPuntiFede(){return risorse[6];}
     short[] getArrayRisorse(){return risorse;}
 
     public int getRisorse(TipoRisorsa tipoRisorsa){
@@ -78,11 +78,15 @@ public class Risorsa  implements Serializable {
      * @return ritorna copia dell'oggetto corrente con TipoRisorsa settata a value
      */
     public Risorsa setRisorse(TipoRisorsa tipoRisorsa, int value){
+        /*
         short[] risorsaCorrente = this.getArrayRisorse();
         short[] nuovaRisorsa = risorsaCorrente.clone();
         nuovaRisorsa[tipoRisorsa.getPosizione()]=(short)value;
         return new Risorsa(nuovaRisorsa);
+        */
 
+        this.getArrayRisorse()[tipoRisorsa.getPosizione()] = (short)value;
+        return this;
     }
 
     /**
@@ -134,8 +138,8 @@ public class Risorsa  implements Serializable {
     public Risorsa multScalare(int scalare){
         short[] array = this.getArrayRisorse();
         short[] newArray = new short[NUMRISORSE];
-        for (int i=0; i<NUMRISORSE; i++){
-            newArray[i]=(short) (array[i]*scalare);
+        for (int i=0; i < NUMRISORSE; i++){
+            newArray[i]= (short)(array[i]*scalare);
         }
         return new Risorsa(newArray);
     }
@@ -152,8 +156,10 @@ public class Risorsa  implements Serializable {
      */
     public static Risorsa setNegToZero(Risorsa risorsa){
         short[] newRisorse = risorsa.getArrayRisorse().clone();
-        for (short s: newRisorse) {
-            if (s<0) s=0;
+        for (int i = 0; i < newRisorse.length; i++)
+        {
+            if(newRisorse[i] < 0)
+                newRisorse[i] = 0;
         }
         return new Risorsa(newRisorse);
     }
@@ -162,7 +168,7 @@ public class Risorsa  implements Serializable {
      * Inidica i tipi di risorsa possibili
      */
     public enum TipoRisorsa{
-        LEGNO("Legno", 0), PIETRA("Pietra", 1), SERVI("Servi", 2), MONETE("Monete", 3), PVITTORIA("Punti Vittoria", 4), PFEDE("Punti Fede", 5), PMILITARI("Punti Militari", 6);
+        LEGNO("Legno", 0), PIETRA("Pietra", 1), SERVI("Servi", 2), MONETE("Monete", 3), PVITTORIA("Punti Vittoria", 4), PFEDE("Punti Fede", 6), PMILITARI("Punti Militari", 5);
 
         private final String tipoRisorsa;
         private final short posizione;

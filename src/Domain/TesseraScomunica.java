@@ -30,6 +30,6 @@ public class TesseraScomunica extends Carta{
 
     @Override
     public TipoCarta getTipoCarta() {
-        return null;
+        return TipoCarta.Scomunica;
     }
 }
