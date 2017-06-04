@@ -91,7 +91,6 @@ public class Tabellone extends AnchorPane{
     /**
      * Sceglie il tabellone ed aggiunge le caselle
      * @param numPlayers numero definitivo di giocatori
-
      */
     @NotNull
     public void settaTabelloneDefinitivo(int numPlayers){
