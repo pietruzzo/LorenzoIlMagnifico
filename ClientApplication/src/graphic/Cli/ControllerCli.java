@@ -6,6 +6,7 @@ import Domain.Tabellone;
 import graphic.Ui;
 import lorenzo.MainGame;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -72,7 +73,7 @@ public class ControllerCli implements Ui {
     }
 
     @Override
-    public void printaResoconto() {
+    public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
 
     }
 }

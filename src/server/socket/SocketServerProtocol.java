@@ -246,6 +246,24 @@ public class SocketServerProtocol {
             }
         }
     }
+
+
+    /**
+     * Comunica la fine della partita ai client
+     * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
+     */
+    public void ComunicaFinePartita(HashMap<Short, Integer> mappaRisultati)
+    {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.FINE_PARTITA);
+                this.outputStream.writeObject(mappaRisultati);
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     //endregion
 
 

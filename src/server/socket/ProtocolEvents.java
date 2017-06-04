@@ -20,6 +20,7 @@ public class ProtocolEvents {
     public static final String GIOCATORI_SCOMUNICATI = "giocatoriScomunicati";
     public static final String SOSTEGNO_CHIESA = "sostegnoChiesa";
     public static final String AGGIORNA_GIOCATORE = "aggiornaGiocatore";
+    public static final String FINE_PARTITA = "finePartita";
 
     //Codici delle risposte date dal server al client (HTTP style)
     public static final int OK = 200;

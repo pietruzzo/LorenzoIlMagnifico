@@ -6,6 +6,7 @@ import Domain.DTO.UpdateGiocatoreDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -18,4 +19,5 @@ public interface IRMIClient extends Remote {
     void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) throws RemoteException;
     void SceltaSostegnoChiesa() throws RemoteException;
     void AggiornaGiocatore(UpdateGiocatoreDTO update) throws RemoteException;
+    void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws RemoteException;
 }

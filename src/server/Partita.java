@@ -353,6 +353,34 @@ public class Partita  implements Serializable {
      */
     public void FinePartita()
     {
-        //TODO: implementare logiche fine partita
+        this.tabellone.CalcolaPunteggiFinali();
+
+        //Ordina i giocatori in base ai punti vittoria
+        //A parità di punti vittoria si considera l'ordine di turno
+        this.giocatoriPartita.stream().sorted(new Comparator<GiocatoreRemoto>() {
+            @Override
+            public int compare(GiocatoreRemoto g1, GiocatoreRemoto g2) {
+                int differenza = Integer.compare(g1.getRisorse().getPuntiVittoria(), g2.getRisorse().getPuntiVittoria()) * -1;
+                if(differenza == 0)
+                    differenza = Integer.compare(g1.getOrdineTurno(), g2.getOrdineTurno()) * -1;
+
+                return differenza;
+            }
+        });
+
+        //Costruisce la mappa ordinata dei giocatori da passare al client
+        //L'id del giocatore è la chiave, e il valore è dato dai punti vittoria
+        LinkedHashMap<Short, Integer> mappaRisultati = new LinkedHashMap<>();
+        for (Giocatore giocatore: this.giocatoriPartita) {
+            mappaRisultati.put(giocatore.getIdGiocatore(), giocatore.getRisorse().getPuntiVittoria());
+        }
+
+        //Comunica la fine della partita ai client
+        for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
+            try{ giocatore.ComunicaFinePartita(mappaRisultati); }
+            catch (NetworkException e) {
+                System.out.println("Giocatore non più connesso");
+            }
+        }
     }
 }

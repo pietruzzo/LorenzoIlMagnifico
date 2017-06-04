@@ -105,7 +105,7 @@ public class Applicazione extends Application {
 
         if (controllerFromFXML instanceof Controller){
             controller = (Controller) controllerFromFXML;
-            controller.setArgApplicationGui(this);
+            controller.setArgApplicationGui(this.mainGame);
 
         }
         return parent;

@@ -14,6 +14,7 @@ import lorenzo.Applicazione;
 import lorenzo.MainGame;
 
 import java.awt.*;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -101,7 +102,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
-    public void printaResoconto() {
+    public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
 
     }
 
