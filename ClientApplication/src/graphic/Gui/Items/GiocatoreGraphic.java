@@ -18,6 +18,18 @@ public class GiocatoreGraphic {
     private int idGiocatore;
     private ColoreGiocatore coloreGiocatore;
     private FamiliareGraphic[] familiari = new FamiliareGraphic[4];
+
+    public int getIdGiocatore() {
+        return idGiocatore;
+    }
+
+    public ColoreGiocatore getColoreGiocatore() {
+        return coloreGiocatore;
+    }
+
+    public FamiliareGraphic[] getFamiliari() {
+        return familiari;
+    }
 }
 
 

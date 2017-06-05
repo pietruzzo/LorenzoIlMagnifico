@@ -16,8 +16,8 @@ import static java.io.File.separator;
 public class CarteGioco{
 
    private final static String percorsoFileDescrizione = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"Carte"+separator;
-   private final static int cartaW=50;
-   private final static int cartaH=100;
+   private final static int cartaW=90;
+   private final static int cartaH=141;
    private final static int cartaScomW=30;
    private final static int cartaScomH=600;
 
@@ -40,18 +40,21 @@ public class CarteGioco{
       throw new NoSuchElementException("Carta: "+nome+" non trovata");
    }
 
+
    /**
     * @param nome
     * @param tipo
     * @return da Risorse l'immagina della carta richiesta della dimensione data dal tipo di carta
     */
    private Image getImage(String nome, TipoCarta tipo){
+
       if(tipo != TipoCarta.Scomunica){
-         return new Image(nome, cartaW, cartaH, false, true);
+         String percorsoCompleto = "file:"+percorsoFileDescrizione+"carteSviluppo"+separator+nome+".png";
+         return new Image(percorsoCompleto, cartaW, cartaH, false, true);
+      } else {
+         String percorsoCompleto = "file:"+percorsoFileDescrizione+"carteScomunica"+separator+nome+".png";
+         return new Image(percorsoCompleto, cartaScomW, cartaScomH, false, true);
       }
-      return  new Image(nome, cartaScomW, cartaScomH, false, true);
-
-
    }
 }
 

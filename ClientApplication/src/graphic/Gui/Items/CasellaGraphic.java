@@ -80,7 +80,6 @@ public class CasellaGraphic extends Rectangle {
      */
     public void aggiungiPedina(FamiliareGraphic familiare){
         pedine.getChildren().add(familiare);
-        this.colorArea(null);
     }
 
     /**
