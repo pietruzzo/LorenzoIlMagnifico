@@ -49,7 +49,7 @@ public class GiocatoreTest {
 
     @Test
     public void ottieniBonusSpazioAzione() throws Exception {
-        giocatore.OttieniBonusSpazioAzione(new Risorsa(Risorsa.TipoRisorsa.MONETE, 10));
+        giocatore.OttieniBonusRisorse(new Risorsa(Risorsa.TipoRisorsa.MONETE, 10));
         assertEquals(15, giocatore.Risorse.getMonete());
     }
 

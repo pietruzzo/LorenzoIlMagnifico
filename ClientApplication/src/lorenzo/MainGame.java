@@ -1,9 +1,12 @@
 package lorenzo;
 
 import Domain.ColoreDado;
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
+import Domain.TipoAzione;
 import Exceptions.NetworkException;
 import graphic.Cli.ControllerCli;
 import graphic.Ui;
@@ -134,6 +137,35 @@ public class MainGame {
         }
     }
 
+    /**
+     * Manda al server la richiesta di validazione e effettuazione dell'azione bonus
+     * @param idGiocatore id del giocatore che effettua l'azione
+     * @param idSpazioAzione id dello spazio azione sul quale viene fatta l'azione
+     * @param valoreAzione il valore dell'azione dato dall'effetto
+     * @param bonusRisorse il bonus eventuale dato dall'effetto
+     */
+    public void AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse)
+    {
+        try {
+            client.AzioneBonusEffettuata(new AzioneBonusDTO(idGiocatore, idSpazioAzione, valoreAzione, bonusRisorse));
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione azione bonus. %s", e.getMessage()));
+        }
+    }
+
+    /**
+     * Manda al server la scelta del privilegio del consiglio
+     * @param risorsa risorse da aggiungere al giocatore
+     */
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa)
+    {
+        try {
+            client.RiscuotiPrivilegiDelConsiglio(risorsa);
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione riscuoti privilegio. %s", e.getMessage()));
+        }
+    }
+
     //endregion
 
 
@@ -191,10 +223,31 @@ public class MainGame {
     {
         System.out.println(String.format("Aggiornamento del giocatore %d", update.getIdGiocatore()));
         //In base ai parametri ricevuti aggiorna solo le risorse o anche la posizione di un familiare
-        if(update.getColoreDado() == null || update.getIdSpazioAzione() == null)
+        if(update.getColoreDado() == null && update.getIdSpazioAzione() == null)
             userInterface.aggiornaRisorse(update.getIdGiocatore(), update.getRisorse());
+        else if(update.getColoreDado() == null && update.getIdSpazioAzione() != null)
+                userInterface.aggiornaDaAzioneBonus(update.getIdGiocatore(), update.getRisorse(), update.getIdSpazioAzione());
         else
             userInterface.aggiornaGiocatore(update.getIdGiocatore(), update.getRisorse(), update.getColoreDado(), update.getIdSpazioAzione());
+    }
+
+    /**
+     * Gestisce l'evento relativo alla scelta dei privilegi del consiglio
+     * @param numPergamene numero di pergamene da scegliere
+     */
+    public void SceltaPrivilegioConsiglio(int numPergamene) {
+        System.out.println(String.format("Occorre scegliere %d privilegi del consiglio", numPergamene));
+        userInterface.visualizzaPrivilegioConsiglio(numPergamene);
+    }
+
+    /**
+     * Gestisce l'evento di effettuazione di un'azione bonus
+     * @param tipoAzioneBonus tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) {
+        System.out.println(String.format("E' possibile effettuare un'azione di valore %d ", valoreAzione));
+        userInterface.effettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
     }
 
     /**

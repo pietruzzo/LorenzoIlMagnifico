@@ -1,6 +1,8 @@
 package socket;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import lorenzo.MainGame;
 import network.AbstractClient;
 
@@ -99,6 +101,24 @@ public class SocketClient extends AbstractClient {
     @Override
     public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO)   {
         this.socketClientProtocol.PiazzaFamiliare(piazzaFamiliareDTO);
+    }
+
+    /**
+     * Comunica al server l'intenzione di effettuare un'azione bonus
+     * @param azioneBonusDTO parametri relativi all'azione bonus
+     */
+    @Override
+    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) {
+        this.socketClientProtocol.AzioneBonusEffettuata(azioneBonusDTO);
+    }
+
+    /**
+     * Manda al server la scelta del privilegio del consiglio
+     * @param risorsa risorse da aggiungere al giocatore
+     */
+    @Override
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa){
+        this.socketClientProtocol.RiscuotiPrivilegiDelConsiglio(risorsa);
     }
 
     /**

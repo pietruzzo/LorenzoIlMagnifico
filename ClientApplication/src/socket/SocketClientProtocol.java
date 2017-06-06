@@ -1,8 +1,11 @@
 package socket;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
+import Domain.TipoAzione;
 import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
@@ -50,6 +53,8 @@ public class SocketClientProtocol {
         this.listaEventHandler.put(ProtocolEvents.GIOCATORI_SCOMUNICATI, this::ComunicaScomunica);
         this.listaEventHandler.put(ProtocolEvents.SOSTEGNO_CHIESA, this::SceltaSostegnoChiesa);
         this.listaEventHandler.put(ProtocolEvents.AGGIORNA_GIOCATORE, this::AggiornaGiocatore);
+        this.listaEventHandler.put(ProtocolEvents.SCEGLI_PRIVILEGIO, this::SceltaPrivilegioConsiglio);
+        this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS, this::EffettuaAzioneBonus);
         this.listaEventHandler.put(ProtocolEvents.FINE_PARTITA, this::FinePartita);
     }
 
@@ -164,6 +169,38 @@ public class SocketClientProtocol {
     /**
      * Gestisce l'evento di fine Partita
      */
+    private void SceltaPrivilegioConsiglio()
+    {
+        try {
+            int numPergamene = (int)this.inputStream.readObject();
+            mainGame.SceltaPrivilegioConsiglio(numPergamene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gestisce l'evento di fine Partita
+     */
+    private void EffettuaAzioneBonus()
+    {
+        try {
+            TipoAzione tipoAzione = (TipoAzione) this.inputStream.readObject();
+            int valoreAzione = (int)this.inputStream.readObject();
+            Risorsa bonusRisorse = (Risorsa) this.inputStream.readObject();
+            mainGame.EffettuaAzioneBonus(tipoAzione, valoreAzione, bonusRisorse);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gestisce l'evento di fine Partita
+     */
     private void FinePartita()
     {
         try {
@@ -251,6 +288,35 @@ public class SocketClientProtocol {
         try {
             outputStream.writeObject(ProtocolEvents.PIAZZA_FAMILIARE);
             outputStream.writeObject(piazzaFamiliareDTO);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Comunica al server l'intenzione di effettuare un'azione bonus
+     * @param azioneBonusDTO parametri relativi all'azione bonus
+     */
+    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO)   {
+        try {
+            outputStream.writeObject(ProtocolEvents.AZIONE_BONUS_EFFETTUATA);
+            outputStream.writeObject(azioneBonusDTO);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Manda al server la scelta del privilegio del consiglio
+     * @param risorsa risorse da aggiungere al giocatore
+     */
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa){
+        try {
+            outputStream.writeObject(ProtocolEvents.RISCUOTI_PRIVILEGIO);
+            outputStream.writeObject(risorsa);
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();

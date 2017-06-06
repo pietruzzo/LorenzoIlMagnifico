@@ -1,8 +1,11 @@
 package rmi;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
+import Domain.TipoAzione;
 import Exceptions.NetworkException;
 import lorenzo.MainGame;
 import network.AbstractClient;
@@ -114,6 +117,32 @@ public class RMIClient extends AbstractClient implements IRMIClient {
             this.HandleException(e);
         }
     }
+
+    /**
+     * Comunica al server l'intenzione di effettuare un'azione bonus
+     * @param azioneBonusDTO parametri relativi all'azione bonus
+     */
+    @Override
+    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws NetworkException {
+        try {
+            server.AzioneBonusEffettuata(this.idGiocatore, azioneBonusDTO);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
+
+    /**
+     * Manda al server la scelta del privilegio del consiglio
+     * @param risorsa risorse da aggiungere al giocatore
+     */
+    @Override
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa) throws NetworkException {
+        try {
+            server.RiscuotiPrivilegiDelConsiglio(this.idGiocatore, risorsa);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
     //endregion
 
     //region Chiamate dal server
@@ -174,6 +203,24 @@ public class RMIClient extends AbstractClient implements IRMIClient {
         this.getMainGame().AggiornaGiocatore(update);
     }
 
+    /**
+     * Gestisce l'evento relativo alla scelta dei privilegi del consiglio
+     * @param numPergamene numero di pergamene da scegliere
+     */
+    @Override
+    public void SceltaPrivilegioConsiglio(int numPergamene) {
+        this.getMainGame().SceltaPrivilegioConsiglio(numPergamene);
+    }
+
+    /**
+     * Gestisce l'evento di effettuazione di un'azione bonus
+     * @param tipoAzioneBonus tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    @Override
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) {
+        this.getMainGame().EffettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
+    }
 
     /**
      * Gestisce la fine della partita lato client

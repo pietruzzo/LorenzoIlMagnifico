@@ -3,6 +3,7 @@ package graphic;
 import Domain.ColoreDado;
 import Domain.Risorsa;
 import Domain.Tabellone;
+import Domain.TipoAzione;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,6 +26,14 @@ public interface Ui {
     public abstract void visualizzaPrivilegioConsiglio(int numeroPergamene);
 
     /**
+     * Gestisce l'evento di effettuazione di un'azione bonus
+     * @param tipoAzione tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    public abstract void effettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse);
+
+
+    /**
      * Stampa eccezioni e messaggi.... attraverso popup
      */
     public abstract void stampaMessaggio(String stringa);
@@ -40,6 +49,15 @@ public interface Ui {
      * Aggiorna le risorse del giocatore e la posizione delle sue pedine (non i familiari, quelle dei punti)
      */
     public abstract void aggiornaRisorse(int idGiocatore, Risorsa risorsa);
+
+    /**
+     * Viene chiamato in seguito all'aggiornamento di un giocatore tramite azione bonus
+     * Differisce dall'aggiornaRisorse in quanto è possibile che un giocatore prenda una carta senza muovere familiari
+     * @param idGiocatore id del giocatore che ha effettuato l'azione bonus
+     * @param risorsa risorse del giocatore da aggiornare
+     * @param idSpazioAzione id dello spazio azione sul quale è stata effettuata l'azione bonus
+     */
+    public abstract void aggiornaDaAzioneBonus(int idGiocatore, Risorsa risorsa, int idSpazioAzione);
 
     /**
      * Il familiare viene indicato univocamente dal Giocatore e dal colore del dado (ci sarà anche il colore per il neutro)

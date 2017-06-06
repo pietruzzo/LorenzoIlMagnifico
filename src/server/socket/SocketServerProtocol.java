@@ -1,8 +1,11 @@
 package server.socket;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
+import Domain.TipoAzione;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -44,6 +47,8 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.INIZIO_AUTOMATICO, this::VerificaInizioPartita);
         this.listaEventHandler.put(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA, this::RispostaSostegnoChiesa);
         this.listaEventHandler.put(ProtocolEvents.PIAZZA_FAMILIARE, this::PiazzaFamiliare);
+        this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS_EFFETTUATA, this::AzioneBonusEffettuata);
+        this.listaEventHandler.put(ProtocolEvents.RISCUOTI_PRIVILEGIO, this::RiscuotiPrivilegiDelConsiglio);
     }
 
     //region Handler eventi
@@ -115,6 +120,37 @@ public class SocketServerProtocol {
         try {
             PiazzaFamiliareDTO piazzaFamiliareDTO = (PiazzaFamiliareDTO)this.inputStream.readObject();
             this.giocatore.PiazzaFamiliare(piazzaFamiliareDTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Gestisce l'evento relativo alla tentata azione bonus da parte di un client
+     */
+    private void AzioneBonusEffettuata()
+    {
+        try {
+            AzioneBonusDTO azioneBonusDTO = (AzioneBonusDTO)this.inputStream.readObject();
+            this.giocatore.AzioneBonusEffettuata(azioneBonusDTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gestisce l'evento relativo alla scelta del privilegio del consiglio
+     */
+    private void RiscuotiPrivilegiDelConsiglio()
+    {
+        try {
+            Risorsa risorsa = (Risorsa) this.inputStream.readObject();
+            this.giocatore.RiscuotiPrivilegiDelConsiglio(risorsa);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -247,6 +283,41 @@ public class SocketServerProtocol {
         }
     }
 
+    /**
+     * Comunica al client il numero di pergamene da scegliere
+     * @param numPergamene numero di pergamene da scegliere
+     */
+    public void SceltaPrivilegioConsiglio(int numPergamene) {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.SCEGLI_PRIVILEGIO);
+                this.outputStream.writeObject(numPergamene);
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * Comunica al client che può effettuare un'azione bonus
+     * @param tipoAzioneBonus tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse){
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.AZIONE_BONUS);
+                this.outputStream.writeObject(tipoAzioneBonus);
+                this.outputStream.writeObject(valoreAzione);
+                this.outputStream.writeObject(bonusRisorse);
+                this.outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Comunica la fine della partita ai client

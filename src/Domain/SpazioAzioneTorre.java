@@ -63,23 +63,18 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, Boolean torreOccupata, int servitoriAggiunti) throws DomainException {
         //Effettua i controlli legati alla torre di appartenenza
         this.Torre.ValidaPiazzamentoFamiliare(familiare);
-        super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+        Risorsa costoEffetti = super.ValidaValoreAzione(familiare, servitoriAggiunti);
 
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
         if(this.CartaAssociata == null)
             throw new DomainException("A questo spazio azione non è associata alcuna carta!");
 
-        Risorsa costoEffetti = super.ValidaValoreAzione(familiare, servitoriAggiunti);
-
         //Calcola il malus dovuto dall'occupazione della torre
         //Se la torre è occupata il malus è di -3 monete
         Risorsa malusTorreOccupata = new Risorsa();
         if(torreOccupata)
-            if(familiare.Giocatore.Risorse.getMonete() < 3)
-                throw new DomainException("Siccome la torre è occupata, sono necessarie almeno 3 monete per prendere la carta.");
-            else
-                malusTorreOccupata= malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
+            this.CalcolaMalusTorreOccupata(familiare.Giocatore);
 
         //Valuta se il giocatore rimarrebbe con tutte le risorse in positivo prendendo la carta
         //Considera il bonus dello spazio azione, il costo della carta, il malus della torre occupata e gli effetti delle carte (anche le carte scomunica)
@@ -128,5 +123,68 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
     @Override
     protected void RimuoviFamiliari() {
         this.FamiliarePiazzato = null;
+    }
+
+
+    /**
+     * Metodo per effettuare azioni bonus (ovvero senza piazzamento familiare) negli spazi azione Torre
+     * Effettua un’azione del valore specificato per prendere una carta dalla torre senza piazzare un familiare
+     * Paga 3 monete aggiuntive se la torre è occupata e prende l'eventuale bonus dello spazio azione
+     * @param giocatore giocatore che effettua l'azione
+     * @param valoreAzione valore dell'azione
+     */
+    @Override
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+        Boolean torreOccupata = this.Torre.TorreOccupata();
+        Risorsa costoEffetti = super.ValidaValoreAzioneBonus(giocatore, valoreAzione);
+
+        //Calcola il malus dovuto dall'occupazione della torre
+        //Se la torre è occupata il malus è di -3 monete
+        Risorsa malusTorreOccupata = new Risorsa();
+        if(torreOccupata)
+            malusTorreOccupata = this.CalcolaMalusTorreOccupata(giocatore);
+
+        //Se lo spazio azione ha ancora associato una carta
+        if(this.CartaAssociata != null) {
+            //Applica il bonus dovuto all'azione immediata
+            Risorsa costoCarta = Risorsa.sub(this.CartaAssociata.CostoRisorse, bonusRisorse);
+
+            //Valuta se il giocatore rimarrebbe con tutte le risorse in positivo prendendo la carta
+            //Considera il bonus dello spazio azione, il costo della carta, il malus della torre occupata e gli effetti delle carte (anche le carte scomunica)
+            if(!Risorsa.sub(Risorsa.add(giocatore.Risorse, this.BonusRisorse),
+                    Risorsa.add(Risorsa.add(costoCarta, malusTorreOccupata), costoEffetti)).isPositivo())
+                throw new DomainException("Non si dispone di risorse sufficienti per poter prendere la carta.");
+
+            //Valuta se il giocatore ha abbastanza spazio nella plancia per prendere la carta
+            this.CartaAssociata.ValidaPresaCarta(giocatore, this);
+
+            if(this.CartaAssociata instanceof CartaTerritorio)
+                this.ValidaCartaTerritorio(giocatore, costoEffetti.getPuntiMilitari());
+
+            this.FamiliarePiazzato.Giocatore.PagaRisorse(costoCarta);
+            this.CartaAssociata.AssegnaGiocatore(giocatore);
+            this.CartaAssociata = null;
+        }
+
+        if(torreOccupata)
+            this.FamiliarePiazzato.Giocatore.PagaRisorse(malusTorreOccupata);
+
+        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse);
+    }
+
+    /**
+     * Calcola il malus dovuto alla torre occupata
+     * @param giocatore giocatore che deve effettuare l'azione
+     * @return la risorsa corrispondente al malus
+     * @throws DomainException se il giocatore non può pagare il malus
+     */
+    private Risorsa CalcolaMalusTorreOccupata(Giocatore giocatore) throws DomainException {
+        Risorsa malusTorreOccupata = new Risorsa();
+        if(giocatore.Risorse.getMonete() < 3)
+            throw new DomainException("Siccome la torre è occupata, sono necessarie almeno 3 monete per prendere la carta.");
+        else
+            malusTorreOccupata.setRisorse(Risorsa.TipoRisorsa.MONETE, 3);
+
+        return malusTorreOccupata;
     }
 }

@@ -3,6 +3,7 @@ package graphic.Gui;
 import Domain.ColoreDado;
 import Domain.Risorsa;
 import Domain.Tabellone;
+import Domain.TipoAzione;
 import graphic.Ui;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -62,6 +63,11 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
+    public void effettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse) {
+
+    }
+
+    @Override
     public void stampaMessaggio(String stringa) {
 
     }
@@ -73,6 +79,11 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void aggiornaRisorse(int idGiocatore, Risorsa risorsa) {
+
+    }
+
+    @Override
+    public void aggiornaDaAzioneBonus(int idGiocatore, Risorsa risorsa, int idSpazioAzione) {
 
     }
 

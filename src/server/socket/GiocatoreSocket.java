@@ -1,8 +1,11 @@
 package server.socket;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
+import Domain.TipoAzione;
 import Exceptions.DomainException;
 import server.GiocatoreRemoto;
 import server.Server;
@@ -98,10 +101,10 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         this.getPartita().RispostaSostegnoChiesa(this, risposta);
     }
 
-     /**
-      * Gestisce l'evento relativo al tentato piazzamento di un familiare da parte di un client
-      * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
-      */
+    /**
+     * Gestisce l'evento relativo al tentato piazzamento di un familiare da parte di un client
+     * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
+     */
     public void PiazzaFamiliare (PiazzaFamiliareDTO piazzaFamiliareDTO)
     {
         try {
@@ -109,6 +112,29 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         } catch (DomainException e) {
             protocol.ComunicaEccezione(e.getMessage());
         }
+    }
+
+
+    /**
+     * Gestisce l'evento relativo alla tentata azione bonus da parte di un client
+     * @param azioneBonusDTO parametri relativi all'azione bonus
+     */
+    public void AzioneBonusEffettuata (AzioneBonusDTO azioneBonusDTO)
+    {
+        try {
+            this.getPartita().AzioneBonusEffettuata(azioneBonusDTO);
+        } catch (DomainException e) {
+            protocol.ComunicaEccezione(e.getMessage());
+        }
+    }
+
+    /**
+     * Gestisce l'evento relativo alla scelta del privilegio del consiglio
+     * @param risorsa risorse da aggiungere al giocatore
+     */
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa)
+    {
+        this.getPartita().RiscuotiPrivilegiDelConsiglio(this.getIdGiocatore(), risorsa);
     }
     //endregion
 
@@ -171,6 +197,27 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     }
 
     /**
+     * Indica al client il numero di pergamene da scegliere
+     * @param numPergamene numero di pergamene da scegliere
+     */
+    @Override
+    public void SceltaPrivilegioConsiglio(int numPergamene) {
+        this.incrementaPrivilegiDaScegliere();
+        this.protocol.SceltaPrivilegioConsiglio(numPergamene);
+    }
+
+    /**
+     * Indica al client che può effettuare un'azione bonus
+     * @param tipoAzioneBonus tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    @Override
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse){
+        this.setAzioneBonusDaEffettuare(true);
+        this.protocol.EffettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
+    }
+
+    /**
      * Comunica la fine della partita ai client
      * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
      */
@@ -178,5 +225,6 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
         this.protocol.ComunicaFinePartita(mappaRisultati);
     }
+
     //endregion
 }

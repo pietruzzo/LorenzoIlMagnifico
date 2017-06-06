@@ -1,12 +1,15 @@
 package server;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Dado;
 import Domain.Giocatore;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.*;
@@ -254,7 +257,53 @@ public class Partita  implements Serializable {
     public void PiazzaFamiliare(PiazzaFamiliareDTO pfDTO) throws DomainException {
         UpdateGiocatoreDTO update = this.tabellone.PiazzaFamiliare(pfDTO.getIdGiocatore(), pfDTO.getColoreDado(), pfDTO.getIdSpazioAzione(), pfDTO.getServitoriAggiunti());
         this.ComunicaAggiornaGiocatore(update);
-        this.IniziaNuovaMossa();
+
+        //Verifica che ci siano le condizioni per iniziare una nuova mossa
+        if(this.PuoCominciareUnaNuovaMossa())
+            this.IniziaNuovaMossa();
+    }
+
+    /**
+     * Tenta di effettuare l'azione bonus specificata dal client
+     * @param azioneBonusDTO parametri dell'azione
+     * @throws DomainException eccezione di validazione
+     */
+    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws DomainException {
+        UpdateGiocatoreDTO update = tabellone.AzioneBonusEffettuata(azioneBonusDTO.getIdGiocatore(), azioneBonusDTO.getIdSpazioAzione(), azioneBonusDTO.getValoreAzione(), azioneBonusDTO.getBonusRisorse());
+        this.ComunicaAggiornaGiocatore(update);
+
+        //Verifica che ci siano le condizioni per iniziare una nuova mossa
+        if(this.PuoCominciareUnaNuovaMossa())
+            this.IniziaNuovaMossa();
+    }
+
+    /**
+     * Aggiorna le risorse del giocatore in seguito alla scelta di un privilegio del consiglio
+     * @param idGiocatore id del giocatore che ha ottenuto il privilegio
+     * @param risorsa risorse corrispondenti al privilegio scelto
+     */
+    public void RiscuotiPrivilegiDelConsiglio(short idGiocatore, Risorsa risorsa)
+    {
+        UpdateGiocatoreDTO update = this.tabellone.RiscuotiPrivilegiDelConsiglio(idGiocatore, risorsa);
+        this.ComunicaAggiornaGiocatore(update);
+
+        //Verifica che ci siano le condizioni per iniziare una nuova mossa
+        if(this.PuoCominciareUnaNuovaMossa())
+            this.IniziaNuovaMossa();
+    }
+
+    /**
+     * Torna true se è possibile iniziare una nuova mossa
+     */
+    @NotNull
+    private Boolean PuoCominciareUnaNuovaMossa()
+    {
+        //Se qualche giocatore deve ancora effettuare la sua mossa bonus non comincia una nuova mossa
+        //Se qualche giocatore deve ancora scegliere i privilegi del consiglio non comincia una nuova mossa
+        if(giocatoriPartita.stream().anyMatch(g -> g.getAzioneBonusDaEffettuare() || g.getPrivilegiDaScegliere() > 0))
+            return false;
+
+        return true;
     }
 
     //region Rapporto Vaticano

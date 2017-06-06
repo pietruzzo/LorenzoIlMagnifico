@@ -1,6 +1,5 @@
 package Domain;
 
-import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -45,7 +44,7 @@ public class Familiare  implements Serializable {
     public void OttieniBonusSpazioAzione()
     {
         if(this.SpazioAzioneAttuale != null)
-            this.Giocatore.OttieniBonusSpazioAzione(SpazioAzioneAttuale.BonusRisorse);
+            this.Giocatore.OttieniBonusRisorse(SpazioAzioneAttuale.BonusRisorse);
     }
 }
 

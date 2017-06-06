@@ -1,6 +1,8 @@
 package server.rmi;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Exceptions.DomainException;
 import rmi.IRMIClient;
 import server.AbstractServer;
@@ -105,8 +107,32 @@ public class RMIServer extends AbstractServer implements IRMIServer {
         giocatoreRemoto.getPartita().RispostaSostegnoChiesa(giocatoreRemoto, risposta);
     }
 
+    /**
+     * Evento scatenato dal client per comunicare l'intenzione di piazzare un familiare nello spazio azione specificato
+     * @param idGiocatore id del giocatore che ha effettuato la chiamata
+     * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
+     */
     @Override
     public void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO piazzaFamiliareDTO) throws IOException {
         GetGiocatoreById(idGiocatore).getPartita().PiazzaFamiliare(piazzaFamiliareDTO);
+    }
+
+    /**
+     * Evento scatenato dal client per comunicare l'intenzione di effettuare un'azione bonus
+     * @param idGiocatore id del giocatore che ha effettuato la chiamata
+     * @param azioneBonusDTO parametri relativi all'azione bonus
+     */
+    @Override
+    public void AzioneBonusEffettuata(short idGiocatore, AzioneBonusDTO azioneBonusDTO) throws IOException{
+        GetGiocatoreById(idGiocatore).getPartita().AzioneBonusEffettuata(azioneBonusDTO);
+    }
+
+    /**
+     * Manda al server la scelta del privilegio del consiglio
+     * @param risorsa risorse da aggiungere al giocatore
+     */
+    @Override
+    public void RiscuotiPrivilegiDelConsiglio(short idGiocatore, Risorsa risorsa) throws IOException {
+        GetGiocatoreById(idGiocatore).getPartita().RiscuotiPrivilegiDelConsiglio(idGiocatore, risorsa);
     }
 }

@@ -1,8 +1,10 @@
 package server;
 
 import Domain.Giocatore;
+import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
+import Domain.TipoAzione;
 import Exceptions.NetworkException;
 
 import java.util.HashMap;
@@ -69,4 +71,20 @@ public abstract class GiocatoreRemoto extends Giocatore{
      * @throws NetworkException
      */
     public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws NetworkException {}
+
+    /**
+     * Indica al client il numero di pergamene da scegliere
+     * @param numPergamene numero di pergamene da scegliere
+     */
+    @Override
+    public void SceltaPrivilegioConsiglio(int numPergamene) throws NetworkException {}
+
+
+    /**
+     * Comunica al client che può effettuare un'azione bonus
+     * @param tipoAzioneBonus tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    @Override
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {}
 }

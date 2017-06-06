@@ -58,4 +58,16 @@ public class SpazioAzioneRaccolto extends SpazioAzione  implements Serializable 
     protected void RimuoviFamiliari() {
         this.FamiliariPiazzati = new ArrayList<>();
     }
+
+    /**
+     * Metodo per effettuare azioni bonus nello spazio azione Raccolto, ovvero senza piazzamento familiare
+     * Attiva tutti gli effetti delle carte Territorio con valore sufficiente
+     * @param giocatore giocatore che effettua l'azione
+     * @param valoreAzione valore dell'azione
+     */
+    @Override
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+        super.ValidaValoreAzioneBonus(giocatore, valoreAzione);
+        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse);
+    }
 }

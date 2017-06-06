@@ -6,6 +6,7 @@ import Domain.Effetti.lista.effectInterface.Azionabile;
 import Domain.Giocatore;
 import Domain.Risorsa;
 import Domain.SpazioAzione;
+import Exceptions.NetworkException;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class Pergamena extends Effetto implements Azionabile {
 
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
-        //TODO chiama metodo di giocatore
+        try {
+            giocatore.SceltaPrivilegioConsiglio(numPergameneDiverse);
+        } catch (NetworkException e) {
+            System.out.println("Giocatore non più connesso");
+        }
     }
 }

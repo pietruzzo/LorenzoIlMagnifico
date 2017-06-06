@@ -2,6 +2,7 @@ package Domain;
 
 import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.Effetti.GestoreEffettiGiocatore;
+import Exceptions.NetworkException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -25,7 +26,10 @@ public class Giocatore implements Serializable {
     protected transient GestoreEffettiGiocatore gestoreEffettiGiocatore;
     protected Risorsa Risorse;
     private int ordineTurno;
+
     private Boolean rapportoVaticanoEffettuato;
+    private Boolean azioneBonusDaEffettuare;
+    private int privilegiDaScegliere;
     //endregion
 
     //region Getters
@@ -61,6 +65,14 @@ public class Giocatore implements Serializable {
     public List<CartaImpresa> getCarteImpresa() {
         return CarteImpresa;
     }
+
+    public Boolean getAzioneBonusDaEffettuare() {
+        return azioneBonusDaEffettuare;
+    }
+
+    public int getPrivilegiDaScegliere() {
+        return privilegiDaScegliere;
+    }
     //endregion
 
     //region Setters
@@ -70,6 +82,26 @@ public class Giocatore implements Serializable {
 
     public void setRapportoVaticanoEffettuato(Boolean rapportoVaticanoEffettuato) {
         this.rapportoVaticanoEffettuato = rapportoVaticanoEffettuato;
+    }
+
+    public void setAzioneBonusDaEffettuare(Boolean azioneBonusEffettuata) {
+        this.azioneBonusDaEffettuare = azioneBonusEffettuata;
+    }
+
+    /**
+     * Aumenta di uno i privilegi da scegliere
+     */
+    public void incrementaPrivilegiDaScegliere()
+    {
+        this.privilegiDaScegliere++;
+    }
+
+    /**
+     * Diminuisce di uno i privilegi da scegliere
+     */
+    public void decrementaPrivilegiDaScegliere()
+    {
+        this.privilegiDaScegliere--;
     }
     //endregion
 
@@ -124,14 +156,15 @@ public class Giocatore implements Serializable {
         this.Nome = nome;
         this.Colore = colore;
         this.rapportoVaticanoEffettuato = false;
+        this.azioneBonusDaEffettuare = false;
 
         this.Risorse = new Risorsa(2, 2, 3, monete, 0, 0, 0 );
     }
 
     /**
-     * Incrementa le risorse ottenute da un familiare su uno spazio azione
+     * Incrementa le risorse ottenute da un familiare su uno spazio azione o da un privilegio del consiglio
      */
-    public void OttieniBonusSpazioAzione(Risorsa risorseSpazioAzione)
+    public void OttieniBonusRisorse(Risorsa risorseSpazioAzione)
     {
         this.Risorse = Risorsa.add(this.Risorse, risorseSpazioAzione);
     }
@@ -204,10 +237,20 @@ public class Giocatore implements Serializable {
         return totaleRisorse / 5;
     }
 
-    public void segnalaPergamena(int numPergamene){//TODO
+    /**
+     * Metodo chiamato dal giocatore remoto per segnalare le pergamene da scegliere
+     * @param numPergamene numero di pergamene da scegliere
+     */
+    public void SceltaPrivilegioConsiglio(int numPergamene) throws NetworkException {
     }
 
-    public void effettuaAzioneBonus(TipoAzione tipoAzioneBonus){}
+    /**
+     * Metodo chiamato dal giocatore remoto per segnalare il tipo di azione bonus da svolgere
+     * @param tipoAzioneBonus tipo di azione da svolgere
+     * @param valoreAzione valore dell'azione da svolgere
+     */
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
+    }
 
 }
 

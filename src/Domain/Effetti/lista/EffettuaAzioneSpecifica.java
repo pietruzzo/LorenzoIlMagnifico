@@ -3,6 +3,7 @@ package Domain.Effetti.lista;
 import Domain.*;
 import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Azionabile;
+import Exceptions.NetworkException;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ public class EffettuaAzioneSpecifica extends Effetto implements Azionabile {
 
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
-        //TODO scegliere come implementare un'azione a fine turno (chiama metodo di giocatore)
+        try {
+            giocatore.EffettuaAzioneBonus(this.azione, valoreAzione, bonusPerAzioneSpecifica);
+        } catch (NetworkException e) {
+            System.out.println("Giocatore non più connesso");
+        }
     }
 }

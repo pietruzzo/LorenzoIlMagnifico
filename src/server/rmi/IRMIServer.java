@@ -1,6 +1,8 @@
 package server.rmi;
 
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import rmi.IRMIClient;
 
 import java.io.IOException;
@@ -15,4 +17,6 @@ public interface IRMIServer extends Remote {
     void IniziaPartita(short idGiocatore) throws IOException;
     void RispostaSostegnoChiesa(short idGiocatore, Boolean risposta) throws IOException;
     void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO piazzaFamiliareDTO) throws IOException;
+    void AzioneBonusEffettuata(short idGiocatore, AzioneBonusDTO azioneBonusDTO) throws IOException;
+    void RiscuotiPrivilegiDelConsiglio(short idGiocatore, Risorsa risorsa) throws IOException;
 }

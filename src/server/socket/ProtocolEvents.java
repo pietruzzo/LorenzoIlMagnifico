@@ -11,6 +11,8 @@ public class ProtocolEvents {
     public static final String INIZIA_PARTITA = "inziaPartita";
     public static final String RISPOSTA_SOSTEGNO_CHIESA = "rispostaSostegnoChiesa";
     public static final String PIAZZA_FAMILIARE = "piazzaFamiliare";
+    public static final String AZIONE_BONUS_EFFETTUATA = "azioneBonusEffettuata";
+    public static final String RISCUOTI_PRIVILEGIO = "riscuotiPrivilegio";
 
     //Eventi lanciati dal server verso il client
     public static final String TIRATA_ECCEZIONE = "tirataEccezione";
@@ -20,6 +22,8 @@ public class ProtocolEvents {
     public static final String GIOCATORI_SCOMUNICATI = "giocatoriScomunicati";
     public static final String SOSTEGNO_CHIESA = "sostegnoChiesa";
     public static final String AGGIORNA_GIOCATORE = "aggiornaGiocatore";
+    public static final String SCEGLI_PRIVILEGIO = "scegliPrivilegio";
+    public static final String AZIONE_BONUS = "azioneBonus";
     public static final String FINE_PARTITA = "finePartita";
 
     //Codici delle risposte date dal server al client (HTTP style)

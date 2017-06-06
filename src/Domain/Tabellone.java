@@ -3,10 +3,10 @@ package Domain;
 import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
+import Exceptions.NetworkException;
 import server.Partita;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -344,6 +344,40 @@ public class Tabellone implements Serializable {
                 ));
     }
     //endregion
+
+    /**
+     * Valida l'azione bonus e in caso positivo la effettua
+     * @param idGiocatore id del giocatore che effettua l'azione
+     * @param idSpazioAzione id dello spazio azione sul quale viene fatta l'azione
+     * @param valoreAzione il valore dell'azione dato dall'effetto
+     * @param bonusRisorse il bonus eventuale dato dall'effetto
+     * @return DTO per permettere l'aggiornamento lato client
+     * @throws DomainException se la validazione non va a buon fine
+     */
+    public UpdateGiocatoreDTO AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+        Giocatore giocatore = this.getGiocatoreById(idGiocatore);
+        SpazioAzione spazioAzione = this.getSpazioAzioneById(idSpazioAzione);
+        spazioAzione.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse);
+        giocatore.setAzioneBonusDaEffettuare(false);
+
+        return new UpdateGiocatoreDTO(idGiocatore, giocatore.getRisorse(), null, idSpazioAzione);
+    }
+
+
+    /**
+     * Aggiorna le risorse del giocatore in seguito alla scelta di un privilegio del consiglio
+     * @param idGiocatore id del giocatore che ha ottenuto il privilegio
+     * @param risorsa risorse corrispondenti al privilegio scelto
+     * @return DTO per permettere l'aggiornamento lato client
+     */
+    public UpdateGiocatoreDTO RiscuotiPrivilegiDelConsiglio(short idGiocatore, Risorsa risorsa)
+    {
+        Giocatore giocatore = this.getGiocatoreById(idGiocatore);
+        giocatore.OttieniBonusRisorse(risorsa);
+        giocatore.decrementaPrivilegiDaScegliere();
+
+        return new UpdateGiocatoreDTO(idGiocatore, giocatore.getRisorse(), null, null);
+    }
 
     /**
      * Scomunica un giocatore

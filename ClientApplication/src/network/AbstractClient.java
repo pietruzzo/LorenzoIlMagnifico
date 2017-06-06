@@ -1,7 +1,9 @@
 package network;
 
 import Domain.ColoreDado;
+import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
+import Domain.Risorsa;
 import Exceptions.NetworkException;
 import lorenzo.MainGame;
 
@@ -56,4 +58,9 @@ public abstract class AbstractClient {
     public abstract void RispostaSostegnoChiesa(Boolean risposta) throws NetworkException;
 
     public abstract void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException;
+
+    public abstract void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws NetworkException;
+
+    public abstract void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa) throws NetworkException;
+
 }

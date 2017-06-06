@@ -1,10 +1,8 @@
 package Domain;
 
-import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -49,7 +47,7 @@ public class SpazioAzione  implements Serializable {
     }
 
     /**
-     * Metodo base per aggiornare i parametri del GiocatoreGraphic in funzione dei bonus dello spazio azione
+     * Metodo base per aggiornare i parametri del giocatore in funzione dei bonus dello spazio azione
      */
     protected void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         Risorsa costoComplessivoEffetti;
@@ -63,13 +61,17 @@ public class SpazioAzione  implements Serializable {
 
     /**
      * Validazione base per poter piazzare un familiare
-      */
+     * @param familiare familiare che effettua l'azione
+     * @param servitoriAggiunti servitori aggiunti per aumentare il valore dell'azione
+    */
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         this.ValidaValoreAzione(familiare, servitoriAggiunti);
     }
 
     /**
-     * Effettua la validazione ritornando le risorse calcolate in base agli effetti delle carte del GiocatoreGraphic
+     * Effettua la validazione ritornando le risorse calcolate in base agli effetti delle carte del giocatore
+     * @param familiare familiare che effettua l'azione
+     * @param servitoriAggiunti servitori aggiunti per aumentare il valore dell'azione
      */
     protected Risorsa ValidaValoreAzione(Familiare familiare, int servitoriAggiunti)throws DomainException {
         Risorsa costoEffetti = new Risorsa();
@@ -89,4 +91,34 @@ public class SpazioAzione  implements Serializable {
      * Toglie tutti i familiari dallo spazio azione
      */
     protected void RimuoviFamiliari(){};
+
+    /**
+     * Metodo base per effettuare azioni bonus, ovvero senza piazzamento familiare
+     * @param giocatore giocatore che effettua l'azione
+     * @param valoreAzione valore dell'azione
+     */
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+        Risorsa costoComplessivoEffetti;
+        costoComplessivoEffetti = giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), valoreAzione, this);
+        giocatore.PagaRisorse(costoComplessivoEffetti);
+        giocatore.OttieniBonusRisorse(this.BonusRisorse);
+    }
+
+    /**
+     * Effettua la validazione dell'azione bonus ritornando le risorse calcolate in base agli effetti delle carte del giocatore
+     * @param giocatore giocatore che effettua l'azione bonus
+     * @param valoreAzione valore dell'azione
+     */
+    protected Risorsa ValidaValoreAzioneBonus(Giocatore giocatore, int valoreAzione)throws DomainException {
+        Risorsa costoEffetti = new Risorsa();
+        Integer valoreAzioneFinale = new Integer(valoreAzione);
+
+        //Modifica costoEffetti e valoreAzione
+        giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
+
+        if(valoreAzioneFinale < this.Valore)
+            throw new DomainException(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
+
+        return costoEffetti;
+    }
 }
