@@ -19,4 +19,5 @@ public interface IRMIServer extends Remote {
     void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO piazzaFamiliareDTO) throws IOException;
     void AzioneBonusEffettuata(short idGiocatore, AzioneBonusDTO azioneBonusDTO) throws IOException;
     void RiscuotiPrivilegiDelConsiglio(short idGiocatore, Risorsa risorsa) throws IOException;
+    void SettaSceltaEffetti(short idGiocatore, String nomeCarta, Integer sceltaEffetto) throws IOException;
 }

@@ -128,11 +128,22 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     }
 
     /**
-     * Manda al server la scelta del privilegio del consiglio
+     * Gestisce l'evento di riscossione del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */
     @Override
     public void RiscuotiPrivilegiDelConsiglio(short idGiocatore, Risorsa risorsa) throws IOException {
         GetGiocatoreById(idGiocatore).getPartita().RiscuotiPrivilegiDelConsiglio(idGiocatore, risorsa);
+    }
+
+    /**
+     * Gestisce l'evento di scelta dell'effetto di default da attivare per le carte con scambia risorse
+     * @param nomeCarta nome della carta alla quale impostare la scelta
+     * @param sceltaEffetto indidce della scelta effettuata
+     */
+    @Override
+    public void SettaSceltaEffetti(short idGiocatore, String nomeCarta, Integer sceltaEffetto) throws IOException
+    {
+        GetGiocatoreById(idGiocatore).SettaSceltaEffetti(nomeCarta, sceltaEffetto);
     }
 }

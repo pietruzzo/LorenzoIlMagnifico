@@ -136,6 +136,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     {
         this.getPartita().RiscuotiPrivilegiDelConsiglio(this.getIdGiocatore(), risorsa);
     }
+
     //endregion
 
     //region Messaggi dal server al client

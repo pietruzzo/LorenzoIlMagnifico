@@ -166,6 +166,20 @@ public class MainGame {
         }
     }
 
+    /**
+     * Manda al server la scelta dell'effetto di default da attivare per le carte con scambia risorse
+     * @param nomeCarta nome della carta alla quale impostare la scelta
+     * @param sceltaEffetto indidce della scelta effettuata
+     */
+    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto)
+    {
+        try {
+            client.SettaSceltaEffetti(nomeCarta, sceltaEffetto);
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione scelta effetto. %s", e.getMessage()));
+        }
+    }
+
     //endregion
 
 

@@ -49,6 +49,7 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.PIAZZA_FAMILIARE, this::PiazzaFamiliare);
         this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS_EFFETTUATA, this::AzioneBonusEffettuata);
         this.listaEventHandler.put(ProtocolEvents.RISCUOTI_PRIVILEGIO, this::RiscuotiPrivilegiDelConsiglio);
+        this.listaEventHandler.put(ProtocolEvents.SCELTA_EFFETTI, this::SettaSceltaEffetti);
     }
 
     //region Handler eventi
@@ -151,6 +152,22 @@ public class SocketServerProtocol {
         try {
             Risorsa risorsa = (Risorsa) this.inputStream.readObject();
             this.giocatore.RiscuotiPrivilegiDelConsiglio(risorsa);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gestisce l'evento di scelta dell'effetto di default da attivare per le carte con scambia risorse
+     */
+    public void SettaSceltaEffetti()
+    {
+        try {
+            String nomeCarta = (String) this.inputStream.readObject();
+            Integer sceltaEffetto = (Integer) this.inputStream.readObject();
+            this.giocatore.SettaSceltaEffetti(nomeCarta, sceltaEffetto);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

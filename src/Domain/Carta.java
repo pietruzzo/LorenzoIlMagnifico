@@ -1,6 +1,7 @@
 package Domain;
 
 import Domain.Effetti.Effetto;
+import Domain.Effetti.lista.ScambiaRisorse;
 import Exceptions.DomainException;
 
 import java.io.Serializable;
@@ -39,6 +40,27 @@ public abstract class Carta implements Serializable{
      */
     public Risorsa getCostoRisorse() {
         return CostoRisorse.clone();
+    }
+
+    /**
+     * Permette di impostare l'opzione di default per lo scambio di risorse
+     * @param sceltaEffetto indidce della scelta
+     */
+    public void SettaSceltaEffetti(Integer sceltaEffetto)
+    {
+        //In una carta ci può essere al massimo un effetto (tra immediati e non) del tipo ScambiaRisorse
+
+        //Applica la scelta agli effetti immediati
+        for (Effetto effetto : EffettoImmediato) {
+            if(effetto instanceof ScambiaRisorse)
+                ((ScambiaRisorse)effetto).SetDefaultChoice(sceltaEffetto);
+        }
+
+        //Applica la scelta agli effetti permanenti
+        for (Effetto effetto : EffettoPermanente) {
+            if(effetto instanceof ScambiaRisorse)
+                ((ScambiaRisorse)effetto).SetDefaultChoice(sceltaEffetto);
+        }
     }
 
     abstract protected void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws DomainException;

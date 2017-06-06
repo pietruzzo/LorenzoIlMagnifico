@@ -322,6 +322,23 @@ public class SocketClientProtocol {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Manda al server la scelta dell'effetto di default da attivare per le carte con scambia risorse
+     * @param nomeCarta nome della carta alla quale impostare la scelta
+     * @param sceltaEffetto indidce della scelta effettuata
+     */
+    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto)
+    {
+        try {
+            outputStream.writeObject(ProtocolEvents.SCELTA_EFFETTI);
+            outputStream.writeObject(nomeCarta);
+            outputStream.writeObject(sceltaEffetto);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     //endregion
 
     /**

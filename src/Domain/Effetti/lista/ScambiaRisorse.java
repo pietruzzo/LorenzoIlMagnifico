@@ -17,6 +17,15 @@ import java.util.List;
 public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
     Opzioni opzioni;
 
+    /**
+     * Permette di settare l'opzione di default per lo scambio di risorse
+     * @param scelta indice della scelta
+     */
+    public void SetDefaultChoice(Integer scelta)
+    {
+        this.opzioni.setOpzione(scelta);
+    }
+
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         Risorsa[] opzioneScelta = opzioni.getOpzione();

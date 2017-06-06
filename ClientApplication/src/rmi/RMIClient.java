@@ -143,6 +143,21 @@ public class RMIClient extends AbstractClient implements IRMIClient {
             this.HandleException(e);
         }
     }
+
+    /**
+     * Manda al server la scelta dell'effetto di default da attivare per le carte con scambia risorse
+     * @param nomeCarta nome della carta alla quale impostare la scelta
+     * @param sceltaEffetto indidce della scelta effettuata
+     */
+    @Override
+    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto) throws NetworkException
+    {
+        try {
+            server.SettaSceltaEffetti(this.idGiocatore, nomeCarta, sceltaEffetto);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
     //endregion
 
     //region Chiamate dal server
