@@ -203,5 +203,11 @@ public class Giocatore implements Serializable {
         int totaleRisorse = this.Risorse.getLegno() + this.Risorse.getPietra() + this.Risorse.getServi() + this.Risorse.getMonete();
         return totaleRisorse / 5;
     }
+
+    public void segnalaPergamena(int numPergamene){//TODO
+    }
+
+    public void effettuaAzioneBonus(TipoAzione tipoAzioneBonus){}
+
 }
 
