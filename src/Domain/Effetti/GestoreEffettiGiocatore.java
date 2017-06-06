@@ -6,7 +6,6 @@ import Exceptions.SaltaTurnoException;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class GestoreEffettiGiocatore  {
     private Risorsa malusRisorsaScomunica;
     private List<Effetto> listaEffettiValidati;
     private List<Carta> carteCorrenti; //Carte selezionate da Validazione
-    private Effetto effettoImmediato; //Estratto da Validazione
+    private List<Effetto> effettiImmediati; //Estratto da Validazione
     //endregion
 
     /**
@@ -49,7 +48,7 @@ public class GestoreEffettiGiocatore  {
         malusRisorsaScomunica = new Risorsa();
 
         //ottieni effetto immediato
-        effettoImmediato = estraiEffettoImmediato(casella);
+        effettiImmediati = estraiEffettoImmediato(casella);
 
         //Filtra Carte Contesto Azione
         List<Carta> carteCorrenti = selezionaCartePerTipo(getTipoAzione(casella), giocatoreCorrente.getListaCarte());
@@ -58,8 +57,10 @@ public class GestoreEffettiGiocatore  {
             Ipotizzo che gli effetti immediati non modifichino il valore dell'azione
          */
         for (Carta carta : carteCorrenti) {
-            if (carta.getEffettoPermanente() instanceof ModificaValoreAzione) {
-                ((ModificaValoreAzione) carta).aggiungiValoreAzione(azione, getTipoAzione(casella));
+            for (Effetto e : carta.getEffettoPermanente()) {
+                if (e instanceof ModificaValoreAzione) {
+                    ((ModificaValoreAzione) e).aggiungiValoreAzione(azione, getTipoAzione(casella));
+                }
             }
         }
 
@@ -67,14 +68,18 @@ public class GestoreEffettiGiocatore  {
         carteCorrenti = selezionaCartePerValore(azione, carteCorrenti);
 
         //esegui effetto immediato se Validabile
-        if (effettoImmediato != null && effettoImmediato instanceof Validabile) {
-            ((Validabile) effettoImmediato).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
-        }
+        if (!effettiImmediati.isEmpty()){
+        for (Effetto effettoIm : effettiImmediati){
+        if (effettoIm instanceof Validabile) {
+            ((Validabile) effettoIm).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+        }}}
 
         //Esegui Validabile
         for (Carta c : carteCorrenti) {
-            if (c.getEffettoPermanente() != null && c.getEffettoPermanente() instanceof Validabile) {
-                ((Validabile) c.getEffettoPermanente()).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+            for(Effetto e: c.getEffettoPermanente()) {
+                if (e != null && e instanceof Validabile) {
+                    ((Validabile) e).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+                }
             }
         }
         //Azzera trigger
@@ -108,14 +113,18 @@ public class GestoreEffettiGiocatore  {
         Risorsa costoRitorno = costo.clone();
         validaAzione(costo, azione, casella, risorseAllocate);
         //esegui effetto immediato se di Azionabile
-        if (effettoImmediato != null && effettoImmediato instanceof Azionabile) {
-            ((Azionabile) effettoImmediato).aziona(costoRitorno, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
-        }
+        if (!effettiImmediati.isEmpty()){
+        for (Effetto effettoIm : effettiImmediati){
+        if (effettoIm != null && effettoIm instanceof Azionabile) {
+            ((Azionabile) effettoIm).aziona(costoRitorno, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
+        }}}
 
         //Esegui Azionabile
         for (Carta c : carteCorrenti) {
-            if (c.getEffettoPermanente() != null && c.getEffettoPermanente() instanceof Azionabile) {
-                ((Azionabile) c.getEffettoPermanente()).aziona(costoRitorno, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+            for(Effetto e : c.getEffettoPermanente()) {
+                if (e != null && e instanceof Azionabile) {
+                    ((Azionabile) e).aziona(costoRitorno, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
+                }
             }
         }
 
@@ -144,10 +153,12 @@ public class GestoreEffettiGiocatore  {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
         for (Carta c : listaCarte) {
-            if (c.getEffettoPermanente() instanceof InizioTurno) {
-                InizioTurno effetto = (InizioTurno) c.getEffettoPermanente();
+            for(Effetto e : c.getEffettoPermanente()){
+            if (e instanceof InizioTurno) {
+                InizioTurno effetto = (InizioTurno) e;
                 effetto.setupTurno(turno);
             }
+        }
         }
 
         azzeraTrigger(giocatoreCorrente.getListaCarte());
@@ -158,8 +169,9 @@ public class GestoreEffettiGiocatore  {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
         for (Carta c : listaCarte) {
-            if (c.getEffettoPermanente() instanceof EndGame) {
-                EndGame effetto = (EndGame) c.getEffettoPermanente();
+            for (Effetto e : c.getEffettoPermanente())
+            if (e instanceof EndGame) {
+                EndGame effetto = (EndGame) e;
                 effetto.azioneTerminale(risorseGiocatore, listaCarte);
             }
         }
@@ -222,7 +234,7 @@ public class GestoreEffettiGiocatore  {
      * @param casella casella corrente del familiare, @nullable
      * @return effetto immediato associato, oppure null
      */
-    private Effetto estraiEffettoImmediato(SpazioAzione casella) {
+    private List<Effetto> estraiEffettoImmediato(SpazioAzione casella) {
         if (casella != null && casella instanceof SpazioAzioneTorre) {
             SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
             if (spazioAzioneTorre.getCartaAssociata().getEffettoImmediato() != null) {

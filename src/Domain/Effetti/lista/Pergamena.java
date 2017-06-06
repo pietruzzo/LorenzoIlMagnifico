@@ -1,20 +1,24 @@
 package Domain.Effetti.lista;
 
-import Domain.*;
+import Domain.Carta;
 import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Azionabile;
+import Domain.Giocatore;
+import Domain.Risorsa;
+import Domain.SpazioAzione;
 
 import java.util.List;
 
 /**
- * Created by pietro on 18/05/17.
+ * Created by pietro on 06/06/17.
  */
-public class EffettuaAzioneSpecifica extends Effetto implements Azionabile {
-    TipoAzione azione;
-    Risorsa bonusPerAzioneSpecifica;
+public class Pergamena extends Effetto implements Azionabile {
+
+    private int numPergameneDiverse;
+
 
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
-        //TODO scegliere come implementare un'azione a fine turno (chiama metodo di giocatore)
+        //TODO chiama metodo di giocatore
     }
 }

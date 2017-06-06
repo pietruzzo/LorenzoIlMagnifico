@@ -87,7 +87,7 @@ public class Tabellone implements Serializable {
 
         //region Creazioe carte
         String nome;
-        Effetto effetto = new Effetto();
+        List<Effetto> effetto = new ArrayList<Effetto>();
         Risorsa risorsa = new Risorsa();
 
         for (int period = 1; period <= 3; period++)

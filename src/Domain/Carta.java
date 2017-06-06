@@ -4,6 +4,7 @@ import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -14,8 +15,8 @@ public abstract class Carta implements Serializable{
     protected String Nome;
     protected int Periodo;
     protected Risorsa CostoRisorse;
-    protected Effetto EffettoImmediato;
-    protected Effetto EffettoPermanente;
+    protected List<Effetto> EffettoImmediato;
+    protected List<Effetto> EffettoPermanente;
     //endregion
 
     protected Carta() { CostoRisorse=new Risorsa();}
@@ -23,7 +24,7 @@ public abstract class Carta implements Serializable{
     /**
      * Costruttore
      */
-    public Carta(String nome, int periodo, Risorsa costoRisorse, Effetto effettoImmediato, Effetto effettoPermanente)
+    public Carta(String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         this.Nome = nome;
         this.Periodo = periodo;
@@ -44,11 +45,11 @@ public abstract class Carta implements Serializable{
     abstract protected void AssegnaGiocatore(Giocatore giocatore);
     abstract public TipoCarta getTipoCarta();
 
-    public Effetto getEffettoImmediato() {
+    public List<Effetto> getEffettoImmediato() {
         return EffettoImmediato;
     }
 
-    public Effetto getEffettoPermanente() {
+    public List<Effetto> getEffettoPermanente() {
         return EffettoPermanente;
     }
 }

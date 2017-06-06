@@ -2,6 +2,8 @@ package Domain;
 
 import Domain.Effetti.Effetto;
 
+import java.util.List;
+
 /**
  * Created by Portatile on 12/05/2017.
  */
@@ -9,7 +11,7 @@ public class TesseraScomunica extends Carta{
     /**
      * Costruttore
      */
-    public TesseraScomunica (int periodo, Effetto effettoPermanente)
+    public TesseraScomunica (int periodo, List<Effetto> effettoPermanente)
     {
         super("", periodo, new Risorsa(), null, effettoPermanente);
     }

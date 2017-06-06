@@ -1,6 +1,7 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
+import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Validabile;
 import Domain.Risorsa;
 import Domain.SpazioAzione;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by pietro on 18/05/17.
  */
-public class DisabilitaCasella implements Validabile {
+public class DisabilitaCasella extends Effetto implements Validabile {
     List<SpazioAzione> caselleDisabilitate;
 
     @Override

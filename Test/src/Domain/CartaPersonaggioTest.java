@@ -5,6 +5,8 @@ import Exceptions.DomainException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
@@ -15,7 +17,7 @@ public class CartaPersonaggioTest {
 
     @Before
     public void setUp() throws Exception {
-        cartaPersonaggio = new CartaPersonaggio("carta", 1, new Risorsa(), new Effetto(), new Effetto());
+        cartaPersonaggio = new CartaPersonaggio("carta", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>());
 
         assertEquals("carta", cartaPersonaggio.Nome);
         assertEquals(1, cartaPersonaggio.Periodo);
@@ -40,7 +42,7 @@ public class CartaPersonaggioTest {
         SpazioAzioneTorre spazioAzioneTorre = new SpazioAzioneTorre(1, new Risorsa(), torre);
 
         for (int i = 0; i<6; i++)
-            giocatore.CartePersonaggio.add(new CartaPersonaggio("nome", 1, new Risorsa(), new Effetto(), new Effetto()));
+            giocatore.CartePersonaggio.add(new CartaPersonaggio("nome", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>()));
 
         cartaPersonaggio.ValidaPresaCarta(giocatore, spazioAzioneTorre);
     }

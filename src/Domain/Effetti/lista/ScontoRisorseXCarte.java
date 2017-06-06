@@ -19,7 +19,7 @@ public class ScontoRisorseXCarte {
         Risorsa risorseBonus;
 
         @Override
-        public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
+        public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
             applicaBonus(costo, carteGiocatore, casella);
         }
 

@@ -1,9 +1,11 @@
 package Domain.Effetti.lista;
 
 import Domain.Carta;
+import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Azionabile;
 import Domain.Effetti.lista.effectInterface.Trigger;
 import Domain.Effetti.lista.effectInterface.Validabile;
+import Domain.Giocatore;
 import Domain.Risorsa;
 import Domain.SpazioAzione;
 
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Created by pietro on 18/05/17.
  */
-public class DimezzaRisorsaAllocata implements Validabile, Azionabile, Trigger {
+public class DimezzaRisorsaAllocata extends Effetto implements Validabile, Azionabile, Trigger {
     Risorsa.TipoRisorsa tipoRisorsa;
     boolean trigger=false;
     @Override
@@ -21,7 +23,7 @@ public class DimezzaRisorsaAllocata implements Validabile, Azionabile, Trigger {
     }
 
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         dimezzaRisorsa(risorseAllocate, costo);
     }
 

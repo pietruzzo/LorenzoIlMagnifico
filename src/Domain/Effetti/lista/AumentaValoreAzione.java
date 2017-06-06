@@ -1,5 +1,6 @@
 package Domain.Effetti.lista;
 
+import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.ModificaValoreAzione;
 import Domain.TipoAzione;
 
@@ -7,7 +8,7 @@ import Domain.TipoAzione;
  * Created by pietro on 18/05/17.
  * Aumenta il valore di una azione specifica
  */
-public class AumentaValoreAzione implements ModificaValoreAzione {
+public class AumentaValoreAzione extends Effetto implements ModificaValoreAzione {
     private TipoAzione tipoAzione;
     private int incrementoAzione;
     @Override

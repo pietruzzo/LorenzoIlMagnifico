@@ -4,6 +4,7 @@ import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -13,7 +14,7 @@ public class CartaEdificio extends Carta  implements Serializable {
     /**
      * Costruttore
      */
-    public CartaEdificio (String nome, int periodo, Risorsa costoRisorse, Effetto effettoImmediato, Effetto effettoPermanente)
+    public CartaEdificio (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         super(nome, periodo, costoRisorse, effettoImmediato, effettoPermanente);
     }

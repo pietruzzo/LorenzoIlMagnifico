@@ -4,6 +4,8 @@ import Domain.Effetti.Effetto;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,7 +16,7 @@ public class TesseraScomunicaTest {
 
     @Before
     public void setUp() throws Exception {
-        tesseraScomunica = new TesseraScomunica(1, new Effetto());
+        tesseraScomunica = new TesseraScomunica(1, new ArrayList<Effetto>());
 
         assertEquals("", tesseraScomunica.Nome);
         assertEquals(1, tesseraScomunica.Periodo);

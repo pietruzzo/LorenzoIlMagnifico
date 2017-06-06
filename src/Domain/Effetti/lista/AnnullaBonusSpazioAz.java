@@ -1,22 +1,20 @@
 package Domain.Effetti.lista;
 
-import Domain.Carta;
+import Domain.*;
+import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Azionabile;
 import Domain.Effetti.lista.effectInterface.Trigger;
 import Domain.Effetti.lista.effectInterface.Validabile;
-import Domain.Risorsa;
-import Domain.SpazioAzione;
-import Domain.SpazioAzioneTorre;
 
 import java.util.List;
 
 /**
  * Created by pietro on 18/05/17.
  */
-public class AnnullaBonusSpazioAz implements Validabile, Azionabile, Trigger{
+public class AnnullaBonusSpazioAz extends Effetto implements Validabile, Azionabile, Trigger{
     boolean trigger= false;
     @Override
-    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
+    public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         scalaBonus(costo, casella);
     }
 
