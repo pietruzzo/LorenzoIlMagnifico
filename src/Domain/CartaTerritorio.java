@@ -16,7 +16,7 @@ public class CartaTerritorio extends Carta  implements Serializable {
      */
     public CartaTerritorio (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
-        super(nome, periodo, costoRisorse, effettoImmediato, effettoPermanente);
+        super(nome, periodo, effettoImmediato, effettoPermanente);
     }
 
     /**

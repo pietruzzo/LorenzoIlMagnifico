@@ -118,6 +118,11 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
 
+    /**
+     * Riscala il pannello
+     * @param pannello
+     * @param coeff
+     */
     private void riscala(Pane pannello, double coeff){
         pannello.setScaleX(coeff);
         pannello.setScaleY(coeff);

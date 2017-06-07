@@ -1,12 +1,7 @@
-package graphic.Gui;
+package graphic.Gui.Items;
 
 import Domain.ColoreDado;
-import Domain.Giocatore;
-import com.sun.javafx.collections.MappingChange;
-import graphic.Gui.Items.*;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -36,7 +31,6 @@ public class Tabellone extends AnchorPane{
     private static final String URL = "file:"+System.getProperty("user.dir")+separator+"src"+separator+ "Risorse";
 
     private static final Point2D[] POSIZIONE_SCOMUNICA = {new Point2D(195, 785), new Point2D(258, 792), new Point2D(325, 782)};
-    private static final Point2D[] POSIZIONE_CARTE = {/*TODO gestione delle carte sul tabellone*/};
 
 
     private CaselleGioco caselle;
@@ -46,7 +40,7 @@ public class Tabellone extends AnchorPane{
 
 
 
-    Tabellone(){
+    public Tabellone(){
         ImageView immagineTabellone;
 
         //setta il tabellone in attesa della partita
@@ -135,6 +129,28 @@ public class Tabellone extends AnchorPane{
         carta.setY(POSIZIONE_SCOMUNICA[periodo-1].getY()-carta.getImage().getHeight()/2);
         this.getChildren().add(carta);
     }
+
+    /**
+     * Aggiungi la carta sul campo associandola alla casella indicata
+     * @param casella
+     * @param carta
+     */
+    public void aggiungiCartaAzione(@NotNull CasellaConCartaGraphic casella,@NotNull CartaGraphic carta){
+        carta.setX(casella.getSpazioCartaX() - carta.getImage().getWidth()/2);
+        carta.setY(casella.getSpazioCartaY() - carta.getImage().getHeight()/2);
+        carta.setVisible(true);
+        this.getChildren().add(carta);
+    }
+
+    /**
+     * Rimuovi la carta indicata dal tabellone
+     * @param casella
+     * @param carta
+     */
+    public void rimuoviCartaAzione(@NotNull CasellaConCartaGraphic casella,@NotNull CartaGraphic carta){
+        this.getChildren().remove(carta);
+    }
+
 
     public void settaDadi(int nero, int bianco, int arancio){
         dadi.setFacce(nero, bianco, arancio);

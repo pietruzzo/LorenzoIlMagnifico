@@ -15,31 +15,39 @@ public abstract class Carta implements Serializable{
     //region Proprieta
     protected String Nome;
     protected int Periodo;
-    protected Risorsa CostoRisorse;
     protected List<Effetto> EffettoImmediato;
     protected List<Effetto> EffettoPermanente;
     //endregion
 
-    protected Carta() { CostoRisorse=new Risorsa();}
+    protected Carta() {}
 
     /**
      * Costruttore
      */
-    public Carta(String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    public Carta(String nome, int periodo, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         this.Nome = nome;
         this.Periodo = periodo;
         this.EffettoImmediato = effettoImmediato;
-        this.CostoRisorse = costoRisorse;
         this.EffettoPermanente = effettoPermanente;
     }
 
     /**
-     *
+     *Se esiste un effettoImmediato ScambiaRisorse di tipo "costo", allora ritorna il suo costo
+     *      altrimenti significa che non ha costo (ritorna Risorse vuote)
      * @return copia del costo delle risorse
      */
     public Risorsa getCostoRisorse() {
-        return CostoRisorse.clone();
+
+        if (EffettoImmediato!=null && !EffettoImmediato.isEmpty()) {
+            for (Effetto e : getEffettoImmediato()) {
+                if (e instanceof ScambiaRisorse) {
+                    if (((ScambiaRisorse) e).isCosto())
+                        return ((ScambiaRisorse) e).getSelectedOption()[0];
+                }
+            }
+        }
+        return new Risorsa();
     }
 
     /**

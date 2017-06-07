@@ -16,7 +16,7 @@ public class CartaEdificio extends Carta  implements Serializable {
      */
     public CartaEdificio (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
-        super(nome, periodo, costoRisorse, effettoImmediato, effettoPermanente);
+        super(nome, periodo, effettoImmediato, effettoPermanente);
     }
 
     /**

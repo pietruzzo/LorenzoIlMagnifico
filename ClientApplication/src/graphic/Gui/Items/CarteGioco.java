@@ -2,6 +2,7 @@ package graphic.Gui.Items;
 
 import Domain.TipoCarta;
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,9 @@ public class CarteGioco{
    private final static String percorsoFileDescrizione = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"Carte"+separator;
    private final static int cartaW=90;
    private final static int cartaH=141;
+   private final static int CARTAWINGRANDITA=350;
+   private final static int CARTAHINGRANDITA=538;
+
    private final static int cartaScomW=30;
    private final static int cartaScomH=600;
 
@@ -25,6 +29,7 @@ public class CarteGioco{
 
    public CarteGioco(){
       //TODO carica le carte da file, aggiungile alla lista
+      //per le carte sviluppo, carica anche l aversione ingrandita
    }
 
    /**
@@ -46,15 +51,15 @@ public class CarteGioco{
     * @param tipo
     * @return da Risorse l'immagina della carta richiesta della dimensione data dal tipo di carta
     */
-   private Image getImage(String nome, TipoCarta tipo){
+   private Image getImage(String nome, TipoCarta tipo, int dimX, int dimY){
 
+      String percorsoCompleto;
       if(tipo != TipoCarta.Scomunica){
-         String percorsoCompleto = "file:"+percorsoFileDescrizione+"carteSviluppo"+separator+nome+".png";
-         return new Image(percorsoCompleto, cartaW, cartaH, false, true);
+         percorsoCompleto = "file:"+percorsoFileDescrizione+"carteSviluppo"+separator+nome+".jpg";
       } else {
-         String percorsoCompleto = "file:"+percorsoFileDescrizione+"carteScomunica"+separator+nome+".png";
-         return new Image(percorsoCompleto, cartaScomW, cartaScomH, false, true);
+         percorsoCompleto = "file:"+percorsoFileDescrizione+"carteScomunica"+separator+nome+".png";
       }
+      return new Image(percorsoCompleto, dimX, dimY, false, true);
    }
 }
 

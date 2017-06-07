@@ -20,7 +20,7 @@ public class CartaImpresa extends Carta  implements Serializable {
      */
     public CartaImpresa (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
-        super(nome, periodo, costoRisorse, effettoImmediato, effettoPermanente);
+        super(nome, periodo, effettoImmediato, effettoPermanente);
 
         //Una carta impresa può costare punti militari opppure risorse
         //Se sono specificati entrambi, allora l'utente potrà scegliere con cosa pagare

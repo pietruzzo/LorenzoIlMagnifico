@@ -13,7 +13,7 @@ public class TesseraScomunica extends Carta{
      */
     public TesseraScomunica (int periodo, List<Effetto> effettoPermanente)
     {
-        super("", periodo, new Risorsa(), null, effettoPermanente);
+        super("", periodo, null, effettoPermanente);
     }
 
     /**

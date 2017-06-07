@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
     Opzioni opzioni;
+    boolean costo;
 
     /**
      * Permette di settare l'opzione di default per lo scambio di risorse
@@ -23,7 +24,16 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
      */
     public void SetDefaultChoice(Integer scelta)
     {
+        if (this.costo = true && scelta ==null) throw new IllegalArgumentException("non puoi deselezionare un costo!");
         this.opzioni.setOpzione(scelta);
+    }
+
+    public boolean isCosto() {
+        return costo;
+    }
+
+    public Risorsa[] getSelectedOption(){
+        return opzioni.getOpzione();
     }
 
     @Override

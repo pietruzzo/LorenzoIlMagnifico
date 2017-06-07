@@ -1,8 +1,7 @@
-package graphic.Gui;
+package graphic.Gui.Items;
 
 import Domain.Risorsa;
 import Domain.TipoCarta;
-import graphic.Gui.Items.CartaGraphic;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
