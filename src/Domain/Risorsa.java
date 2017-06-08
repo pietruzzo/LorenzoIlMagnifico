@@ -90,6 +90,34 @@ public class Risorsa  implements Serializable {
     }
 
     /**
+     * aggiungi a this
+     * @param risorsa da sommare a this
+     */
+    @NotNull
+    public void add (Risorsa risorsa){
+        if(risorsa==null) throw new NullPointerException("Risorsa NULL");
+
+        short[] array = risorsa.getArrayRisorse();
+        for (int i=0; i<array.length; i++){
+            this.risorse[i]= (short) (this.risorse[i]+array[i]);
+        }
+    }
+
+    /**
+     * sottrai a this
+     * @param risorsa da sottrarre a this
+     */
+    @NotNull
+    public void sub (Risorsa risorsa){
+        if(risorsa==null) throw new NullPointerException("Risorsa NULL");
+
+        short[] array = risorsa.getArrayRisorse();
+        for (int i=0; i<array.length; i++){
+            this.risorse[i]= (short) (this.risorse[i]-array[i]);
+        }
+    }
+
+    /**
      * Ritorna la somma delle risorse passate
      * @param risorsa1 prima risorsa da sommare
      * @param risorsa2 seconda risorsa da sommare
@@ -131,8 +159,9 @@ public class Risorsa  implements Serializable {
         return true;
     }
 
+
     /**
-     * Moltiplica tutte le risorse per uno scalare
+     * Moltiplica tutte le risorse per uno scalare e RESTITUISCE il risultato
      * @param scalare scalare che moltiplica le risorse
      */
     public Risorsa multScalare(int scalare){

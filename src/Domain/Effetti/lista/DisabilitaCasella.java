@@ -15,6 +15,10 @@ import java.util.List;
 public class DisabilitaCasella extends Effetto implements Validabile {
     List<SpazioAzione> caselleDisabilitate;
 
+    public DisabilitaCasella(List<SpazioAzione> caselleDisabilitate) {
+        this.caselleDisabilitate = caselleDisabilitate;
+    }
+
     @Override
     public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) throws SpazioAzioneDisabilitatoEffettoException{
         if (casella!=null && caselleDisabilitate.contains(casella)) throw new SpazioAzioneDisabilitatoEffettoException();

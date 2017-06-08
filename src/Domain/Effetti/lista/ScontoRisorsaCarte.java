@@ -10,13 +10,15 @@ import java.util.List;
 /**
  * Created by pietro on 18/05/17.
  */
-public class ScontoRisorseXCarte {
-    //Come bonusRisorseXCarte ma viene conteggiato in validazione
-    public class BonusRisorseXCarte implements Azionabile, Validabile {
+public class ScontoRisorsaCarte implements Azionabile, Validabile {
 
-        TipoCarta tipoCarta;
-        int fattoreMoltiplicatore;
+        TipoCarta tipoCarta; //sul quale si applica lo sconto
         Risorsa risorseBonus;
+
+        public ScontoRisorsaCarte(TipoCarta tipoCarta, Risorsa risorseBonus) {
+            this.tipoCarta = tipoCarta;
+            this.risorseBonus = risorseBonus;
+        }
 
         @Override
         public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
@@ -29,21 +31,15 @@ public class ScontoRisorseXCarte {
         }
 
         private void applicaBonus(Risorsa costo, List<Carta>carteGiocatore, SpazioAzione casella) {
-            if (casella instanceof SpazioAzioneTorre) {
+            if (casella instanceof SpazioAzioneTorre && ((SpazioAzioneTorre) casella).getCartaAssociata()!=null) {
                 SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
                 Risorsa costoCarta= spazioAzioneTorre.getCartaAssociata().getCostoRisorse();
+                TipoCarta tipoCartaTorre = spazioAzioneTorre.getCartaAssociata().getTipoCarta();
 
-                int numCarte = 0;
-                for (Carta carta : carteGiocatore) {
-                    if (carta.getTipoCarta() == tipoCarta) {
-                        numCarte = +1;
-                    }
-                }
-                costoCarta = Risorsa.sub(costoCarta, costo.multScalare(numCarte));
+                costoCarta.sub(risorseBonus);
                 costoCarta = Risorsa.setNegToZero(costoCarta);
-                costo = Risorsa.sub(costo, costoCarta);
+                costo.sub(costoCarta);
             }
         }
     }
 
-}

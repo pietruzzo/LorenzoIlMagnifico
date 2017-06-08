@@ -13,8 +13,12 @@ import java.util.List;
 public class BonusRisorseXCarte extends Effetto implements Azionabile{
 
     TipoCarta tipoCarta;
-    int fattoreMoltiplicatore;
     Risorsa risorseBonus;
+
+    public BonusRisorseXCarte(TipoCarta tipoCarta, Risorsa risorseBonus) {
+        this.tipoCarta = tipoCarta;
+        this.risorseBonus = risorseBonus;
+    }
 
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
@@ -25,7 +29,7 @@ public class BonusRisorseXCarte extends Effetto implements Azionabile{
             }
         }
         Risorsa malus= applicaMalus(risorseBonus.multScalare(numCarte), malusRisorsa);
-        costo=Risorsa.sub(costo, risorseBonus.multScalare(numCarte));
-        costo = Risorsa.add(costo, malus);
+        costo.sub(risorseBonus.multScalare(numCarte));
+        costo.add(malus);
     }
 }

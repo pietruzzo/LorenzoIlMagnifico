@@ -16,7 +16,13 @@ import java.util.List;
  */
 public class DimezzaRisorsaAllocata extends Effetto implements Validabile, Azionabile, Trigger {
     Risorsa.TipoRisorsa tipoRisorsa;
-    boolean trigger=false;
+    boolean trigger;
+
+    public DimezzaRisorsaAllocata(Risorsa.TipoRisorsa tipoRisorsa) {
+        this.tipoRisorsa = tipoRisorsa;
+        this.trigger = false;
+    }
+
     @Override
     public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) {
         dimezzaRisorsa(risorseAllocate, costo);

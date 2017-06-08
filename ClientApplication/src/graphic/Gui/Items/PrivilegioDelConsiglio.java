@@ -81,7 +81,7 @@ public class PrivilegioDelConsiglio extends Pane{
 
                 for (int j = 0; j < aree.length; j++) {
                     if (aree[j].getStroke()==Color.BLUE)
-                    risorseSelezionate= Risorsa.add(risorseSelezionate, RISORSEPRIVILEGIO[j]);
+                    risorseSelezionate.add(RISORSEPRIVILEGIO[j]);
                 }
                 //TODO rispondi al server con le risorse
             }

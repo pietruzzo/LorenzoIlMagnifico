@@ -17,7 +17,7 @@ public class RisorsaTest {
     @org.junit.Test
     public void add() throws Exception {
         Risorsa risorsa = new Risorsa(1,1,1,1,2,2,2);
-        risorsa = Risorsa.add(risorsa, risorsa);
+        risorsa.add(risorsa);
 
         assertEquals(2, risorsa.getLegno());
         assertEquals(2, risorsa.getPietra());
@@ -31,7 +31,7 @@ public class RisorsaTest {
     @org.junit.Test
     public void sub() throws Exception {
         Risorsa risorsa = new Risorsa(1,1,1,1,2,2,2);
-        risorsa = Risorsa.sub(risorsa, risorsa);
+        risorsa.sub(risorsa);
 
         assertEquals(0, risorsa.getLegno());
         assertEquals(0, risorsa.getPietra());

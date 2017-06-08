@@ -16,9 +16,13 @@ public class MalusAttivazioneBonus extends Effetto implements Validabile {
 
     Risorsa malusRisorsa; //corrispettivi da sottrarre tutte le volte che guadagno una certa risorsa (Bonus casella, effetti...)
 
+    public MalusAttivazioneBonus(Risorsa malusRisorsa) {
+        this.malusRisorsa = malusRisorsa;
+    }
+
     @Override
     public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) throws SpazioAzioneDisabilitatoEffettoException {
-        malusRisorsa=Risorsa.add(malusRisorsa, this.malusRisorsa);
+        malusRisorsa.add(this.malusRisorsa);
     }
 
 }

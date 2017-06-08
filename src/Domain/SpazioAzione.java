@@ -3,6 +3,7 @@ package Domain;
 import Exceptions.DomainException;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Portatile on 12/05/2017.
@@ -51,7 +52,7 @@ public class SpazioAzione  implements Serializable {
      */
     protected void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         Risorsa costoComplessivoEffetti;
-        costoComplessivoEffetti = familiare.Giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), familiare.getValore() + servitoriAggiunti, this);
+        costoComplessivoEffetti = familiare.Giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), new AtomicInteger(familiare.getValore() + servitoriAggiunti), this);
 
         familiare.Giocatore.PagaRisorse(costoComplessivoEffetti);
         familiare.Giocatore.PagaRisorse(new Risorsa(Risorsa.TipoRisorsa.SERVI, servitoriAggiunti));
@@ -75,13 +76,13 @@ public class SpazioAzione  implements Serializable {
      */
     protected Risorsa ValidaValoreAzione(Familiare familiare, int servitoriAggiunti)throws DomainException {
         Risorsa costoEffetti = new Risorsa();
-        Integer valoreAzioneFinale = familiare.getValore();
-        valoreAzioneFinale += servitoriAggiunti;
+        AtomicInteger valoreAzioneFinale = new AtomicInteger(familiare.getValore());
+        valoreAzioneFinale.set(valoreAzioneFinale.get()+ servitoriAggiunti);
 
         //Modifica costoEffetti e valoreAzioneFinale
         familiare.Giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
 
-        if(valoreAzioneFinale < this.Valore)
+        if(valoreAzioneFinale.get() < this.Valore)
             throw new DomainException(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
 
         return costoEffetti;
@@ -98,8 +99,9 @@ public class SpazioAzione  implements Serializable {
      * @param valoreAzione valore dell'azione
      */
     protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+        AtomicInteger valoreAzioneRef = new AtomicInteger(valoreAzione);
         Risorsa costoComplessivoEffetti;
-        costoComplessivoEffetti = giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), valoreAzione, this);
+        costoComplessivoEffetti = giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), valoreAzioneRef, this);
         giocatore.PagaRisorse(costoComplessivoEffetti);
         giocatore.OttieniBonusRisorse(this.BonusRisorse);
     }
@@ -111,12 +113,12 @@ public class SpazioAzione  implements Serializable {
      */
     protected Risorsa ValidaValoreAzioneBonus(Giocatore giocatore, int valoreAzione)throws DomainException {
         Risorsa costoEffetti = new Risorsa();
-        Integer valoreAzioneFinale = new Integer(valoreAzione);
+        AtomicInteger valoreAzioneFinale = new AtomicInteger(valoreAzione);
 
         //Modifica costoEffetti e valoreAzione
         giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
 
-        if(valoreAzioneFinale < this.Valore)
+        if(valoreAzioneFinale.get() < this.Valore)
             throw new DomainException(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
 
         return costoEffetti;

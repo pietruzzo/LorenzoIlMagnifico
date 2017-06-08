@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by pietro on 18/05/17.
@@ -42,7 +43,7 @@ public class GestoreEffettiGiocatore  {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti
      */
-    private void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
+    private void validaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella, Risorsa risorseAllocate)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException {
 
         malusRisorsaScomunica = new Risorsa();
@@ -65,20 +66,20 @@ public class GestoreEffettiGiocatore  {
         }
 
         //Filtra carte attive (non include la carta che prendo)
-        carteCorrenti = selezionaCartePerValore(azione, carteCorrenti);
+        carteCorrenti = selezionaCartePerValore(azione.get(), carteCorrenti);
 
         //esegui effetto immediato se Validabile
         if (!effettiImmediati.isEmpty()){
         for (Effetto effettoIm : effettiImmediati){
         if (effettoIm instanceof Validabile) {
-            ((Validabile) effettoIm).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+            ((Validabile) effettoIm).valida(costo, azione.get(), casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
         }}}
 
         //Esegui Validabile
         for (Carta c : carteCorrenti) {
             for(Effetto e: c.getEffettoPermanente()) {
                 if (e != null && e instanceof Validabile) {
-                    ((Validabile) e).valida(costo, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
+                    ((Validabile) e).valida(costo, azione.get(), casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
                 }
             }
         }
@@ -94,7 +95,7 @@ public class GestoreEffettiGiocatore  {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti
      */
-    public void validaAzione(Risorsa costo, Integer azione, SpazioAzione casella){
+    public void validaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella){
         validaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
     }
 
@@ -107,7 +108,7 @@ public class GestoreEffettiGiocatore  {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a GiocatoreGraphic, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
      */
-    private Risorsa effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella, Risorsa risorseAllocate)
+    private Risorsa effettuaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella, Risorsa risorseAllocate)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException {
 
         Risorsa costoRitorno = costo.clone();
@@ -116,14 +117,14 @@ public class GestoreEffettiGiocatore  {
         if (!effettiImmediati.isEmpty()){
         for (Effetto effettoIm : effettiImmediati){
         if (effettoIm != null && effettoIm instanceof Azionabile) {
-            ((Azionabile) effettoIm).aziona(costoRitorno, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
+            ((Azionabile) effettoIm).aziona(costoRitorno, azione.get(), casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
         }}}
 
         //Esegui Azionabile
         for (Carta c : carteCorrenti) {
             for(Effetto e : c.getEffettoPermanente()) {
                 if (e != null && e instanceof Azionabile) {
-                    ((Azionabile) e).aziona(costoRitorno, azione, casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
+                    ((Azionabile) e).aziona(costoRitorno, azione.get(), casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
                 }
             }
         }
@@ -143,7 +144,7 @@ public class GestoreEffettiGiocatore  {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a GiocatoreGraphic, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
      */
-    public Risorsa effettuaAzione(Risorsa costo, Integer azione, SpazioAzione casella)
+    public Risorsa effettuaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella)
             throws SaltaTurnoException, SpazioAzioneDisabilitatoEffettoException{
         return effettuaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
     }
@@ -166,15 +167,17 @@ public class GestoreEffettiGiocatore  {
 
 
     public void endGame(Risorsa risorseGiocatore) {
+        AtomicInteger modificaPuntiVittoria= new AtomicInteger(0);
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
         for (Carta c : listaCarte) {
             for (Effetto e : c.getEffettoPermanente())
             if (e instanceof EndGame) {
                 EndGame effetto = (EndGame) e;
-                effetto.azioneTerminale(risorseGiocatore, listaCarte);
+                effetto.azioneTerminale(risorseGiocatore, listaCarte, modificaPuntiVittoria);
             }
         }
+        giocatoreCorrente.getRisorse().add(new Risorsa(Risorsa.TipoRisorsa.MONETE, modificaPuntiVittoria.get()));
     }
 
     /**

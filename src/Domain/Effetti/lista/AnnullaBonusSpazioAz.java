@@ -12,7 +12,12 @@ import java.util.List;
  * Created by pietro on 18/05/17.
  */
 public class AnnullaBonusSpazioAz extends Effetto implements Validabile, Azionabile, Trigger{
-    boolean trigger= false;
+    boolean trigger;
+
+    public AnnullaBonusSpazioAz() {
+        this.trigger = false;
+    }
+
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         scalaBonus(costo, casella);
@@ -31,7 +36,7 @@ public class AnnullaBonusSpazioAz extends Effetto implements Validabile, Azionab
         if ((casella instanceof SpazioAzioneTorre) && (casella != null) && !trigger){
             SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
             Risorsa bonusRisorse=spazioAzioneTorre.getBonusRisorse();
-            costo = Risorsa.add(costo,bonusRisorse);
+            costo.add(bonusRisorse);
             this.trigger=true;
         }
     }

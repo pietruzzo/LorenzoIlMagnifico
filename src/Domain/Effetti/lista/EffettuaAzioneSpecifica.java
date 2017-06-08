@@ -14,6 +14,11 @@ public class EffettuaAzioneSpecifica extends Effetto implements Azionabile {
     TipoAzione azione;
     Risorsa bonusPerAzioneSpecifica;
 
+    public EffettuaAzioneSpecifica(TipoAzione azione, Risorsa bonusPerAzioneSpecifica) {
+        this.azione = azione;
+        this.bonusPerAzioneSpecifica = bonusPerAzioneSpecifica;
+    }
+
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         try {

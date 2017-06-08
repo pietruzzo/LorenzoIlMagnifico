@@ -166,7 +166,7 @@ public class Giocatore implements Serializable {
      */
     public void OttieniBonusRisorse(Risorsa risorseSpazioAzione)
     {
-        this.Risorse = Risorsa.add(this.Risorse, risorseSpazioAzione);
+        this.Risorse.add(risorseSpazioAzione);
     }
 
     /**
@@ -174,7 +174,7 @@ public class Giocatore implements Serializable {
      */
     public void PagaRisorse(Risorsa costoRisorse)
     {
-        this.Risorse = Risorsa.sub(this.Risorse, costoRisorse);
+        this.Risorse.sub(costoRisorse);
     }
 
     /**

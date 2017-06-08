@@ -18,8 +18,16 @@ public class Pergamena extends Effetto implements Azionabile {
     private int numPergameneDiverse;
 
 
+    public Pergamena(int numPergameneDiverse) {
+        this.numPergameneDiverse = numPergameneDiverse;
+    }
+
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
+        lanciaPrivilegio(giocatore);
+    }
+
+    public void lanciaPrivilegio (Giocatore giocatore) {
         try {
             giocatore.SceltaPrivilegioConsiglio(numPergameneDiverse);
         } catch (NetworkException e) {

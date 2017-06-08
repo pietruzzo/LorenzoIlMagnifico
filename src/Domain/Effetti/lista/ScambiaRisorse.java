@@ -18,6 +18,12 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
     Opzioni opzioni;
     boolean costo;
 
+
+    public ScambiaRisorse(Risorsa[]costi, Risorsa[]guadagni, boolean costo) {
+        opzioni= new Opzioni(costi, guadagni, null);
+        this.costo = costo;
+    }
+
     /**
      * Permette di settare l'opzione di default per lo scambio di risorse
      * @param scelta indice della scelta
@@ -38,18 +44,27 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
 
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
+
         Risorsa[] opzioneScelta = opzioni.getOpzione();
-        costo = Risorsa.add(costo, opzioneScelta[0]);
-        costo = Risorsa.sub(costo, opzioneScelta[1]);
-        //Calcolo ed aggiunta del malusAttivazioneBonus
-        Risorsa malus = applicaMalus(opzioneScelta[1], malusRisorsa);
-        costo = Risorsa.add(costo, malusRisorsa);
+        costo.add(opzioneScelta[0]);
+
+        if(opzioneScelta[1].getMonete()==Short.MAX_VALUE){
+            new Pergamena(1).lanciaPrivilegio(giocatore);
+        } else{
+            costo.sub(opzioneScelta[1]);
+            //Calcolo ed aggiunta del malusAttivazioneBonus SSE non è un costo
+            if(!this.isCosto()){
+                Risorsa malus = applicaMalus(opzioneScelta[1], malusRisorsa);
+                costo.add(malusRisorsa);
+            }
+        }
+
     }
 
     @Override
     public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) throws SpazioAzioneDisabilitatoEffettoException {
         Risorsa[] opzioneScelta = opzioni.getOpzione();
-        costo = Risorsa.add(costo, opzioneScelta[0]);
+        costo.add(opzioneScelta[0]);
     }
     //Anche più possibilità
 
@@ -65,11 +80,13 @@ class Opzioni {
      *
      * @param pagamento
      * @param guadagno
-     * @param defaultChoice @Nullable
+     * @param defaultChoice @Nullable, se c'è una sola opzione, viene settata come default
      */
     public Opzioni(Risorsa[] pagamento, Risorsa[] guadagno, Integer defaultChoice) {
         if (pagamento.length != guadagno.length)
             throw new IllegalArgumentException("guadagno e pagamento devono aver la stessa dimensione");
+
+        if(pagamento.length == 1) this.opzione = 0;
         this.pagamento = pagamento;
         this.guadagno = guadagno;
         this.opzione = defaultChoice;
@@ -88,9 +105,7 @@ class Opzioni {
     public Risorsa[] getOpzione() {
         Risorsa[] opzioneCorrente = new Risorsa[2];
         if (opzione==null){
-            opzioneCorrente[0]= new Risorsa();
-            opzioneCorrente[1]= new Risorsa();
-            return opzioneCorrente;
+            return null;
         }
 
         opzioneCorrente[0] = pagamento[opzione];
