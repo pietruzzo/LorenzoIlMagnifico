@@ -20,10 +20,10 @@ public class TesseraScomunicaTest {
 
         assertEquals("", tesseraScomunica.Nome);
         assertEquals(1, tesseraScomunica.Periodo);
-        assertEquals(0, tesseraScomunica.CostoRisorse.getLegno());
-        assertEquals(0, tesseraScomunica.CostoRisorse.getPietra());
-        assertEquals(0, tesseraScomunica.CostoRisorse.getServi());
-        assertEquals(0, tesseraScomunica.CostoRisorse.getMonete());
+        assertEquals(0, tesseraScomunica.getCostoRisorse().getLegno());
+        assertEquals(0, tesseraScomunica.getCostoRisorse().getPietra());
+        assertEquals(0, tesseraScomunica.getCostoRisorse().getServi());
+        assertEquals(0, tesseraScomunica.getCostoRisorse().getMonete());
         assertNull(tesseraScomunica.getEffettoImmediato());
         assertNotNull(tesseraScomunica.getEffettoPermanente());
     }

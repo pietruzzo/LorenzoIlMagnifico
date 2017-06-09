@@ -18,13 +18,14 @@ public class CartaImpresa extends Carta  implements Serializable {
     /**
      * Costruttore
      */
-    public CartaImpresa (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    public CartaImpresa (String nome, int periodo, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         super(nome, periodo, effettoImmediato, effettoPermanente);
 
         //Una carta impresa può costare punti militari opppure risorse
         //Se sono specificati entrambi, allora l'utente potrà scegliere con cosa pagare
-        if((costoRisorse.getLegno() > 0 || costoRisorse.getPietra() > 0 || costoRisorse.getServi() > 0 || costoRisorse.getMonete() > 0) && costoRisorse.getPuntiMilitari() > 0)
+        if((this.getCostoRisorse().getLegno() > 0 || this.getCostoRisorse().getPietra() > 0 || this.getCostoRisorse().getServi() > 0
+            || this.getCostoRisorse().getMonete() > 0) && this.getCostoRisorse().getPuntiMilitari() > 0)
             this.SceltaCosto = true;
         else
             this.SceltaCosto = false;

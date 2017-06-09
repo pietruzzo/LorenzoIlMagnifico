@@ -53,6 +53,8 @@ public class Partita  implements Serializable {
         this.esitoDadi = new int[NUM_DADI];
     }
 
+
+    //region Getters
     /**
      * Ritorna il periodo di gioco
      * @return
@@ -68,8 +70,26 @@ public class Partita  implements Serializable {
         return iniziata;
     }
 
+    protected int getTurno() {
+        return turno;
+    }
+
+    protected int getOrdineMossaCorrente() {
+        return ordineMossaCorrente;
+    }
+
+    protected int[] getEsitoDadi() {
+        return esitoDadi;
+    }
+
+    protected ArrayList<GiocatoreRemoto> getGiocatoriPartita() {
+        return giocatoriPartita;
+    }
+
+    //endregion
+
     /**
-     * Aggiunge un GiocatoreGraphic alla partita
+     * Aggiunge un giocatore alla partita
      */
     public void AggiungiGiocatore(short idGiocatore, String nome, GiocatoreRemoto giocatore) throws DomainException {
         synchronized (MUTEX_PARTITA)
@@ -376,7 +396,7 @@ public class Partita  implements Serializable {
             UpdateGiocatoreDTO update = giocatore.SostieniLaChiesa(bonusVittoria);
 
             this.ComunicaAggiornaGiocatore(update);
-    }
+        }
         else
         {
             //Se il giocatore non vuole sostenere la chiesa viene scomunicato

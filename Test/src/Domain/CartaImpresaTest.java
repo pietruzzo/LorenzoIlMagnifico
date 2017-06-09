@@ -17,14 +17,14 @@ public class CartaImpresaTest {
 
     @Before
     public void setUp() throws Exception {
-        cartaImpresa = new CartaImpresa("carta", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>());
+        cartaImpresa = new CartaImpresa("carta", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>());
 
         assertEquals("carta", cartaImpresa.Nome);
         assertEquals(1, cartaImpresa.Periodo);
-        assertEquals(0, cartaImpresa.CostoRisorse.getLegno());
-        assertEquals(0, cartaImpresa.CostoRisorse.getPietra());
-        assertEquals(0, cartaImpresa.CostoRisorse.getServi());
-        assertEquals(0, cartaImpresa.CostoRisorse.getMonete());
+        assertEquals(0, cartaImpresa.getCostoRisorse().getLegno());
+        assertEquals(0, cartaImpresa.getCostoRisorse().getPietra());
+        assertEquals(0, cartaImpresa.getCostoRisorse().getServi());
+        assertEquals(0, cartaImpresa.getCostoRisorse().getMonete());
         assertFalse(cartaImpresa.SceltaCosto);
     }
 
@@ -43,7 +43,7 @@ public class CartaImpresaTest {
         SpazioAzioneTorre spazioAzioneTorre = new SpazioAzioneTorre(1, new Risorsa(), torre);
 
         for (int i = 0; i<6; i++)
-            giocatore.CarteImpresa.add(new CartaImpresa("nome", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>()));
+            giocatore.CarteImpresa.add(new CartaImpresa("nome", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>()));
 
         cartaImpresa.ValidaPresaCarta(giocatore, spazioAzioneTorre);
     }

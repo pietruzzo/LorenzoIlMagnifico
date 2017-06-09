@@ -17,14 +17,14 @@ public class CartaTerritorioTest {
 
     @Before
     public void setUp() throws Exception {
-        cartaTerritorio = new CartaTerritorio("carta", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>());
+        cartaTerritorio = new CartaTerritorio("carta", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>());
 
         assertEquals("carta", cartaTerritorio.Nome);
         assertEquals(1, cartaTerritorio.Periodo);
-        assertEquals(0, cartaTerritorio.CostoRisorse.getLegno());
-        assertEquals(0, cartaTerritorio.CostoRisorse.getPietra());
-        assertEquals(0, cartaTerritorio.CostoRisorse.getServi());
-        assertEquals(0, cartaTerritorio.CostoRisorse.getMonete());
+        assertEquals(0, cartaTerritorio.getCostoRisorse().getLegno());
+        assertEquals(0, cartaTerritorio.getCostoRisorse().getPietra());
+        assertEquals(0, cartaTerritorio.getCostoRisorse().getServi());
+        assertEquals(0, cartaTerritorio.getCostoRisorse().getMonete());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class CartaTerritorioTest {
         SpazioAzioneTorre spazioAzioneTorre = new SpazioAzioneTorre(1, new Risorsa(), torre);
 
         for (int i = 0; i<6; i++)
-            giocatore.CarteTerritorio.add(new CartaTerritorio("nome", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>()));
+            giocatore.CarteTerritorio.add(new CartaTerritorio("nome", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>()));
 
         cartaTerritorio.ValidaPresaCarta(giocatore, spazioAzioneTorre);
     }

@@ -105,19 +105,19 @@ public class Tabellone implements Serializable {
                     switch (tipo)
                     {
                         case 0:
-                            this.mazzoCarte.add(new CartaTerritorio(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaTerritorio(nome, period, effetto, effetto));
                             break;
 
                         case 1:
-                            this.mazzoCarte.add(new CartaEdificio(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaEdificio(nome, period, effetto, effetto));
                             break;
 
                         case 2:
-                            this.mazzoCarte.add(new CartaPersonaggio(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaPersonaggio(nome, period, effetto, effetto));
                             break;
 
                         case 3:
-                            this.mazzoCarte.add(new CartaImpresa(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaImpresa(nome, period, effetto, effetto));
                             break;
                     }
                 }
@@ -194,10 +194,17 @@ public class Tabellone implements Serializable {
     }
 
     /**
-     * Ritorna il GiocatoreGraphic dato il suo id
+     * Ritorna la carta dato il suo nome
+     */
+    public Carta getCartaByName(String nomeCarta) {
+        return mazzoCarte.stream().filter(c -> c.Nome == nomeCarta).findFirst().orElse(null);
+    }
+
+    /**
+     * Ritorna il giocatore dato il suo id
      * @param idGiocatore
      */
-    private Giocatore getGiocatoreById(short idGiocatore)
+    protected Giocatore getGiocatoreById(short idGiocatore)
     {
         return this.Giocatori.stream().filter(x -> x.getIdGiocatore() == idGiocatore).findFirst().orElse(null);
     }
@@ -252,16 +259,16 @@ public class Tabellone implements Serializable {
     //endregion
 
     /**
-     * Aggiunge un GiocatoreGraphic alla partita (ci possono essere al massimo 4 giocatori)
+     * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
      */
     public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws DomainException {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
             throw new DomainException("E' stato raggiunto il numero limite di giocatori");
         if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
-            throw new DomainException("Esiste già un GiocatoreGraphic con lo stesso username.");
+            throw new DomainException("Esiste già un giocatore con lo stesso username.");
 
-        //il primo GiocatoreGraphic riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
+        //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
         ColoreGiocatore colore = ColoreGiocatore.values()[this.Giocatori.size()];
         giocatore.SettaProprietaIniziali(idGiocatore, nome, colore, monete);
@@ -311,7 +318,7 @@ public class Tabellone implements Serializable {
      */
     protected void ValidaPiazzamentoFamiliareProduzione(Familiare familiare) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
-        //Un GiocatoreGraphic può piazzare un familiare colorato e il familiare neutro
+        //Un giocatore può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneProduzione.stream().
             anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                                                                 &&  y.Neutro == familiare.Neutro)))
@@ -323,7 +330,7 @@ public class Tabellone implements Serializable {
      */
     protected void ValidaPiazzamentoFamiliareRaccolto(Familiare familiare) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
-        //Un GiocatoreGraphic può piazzare un familiare colorato e il familiare neutro
+        //Un giocatore può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneRaccolto.stream().
                 anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                         &&  y.Neutro == familiare.Neutro)))

@@ -17,14 +17,14 @@ public class CartaPersonaggioTest {
 
     @Before
     public void setUp() throws Exception {
-        cartaPersonaggio = new CartaPersonaggio("carta", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>());
+        cartaPersonaggio = new CartaPersonaggio("carta", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>());
 
         assertEquals("carta", cartaPersonaggio.Nome);
         assertEquals(1, cartaPersonaggio.Periodo);
-        assertEquals(0, cartaPersonaggio.CostoRisorse.getLegno());
-        assertEquals(0, cartaPersonaggio.CostoRisorse.getPietra());
-        assertEquals(0, cartaPersonaggio.CostoRisorse.getServi());
-        assertEquals(0, cartaPersonaggio.CostoRisorse.getMonete());
+        assertEquals(0, cartaPersonaggio.getCostoRisorse().getLegno());
+        assertEquals(0, cartaPersonaggio.getCostoRisorse().getPietra());
+        assertEquals(0, cartaPersonaggio.getCostoRisorse().getServi());
+        assertEquals(0, cartaPersonaggio.getCostoRisorse().getMonete());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class CartaPersonaggioTest {
         SpazioAzioneTorre spazioAzioneTorre = new SpazioAzioneTorre(1, new Risorsa(), torre);
 
         for (int i = 0; i<6; i++)
-            giocatore.CartePersonaggio.add(new CartaPersonaggio("nome", 1, new Risorsa(), new ArrayList<Effetto>(), new ArrayList<Effetto>()));
+            giocatore.CartePersonaggio.add(new CartaPersonaggio("nome", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>()));
 
         cartaPersonaggio.ValidaPresaCarta(giocatore, spazioAzioneTorre);
     }
