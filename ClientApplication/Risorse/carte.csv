@@ -1,0 +1,1056 @@
+NOME	AccademiaMilitare															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	3															
+COSTO	2	2	1	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	7	0	0
+ScambiaRisorse	false	0	0	1	0	0	0	0		0	0	0	0	1	3	0
+END																
+																
+NOME	AccogliereGliStranieri															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	4	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	5	0	0	0	0
+EndGame	false	4														
+END																
+																
+NOME	Ambasciatore															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	6	0	0	0									
+LISTA_EFFETTI																
+Pergamena	true	1														
+EffettuaAzioneSpecifica	true	Torre	7													
+END																
+																
+NOME	Araldo															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	6	0	0	0									
+LISTA_EFFETTI																
+BonusRisorseXCarte	true	Impresa	0	0	0	0	2	0	0							
+END																
+																
+NOME	Architetto															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Edificio	6	1	1	0	0	0	0	0						
+END																
+																
+NOME	ArcoDiTrionfo															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	6															
+COSTO	0	2	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	6	0	0
+BonusRisorseXCarte	false	Impresa	0	0	0	0	1	0	0							
+END																
+																
+NOME	Artigiano															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	3	0	0	0									
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Produzione	2													
+END																
+																
+NOME	AvampostoCommerciale															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	1															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	1	0	0	0
+END																
+																
+NOME	Badessa															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	3	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Torre	4													
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+END																
+																
+NOME	Banca															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	2															
+COSTO	1	3	0	3	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	7	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	5	0	0	0
+END																
+																
+NOME	Basilica															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	1															
+COSTO	1	4	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	5	0	1
+ScambiaRisorse	false	0	1	0	0	0	0	0		0	0	0	0	0	0	2
+		1	0	0	0	0	0	0		0	0	0	0	0	0	2
+END																
+																
+NOME	Battistero															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	2															
+COSTO	0	3	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	2	0	1
+ScambiaRisorse	false	0	0	0	0	0	0	1		0	0	0	2	2	0	0
+END																
+																
+NOME	Borgo															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	3															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	1	1	0	0	0
+END																
+																
+NOME	Bosco															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	3															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+END																
+																
+NOME	CampagnaMilitare															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	0	0	0	0	0	3	0		0	0	0	0	0	1	0	
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	3	0	0	0
+EndGame	false	0	0	0	0	5	0	0								
+END																
+																
+NOME	Capitano															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Territorio	6													
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	2	0
+END																
+																
+NOME	Cappella															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	2															
+COSTO	2	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+ScambiaRisorse	false	0	0	0	1	0	0	0		0	0	0	0	0	0	1
+END																
+																
+NOME	Cardinale															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+EffettuaAzioneSpecifica	true	Raccolto	4													
+END																
+																
+NOME	Caserma															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	1															
+COSTO	1	1	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	3	0	0
+ScambiaRisorse	false	0	0	1	0	0	0	0		0	0	0	0	0	3	0
+END																
+																
+NOME	Castelletto															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	5															
+COSTO	2	4	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	9	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	0	2	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	0	2	0	0
+Pergamena	false	1														
+END																
+																
+NOME	Castello															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	4															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	2	2	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	1	0	0	3	0
+END																
+																
+NOME	Cattedrale															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	2															
+COSTO	4	4	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	7	0	3
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	0	1	0	0
+END																
+																
+NOME	CavaDiGhiaia															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	4															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	2	0	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	2	0	0	0	0	0
+END																
+																
+NOME	CavaDiMarmo															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	2															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	3	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		1	2	0	0	0	0	0
+END																
+																
+NOME	CavaDiPietra															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	3															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	3	0	0	0	0	0
+END																
+																
+NOME	Cavaliere															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	2	0	0	0									
+LISTA_EFFETTI																
+Pergamena	true	1														
+AumentaValoreAzione	false	Impresa	2													
+END																
+																
+NOME	Citta															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	6															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	3	0	0	0
+Pergamena	false	1														
+END																
+																
+NOME	CittaFortificata															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	2															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	1	0	0	2	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	2	0	0	1	0
+END																
+																
+NOME	CittaMercantile															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	1															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	1	1	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	3	0	0	0
+END																
+																
+NOME	Colonia															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	5															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	2	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		1	0	0	0	4	0	0
+END																
+																
+NOME	CombattereLeEresie															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	0	0	0	0	0	5	0		0	0	0	0	0	2	0	
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	2
+EndGame	false	5														
+END																
+																
+NOME	CommissionareArteSacra															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	6	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	3
+EndGame	false	3														
+END																
+																
+NOME	Condottiero															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	3	0
+AumentaValoreAzione	false	Territorio	2													
+END																
+																
+NOME	ConquistaMilitare															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	0	0	0	0	0	12	0		0	0	0	0	0	6	0	
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		3	3	0	3	0	0	0
+EndGame	false	7														
+END																
+																
+NOME	Contadino															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	3	0	0	0									
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Raccolto	2													
+END																
+																
+NOME	Cortigiana															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	7	0	0	0									
+LISTA_EFFETTI																
+BonusRisorseXCarte	true	Personaggio	0	0	0	2	0	0	0							
+END																
+																
+NOME	CostruireBastioni															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	0	4	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	3	0
+Pergamena	true	1														
+EndGame	false	2														
+END																
+																
+NOME	CostruireLeMura															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	0	3	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	2	0
+Pergamena	true	1														
+EndGame	false	3														
+END																
+																
+NOME	CostruireLeTorri															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	0	6	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	4	0
+Pergamena	true	1														
+EndGame	false	4														
+END																
+																
+NOME	Costruttore															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Edificio	2	1	1	0	0	0	0	0						
+END																
+																
+NOME	Crociata															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	0	0	0	0	0	8	0		0	0	0	0	0	4	0	
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	5	0	0	1
+EndGame	false	5														
+END																
+																
+NOME	Dama															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Personaggio	2	0	0	0	1	0	0	0						
+END																
+																
+NOME	Ducato															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	6															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	4	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		2	1	0	1	0	0	0
+END																
+																
+NOME	Eremo															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	2															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+END																
+																
+NOME	Eroe															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Impresa	6													
+Pergamena	true	1														
+END																
+																
+NOME	Esattoria															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	5															
+COSTO	3	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	5	0	0
+BonusRisorseXCarte	false	Territorio	0	0	0	1	0	0	0							
+END																
+																
+NOME	Falegnameria															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	4															
+COSTO	2	0	0	1	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	3	0	0
+ScambiaRisorse	false	1	0	0	0	0	0	0		0	0	0	3	0	0	0
+		2	0	0	0	0	0	0		0	0	0	5	0	0	0
+END																
+																
+NOME	Fattore															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Raccolto	3													
+END																
+																
+NOME	Fiera															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	4															
+COSTO	3	0	0	4	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	8	0	0
+ScambiaRisorse	false	0	0	0	4	0	0	0		3	3	0	0	0	0	0
+END																
+																
+NOME	Foresta															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	5															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		3	0	0	0	0	0	0
+END																
+																
+NOME	Fortezza															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	6															
+COSTO	2	2	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	8	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	0	2	2	0
+END																
+																
+NOME	Generale															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	5	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+END																
+																
+NOME	Giardino															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	1															
+COSTO	4	2	2	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	10	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	0	3	0	0
+END																
+																
+NOME	GildaDegliScultori															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	5															
+COSTO	0	4	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	6	0	0
+ScambiaRisorse	false	0	1	0	0	0	0	0		0	0	0	0	3	0	0
+		0	3	0	0	0	0	0		0	0	0	0	7	0	0
+END																
+																
+NOME	GildaDeiCostruttori															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	4															
+COSTO	1	2	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	4	0	0
+ScambiaRisorse	false	1	1	1	0	0	0	0		0	0	0	0	6	0	0
+END																
+																
+NOME	GildaDeiPittori															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	4															
+COSTO	4	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	5	0	0
+ScambiaRisorse	false	1	0	0	0	0	0	0		0	0	0	0	3	0	0
+		3	0	0	0	0	0	0		0	0	0	0	7	0	0
+END																
+																
+NOME	Governatore															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	6	0	0	0									
+LISTA_EFFETTI																
+BonusRisorseXCarte	true	Edificio	0	0	0	0	2	0	0							
+END																
+																
+NOME	GuerraSanta															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	0	0	0	0	0	15	0		0	0	0	0	0	7	0	
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	4
+EndGame	false	8														
+END																
+																
+NOME	IngaggiareMercenari															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	0	0	0	8	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	7	0
+EndGame	false	8														
+END																
+																
+NOME	IngaggiareReclute															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	5	0
+EndGame	false	4														
+END																
+																
+NOME	IngaggiareSoldati															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	0	0	0	6	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	6	0
+EndGame	false	5														
+END																
+																
+NOME	InnalzareUnaStatua															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	0	0	0	8	0	0	0									
+LISTA_EFFETTI																
+Pergamena	true	2														
+EndGame	false	4														
+END																
+																
+NOME	Maniero															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	5															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	2	0	0	2	0
+END																
+																
+NOME	Mecenate															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	3	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Personaggio	6	0	0	0	3	0	0	0						
+END																
+																
+NOME	Mercato															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	3															
+COSTO	2	1	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	3	0	0
+ScambiaRisorse	false	0	0	0	3	0	0	0		2	2	0	0	0	0	0
+END																
+																
+NOME	MessoPapale															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	5	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	3
+END																
+																
+NOME	MessoReale															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	5	0	0	0									
+LISTA_EFFETTI																
+Pergamena	true	3														
+END																
+																
+NOME	MigliorareLeStrade															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	0	0	3	4	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Produzione	3													
+EndGame	false	5														
+END																
+																
+NOME	MinieraOro															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	1															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	1	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	2	0	0	0
+END																
+																
+NOME	Monastero															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	6															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	1	0	0	2	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	1	0	0	0	0	1
+END																
+																
+NOME	Nobile															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	6	0	0	0									
+LISTA_EFFETTI																
+BonusRisorseXCarte	true	Territorio	0	0	0	0	2	0	0							
+END																
+																
+NOME	OspitareMendicanti															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	3	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	4	0	0	0	0
+EndGame	false	4														
+END																
+																
+NOME	Palazzo															
+TIPO	Edificio															
+PERIODO	3															
+VALORE	6															
+COSTO	3	1	0	3	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	9	0	0
+ScambiaRisorse	false	0	0	0	1	0	0	0		0	0	2	0	4	0	0
+END																
+																
+NOME	Possedimento															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	4															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	2	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		2	0	0	1	0	0	0
+END																
+																
+NOME	Predicatore															
+TIPO	Personaggio															
+PERIODO	1															
+COSTO	0	0	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	4
+AnnullaBonusSpazioAz	false	3	4	11	12	7	8	15	16							
+END																
+																
+NOME	Provincia															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	6															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	1	0	0	0	0	0
+Pergamena	true	1														
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	1	0	0	4	0	0
+END																
+																
+NOME	Residenza															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	3															
+COSTO	0	2	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	1	0	0
+ScambiaRisorse	false	0	0	0	1	0	0	0		0	0	0	32767	0	0	0
+END																
+																
+NOME	RiparareAbbazia															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	2	2	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	2
+EndGame	false	6														
+END																
+																
+NOME	RiparareLaCattedrale															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	3	3	0	3	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Torre	7													
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+EndGame	false	5														
+END																
+																
+NOME	RiparareLaChiesa															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	1	1	0	1	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+EndGame	false	5														
+END																
+																
+NOME	Rocca															
+TIPO	Territorio															
+PERIODO	1															
+VALORE	5															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	1	0	0	0	2	0
+END																
+																
+NOME	Santuario															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	1															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	0	1	0	0	1
+END																
+																
+NOME	ScavareCanalizzazioni															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	0	0	2	3	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Raccolto	4													
+EndGame	false	5														
+END																
+																
+NOME	SostegnoAlCardinale															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	0	0	0	0	0	7	0		0	0	0	0	0	3	0	
+	2	2	0	3	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	3
+EndGame	false	4														
+END																
+																
+NOME	SostegnoAlPapa															
+TIPO	Impresa															
+PERIODO	3															
+COSTO	0	0	0	0	0	10	0		0	0	0	0	0	5	0	
+	3	3	0	4	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	2
+EndGame	false	10														
+END																
+																
+NOME	SostegnoAlVescovo															
+TIPO	Impresa															
+PERIODO	1															
+COSTO	0	0	0	0	0	4	0		0	0	0	0	0	2	0	
+	1	1	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	3
+EndGame	false	1														
+END																
+																
+NOME	Studioso															
+TIPO	Personaggio															
+PERIODO	2															
+COSTO	0	0	0	4	0	0	0									
+LISTA_EFFETTI																
+AumentaValoreAzione	true	Produzione	3													
+END																
+																
+NOME	SupportoAlRe															
+TIPO	Impresa															
+PERIODO	2															
+COSTO	0	0	0	0	0	6	0		0	0	0	0	0	3	0	
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	5	0	0	0
+Pergamena	true	1														
+EndGame	false	3														
+END																
+																
+NOME	TagliaPietre															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	3															
+COSTO	0	2	0	1	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	2	0	0
+ScambiaRisorse	false	0	1	0	0	0	0	0		0	0	0	3	0	0	0
+		0	2	0	0	0	0	0		0	0	0	5	0	0	0
+END																
+																
+NOME	Teatro															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	6															
+COSTO	2	0	0	2	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	6	0	0
+BonusRisorseXCarte	false	Personaggio	0	0	0	0	1	0	0							
+END																
+																
+NOME	Tenuta															
+TIPO	Territorio															
+PERIODO	3															
+VALORE	3															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		2	0	0	0	2	0	0
+END																
+																
+NOME	Tesoreria															
+TIPO	Edificio															
+PERIODO	2															
+VALORE	6															
+COSTO	3	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	4	0	0
+ScambiaRisorse	true	0	0	0	1	0	0	0		0	0	0	0	3	0	0
+		0	0	0	2	0	0	0		0	0	0	0	5	0	0
+END																
+																
+NOME	Vescovo															
+TIPO	Personaggio															
+PERIODO	3															
+COSTO	0	0	0	5	0	0	0									
+LISTA_EFFETTI																
+EffettuaAzioneSpecifica	true	Produzione	4													
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+END																
+																
+NOME	VillaggioMinerario															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	4															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	1	2	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	2	1	0	0	0	0
+END																
+																
+NOME	VillaggioMontano															
+TIPO	Territorio															
+PERIODO	2															
+VALORE	3															
+COSTO	0	0	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	1	0	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		2	0	0	0	0	1	0
+END																
+																
+NOME	Zecca															
+TIPO	Edificio															
+PERIODO	1															
+VALORE	5															
+COSTO	1	3	0	0	0	0	0									
+LISTA_EFFETTI																
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	5	0	0
+BonusRisorseXCarte	false	Edificio	0	0	0	1	0	0	0							
+END																
+																
+NOME	1															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+MalusAttivazioneRisorse	false	0	0	0	1	0	0	0								
+END																
+																
+NOME	2															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+MalusAttivazioneRisorse	false	0	0	0	0	0	1	0								
+END																
+																
+NOME	3															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+MalusAttivazioneRisorse	false	0	0	1	0	0	0	0								
+END																
+																
+NOME	4															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Raccolto	-3													
+END																
+																
+NOME	5															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Produzione	-3													
+END																
+																
+NOME	6															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+MalusAttivazioneRisorse	false	1	1	0	0	0	0	0								
+END																
+																
+NOME	7															
+TIPO	Scomunica															
+PERIODO	1															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Generica	-1													
+END																
+																
+NOME	8															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Personaggio	-4													
+END																
+																
+NOME	9															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Edificio	-4													
+END																
+																
+NOME	10															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Impresa	-4													
+END																
+																
+NOME	11															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+DisabilitaCasella	false	21	22	23	24											
+END																
+																
+NOME	12															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+AumentaValoreAzione	false	Territorio	-4													
+END																
+																
+NOME	13															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+DisabilitaTurni	false	1														
+END																
+																
+NOME	14															
+TIPO	Scomunica															
+PERIODO	2															
+LISTA_EFFETTI																
+DimezzaRisorseAllocate	false	Servi														
+END																
+																
+NOME	15															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	1	1	1	1	0	0	0								
+END																
+																
+NOME	16															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	Personaggio														
+END																
+																
+NOME	17															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	Territorio														
+END																
+																
+NOME	18															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	0	0	0	0	0	1	0								
+END																
+																
+NOME	19															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	Edificio	-1	-1	0	0	0	0	0							
+END																
+																
+NOME	20															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	Impresa														
+END																
+																
+NOME	21															
+TIPO	Scomunica															
+PERIODO	3															
+LISTA_EFFETTI																
+EndGame	false	0	0	0	5	0	0	0								
+END																
