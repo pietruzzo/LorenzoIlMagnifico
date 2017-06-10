@@ -113,6 +113,9 @@ public class GestoreEffettiGiocatore  {
 
         Risorsa costoRitorno = costo.clone();
         validaAzione(costo, azione, casella, risorseAllocate);
+        //Filtra Carte Contesto Azione
+        List<Carta> carteCorrenti = selezionaCartePerTipo(getTipoAzione(casella), giocatoreCorrente.getListaCarte());
+
         //esegui effetto immediato se di Azionabile
         if (!effettiImmediati.isEmpty()){
         for (Effetto effettoIm : effettiImmediati){

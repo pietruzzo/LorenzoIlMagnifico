@@ -6,10 +6,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import server.GiocatoreRemotoForTest;
 import server.Partita;
 import server.Server;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static org.junit.Assert.*;
 
@@ -25,10 +27,9 @@ public class TabelloneTest {
     @Before
     public void setUp() throws Exception {
         Partita partita = new Partita(new Server());
-        tabellone = new Tabellone(partita);
-        tabellone.AggiungiGiocatore((short)1, "Michele", new Giocatore());
-        tabellone.AggiungiGiocatore((short)2, "Pietro", new Giocatore());
-
+        tabellone = partita.getTabellone();
+        partita.AggiungiGiocatore((short)1, "Michele", new GiocatoreRemotoForTest());
+        partita.AggiungiGiocatore((short)2, "Pietro", new GiocatoreRemotoForTest());
     }
 
     @Test
@@ -57,7 +58,6 @@ public class TabelloneTest {
         tabellone.AggiungiGiocatore((short)4, "Matteo", new Giocatore());
         tabellone.AggiungiGiocatore((short)5, "Extra", new Giocatore());
     }
-
 
     @Test
     public void aggiornaOrdineGiocatori_UnGiocatore() throws Exception {
@@ -185,7 +185,7 @@ public class TabelloneTest {
     }
 
     @Test
-    public void esistonoFamiliariPiazzabili_False() throws Exception {
+    public void esistonoFamiliariPiazzabili_TuttiPiazzati() throws Exception {
         this.tabellone.Giocatori.stream().forEach(g -> g.Familiari.stream().forEach(f -> f.SpazioAzioneAttuale = new SpazioAzione()));
 
         boolean esistonoFamiliariPiazzabili = this.tabellone.EsistonoFamiliariPiazzabili();
@@ -193,7 +193,7 @@ public class TabelloneTest {
     }
 
     @Test
-    public void esistonoFamiliariPiazzabili_False2() throws Exception {
+    public void esistonoFamiliariPiazzabili_NeutriSenzaServi() throws Exception {
         this.tabellone.Giocatori.stream().forEach(g -> g.Familiari.stream().forEach(f ->  f.SpazioAzioneAttuale = (f.ColoreDado != ColoreDado.NEUTRO) ? new SpazioAzione()  : null ));
         this.tabellone.Giocatori.stream().forEach(g -> g.Risorse.setRisorse(Risorsa.TipoRisorsa.SERVI, 0));
 
@@ -222,7 +222,7 @@ public class TabelloneTest {
     public void scomunicaGiocatore() throws Exception {
         Giocatore michele = tabellone.getGiocatoreById((short)1);
 
-        tabellone.ScomunicaGiocatore(michele);
+        tabellone.ScomunicaGiocatore(michele, 1);
 
         assertTrue(michele.getRapportoVaticanoEffettuato());
         assertEquals(1, michele.CarteScomunica.size());
@@ -235,12 +235,12 @@ public class TabelloneTest {
         Familiare familiareBianco = michele.getFamiliareByColor(ColoreDado.BIANCO);
         Familiare familiareNeutro = michele.getFamiliareByColor(ColoreDado.NEUTRO);
 
-        HashMap<Integer, String> mappaCarte1 = tabellone.IniziaTurno();
+        HashMap<Integer, String> mappaCarte1 = tabellone.IniziaTurno(1);
 
         tabellone.SpaziAzioneRaccolto.get(0).FamiliariPiazzati.add(familiareBianco);
         tabellone.SpaziAzioneProduzione.get(0).FamiliariPiazzati.add(familiareNeutro);
 
-        HashMap<Integer, String> mappaCarte2 = tabellone.IniziaTurno();
+        HashMap<Integer, String> mappaCarte2 = tabellone.IniziaTurno(1);
 
         assertTrue(tabellone.Giocatori.stream().allMatch(g -> g.Familiari.stream().allMatch(f -> f.SpazioAzioneAttuale == null)));
         assertTrue(mappaCarte2.values().stream().allMatch(v -> !mappaCarte1.containsValue(v)));
@@ -256,4 +256,47 @@ public class TabelloneTest {
         //TODO
     }
 
+    @Test
+    public void finePartita_PunteggiDiversi() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        Giocatore michele = tabellone.getGiocatoreById((short)1);
+        Giocatore pietro = tabellone.getGiocatoreById((short)2);
+        Giocatore carlo = tabellone.getGiocatoreById((short)3);
+
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 1);
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 10);
+        carlo.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 100);
+
+        LinkedHashMap<Short, Integer>  classifica = tabellone.FinePartita();
+
+        Short idPrimo = classifica.keySet().stream().findFirst().orElse(null);
+        Short idSecondo = classifica.keySet().stream().filter(x -> x != idPrimo).findFirst().orElse(null);
+        Short idTerzo = classifica.keySet().stream().filter(x -> x != idPrimo && x != idSecondo).findFirst().orElse(null);
+
+        assertEquals(3, idPrimo.intValue());
+        assertEquals(2, idSecondo.intValue());
+        assertEquals(1, idTerzo.intValue());
+    }
+
+    @Test
+    public void finePartita_PariPunti() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        Giocatore michele = tabellone.getGiocatoreById((short)1);
+        Giocatore pietro = tabellone.getGiocatoreById((short)2);
+        Giocatore carlo = tabellone.getGiocatoreById((short)3);
+
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 10);
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 10);
+        carlo.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 100);
+
+        LinkedHashMap<Short, Integer>  classifica = tabellone.FinePartita();
+
+        Short idPrimo = classifica.keySet().stream().findFirst().orElse(null);
+        Short idSecondo = classifica.keySet().stream().filter(x -> x != idPrimo).findFirst().orElse(null);
+        Short idTerzo = classifica.keySet().stream().filter(x -> x != idPrimo && x != idSecondo).findFirst().orElse(null);
+
+        assertEquals(3, idPrimo.intValue());
+        assertEquals(1, idSecondo.intValue());
+        assertEquals(2, idTerzo.intValue());
+    }
 }

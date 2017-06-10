@@ -1,5 +1,6 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,9 +60,14 @@ public class TorreTest {
     @Test
     public void pescaCarte() throws Exception {
         ArrayList<Carta> carteDisponibili = new ArrayList<>();
+
+        for(int i = 0; i < 4; i++ )
+            carteDisponibili.add(new CartaTerritorio("nome"+i, 1, new ArrayList<>(), new ArrayList<>()));
+
         torre.PescaCarte(1, carteDisponibili);
 
         assertTrue(torre.SpaziAzione.stream().allMatch(x -> x.FamiliarePiazzato == null));
+        assertTrue(torre.SpaziAzione.stream().allMatch(x -> x.CartaAssociata != null));
     }
 
 }
