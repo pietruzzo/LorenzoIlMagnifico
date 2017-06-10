@@ -1,13 +1,9 @@
 package server;
 
-import Domain.Tabellone;
 import Exceptions.DomainException;
 import server.rmi.RMIServer;
 import server.socket.SocketServer;
-
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Portatile on 18/05/2017.
@@ -29,7 +25,7 @@ public class Server {
     /**
      * Costruttore del server
      */
-    private Server()
+    public Server()
     {
         this.socketServer = new SocketServer(this);
         this.rmiServer = new RMIServer(this);

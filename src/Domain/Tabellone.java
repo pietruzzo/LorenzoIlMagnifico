@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class Tabellone implements Serializable {
 
     //region Proprieta
-    protected transient Partita Partita;
     protected List<Giocatore> Giocatori;
     protected List<Torre> Torri;
     protected List<SpazioAzioneProduzione> SpaziAzioneProduzione;
@@ -38,9 +37,8 @@ public class Tabellone implements Serializable {
     /**
      * Costruttore Tabellone
      */
-    public Tabellone(Partita partita)
+    public Tabellone()
     {
-        this.Partita = partita;
         this.Giocatori = new ArrayList<>();
         this.Torri = new ArrayList<>();
         this.SpaziAzioneProduzione = new ArrayList<>();
@@ -52,7 +50,10 @@ public class Tabellone implements Serializable {
         this.bonusVittoriaPerPuntiFede = new HashMap<>();
         this.bonusVittoriaPerTerritori = new HashMap<>();
         this.bonusVittoriaPerPersonaggi = new HashMap<>();
+        this.maxIdSpazioAzione = 0;
 
+
+        //region Spazi Azione
         //Inizializza le 4 torri
         for (TipoCarta tipo : TipoCarta.values()) {
             if(tipo != TipoCarta.Scomunica)
@@ -85,6 +86,7 @@ public class Tabellone implements Serializable {
         this.SpaziAzione.addAll(this.SpaziAzioneRaccolto);
         this.SpaziAzione.addAll(this.SpaziAzioneMercato);
         this.SpaziAzione.add(this.SpazioAzioneConsiglio);
+        //endregion
 
         //region Creazioe carte
         String nome;
@@ -106,19 +108,19 @@ public class Tabellone implements Serializable {
                     switch (tipo)
                     {
                         case 0:
-                            this.mazzoCarte.add(new CartaTerritorio(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaTerritorio(nome, period, effetto, effetto));
                             break;
 
                         case 1:
-                            this.mazzoCarte.add(new CartaEdificio(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaEdificio(nome, period, effetto, effetto));
                             break;
 
                         case 2:
-                            this.mazzoCarte.add(new CartaPersonaggio(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaPersonaggio(nome, period, effetto, effetto));
                             break;
 
                         case 3:
-                            this.mazzoCarte.add(new CartaImpresa(nome, period, risorsa, effetto, effetto));
+                            this.mazzoCarte.add(new CartaImpresa(nome, period, effetto, effetto));
                             break;
                     }
                 }
@@ -161,13 +163,13 @@ public class Tabellone implements Serializable {
 
         //region Set del bonus vittoria per carte personaggio
         //Il numero di carte personaggio del giocatore è la chiave dell'hashmap
-        this.bonusVittoriaPerTerritori.put(0,0);
-        this.bonusVittoriaPerTerritori.put(1,1);
-        this.bonusVittoriaPerTerritori.put(2,3);
-        this.bonusVittoriaPerTerritori.put(3,6);
-        this.bonusVittoriaPerTerritori.put(4,10);
-        this.bonusVittoriaPerTerritori.put(5,15);
-        this.bonusVittoriaPerTerritori.put(6,21);
+        this.bonusVittoriaPerPersonaggi.put(0,0);
+        this.bonusVittoriaPerPersonaggi.put(1,1);
+        this.bonusVittoriaPerPersonaggi.put(2,3);
+        this.bonusVittoriaPerPersonaggi.put(3,6);
+        this.bonusVittoriaPerPersonaggi.put(4,10);
+        this.bonusVittoriaPerPersonaggi.put(5,15);
+        this.bonusVittoriaPerPersonaggi.put(6,21);
         //endregion
     }
 
@@ -195,10 +197,17 @@ public class Tabellone implements Serializable {
     }
 
     /**
-     * Ritorna il GiocatoreGraphic dato il suo id
+     * Ritorna la carta dato il suo nome
+     */
+    public Carta getCartaByName(String nomeCarta) {
+        return mazzoCarte.stream().filter(c -> c.Nome == nomeCarta).findFirst().orElse(null);
+    }
+
+    /**
+     * Ritorna il giocatore dato il suo id
      * @param idGiocatore
      */
-    private Giocatore getGiocatoreById(short idGiocatore)
+    protected Giocatore getGiocatoreById(short idGiocatore)
     {
         return this.Giocatori.stream().filter(x -> x.getIdGiocatore() == idGiocatore).findFirst().orElse(null);
     }
@@ -253,16 +262,16 @@ public class Tabellone implements Serializable {
     //endregion
 
     /**
-     * Aggiunge un GiocatoreGraphic alla partita (ci possono essere al massimo 4 giocatori)
+     * Aggiunge un giocatore alla partita (ci possono essere al massimo 4 giocatori)
      */
     public void AggiungiGiocatore(short idGiocatore, String nome, Giocatore giocatore) throws DomainException {
         int numeroGiocatori = this.Giocatori.size();
         if(numeroGiocatori >= 4)
             throw new DomainException("E' stato raggiunto il numero limite di giocatori");
         if(this.Giocatori.stream().anyMatch(x -> x.Nome.equals(nome)))
-            throw new DomainException("Esiste già un GiocatoreGraphic con lo stesso username.");
+            throw new DomainException("Esiste già un giocatore con lo stesso username.");
 
-        //il primo GiocatoreGraphic riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
+        //il primo giocatore riceve 5 monete, il secondo 6, il terzo 7 e il quarto 8.
         int monete = 5 + numeroGiocatori;
         ColoreGiocatore colore = ColoreGiocatore.values()[this.Giocatori.size()];
         giocatore.SettaProprietaIniziali(idGiocatore, nome, colore, monete);
@@ -312,7 +321,7 @@ public class Tabellone implements Serializable {
      */
     protected void ValidaPiazzamentoFamiliareProduzione(Familiare familiare) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
-        //Un GiocatoreGraphic può piazzare un familiare colorato e il familiare neutro
+        //Un giocatore può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneProduzione.stream().
             anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                                                                 &&  y.Neutro == familiare.Neutro)))
@@ -324,7 +333,7 @@ public class Tabellone implements Serializable {
      */
     protected void ValidaPiazzamentoFamiliareRaccolto(Familiare familiare) throws DomainException {
         //Non ci possono essere due familiari dello stesso colore nella stessa zona.
-        //Un GiocatoreGraphic può piazzare un familiare colorato e il familiare neutro
+        //Un giocatore può piazzare un familiare colorato e il familiare neutro
         if(this.SpaziAzioneRaccolto.stream().
                 anyMatch(x -> x.FamiliariPiazzati.stream().anyMatch(y -> y.Giocatore == familiare.Giocatore
                         &&  y.Neutro == familiare.Neutro)))
@@ -383,10 +392,9 @@ public class Tabellone implements Serializable {
     /**
      * Scomunica un giocatore
      */
-    public void ScomunicaGiocatore(Giocatore giocatore)
+    public void ScomunicaGiocatore(Giocatore giocatore, int periodo)
     {
-        //Recupera il periodo di gioco e la relativa carta scomunica
-        int periodo = this.Partita.getPeriodo();
+        //Recupera la carta scomunica del periodo
         TesseraScomunica tesseraScomunica = this.carteScomunica.get(periodo-1);
         tesseraScomunica.AssegnaGiocatore(giocatore);
         giocatore.setRapportoVaticanoEffettuato(true);
@@ -396,14 +404,14 @@ public class Tabellone implements Serializable {
      * Pulisce il tabellone e carica le carte negli spazi azione torre
      * @return
      */
-    public HashMap<Integer, String> IniziaTurno()
+    public HashMap<Integer, String> IniziaTurno(int periodo)
     {
         //Toglie i familiari dagli spazi azione
         this.SpaziAzione.forEach(s -> s.RimuoviFamiliari());
         this.Giocatori.forEach(g -> g.Familiari.forEach(f -> f.SpazioAzioneAttuale = null));
 
         //Associa le carte agli spazi azione
-        this.Torri.forEach(t -> t.PescaCarte(this.Partita.getPeriodo(), this.mazzoCarte));
+        this.Torri.forEach(t -> t.PescaCarte(periodo, this.mazzoCarte));
 
         //Rimuove dal mazzo tutte le carte pescate
         //e ritorna la lista con l'associazione spazioAzione-Carta
@@ -417,7 +425,7 @@ public class Tabellone implements Serializable {
     /**
      * Calcola i punteggi finali dei giocatori per stabilire la vittoria
      */
-    public void CalcolaPunteggiFinali()
+    protected void CalcolaPunteggiFinali()
     {
         //Individua il primo e il secondo punteggio militare
         int firstPMilitari = this.Giocatori.stream().mapToInt(g -> g.getRisorse().getPuntiMilitari()).max().orElse(0);
@@ -479,5 +487,34 @@ public class Tabellone implements Serializable {
         //Se non si è in nessuna lista non si ricevono punti
         return 0;
     }
+
+    /**
+     * Calcola i punteggi dei giocatori e stila la classifica
+     * @return la mappa idGiocatore-Punteggio in ordine di classifica
+     */
+    public LinkedHashMap<Short, Integer> FinePartita()
+    {
+        this.CalcolaPunteggiFinali();
+
+        //Ordina i giocatori in base ai punti vittoria
+        //A parità di punti vittoria si considera l'ordine di turno
+        Collections.sort(this.Giocatori, (g1, g2) -> {
+            int differenza = Integer.compare(g1.getRisorse().getPuntiVittoria(), g2.getRisorse().getPuntiVittoria())  * -1;
+            if(differenza == 0)
+                differenza = Integer.compare(g1.getOrdineTurno(), g2.getOrdineTurno());
+
+            return differenza;
+        });
+
+        //Costruisce la mappa ordinata dei giocatori da passare al client
+        //L'id del giocatore è la chiave, e il valore è dato dai punti vittoria
+        LinkedHashMap<Short, Integer> mappaRisultati = new LinkedHashMap<>();
+        for (Giocatore giocatore: this.Giocatori) {
+            mappaRisultati.put(giocatore.getIdGiocatore(), giocatore.getRisorse().getPuntiVittoria());
+        }
+
+        return mappaRisultati;
+    }
+
 
 }

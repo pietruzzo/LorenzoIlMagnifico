@@ -83,7 +83,7 @@ public class SpazioAzione  implements Serializable {
         familiare.Giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
 
         if(valoreAzioneFinale.get() < this.Valore)
-            throw new DomainException(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
+            throw new DomainException(String.format("E' necessario un valore di almeno %d per poter piazzare un familiare!", this.Valore));
 
         return costoEffetti;
     }
@@ -119,7 +119,7 @@ public class SpazioAzione  implements Serializable {
         giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);
 
         if(valoreAzioneFinale.get() < this.Valore)
-            throw new DomainException(String.format("E' necessario un valore di almeno {0} per poter piazzare un familiare!", this.Valore));
+            throw new DomainException(String.format("E' necessario un valore di almeno %d per poter piazzare un familiare!", this.Valore));
 
         return costoEffetti;
     }

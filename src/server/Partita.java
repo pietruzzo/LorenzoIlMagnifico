@@ -46,13 +46,15 @@ public class Partita  implements Serializable {
         this.server = server;
         this.iniziata = false;
         this.turno = 0;
-        this.periodo = 1;
+        this.periodo = 0;
         this.ordineMossaCorrente = 0;
-        this.tabellone = new Tabellone(this);
+        this.tabellone = new Tabellone();
         this.giocatoriPartita = new ArrayList<>();
         this.esitoDadi = new int[NUM_DADI];
     }
 
+
+    //region Getters
     /**
      * Ritorna il periodo di gioco
      * @return
@@ -68,8 +70,30 @@ public class Partita  implements Serializable {
         return iniziata;
     }
 
+    protected int getTurno() {
+        return turno;
+    }
+
+    protected int getOrdineMossaCorrente() {
+        return ordineMossaCorrente;
+    }
+
+    protected int[] getEsitoDadi() {
+        return esitoDadi;
+    }
+
+    protected ArrayList<GiocatoreRemoto> getGiocatoriPartita() {
+        return giocatoriPartita;
+    }
+
+    public Tabellone getTabellone() {
+        return tabellone;
+    }
+
+    //endregion
+
     /**
-     * Aggiunge un GiocatoreGraphic alla partita
+     * Aggiunge un giocatore alla partita
      */
     public void AggiungiGiocatore(short idGiocatore, String nome, GiocatoreRemoto giocatore) throws DomainException {
         synchronized (MUTEX_PARTITA)
@@ -131,7 +155,7 @@ public class Partita  implements Serializable {
         this.tabellone.AggiornaOrdineGiocatori();
 
         //Se necessario, incrementa anche il periodo
-        if(this.turno % 2 == 0) this.periodo++;
+        if(this.turno % 2 == 1) this.periodo++;
 
         //Inizializza i dadi per il turno di gioco
         for (int i = 0; i < NUM_DADI; i++)
@@ -146,7 +170,7 @@ public class Partita  implements Serializable {
         this.giocatoriPartita.forEach(x -> x.setRapportoVaticanoEffettuato(false));
 
         //"Pulisce" il tabellone e pesca le 16 carte da mettere sulle torri
-        HashMap<Integer, String> mappaCarte = this.tabellone.IniziaTurno();
+        HashMap<Integer, String> mappaCarte = this.tabellone.IniziaTurno(this.periodo);
         int[] ordineGiocatori = this.giocatoriPartita.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
 
         //Comunica ai giocatori l'inzio del nuovo turno
@@ -310,7 +334,7 @@ public class Partita  implements Serializable {
     /**
      * Effettua le operazioni per il rapporto al vaticano
      */
-    private void EffettuaRapportoVaticano()
+    protected void EffettuaRapportoVaticano()
     {
         //Individua i giocatori che non hanno abbastanza punti fede per il periodo corrente
         List<GiocatoreRemoto> giocatoriDaScomunicare = this.giocatoriPartita.stream()
@@ -321,7 +345,7 @@ public class Partita  implements Serializable {
         List<GiocatoreRemoto> giocatoriCheScelgono = this.giocatoriPartita.stream().filter(g -> !giocatoriDaScomunicare.contains(g)).collect(Collectors.toList());
 
         //Scomunica i giocatori appena individuati
-        giocatoriDaScomunicare.forEach(g -> this.tabellone.ScomunicaGiocatore(g));
+        giocatoriDaScomunicare.forEach(g -> this.tabellone.ScomunicaGiocatore(g, this.periodo));
 
         //Comunica la scomunica ai client
         int[] idGiocatoriScomunicati = giocatoriDaScomunicare.stream().mapToInt(Giocatore::getIdGiocatore).toArray();
@@ -376,11 +400,11 @@ public class Partita  implements Serializable {
             UpdateGiocatoreDTO update = giocatore.SostieniLaChiesa(bonusVittoria);
 
             this.ComunicaAggiornaGiocatore(update);
-    }
+        }
         else
         {
             //Se il giocatore non vuole sostenere la chiesa viene scomunicato
-            this.tabellone.ScomunicaGiocatore(giocatore);
+            this.tabellone.ScomunicaGiocatore(giocatore, this.periodo);
             this.ComunicaScomunica(new int[] {giocatore.getIdGiocatore()} );
         }
 
@@ -399,30 +423,11 @@ public class Partita  implements Serializable {
 
     /**
      * Calcola il punteggio e lo comunica ai client
+     * @return mappa dei risultati, utile per i test
      */
     public void FinePartita()
     {
-        this.tabellone.CalcolaPunteggiFinali();
-
-        //Ordina i giocatori in base ai punti vittoria
-        //A parità di punti vittoria si considera l'ordine di turno
-        this.giocatoriPartita.stream().sorted(new Comparator<GiocatoreRemoto>() {
-            @Override
-            public int compare(GiocatoreRemoto g1, GiocatoreRemoto g2) {
-                int differenza = Integer.compare(g1.getRisorse().getPuntiVittoria(), g2.getRisorse().getPuntiVittoria()) * -1;
-                if(differenza == 0)
-                    differenza = Integer.compare(g1.getOrdineTurno(), g2.getOrdineTurno()) * -1;
-
-                return differenza;
-            }
-        });
-
-        //Costruisce la mappa ordinata dei giocatori da passare al client
-        //L'id del giocatore è la chiave, e il valore è dato dai punti vittoria
-        LinkedHashMap<Short, Integer> mappaRisultati = new LinkedHashMap<>();
-        for (Giocatore giocatore: this.giocatoriPartita) {
-            mappaRisultati.put(giocatore.getIdGiocatore(), giocatore.getRisorse().getPuntiVittoria());
-        }
+        LinkedHashMap<Short, Integer> mappaRisultati = this.tabellone.FinePartita();
 
         //Comunica la fine della partita ai client
         for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
