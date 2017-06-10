@@ -293,7 +293,9 @@ public class Partita  implements Serializable {
      * @throws DomainException eccezione di validazione
      */
     public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws DomainException {
-        UpdateGiocatoreDTO update = tabellone.AzioneBonusEffettuata(azioneBonusDTO.getIdGiocatore(), azioneBonusDTO.getIdSpazioAzione(), azioneBonusDTO.getValoreAzione(), azioneBonusDTO.getBonusRisorse());
+        UpdateGiocatoreDTO update = tabellone.AzioneBonusEffettuata(azioneBonusDTO.getIdGiocatore(), azioneBonusDTO.getIdSpazioAzione(),
+                                                                    azioneBonusDTO.getValoreAzione(), azioneBonusDTO.getBonusRisorse(),
+                                                                    azioneBonusDTO.getServitoriAggiunti());
         this.ComunicaAggiornaGiocatore(update);
 
         //Verifica che ci siano le condizioni per iniziare una nuova mossa

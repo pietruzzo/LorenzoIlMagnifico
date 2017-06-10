@@ -1,7 +1,13 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
+import Domain.Effetti.lista.EffettoEndGame;
+import Domain.Effetti.lista.ScambiaRisorse;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -83,7 +89,31 @@ public class GiocatoreTest {
 
     @Test
     public void updatePuntiVittoriaByEffettiCarte() throws Exception {
-        //TODO
+        //Il giocatore parte senza punti vittoria
+
+        //Crea la carta Impresa 'Campagna Militare'
+        Effetto cinquePuntiFine = new EffettoEndGame(5);
+        Risorsa[] costoRisorse = new Risorsa[]{new Risorsa(Risorsa.TipoRisorsa.PMILITARI, 3)};
+        Risorsa[] guadagniRisorse = new Risorsa[]{new Risorsa(Risorsa.TipoRisorsa.PMILITARI, 1)};
+        Effetto costoCarta = new ScambiaRisorse(costoRisorse, guadagniRisorse, true);
+        Effetto immediato = new ScambiaRisorse(new Risorsa[]{new Risorsa()}, new Risorsa[]{new Risorsa(Risorsa.TipoRisorsa.MONETE, 3)}, false);
+
+        List<Effetto> effImmediati = new ArrayList<>();
+        effImmediati.add(costoCarta);
+        effImmediati.add(immediato);
+
+        List<Effetto> effPermanenti = new ArrayList<>();
+        effPermanenti.add(cinquePuntiFine);
+
+        CartaImpresa campagnaMilitare = new CartaImpresa("CampagnaMilitare", 1, effImmediati, effPermanenti);
+        giocatore.CarteImpresa.add(campagnaMilitare);
+
+        //Aggiorna i punti vittoria del giocatore
+        giocatore.updatePuntiVittoriaByEffettiCarte();
+
+        //Essendo partito senza punti vittoria e avendo solo la carta 'CampagnaMilitare' che aggiunge 5 punti alla fine
+        //Il punteggio atteso del giocatore è di 5 punti vittoria
+        assertEquals(5, giocatore.Risorse.getPuntiVittoria());
     }
 
     @Test

@@ -51,7 +51,7 @@ public class SpazioAzioneMercato extends SpazioAzione  implements Serializable {
      * Non è possibile effettuare un'azione bonus nello spazio azione mercato
      */
     @Override
-    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti) throws DomainException {
         throw new DomainException("Non è possibile effettuare l'azione bonus in uno spazio azione Mercato");
     }
 }

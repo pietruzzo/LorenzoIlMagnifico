@@ -4,6 +4,7 @@ import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
 import Exceptions.NetworkException;
+import server.LoaderCarte;
 import server.Partita;
 
 import java.io.Serializable;
@@ -91,12 +92,23 @@ public class Tabellone implements Serializable {
         //region Creazioe carte
         String nome;
         List<Effetto> effetto = new ArrayList<Effetto>();
-        Risorsa risorsa = new Risorsa();
 
+        List<Carta> carte = new LoaderCarte().getListaCarte();
+        this.mazzoCarte = carte.stream().filter(c -> !(c instanceof TesseraScomunica)).collect(Collectors.toList());
+
+        List<Carta> tessereScomunica = carte.stream().filter(c -> (c instanceof TesseraScomunica)).collect(Collectors.toList());
+
+        for (int period = 1; period <= 3; period++) {
+            final int periodo = period;
+            Carta cartaScomunica = tessereScomunica.stream().filter(t -> t.Periodo == periodo).findFirst().orElse(null);
+            this.carteScomunica.add((TesseraScomunica)cartaScomunica);
+        }
+
+        /*
         for (int period = 1; period <= 3; period++)
         {
             //Aggiunge le 3 carte scomunica
-            this.carteScomunica.add(new TesseraScomunica(period, effetto));
+            this.carteScomunica.add(new TesseraScomunica("", period, effetto));
 
             for(int tipo = 0; tipo < 4; tipo++)
             {
@@ -108,11 +120,11 @@ public class Tabellone implements Serializable {
                     switch (tipo)
                     {
                         case 0:
-                            this.mazzoCarte.add(new CartaTerritorio(nome, period, effetto, effetto));
+                            this.mazzoCarte.add(new CartaTerritorio(nome, period,2,  effetto, effetto));
                             break;
 
                         case 1:
-                            this.mazzoCarte.add(new CartaEdificio(nome, period, effetto, effetto));
+                            this.mazzoCarte.add(new CartaEdificio(nome, period, 2, effetto, effetto));
                             break;
 
                         case 2:
@@ -126,6 +138,7 @@ public class Tabellone implements Serializable {
                 }
             }
         }
+        */
         //endregion
 
         //region Set del bonus vittoria per punti fede
@@ -200,7 +213,14 @@ public class Tabellone implements Serializable {
      * Ritorna la carta dato il suo nome
      */
     public Carta getCartaByName(String nomeCarta) {
-        return mazzoCarte.stream().filter(c -> c.Nome == nomeCarta).findFirst().orElse(null);
+        return mazzoCarte.stream().filter(c -> c.Nome.toLowerCase().equals(nomeCarta.toLowerCase())).findFirst().orElse(null);
+    }
+
+    /**
+     * Ritorna la carta dato il suo nome
+     */
+    public TesseraScomunica getTesseraScomunicaByName(String nomeCarta) {
+        return carteScomunica.stream().filter(c -> c.Nome.toLowerCase().equals(nomeCarta.toLowerCase())).findFirst().orElse(null);
     }
 
     /**
@@ -364,10 +384,10 @@ public class Tabellone implements Serializable {
      * @return DTO per permettere l'aggiornamento lato client
      * @throws DomainException se la validazione non va a buon fine
      */
-    public UpdateGiocatoreDTO AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+    public UpdateGiocatoreDTO AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti) throws DomainException {
         Giocatore giocatore = this.getGiocatoreById(idGiocatore);
         SpazioAzione spazioAzione = this.getSpazioAzioneById(idSpazioAzione);
-        spazioAzione.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse);
+        spazioAzione.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
         giocatore.setAzioneBonusDaEffettuare(false);
 
         return new UpdateGiocatoreDTO(idGiocatore, giocatore.getRisorse(), null, idSpazioAzione);
@@ -469,7 +489,7 @@ public class Tabellone implements Serializable {
      * @param secondiGiocatori array degli id dei giocatori che sono arrivati secondi nella classifica militare
      * @return punti vittoria in base alla posizione
      */
-    private int getBonusVittoriaByPuntiMilitari(int idGiocatore, int[] primiGiocatori, int[] secondiGiocatori)
+    protected int getBonusVittoriaByPuntiMilitari(int idGiocatore, int[] primiGiocatori, int[] secondiGiocatori)
     {
         //Se il giocatore ha il punteggio massimo prende 5 punti
         if(Arrays.stream(primiGiocatori).anyMatch(x -> x == idGiocatore))

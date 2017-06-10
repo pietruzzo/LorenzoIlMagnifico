@@ -19,11 +19,6 @@ public class CartaPersonaggio extends Carta  implements Serializable {
         super(nome, periodo, effettoImmediato, effettoPermanente);
     }
 
-    public CartaPersonaggio (String nome, int periodo,Risorsa costo,  List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
-    {//
-        super(nome, periodo, effettoImmediato, effettoPermanente);
-    }
-
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */

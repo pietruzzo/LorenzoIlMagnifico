@@ -16,9 +16,9 @@ public class TesseraScomunicaTest {
 
     @Before
     public void setUp() throws Exception {
-        tesseraScomunica = new TesseraScomunica(1, new ArrayList<Effetto>());
+        tesseraScomunica = new TesseraScomunica("id", 1, new ArrayList<>());
 
-        assertEquals("", tesseraScomunica.Nome);
+        assertEquals("id", tesseraScomunica.Nome);
         assertEquals(1, tesseraScomunica.Periodo);
         assertEquals(0, tesseraScomunica.getCostoRisorse().getLegno());
         assertEquals(0, tesseraScomunica.getCostoRisorse().getPietra());

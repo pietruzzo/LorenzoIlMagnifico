@@ -18,7 +18,7 @@ public class CartaEdificioTest {
 
     @Before
     public void setUp() throws Exception {
-        cartaEdificio = new CartaEdificio("carta", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>());
+        cartaEdificio = new CartaEdificio("carta", 1, 1, new ArrayList<Effetto>(), new ArrayList<Effetto>());
 
         assertEquals("carta", cartaEdificio.Nome);
         assertEquals(1, cartaEdificio.Periodo);
@@ -26,6 +26,7 @@ public class CartaEdificioTest {
         assertEquals(0, cartaEdificio.getCostoRisorse().getPietra());
         assertEquals(0, cartaEdificio.getCostoRisorse().getServi());
         assertEquals(0, cartaEdificio.getCostoRisorse().getMonete());
+        assertEquals(1, cartaEdificio.getValoreAzione());
     }
 
     @Test
@@ -43,7 +44,7 @@ public class CartaEdificioTest {
         SpazioAzioneTorre spazioAzioneTorre = new SpazioAzioneTorre(1, new Risorsa(), torre);
 
         for (int i = 0; i<6; i++)
-            giocatore.CarteEdificio.add(new CartaEdificio("nome", 1, new ArrayList<Effetto>(), new ArrayList<Effetto>()));
+            giocatore.CarteEdificio.add(new CartaEdificio("nome", 1, 0, new ArrayList<Effetto>(), new ArrayList<Effetto>()));
 
         cartaEdificio.ValidaPresaCarta(giocatore, spazioAzioneTorre);
     }

@@ -7,6 +7,7 @@ import Domain.Effetti.lista.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +19,7 @@ import static java.io.File.separator;
  * Created by pietro on 09/06/17.
  */
 public class LoaderCarte {
-    private static final String FILECARTE = "/home/pietro/IdeaProjects/LorenzoIlMagnifico/ClientApplication/Risorse/carte.csv";
+    private static final String FILECARTE = "/carte.csv";
 
     private List<Carta> listaCarte;
 
@@ -28,7 +29,8 @@ public class LoaderCarte {
         Scanner scan;
         List<String> righeFile= new ArrayList<>();
         try {
-            scan = new Scanner(new FileReader(FILECARTE));
+            URL url = getClass().getResource(FILECARTE);
+            scan = new Scanner(new FileReader(url.getPath()));
             while (scan.hasNext())
                 righeFile.add(scan.nextLine());
         } catch (FileNotFoundException e) {

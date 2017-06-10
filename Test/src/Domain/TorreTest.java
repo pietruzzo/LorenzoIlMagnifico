@@ -62,7 +62,7 @@ public class TorreTest {
         ArrayList<Carta> carteDisponibili = new ArrayList<>();
 
         for(int i = 0; i < 4; i++ )
-            carteDisponibili.add(new CartaTerritorio("nome"+i, 1, new ArrayList<>(), new ArrayList<>()));
+            carteDisponibili.add(new CartaTerritorio("nome"+i, 1, 1, new ArrayList<>(), new ArrayList<>()));
 
         torre.PescaCarte(1, carteDisponibili);
 

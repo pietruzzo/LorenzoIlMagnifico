@@ -144,10 +144,10 @@ public class MainGame {
      * @param valoreAzione il valore dell'azione dato dall'effetto
      * @param bonusRisorse il bonus eventuale dato dall'effetto
      */
-    public void AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse)
+    public void AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti)
     {
         try {
-            client.AzioneBonusEffettuata(new AzioneBonusDTO(idGiocatore, idSpazioAzione, valoreAzione, bonusRisorse));
+            client.AzioneBonusEffettuata(new AzioneBonusDTO(idGiocatore, idSpazioAzione, valoreAzione, bonusRisorse, servitoriAggiunti));
         } catch (NetworkException e) {
             System.out.println(String.format("Fallita comunicazione azione bonus. %s", e.getMessage()));
         }

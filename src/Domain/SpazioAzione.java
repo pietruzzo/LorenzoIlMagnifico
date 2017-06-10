@@ -98,11 +98,14 @@ public class SpazioAzione  implements Serializable {
      * @param giocatore giocatore che effettua l'azione
      * @param valoreAzione valore dell'azione
      */
-    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti) throws DomainException {
         AtomicInteger valoreAzioneRef = new AtomicInteger(valoreAzione);
+        valoreAzioneRef.set(valoreAzioneRef.get()+ servitoriAggiunti);
+
         Risorsa costoComplessivoEffetti;
         costoComplessivoEffetti = giocatore.gestoreEffettiGiocatore.effettuaAzione(new Risorsa(), valoreAzioneRef, this);
         giocatore.PagaRisorse(costoComplessivoEffetti);
+        giocatore.PagaRisorse(new Risorsa(Risorsa.TipoRisorsa.SERVI, servitoriAggiunti));
         giocatore.OttieniBonusRisorse(this.BonusRisorse);
     }
 
@@ -111,9 +114,10 @@ public class SpazioAzione  implements Serializable {
      * @param giocatore giocatore che effettua l'azione bonus
      * @param valoreAzione valore dell'azione
      */
-    protected Risorsa ValidaValoreAzioneBonus(Giocatore giocatore, int valoreAzione)throws DomainException {
+    protected Risorsa ValidaValoreAzioneBonus(Giocatore giocatore, int valoreAzione, int servitoriAggiunti)throws DomainException {
         Risorsa costoEffetti = new Risorsa();
         AtomicInteger valoreAzioneFinale = new AtomicInteger(valoreAzione);
+        valoreAzioneFinale.set(valoreAzioneFinale.get()+ servitoriAggiunti);
 
         //Modifica costoEffetti e valoreAzione
         giocatore.gestoreEffettiGiocatore.validaAzione(costoEffetti, valoreAzioneFinale, this);

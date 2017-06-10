@@ -20,10 +20,6 @@ public class CartaEdificio extends Carta  implements Serializable {
         super(nome, periodo, effettoImmediato, effettoPermanente);
         this.valoreAzione=valoreAz;
     }
-    public CartaEdificio (String nome, int periodo,Risorsa costo,  List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
-    {//TODO vecchio costruttore
-        super(nome, periodo, effettoImmediato, effettoPermanente);
-    }
 
     public int getValoreAzione() {
         return valoreAzione;

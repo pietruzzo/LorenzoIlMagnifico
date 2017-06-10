@@ -114,11 +114,6 @@ public class TabelloneTest {
     }
 
     @Test
-    public void piazzaFamiliare() throws Exception {
-        //TODO
-    }
-
-    @Test
     public void validaPiazzamentoFamiliareProduzione_Vuoto() throws Exception {
         Giocatore michele = tabellone.getGiocatoreById((short)1);
         tabellone.ValidaPiazzamentoFamiliareProduzione(michele.Familiari.get(0));
@@ -202,11 +197,6 @@ public class TabelloneTest {
     }
 
     @Test
-    public void azioneBonusEffettuata() throws Exception {
-        //TODO
-    }
-
-    @Test
     public void riscuotiPrivilegiDelConsiglio() throws Exception {
         Giocatore michele = tabellone.getGiocatoreById((short)1);
         michele.incrementaPrivilegiDaScegliere();
@@ -252,8 +242,202 @@ public class TabelloneTest {
     }
 
     @Test
-    public void calcolaPunteggiFinali() throws Exception {
-        //TODO
+    public void calcolaPunteggiFinali_SenzaEffetti() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        Giocatore michele = tabellone.getGiocatoreById((short)1);
+        Giocatore pietro = tabellone.getGiocatoreById((short)2);
+        Giocatore carlo = tabellone.getGiocatoreById((short)3);
+
+        //Territori
+        CartaTerritorio cartaBosco = (CartaTerritorio)tabellone.getCartaByName("Bosco");
+        michele.CarteTerritorio.add(cartaBosco);
+        michele.CarteTerritorio.add(cartaBosco);
+        michele.CarteTerritorio.add(cartaBosco); //3 carte territorio = +1
+
+        pietro.CarteTerritorio.add(cartaBosco); //1 carta territorio = +0
+
+        //Personaggio
+        CartaPersonaggio contadino = (CartaPersonaggio)tabellone.getCartaByName("Contadino");
+        pietro.CartePersonaggio.add(contadino);
+        pietro.CartePersonaggio.add(contadino); //2 carta personaggio = +3
+
+        //Punti Fede
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PFEDE, 10); //10 pti fede = +15
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PFEDE, 5); //5 pti fede = +5
+
+        //Punti Militari
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PMILITARI, 5); //Secondo in classifica militare = +2
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PMILITARI, 10); //Primo in classifica militare = +5
+
+        //Aggiorna in base agli effetti
+        //le carte contadino e bosco non hanno effetti da applicare alla fine della partita
+        //in questo test non vengono inserite carte scomunica quindi non ci sono altri effetti da applicare
+
+        //Risorse
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.SERVI, 10);
+        //michele -> 2 legni 2 pietre 3 servi 5 monete =  12 /5 = +2
+        //pietro ->  2 legni 2 pietre 10 servi 6 monete = 20 / 5 = +4
+        //carlo ->  2 legni 2 pietre 3 servi 5 monete = 12 / 5 = +2
+
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 5);
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 3);
+        carlo.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 8);
+
+        //Effettua il conteggio
+        tabellone.CalcolaPunteggiFinali();
+
+        //Totali previsti
+        //michele   -> 1 + 15 + 2 + 2 = 20 + 5 = 25
+        //pietro    -> 3 + 5 + 5 + 4 = 17 + 3 = 20
+        //carlo     -> 2 + 8 = 10
+
+        assertEquals(25, michele.Risorse.getPuntiVittoria());
+        assertEquals(20, pietro.Risorse.getPuntiVittoria());
+        assertEquals(10, carlo.Risorse.getPuntiVittoria());
+    }
+
+    @Test
+    public void calcolaPunteggiFinali_ConEffetti() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        Giocatore michele = tabellone.getGiocatoreById((short)1);
+        Giocatore pietro = tabellone.getGiocatoreById((short)2);
+        Giocatore carlo = tabellone.getGiocatoreById((short)3);
+
+        //Territori
+        CartaTerritorio cartaBosco = (CartaTerritorio)tabellone.getCartaByName("Bosco");
+        michele.CarteTerritorio.add(cartaBosco);
+        michele.CarteTerritorio.add(cartaBosco);
+        michele.CarteTerritorio.add(cartaBosco); //3 carte territorio = +1
+
+        pietro.CarteTerritorio.add(cartaBosco); //1 carta territorio = +0
+
+        //Personaggio
+        CartaPersonaggio contadino = (CartaPersonaggio)tabellone.getCartaByName("Contadino");
+        pietro.CartePersonaggio.add(contadino);
+        pietro.CartePersonaggio.add(contadino); //2 carta personaggio = +3
+
+        //Punti Fede
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PFEDE, 10); //10 pti fede = +15
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PFEDE, 5); //5 pti fede = +5
+
+        //Punti Militari
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PMILITARI, 5); //Secondo in classifica militare = +2
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PMILITARI, 10); //Primo in classifica militare = +5
+
+        //Aggiorna in base agli effetti
+        //Impresa
+        CartaImpresa ingaggiareReclute = (CartaImpresa) tabellone.getCartaByName("IngaggiareReclute");
+        CartaImpresa costruireMura = (CartaImpresa) tabellone.getCartaByName("CostruireLeMura");
+
+        michele.CarteImpresa.add(ingaggiareReclute); // Effetto = +4
+        pietro.CarteImpresa.add(ingaggiareReclute);
+        pietro.CarteImpresa.add(costruireMura);      // Effetti = +7
+
+        //Scomunica
+        TesseraScomunica perdiPuntiPerOgniRisorsa = tabellone.getTesseraScomunicaByName("15");
+        michele.CarteScomunica.add(perdiPuntiPerOgniRisorsa); //Effetto = (legno + pietra + servitori + monete) * -1
+
+        //Risorse
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.SERVI, 10);
+        //michele -> 2 legni 2 pietre 3 servi 5 monete  =  12 / 5 = +2   -12 (scomunica)
+        //pietro -> 2 legni 2 pietre 10 servi 6 monete  =  20 / 5 = +4
+        //carlo ->  2 legni 2 pietre 3 servi 5 monete = 12 / 5 = +2
+
+        michele.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 8);
+        pietro.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 6);
+        carlo.Risorse.setRisorse(Risorsa.TipoRisorsa.PVITTORIA, 8);
+
+        //Effettua il conteggio
+        tabellone.CalcolaPunteggiFinali();
+
+        //Totali previsti
+        //michele   -> 1 + 15 + 2 + 4 + 2 - 12 = 12 + 8 = 20
+        //pietro    -> 3 +  5 + 5 + 7 + 4 = 24 + 6 = 30
+        //carlo     -> 2 + 8 = 10
+
+        assertEquals(20, michele.Risorse.getPuntiVittoria());
+        assertEquals(30, pietro.Risorse.getPuntiVittoria());
+        assertEquals(10, carlo.Risorse.getPuntiVittoria());
+    }
+
+    @Test
+    public void getBonusVittoriaByPuntiMilitari_PuntiDiversi() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        //michele   1
+        //pietro    2
+        //carlo     3
+
+        int[] primiGiocatori = new int[]{3};
+        int[] secondiGiocatori = new int[]{2};
+
+        int punti = tabellone.getBonusVittoriaByPuntiMilitari(1, primiGiocatori, secondiGiocatori);
+        assertEquals(0, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(2, primiGiocatori, secondiGiocatori);
+        assertEquals(2, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(3, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
+    }
+
+    @Test
+    public void getBonusVittoriaByPuntiMilitari_DuePrimi() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        //michele   1
+        //pietro    2
+        //carlo     3
+
+        int[] primiGiocatori = new int[]{3,2};
+        int[] secondiGiocatori = new int[]{1};
+
+        int punti = tabellone.getBonusVittoriaByPuntiMilitari(1, primiGiocatori, secondiGiocatori);
+        assertEquals(0, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(2, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(3, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
+    }
+
+    @Test
+    public void getBonusVittoriaByPuntiMilitari_DueSecondi() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        //michele   1
+        //pietro    2
+        //carlo     3
+
+        int[] primiGiocatori = new int[]{3};
+        int[] secondiGiocatori = new int[]{1,2};
+
+        int punti = tabellone.getBonusVittoriaByPuntiMilitari(1, primiGiocatori, secondiGiocatori);
+        assertEquals(2, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(2, primiGiocatori, secondiGiocatori);
+        assertEquals(2, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(3, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
+    }
+
+    @Test
+    public void getBonusVittoriaByPuntiMilitari_TuttiPrimi() throws Exception {
+        tabellone.AggiungiGiocatore((short)3, "Carlo", new Giocatore());
+        //michele   1
+        //pietro    2
+        //carlo     3
+
+        int[] primiGiocatori = new int[]{3, 1, 2};
+        int[] secondiGiocatori = new int[]{};
+
+        int punti = tabellone.getBonusVittoriaByPuntiMilitari(1, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(2, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
+
+        punti = tabellone.getBonusVittoriaByPuntiMilitari(3, primiGiocatori, secondiGiocatori);
+        assertEquals(5, punti);
     }
 
     @Test

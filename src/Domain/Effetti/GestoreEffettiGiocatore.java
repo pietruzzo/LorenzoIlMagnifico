@@ -69,7 +69,7 @@ public class GestoreEffettiGiocatore  {
         carteCorrenti = selezionaCartePerValore(azione.get(), carteCorrenti);
 
         //esegui effetto immediato se Validabile
-        if (!effettiImmediati.isEmpty()){
+        if (effettiImmediati != null && !effettiImmediati.isEmpty()){
         for (Effetto effettoIm : effettiImmediati){
         if (effettoIm instanceof Validabile) {
             ((Validabile) effettoIm).valida(costo, azione.get(), casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica);
@@ -117,7 +117,7 @@ public class GestoreEffettiGiocatore  {
         List<Carta> carteCorrenti = selezionaCartePerTipo(getTipoAzione(casella), giocatoreCorrente.getListaCarte());
 
         //esegui effetto immediato se di Azionabile
-        if (!effettiImmediati.isEmpty()){
+        if (effettiImmediati != null && !effettiImmediati.isEmpty()){
         for (Effetto effettoIm : effettiImmediati){
         if (effettoIm != null && effettoIm instanceof Azionabile) {
             ((Azionabile) effettoIm).aziona(costoRitorno, azione.get(), casella, carteCorrenti, risorseAllocate, malusRisorsaScomunica, giocatoreCorrente);
@@ -180,7 +180,7 @@ public class GestoreEffettiGiocatore  {
                 effetto.azioneTerminale(risorseGiocatore, listaCarte, modificaPuntiVittoria, giocatoreCorrente);
             }
         }
-        giocatoreCorrente.getRisorse().add(new Risorsa(Risorsa.TipoRisorsa.MONETE, modificaPuntiVittoria.get()));
+        giocatoreCorrente.getRisorse().add(new Risorsa(Risorsa.TipoRisorsa.PVITTORIA, modificaPuntiVittoria.get()));
     }
 
     /**

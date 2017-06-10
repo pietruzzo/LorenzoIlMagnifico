@@ -14,6 +14,7 @@ public class AzioneBonusDTO implements Serializable {
     private final int valoreAzione;
     private final int idSpazioAzione;
     private final Risorsa bonusRisorse;
+    private final int servitoriAggiunti;
     //endregion
 
     //region Getters
@@ -32,15 +33,20 @@ public class AzioneBonusDTO implements Serializable {
     public Risorsa getBonusRisorse() {
         return bonusRisorse;
     }
+
+    public int getServitoriAggiunti() {
+        return servitoriAggiunti;
+    }
     //endregion
 
     /**
      * Costruttore
      */
-    public AzioneBonusDTO(short idGiocatore, int valoreAzione, int idSpazioAzione, Risorsa bonusRisorse) {
+    public AzioneBonusDTO(short idGiocatore, int valoreAzione, int idSpazioAzione, Risorsa bonusRisorse, int servitoriAggiunti) {
         this.idGiocatore = idGiocatore;
         this.valoreAzione = valoreAzione;
         this.idSpazioAzione = idSpazioAzione;
         this.bonusRisorse = bonusRisorse;
+        this.servitoriAggiunti = servitoriAggiunti;
     }
 }

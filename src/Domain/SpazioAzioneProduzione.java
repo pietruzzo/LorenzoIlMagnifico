@@ -67,8 +67,8 @@ public class SpazioAzioneProduzione extends SpazioAzione  implements Serializabl
      * @param valoreAzione valore dell'azione
      */
     @Override
-    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
-        super.ValidaValoreAzioneBonus(giocatore, valoreAzione);
-        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse);
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti) throws DomainException {
+        super.ValidaValoreAzioneBonus(giocatore, valoreAzione, servitoriAggiunti);
+        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
     }
 }

@@ -63,12 +63,13 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, Boolean torreOccupata, int servitoriAggiunti) throws DomainException {
         //Effettua i controlli legati alla torre di appartenenza
         this.Torre.ValidaPiazzamentoFamiliare(familiare);
-        Risorsa costoEffetti = super.ValidaValoreAzione(familiare, servitoriAggiunti);
 
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
         if(this.CartaAssociata == null)
             throw new DomainException("A questo spazio azione non è associata alcuna carta!");
+
+        Risorsa costoEffetti = super.ValidaValoreAzione(familiare, servitoriAggiunti);
 
         //Calcola il malus dovuto dall'occupazione della torre
         //Se la torre è occupata il malus è di -3 monete
@@ -114,7 +115,7 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
         }
 
         if((giocatore.Risorse.getPuntiMilitari() + this.BonusRisorse.getPuntiMilitari() - costoPuntiMilitariEffetti) < minimoPuntiMilitari)
-            throw new DomainException(String.format("Per poter prendere questa carta sono necessari almeno {0} punti militari", minimoPuntiMilitari));
+            throw new DomainException(String.format("Per poter prendere questa carta sono necessari almeno %d punti militari.", minimoPuntiMilitari));
     }
 
     /**
@@ -134,9 +135,9 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
      * @param valoreAzione valore dell'azione
      */
     @Override
-    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse) throws DomainException {
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti) throws DomainException {
         Boolean torreOccupata = this.Torre.TorreOccupata();
-        Risorsa costoEffetti = super.ValidaValoreAzioneBonus(giocatore, valoreAzione);
+        Risorsa costoEffetti = super.ValidaValoreAzioneBonus(giocatore, valoreAzione, servitoriAggiunti);
 
         //Calcola il malus dovuto dall'occupazione della torre
         //Se la torre è occupata il malus è di -3 monete
@@ -169,7 +170,7 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
         if(torreOccupata)
             this.FamiliarePiazzato.Giocatore.PagaRisorse(malusTorreOccupata);
 
-        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse);
+        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
     }
 
     /**

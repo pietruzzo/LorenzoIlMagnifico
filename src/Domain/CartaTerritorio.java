@@ -25,10 +25,6 @@ public class CartaTerritorio extends Carta  implements Serializable {
         return valoreAzione;
     }
 
-    public CartaTerritorio (String nome, int periodo, Risorsa costo, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
-    {//TODO vecchio costruttore
-        super(nome, periodo, effettoImmediato, effettoPermanente);
-    }
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */

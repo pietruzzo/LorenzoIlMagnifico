@@ -1010,7 +1010,7 @@ NOME	15
 TIPO	Scomunica															
 PERIODO	3															
 LISTA_EFFETTI																
-EndGame	false	1	1	1	1	0	0	0								
+EndGame	false	-1	-1	-1	-1	0	0	0
 END																
 																
 NOME	16															

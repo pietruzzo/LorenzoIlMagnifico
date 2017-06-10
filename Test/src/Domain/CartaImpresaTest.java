@@ -25,7 +25,7 @@ public class CartaImpresaTest {
         assertEquals(0, cartaImpresa.getCostoRisorse().getPietra());
         assertEquals(0, cartaImpresa.getCostoRisorse().getServi());
         assertEquals(0, cartaImpresa.getCostoRisorse().getMonete());
-        assertFalse(cartaImpresa.SceltaCosto);
+        //assertFalse(cartaImpresa.SceltaCosto);
     }
 
     @Test

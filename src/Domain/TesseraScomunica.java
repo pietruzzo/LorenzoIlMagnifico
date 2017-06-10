@@ -16,11 +16,6 @@ public class TesseraScomunica extends Carta{
         super(id, periodo, null, effettoPermanente);
     }
 
-    public  TesseraScomunica (int periodo, List<Effetto> effettoPermanente)
-    {   //TODO Vecchio costruttore
-        super("0", periodo, null, effettoPermanente);
-    }
-
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */
