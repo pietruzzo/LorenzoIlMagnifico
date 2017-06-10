@@ -11,14 +11,24 @@ import java.util.List;
  */
 public class CartaTerritorio extends Carta  implements Serializable {
 
+    private int valoreAzione;
     /**
      * Costruttore
      */
-    public CartaTerritorio (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    public CartaTerritorio (String nome, int periodo,int valoreAz, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         super(nome, periodo, effettoImmediato, effettoPermanente);
+        this.valoreAzione=valoreAz;
     }
 
+    public int getValoreAzione() {
+        return valoreAzione;
+    }
+
+    public CartaTerritorio (String nome, int periodo, Risorsa costo, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    {//TODO vecchio costruttore
+        super(nome, periodo, effettoImmediato, effettoPermanente);
+    }
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */

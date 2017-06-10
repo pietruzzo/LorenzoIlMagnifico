@@ -174,7 +174,7 @@ public class GestoreEffettiGiocatore  {
             for (Effetto e : c.getEffettoPermanente())
             if (e instanceof EndGame) {
                 EndGame effetto = (EndGame) e;
-                effetto.azioneTerminale(risorseGiocatore, listaCarte, modificaPuntiVittoria);
+                effetto.azioneTerminale(risorseGiocatore, listaCarte, modificaPuntiVittoria, giocatoreCorrente);
             }
         }
         giocatoreCorrente.getRisorse().add(new Risorsa(Risorsa.TipoRisorsa.MONETE, modificaPuntiVittoria.get()));
@@ -190,7 +190,7 @@ public class GestoreEffettiGiocatore  {
         List<Carta> lista = new ArrayList<>();
         for (Carta c : listaCompleta) {
             if (c.getTipoCarta() == TipoCarta.Impresa || c.getTipoCarta() == TipoCarta.Personaggio
-                    || true/*TODO:Se carta scomunica*/) lista.add(c);
+                    || c.getTipoCarta() ==TipoCarta.Scomunica) lista.add(c);
             else if ((c.getTipoCarta() == TipoCarta.Edificio && tipoAzione == TipoAzione.PRODUZIONE)
                     || (c.getTipoCarta() == TipoCarta.Territorio && tipoAzione == TipoAzione.RACCOLTO)) lista.add(c);
         }
@@ -204,21 +204,29 @@ public class GestoreEffettiGiocatore  {
      */
     private TipoAzione getTipoAzione(SpazioAzione casella) throws NullPointerException {
         if (casella instanceof SpazioAzioneRaccolto) return TipoAzione.RACCOLTO;
-        if (casella instanceof SpazioAzioneProduzione) return TipoAzione.PRODUZIONE;
-        if (casella instanceof SpazioAzioneTorre) {
-        }//TODO come riconosco da quale torre viene?
-        return TipoAzione.GENERICA;
+        else if (casella instanceof SpazioAzioneProduzione) return TipoAzione.PRODUZIONE;
+        else if (casella.getIdSpazioAzione()<5) return TipoAzione.TORRE_TERRITORIO;
+        else if (casella.getIdSpazioAzione()<9 && casella.getIdSpazioAzione()>4) return TipoAzione.TORRE_EDIFICIO;
+        else if (casella.getIdSpazioAzione()<17 && casella.getIdSpazioAzione()>12) return TipoAzione.TORRE_IMPRESA;
+        else if (casella.getIdSpazioAzione()<13 && casella.getIdSpazioAzione()>8) return TipoAzione.TORRE_PERSONAGGIO;
+        else return TipoAzione.GENERICA;
     }
 
     /**
      * @param valoreAzione valore dell'Azione finale
      * @param lista        lista di carte da filtrare
      * @return nuova lista con carte di valore <= valoreAzione
-     * @apiNote per ogni carta da lista, se il valore di attivazione è <= valoreAzione allora lo ritorno nella lista
+     * @apiNote per ogni carta da lista, se il valore di attivazione è <= valoreAzione allora lo ritorno nella lista.
+     *          le carte personaggio, impresa e scomunica sono sempre controllate
      */
     private List<Carta> selezionaCartePerValore(int valoreAzione, List<Carta> lista) {
-        //TODO come ottengo il valore di attivazione dalla carta?
-        return new ArrayList<Carta>();
+        List<Carta> carteFiltrate = new ArrayList<>();
+        for (Carta c : lista){
+            if (c instanceof CartaTerritorio &&((CartaTerritorio) c).getValoreAzione()>=valoreAzione) carteFiltrate.add(c);
+            else if (c instanceof CartaEdificio &&((CartaEdificio) c).getValoreAzione()>=valoreAzione) carteFiltrate.add(c);
+            else carteFiltrate.add(c);
+        }
+        return carteFiltrate;
     }
 
     /**

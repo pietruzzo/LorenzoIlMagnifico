@@ -213,4 +213,10 @@ public class Risorsa  implements Serializable {
 
         int getPosizione(){ return posizione;}
     }
+
+    public boolean isEmpty(){
+        for (short i : this.risorse)
+            if(i!=0) return false;
+        return true;
+    }
 }

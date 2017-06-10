@@ -8,11 +8,13 @@ import Exceptions.SaltaTurnoException;
  * Created by pietro on 18/05/17.
  */
 public class DisabilitaTurni extends Effetto implements InizioTurno {
-    int[] turniDaSaltare;
+    int turnoDaSaltare;
+
+    public DisabilitaTurni(int turno){
+        turnoDaSaltare=turno;
+    }
     @Override
     public void setupTurno(int numeroTurno) throws SaltaTurnoException {
-        for (int i: turniDaSaltare) {
-            if (i==numeroTurno) throw new SaltaTurnoException();
-        }
+            if (turnoDaSaltare==numeroTurno) throw new SaltaTurnoException();
     }
 }

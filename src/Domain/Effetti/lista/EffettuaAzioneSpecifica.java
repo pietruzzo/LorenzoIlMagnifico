@@ -13,10 +13,18 @@ import java.util.List;
 public class EffettuaAzioneSpecifica extends Effetto implements Azionabile {
     TipoAzione azione;
     Risorsa bonusPerAzioneSpecifica;
+    Integer valoreAzioneSpecifica;
 
-    public EffettuaAzioneSpecifica(TipoAzione azione, Risorsa bonusPerAzioneSpecifica) {
+  /*  public EffettuaAzioneSpecifica(TipoAzione azione, Risorsa bonusPerAzioneSpecifica) {
         this.azione = azione;
         this.bonusPerAzioneSpecifica = bonusPerAzioneSpecifica;
+        valoreAzioneSpecifica=null;
+    }
+*/
+    public EffettuaAzioneSpecifica(TipoAzione azione, Risorsa bonusPerAzioneSpecifica, int valoreAzione) {
+        this.azione = azione;
+        this.bonusPerAzioneSpecifica = bonusPerAzioneSpecifica;
+        valoreAzioneSpecifica=valoreAzione;
     }
 
     @Override

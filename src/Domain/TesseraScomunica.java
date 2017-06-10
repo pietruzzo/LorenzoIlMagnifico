@@ -11,9 +11,14 @@ public class TesseraScomunica extends Carta{
     /**
      * Costruttore
      */
-    public TesseraScomunica (int periodo, List<Effetto> effettoPermanente)
+    public TesseraScomunica (String id, int periodo, List<Effetto> effettoPermanente)
     {
-        super("", periodo, null, effettoPermanente);
+        super(id, periodo, null, effettoPermanente);
+    }
+
+    public  TesseraScomunica (int periodo, List<Effetto> effettoPermanente)
+    {   //TODO Vecchio costruttore
+        super("0", periodo, null, effettoPermanente);
     }
 
     /**
@@ -33,5 +38,10 @@ public class TesseraScomunica extends Carta{
     @Override
     public TipoCarta getTipoCarta() {
         return TipoCarta.Scomunica;
+    }
+
+    @Deprecated
+    public Risorsa getCosto(){//TODO poco sensato
+        return new Risorsa();
     }
 }

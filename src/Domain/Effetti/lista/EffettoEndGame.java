@@ -1,10 +1,8 @@
 package Domain.Effetti.lista;
 
-import Domain.Carta;
+import Domain.*;
 import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.EndGame;
-import Domain.Risorsa;
-import Domain.TipoCarta;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,12 +17,16 @@ public class EffettoEndGame extends Effetto implements EndGame {
     private TipoCarta noPVittoria;
     private Risorsa pVittoriaXRisorsa;
     private boolean scalaCarteImpresa;
+    private Risorsa scalaXTipoCarta;
+    private TipoCarta tipoDaScalare;
 
     public EffettoEndGame(int pVittoria) {
         this.pVittoria = pVittoria;
         noPVittoria=null;
         pVittoriaXRisorsa=null;
         scalaCarteImpresa=false;
+        this.tipoDaScalare=null;
+        this.scalaXTipoCarta=null;
     }
 
     public EffettoEndGame(TipoCarta noPVittoria) {
@@ -32,6 +34,8 @@ public class EffettoEndGame extends Effetto implements EndGame {
         pVittoria=0;
         pVittoriaXRisorsa=null;
         scalaCarteImpresa=false;
+        this.tipoDaScalare=null;
+        this.scalaXTipoCarta=null;
     }
 
     public EffettoEndGame(Risorsa pVittoriaXRisorsa) {
@@ -39,6 +43,8 @@ public class EffettoEndGame extends Effetto implements EndGame {
         pVittoria=0;
         noPVittoria=null;
         scalaCarteImpresa=false;
+        this.tipoDaScalare=null;
+        this.scalaXTipoCarta=null;
     }
 
     public EffettoEndGame(boolean scalaCarteImpresa) {
@@ -46,20 +52,58 @@ public class EffettoEndGame extends Effetto implements EndGame {
         pVittoria=0;
         noPVittoria=null;
         scalaCarteImpresa=true;
+        this.tipoDaScalare=null;
+        this.scalaXTipoCarta=null;
+    }
+
+    public EffettoEndGame(Risorsa risorsa, TipoCarta tipoCarta){
+        this.tipoDaScalare=tipoCarta;
+        this.scalaXTipoCarta=risorsa;
+        this.pVittoriaXRisorsa = null;
+        pVittoria=0;
+        noPVittoria=null;
+        scalaCarteImpresa=false;
+
     }
 
     @Override
-    public void azioneTerminale(Risorsa risorseGiocatore, List<Carta> listaCarte, AtomicInteger modificaPVittoria) {
-
+    public void azioneTerminale(Risorsa risorseGiocatore, List<Carta> listaCarte, AtomicInteger modificaPVittoria, Giocatore giocatore) {
+//TODO terminare gestione effetto
         //Aumento i punti vittoria ogni PVittoriaXRisorsa
+        if(pVittoriaXRisorsa!=null){
         for (Risorsa.TipoRisorsa tipo : Risorsa.TipoRisorsa.values()) {
             if (pVittoriaXRisorsa.getRisorse(tipo) != 0) {
                 modificaPVittoria.set(modificaPVittoria.get() + (risorseGiocatore.getRisorse(tipo) / pVittoriaXRisorsa.getRisorse(tipo)));
             }
-        }
+        }}
 
         //Aggiungo i punti vittoria
         modificaPVittoria.set(modificaPVittoria.get()+ pVittoria);
+
+        //Scala carte impresa
+        if (scalaCarteImpresa) modificaPVittoria.set(modificaPVittoria.get()-giocatore.getCarteImpresa().size());
+
+        //noPuntiVittoria //TODO Richiamare il metodo che effettua il calcolo dei punti vittoria per il TipoCarta specifico
+
+        //punti vittoriaXCostoCarteImpresa (ridotta a funzionare solo per carte edificio)
+       if(tipoDaScalare==TipoCarta.Edificio && scalaXTipoCarta!=null){
+           List<CartaEdificio> carteDaControllare = giocatore.getCarteEdificio();
+
+
+           for(Carta c : carteDaControllare){
+               Risorsa costoCarta= c.getCostoRisorse();
+
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.LEGNO)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.LEGNO)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.PIETRA)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.PIETRA)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.SERVI)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.SERVI)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.MONETE)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.MONETE)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.PVITTORIA)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.PVITTORIA)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.PMILITARI)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.PMILITARI)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+               if(costoCarta.getRisorse(Risorsa.TipoRisorsa.PFEDE)>0 && scalaXTipoCarta.getRisorse(Risorsa.TipoRisorsa.PFEDE)>0) modificaPVittoria.set(modificaPVittoria.get()-1);
+
+           }
+       }
+
     }
 
 

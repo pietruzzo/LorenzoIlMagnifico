@@ -11,12 +11,22 @@ import java.util.List;
  */
 public class CartaEdificio extends Carta  implements Serializable {
 
+    private int valoreAzione;
     /**
      * Costruttore
      */
-    public CartaEdificio (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    public CartaEdificio (String nome, int periodo, int valoreAz,  List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         super(nome, periodo, effettoImmediato, effettoPermanente);
+        this.valoreAzione=valoreAz;
+    }
+    public CartaEdificio (String nome, int periodo,Risorsa costo,  List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    {//TODO vecchio costruttore
+        super(nome, periodo, effettoImmediato, effettoPermanente);
+    }
+
+    public int getValoreAzione() {
+        return valoreAzione;
     }
 
     /**

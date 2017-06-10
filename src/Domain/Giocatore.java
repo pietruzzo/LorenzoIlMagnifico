@@ -266,5 +266,9 @@ public class Giocatore implements Serializable {
         else
             System.out.println("Carta non trovata");
     }
+
+    public List<CartaEdificio> getCarteEdificio() {
+        return CarteEdificio;
+    }
 }
 

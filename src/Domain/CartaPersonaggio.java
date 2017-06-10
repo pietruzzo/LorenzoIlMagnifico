@@ -14,8 +14,13 @@ public class CartaPersonaggio extends Carta  implements Serializable {
     /**
      * Costruttore
      */
-    public CartaPersonaggio (String nome, int periodo, Risorsa costoRisorse, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    public CartaPersonaggio (String nome, int periodo, List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
+        super(nome, periodo, effettoImmediato, effettoPermanente);
+    }
+
+    public CartaPersonaggio (String nome, int periodo,Risorsa costo,  List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
+    {//
         super(nome, periodo, effettoImmediato, effettoPermanente);
     }
 

@@ -21,7 +21,13 @@ public class AumentaValoreAzione extends Effetto implements ModificaValoreAzione
 
     @Override
     public void aggiungiValoreAzione(AtomicInteger valoreAzione, TipoAzione tipoAzioneCorrente) {
-        if (tipoAzioneCorrente==tipoAzione) valoreAzione.set(valoreAzione.get()+incrementoAzione);
+        if (tipoAzioneCorrente == tipoAzione || (tipoAzioneCorrente == TipoAzione.TORRE && (
+                tipoAzione == TipoAzione.TORRE || tipoAzione == TipoAzione.TORRE_PERSONAGGIO || tipoAzione == TipoAzione.TORRE_IMPRESA ||
+                        tipoAzione == TipoAzione.TORRE_TERRITORIO || tipoAzione == TipoAzione.TORRE_EDIFICIO))
+                || (tipoAzione == TipoAzione.TORRE && (
+                tipoAzioneCorrente == TipoAzione.TORRE || tipoAzioneCorrente == TipoAzione.TORRE_PERSONAGGIO || tipoAzioneCorrente == TipoAzione.TORRE_IMPRESA ||
+                        tipoAzioneCorrente == TipoAzione.TORRE_TERRITORIO || tipoAzioneCorrente == TipoAzione.TORRE_EDIFICIO)))
+            valoreAzione.set(valoreAzione.get() + incrementoAzione);
     }
     //Aumenta il valore di una azione specifica
 }

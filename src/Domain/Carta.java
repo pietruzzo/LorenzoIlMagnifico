@@ -43,7 +43,7 @@ public abstract class Carta implements Serializable{
             for (Effetto e : getEffettoImmediato()) {
                 if (e instanceof ScambiaRisorse) {
                     if (((ScambiaRisorse) e).isCosto())
-                        return ((ScambiaRisorse) e).getSelectedOption()[0];
+                        return Risorsa.sub(((ScambiaRisorse) e).getSelectedOption()[0], ((ScambiaRisorse) e).getSelectedOption()[1]);
                 }
             }
         }

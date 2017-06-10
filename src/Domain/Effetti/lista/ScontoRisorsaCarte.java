@@ -1,6 +1,7 @@
 package Domain.Effetti.lista;
 
 import Domain.*;
+import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.effectInterface.Azionabile;
 import Domain.Effetti.lista.effectInterface.Validabile;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by pietro on 18/05/17.
  */
-public class ScontoRisorsaCarte implements Azionabile, Validabile {
+public class ScontoRisorsaCarte extends Effetto implements Azionabile, Validabile {
 
         TipoCarta tipoCarta; //sul quale si applica lo sconto
         Risorsa risorseBonus;

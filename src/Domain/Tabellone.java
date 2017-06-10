@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Portatile on 12/05/2017.
  */
+
 public class Tabellone implements Serializable {
 
     //region Proprieta
