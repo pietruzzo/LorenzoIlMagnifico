@@ -174,7 +174,7 @@ public class LoaderCarte {
                         }
                         Integer[] v= new Integer[caselle.size()];
                         caselle.toArray(v);
-                        if (rigaCorrente[1] == "true") {
+                        if (rigaCorrente[1].equals("true")) {
                             immediati.add(new AnnullaBonusSpazioAz(v));
 
                         } else {
@@ -191,7 +191,7 @@ public class LoaderCarte {
                         tipoAzione=stringToTipoAzione(rigaCorrente[2]);
                         if(tipoAzione==null) throw new IllegalArgumentException("tipoAzioneNonRiconosciuta");
                         incremento= Integer.valueOf(rigaCorrente[3]);
-                        if (rigaCorrente[1] == "true") {
+                        if (rigaCorrente[1].equals("true")) {
                             immediati.add(new AumentaValoreAzione(tipoAzione, incremento));
 
                         } else {
@@ -212,7 +212,7 @@ public class LoaderCarte {
                         }
                         if(carta==null) throw new IllegalArgumentException("tipoCartaNonRiconosciuta");
                         risorsa = stringToRisorsa(Arrays.copyOfRange(rigaCorrente, 3, 10));
-                        if (rigaCorrente[1] == "true") {
+                        if (rigaCorrente[1].equals("true")) {
                             immediati.add(new BonusRisorseXCarte(carta, risorsa));
                         } else {
                             permanenti.add(new BonusRisorseXCarte(carta, risorsa));
@@ -230,7 +230,7 @@ public class LoaderCarte {
                             }
                         }
                         if(tipoRisorsa==null) throw new IllegalArgumentException("tipoRisorsaNonRiconosciuta");
-                        if (rigaCorrente[1] == "true") {
+                        if (rigaCorrente[1].equals("true")) {
                             immediati.add(new DimezzaRisorsaAllocata(tipoRisorsa));
                         } else {
                             permanenti.add(new DimezzaRisorsaAllocata(tipoRisorsa));
@@ -246,7 +246,7 @@ public class LoaderCarte {
                         }
                         Integer[] v= new Integer[caselle.size()];
                         caselle.toArray(v);
-                        if (rigaCorrente[1] == "true") {
+                        if (rigaCorrente[1].equals("true")) {
                             immediati.add(new DisabilitaCasella(v));
 
                         } else {
@@ -260,7 +260,7 @@ public class LoaderCarte {
                     int turno;
                     try{
                         turno= Integer.valueOf(rigaCorrente[2]);
-                        if (rigaCorrente[1] == "true") {
+                        if (rigaCorrente[1].equals("true")) {
                             immediati.add(new DisabilitaTurni(turno));
 
                         } else {
@@ -317,7 +317,7 @@ public class LoaderCarte {
                     break;
                 case "Pergamena":
                     try{
-                        if(rigaCorrente[1].equals(true)) immediati.add(new Pergamena(Integer.valueOf(rigaCorrente[2])));
+                        if(rigaCorrente[1].equals("true")) immediati.add(new Pergamena(Integer.valueOf(rigaCorrente[2])));
                         else permanenti.add(new Pergamena(Integer.valueOf(rigaCorrente[2])));
                     } catch (Exception e){
                         throw new IllegalArgumentException("Pergamena non riconosciuta correttamente");
