@@ -20,7 +20,11 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
 
 
     public ScambiaRisorse(Risorsa[]costi, Risorsa[]guadagni, boolean costo) {
-        opzioni= new Opzioni(costi, guadagni, null);
+        Integer defaultChoice = null;
+        if(costo)
+            defaultChoice = 0;
+
+        opzioni = new Opzioni(costi, guadagni, defaultChoice);
         this.costo = costo;
     }
 
@@ -30,8 +34,10 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
      */
     public void SetDefaultChoice(Integer scelta)
     {
-        if (this.costo = true && scelta ==null) throw new IllegalArgumentException("non puoi deselezionare un costo!");
-        this.opzioni.setOpzione(scelta);
+        if (this.costo == true && scelta == null)
+            throw new IllegalArgumentException("non puoi deselezionare un costo!");
+        if(scelta == null || this.opzioni.pagamento.length > 1)
+            this.opzioni.setOpzione(scelta);
     }
 
     public boolean isCosto() {
@@ -91,14 +97,16 @@ class Opzioni {
         if (pagamento.length != guadagno.length)
             throw new IllegalArgumentException("guadagno e pagamento devono aver la stessa dimensione");
 
-        if(pagamento.length == 1) this.opzione = 0;
         this.pagamento = pagamento;
         this.guadagno = guadagno;
         this.opzione = defaultChoice;
+
+        if(pagamento.length == 1)
+            this.opzione = 0;
     }
 
     public void setOpzione(Integer opzione) {
-        if(opzione==null){
+        if(opzione == null){
             this.opzione = null;
         } else if (opzione < 0 || opzione > pagamento.length) {
             throw new ArrayIndexOutOfBoundsException("l'opzione scelta per scambia risorse non c'è: " + opzione);

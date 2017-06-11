@@ -89,7 +89,7 @@ public class MainGame {
 
     //region Metodi di comunicazione verso il server
     /**
-     * Effettua il login del GiocatoreGraphic
+     * Effettua il login del giocatore
      */
     public void Login(String nome) throws Exception {
         client.Login(nome);
@@ -104,7 +104,7 @@ public class MainGame {
     }
 
     /**
-     * Comincia la partita, sarà il turno del primo GiocatoreGraphic loggato
+     * Comincia la partita, sarà il turno del primo giocatore loggato
      */
     public void IniziaPartita() {
         try {

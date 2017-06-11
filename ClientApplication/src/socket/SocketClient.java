@@ -61,7 +61,7 @@ public class SocketClient extends AbstractClient {
     }
 
     /**
-     * Effettua il login del GiocatoreGraphic
+     * Effettua il login del giocatore
      */
     @Override
     public void Login(String nome) throws Exception {

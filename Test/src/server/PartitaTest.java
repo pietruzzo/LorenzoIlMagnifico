@@ -101,10 +101,11 @@ public class PartitaTest {
             partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 0 ));
         }
 
-        //Dopo aver completato due giri di mosse si passa al terzo turno e quindi al secondo periodo
-        assertEquals(1, partita.getOrdineMossaCorrente());
-        assertEquals(3, partita.getTurno());
-        assertEquals(2, partita.getPeriodo());
+
+        //Dopo aver completato due giri di mosse i giocatori hanno abbastanza punti fede per poter scegliere
+        assertEquals(2, partita.getOrdineMossaCorrente());
+        assertEquals(2, partita.getTurno());
+        assertEquals(1, partita.getPeriodo());
     }
 
     @Test

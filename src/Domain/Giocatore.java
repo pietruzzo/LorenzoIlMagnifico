@@ -147,7 +147,7 @@ public class Giocatore implements Serializable {
     }
 
     /**
-     *  Setta le proprietà al login del GiocatoreGraphic
+     *  Setta le proprietà al login del giocatore
      */
     public void SettaProprietaIniziali(short idGiocatore, String nome, ColoreGiocatore colore, int monete)
     {

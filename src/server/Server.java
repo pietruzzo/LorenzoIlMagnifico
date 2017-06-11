@@ -57,8 +57,8 @@ public class Server {
     }
 
     /**
-     * Aggiunge un GiocatoreGraphic alla partita da iniziare
-     * @return l'id del GiocatoreGraphic appena inserito
+     * Aggiunge un giocatore alla partita da iniziare
+     * @return l'id del giocatore appena inserito
      */
      public short AggiungiGiocatore(String nome, GiocatoreRemoto giocatore) throws DomainException {
         synchronized (MUTEX_GIOCATORI)
@@ -67,13 +67,13 @@ public class Server {
             maxIdGiocatore++;
             partitaDaIniziare.AggiungiGiocatore(maxIdGiocatore, nome, giocatore);
             this.listaGiocatori.add(giocatore);
-            System.out.println(String.format("Aggiunto il GiocatoreGraphic %s con id %d", nome, maxIdGiocatore));
+            System.out.println(String.format("Aggiunto il giocatore %s con id %d", nome, maxIdGiocatore));
             return maxIdGiocatore;
         }
     }
 
     /**
-     * Ritorna il GiocatoreGraphic remoto dato il suo id
+     * Ritorna il giocatore remoto dato il suo id
      * @param idGiocatore
      * @return
      */

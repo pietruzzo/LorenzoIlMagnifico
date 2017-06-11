@@ -1,6 +1,7 @@
 package Domain.Effetti;
 
 import Domain.*;
+import Domain.Effetti.lista.ScambiaRisorse;
 import Domain.Effetti.lista.effectInterface.*;
 import Exceptions.SaltaTurnoException;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
@@ -9,10 +10,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Created by pietro on 18/05/17.
- * La gestione degli effetti permette partite in parallelo a patto che lo stesso GiocatoreGraphic non possa partecipare
+ * La gestione degli effetti permette partite in parallelo a patto che lo stesso giocatore non possa partecipare
  * contemporaneamente a più partite e che ci sia un mazzo di carte per ogni partita. Per giocare più partite con lo
  * stezzo mazzo è necessario gestire l'eventuale concorrenza tra trigger (es validaAzione e esegui effetto synchronized)
  */
@@ -39,7 +41,7 @@ public class GestoreEffettiGiocatore  {
      * @param costo           modificato dagli effetti (include solo le modifiche che influiscono sulla validità)
      * @param azione          valore dei dadi, verrà modificato dagli effetti
      * @param casella         casella corrente del familiare
-     * @param risorseAllocate le risorse allocate dal GiocatoreGraphic per piazzare il familiare
+     * @param risorseAllocate le risorse allocate dal giocatore per piazzare il familiare
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti
      */
@@ -103,9 +105,9 @@ public class GestoreEffettiGiocatore  {
      * @param costo           modificato dagli effetti (costo con cui validare la mossa)
      * @param azione          valore dei dadi, verrà modificato dagli effetti
      * @param casella         casella corrente del familiare
-     * @param risorseAllocate le risorse allocate dal GiocatoreGraphic per piazzare il familiare
+     * @param risorseAllocate le risorse allocate dal giocatore per piazzare il familiare
      * @return Ritorna Le risorse, conseguenze degli effetti (compreso di tutti i costi e bonus)
-     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a GiocatoreGraphic, costo ed azione vengono
+     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
      */
     private Risorsa effettuaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella, Risorsa risorseAllocate)
@@ -144,7 +146,7 @@ public class GestoreEffettiGiocatore  {
      * @param azione          valore dei dadi, verrà modificato dagli effetti
      * @param casella         casella corrente del familiare
      * @return Ritorna Le risorse, conseguenze degli effetti (compreso di tutti i costi e bonus)
-     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a GiocatoreGraphic, costo ed azione vengono
+     * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti. Il valore di Return tiene conto del costo in ingresso.
      */
     public Risorsa effettuaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella)
@@ -252,7 +254,12 @@ public class GestoreEffettiGiocatore  {
         if (casella != null && casella instanceof SpazioAzioneTorre) {
             SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
             if (spazioAzioneTorre.getCartaAssociata().getEffettoImmediato() != null) {
-                return spazioAzioneTorre.getCartaAssociata().getEffettoImmediato();
+                List<Effetto> listaEffetti = spazioAzioneTorre.getCartaAssociata().getEffettoImmediato();
+
+                //Esclude i costi dalla estrazione
+                listaEffetti = listaEffetti.stream().filter(x -> x instanceof ScambiaRisorse ? !((ScambiaRisorse)x).isCosto() : true).collect(Collectors.toList());
+
+                return listaEffetti;
             }
         }
         return null;

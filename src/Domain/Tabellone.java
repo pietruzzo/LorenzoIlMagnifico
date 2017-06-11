@@ -233,7 +233,7 @@ public class Tabellone implements Serializable {
     }
 
     /**
-     * Ritorna il nome del GiocatoreGraphic dato il suo id
+     * Ritorna il nome del giocatore dato il suo id
      */
     public String getNomeGiocatoreById (short idGiocatore)
     {

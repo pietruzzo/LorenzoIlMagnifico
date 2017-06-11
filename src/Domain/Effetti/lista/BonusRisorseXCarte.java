@@ -23,13 +23,14 @@ public class BonusRisorseXCarte extends Effetto implements Azionabile{
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         int numCarte=0;
-        for (Carta carta: carteGiocatore) {
+        for (Carta carta: giocatore.getListaCarte()) {
             if(carta.getTipoCarta()==tipoCarta){
-                numCarte=+1;
+                numCarte++;
             }
         }
-        Risorsa malus= applicaMalus(risorseBonus.multScalare(numCarte), malusRisorsa);
-        costo.sub(risorseBonus.multScalare(numCarte));
-        costo.add(malus);
+        Risorsa malus = applicaMalus(risorseBonus.multScalare(numCarte), malusRisorsa);
+        //costo.sub(risorseBonus.multScalare(numCarte));
+        //costo.add(malus);
+        costo.sub(malus);
     }
 }

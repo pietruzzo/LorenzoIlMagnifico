@@ -64,7 +64,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
 
     //region Messaggi dal client al server
     /**
-     * Effettua il login del GiocatoreGraphic
+     * Effettua il login del giocatore
      */
     public void Login(String nome) throws DomainException {
         this.server.AggiungiGiocatore(nome,this);

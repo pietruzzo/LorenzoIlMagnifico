@@ -65,7 +65,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
 
 
     /**
-     * Ottiene il GiocatoreGraphic dato l'id
+     * Ottiene il giocatore dato l'id
      */
     private GiocatoreRemoto GetGiocatoreById(short idGiocatore)
     {
@@ -73,7 +73,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     }
 
     /**
-     * Effettua il login del GiocatoreGraphic
+     * Effettua il login del giocatore
      * Salva anche il riferimento per chiamare i metodi lato client attraverso rmi
      */
     @Override

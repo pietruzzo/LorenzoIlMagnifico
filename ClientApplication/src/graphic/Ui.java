@@ -61,7 +61,7 @@ public interface Ui {
 
     /**
      * Il familiare viene indicato univocamente dal Giocatore e dal colore del dado (ci sarà anche il colore per il neutro)
-     * Se è uno spazio azione torre deve anche prendere la carta dello spazio azione e aggiungerla alla plancia del giocatore (solo se è il GiocatoreGraphic corrente,
+     * Se è uno spazio azione torre deve anche prendere la carta dello spazio azione e aggiungerla alla plancia del giocatore (solo se è il giocatore corrente,
      * altrimenti la toglie e basta, perchè non si vedono le carte degli altri)
      * Aggiorna le risorse
      */
@@ -85,7 +85,7 @@ public interface Ui {
 
     /**
      * Forse verranno aggiunte le mosse possibili (così Pietro è contento)
-     * Per ora ci limitiamo ad abilitare cose (tipo lo spostamento dei familiari) se sono il GiocatoreGraphic interessato
+     * Per ora ci limitiamo ad abilitare cose (tipo lo spostamento dei familiari) se sono il giocatore interessato
      * altrimenti disabilita le cose
      */
     public abstract void iniziaMossa(int idGiocatore);

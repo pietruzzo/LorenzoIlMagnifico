@@ -218,7 +218,7 @@ public class SocketClientProtocol {
 
     //region Messaggi dal client al server
     /**
-     * Comunica al server le informazioni per aggiungere il GiocatoreGraphic alla partita
+     * Comunica al server le informazioni per aggiungere il giocatore alla partita
      */
     public void Login(String nome) throws Exception {
         int codiceRisposta = ProtocolEvents.OK;

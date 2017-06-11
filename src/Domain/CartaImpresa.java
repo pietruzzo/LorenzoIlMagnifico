@@ -35,7 +35,7 @@ public class CartaImpresa extends Carta  implements Serializable {
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */
     public void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws DomainException {
-        //Verifica se il GiocatoreGraphic ha abbastanza spazio per prendere la carta
+        //Verifica se il giocatore ha abbastanza spazio per prendere la carta
         if(giocatore.CarteImpresa.size() >= 6)
             throw new DomainException("E' stato raggiunto il limite di carte Impresa.");
     }
