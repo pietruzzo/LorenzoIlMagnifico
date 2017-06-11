@@ -1,21 +1,24 @@
 package graphic.Gui;
 
-import Domain.ColoreDado;
-import Domain.Risorsa;
-import Domain.Tabellone;
-import Domain.TipoAzione;
+import Domain.*;
+import graphic.Gui.Items.*;
+import graphic.Gui.Items.Tabellone;
 import graphic.Ui;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import lorenzo.Applicazione;
 import lorenzo.MainGame;
 
 import java.awt.*;
+import java.awt.Button;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,8 +31,15 @@ public class ControllerCampoGioco implements Ui, Controller {
     @FXML AnchorPane planciaGiocatorePane;
     @FXML GridPane infoGiocatoriPane;
     @FXML AnchorPane familiariPane;
+    @FXML AnchorPane tabellonePane;
 
     private MainGame mainGame;
+    private Tabellone tabelloneController;
+    private CarteGioco mazzo;
+    private Text messaggi;
+    private List<GiocatoreGraphic> giocatori;
+    private PlanciaGiocatore plancia;
+    private int idGiocatoreClient;
 
     @FXML private void initialize(){
 
@@ -45,6 +55,16 @@ public class ControllerCampoGioco implements Ui, Controller {
         double fattoreScala = width/pannellow;
         if (fattoreScala> (height/pannelloh)) fattoreScala = height/pannelloh;
         riscala(pannello, fattoreScala);
+
+        //Inizializza il tabellone
+        tabelloneController = new Tabellone(this);
+        tabellonePane.getChildren().add(tabelloneController);
+
+        //Inizializza la plancia del giocatore
+        plancia = new PlanciaGiocatore();
+
+        //Aggiungi i messaggi all'area dei familiari
+        familiariPane.getChildren().add(messaggi);
     }
 
     @Override
@@ -53,63 +73,165 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
+    public void cartaTabelloneToGiocatore(CartaGraphic carta) {
+        tabelloneController.rimuoviCarta(carta);
+        //TODO aggiungi alla plancia o alle info dei giocatori
+    }
+
+    @Override
+    public void riscossionePrivilegio(Risorsa risorse) {
+        mainGame.RiscuotiPrivilegiDelConsiglio(risorse);
+    }
+
+    @Override
     public void disabilitaCaselle(int idSpazioAzione) {
+        Platform.runLater(() -> {
+            tabelloneController.disabilitaCasella(idSpazioAzione);
+        });
 
     }
 
     @Override
     public void visualizzaPrivilegioConsiglio(int numeroPergamene) {
-
+        Platform.runLater(() -> PrivilegioDelConsiglio.generaPrivilegioDelConsiglio(numeroPergamene, tabellonePane, this));
     }
 
     @Override
     public void effettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse) {
-
+        //TODO
     }
 
     @Override
     public void stampaMessaggio(String stringa) {
-
+        Platform.runLater(() -> messaggi.setText(stringa));
     }
 
     @Override
-    public void inizializzaPartita(Tabellone tabellone) {
+    public void inizializzaPartita(Domain.Tabellone tabellone) {
+        Platform.runLater(()->{
 
+            //Inizializza i giocatori
+            giocatori=new ArrayList<>();
+
+            for (Giocatore giocatore : tabellone.getGiocatori())
+            {
+                if(giocatore.getNome().equals(mainGame.getNomeGiocatore()))
+                {
+                    giocatori.add(new GiocatoreGraphic(giocatore));
+                    plancia.settaRisorse(giocatore.getRisorse());
+                    idGiocatoreClient =giocatore.getIdGiocatore();
+                }
+                else giocatori.add(new GiocatoreGraphic(giocatore));
+            }
+
+            //Ottieni tessere Scomunica
+            List<TesseraScomunica> tessere = tabellone.getCarteScomunica();
+            CartaGraphic[] carteScom = new CartaGraphic[3];
+            carteScom[0]=mazzo.getCarta(tessere.get(0).getNome());
+            carteScom[1]=mazzo.getCarta(tessere.get(1).getNome());
+            carteScom[2]=mazzo.getCarta(tessere.get(2).getNome());
+            tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom);
+
+            //Genera il mazzo di carte
+            mazzo= new CarteGioco(tabellone.getMazzoCarte(), tessere);
+        });
     }
+
 
     @Override
     public void aggiornaRisorse(int idGiocatore, Risorsa risorsa) {
-
+        Platform.runLater(() -> {
+            tabelloneController.aggiornaPunti(getGiocatorebyId(idGiocatore), risorsa);
+            if(idGiocatore== idGiocatoreClient) {
+                plancia.settaRisorse(risorsa);
+            } else {
+                //TODO Aggiorna informazioni giocatori
+            }
+        });
     }
 
     @Override
     public void aggiornaDaAzioneBonus(int idGiocatore, Risorsa risorsa, int idSpazioAzione) {
-
+        //TODO
     }
 
     @Override
     public void aggiornaGiocatore(int idGiocatore, Risorsa risorsa, ColoreDado coloreDado, int idSpazioAzione) {
-
+        Platform.runLater(()->{
+            //Aggiorna il giocatore sul tabellone
+            GiocatoreGraphic update = getGiocatorebyId(idGiocatore);
+            tabelloneController.piazzaFamiliare(update, update.getFamiliare(coloreDado), idSpazioAzione);
+            //Aggiorna le risorse del giocatore
+            this.aggiornaRisorse(idGiocatore, risorsa);
+        });
     }
 
     @Override
     public void aggiungiScomunica(int[] idGiocatoriScomunicati, int periodo) {
-
+        Platform.runLater(()->{
+            GiocatoreGraphic[] giocatori = new GiocatoreGraphic[idGiocatoriScomunicati.length];
+            for (int i = 0; i < idGiocatoriScomunicati.length; i++) {
+                giocatori[i]=getGiocatorebyId(idGiocatoriScomunicati[i]);
+            }
+            tabelloneController.aggiungiScomunicaGiocatori(giocatori, periodo);
+        });
     }
 
     @Override
     public void iniziaTurno(int[] ordineGiocatori, int[] dadi, Map<Integer, String> carte) {
-
+        Platform.runLater(()->{
+            //Rimuovi tutte le carte rimaste associate alle caselle
+            tabelloneController.rimuoviCarteTorre();
+            //Rimuovi tutti i familiari
+            for(GiocatoreGraphic g : giocatori){
+                for(FamiliareGraphic f: g.getFamiliari()){
+                    tabelloneController.rimuoviFamiliare(f);
+                }
+            }
+            //Imposta i valori dei dadi
+            tabelloneController.settaDadi(dadi[0], dadi[1], dadi[2]);
+            //Aggiungi carte azione del nuovo turno
+            for (Integer i : carte.keySet()){
+                tabelloneController.aggiungiCartaAzione(i, mazzo.getCarta(carte.get(i)));
+            }
+        });
     }
 
     @Override
     public void iniziaMossa(int idGiocatore) {
-
+        //TODO rendi disponibili i familiari se è il tuo turno, altrimenti notifica di chi è il turno
+        if(idGiocatore==idGiocatoreClient){
+            //tuo turno
+        } else {
+            this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
+        }
     }
 
     @Override
     public void sceltaSostegnoChiesa() {
-
+        Platform.runLater(()->{
+            Pane scelta = new Pane();
+            Text domanda = new Text("Vuoi sostenere la chiesa?");
+            javafx.scene.control.Button b1, b2;
+            b1= new javafx.scene.control.Button("Si");
+            b2= new javafx.scene.control.Button("No");
+            HBox hbox = new HBox(b1, b2);
+            VBox vbox =new VBox(domanda, hbox);
+            hbox.setAlignment(Pos.CENTER);
+            vbox.setAlignment(Pos.CENTER);
+            scelta.setPrefWidth(300);
+            scelta.setPrefHeight(200);
+            scelta.setTranslateX(700);
+            scelta.setTranslateY(700);
+            pannello.getChildren().add(scelta);
+            b1.setOnMouseClicked(mouseEvent -> {
+                mainGame.SceltaSostegnoChiesa();
+                pannello.getChildren().remove(scelta);
+            });
+            b1.setOnMouseClicked(mouseEvent -> {
+                pannello.getChildren().remove(scelta);
+            });
+        });
     }
 
     @Override
@@ -143,5 +265,17 @@ public class ControllerCampoGioco implements Ui, Controller {
         pannello.minHeight(h);
         pannello.setPrefHeight(h);
         pannello.setPrefWidth(w);
+    }
+
+    /**
+     * @param idGiocatore
+     * @return il GiocatoreGraphic corrispondente dalla lista giocatori
+     * @throws NullPointerException non c'è giocatore con idGiocatore
+     */
+    private GiocatoreGraphic getGiocatorebyId(int idGiocatore){
+        for( GiocatoreGraphic giocatore : giocatori){
+            if(giocatore.getIdGiocatore()==idGiocatore) return giocatore;
+        }
+        throw new NullPointerException(idGiocatore+ " non è presente nella lista GiocatoriGraphic");
     }
 }

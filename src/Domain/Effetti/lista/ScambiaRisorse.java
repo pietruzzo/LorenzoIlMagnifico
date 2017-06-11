@@ -42,9 +42,14 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
         return opzioni.getOpzione();
     }
 
+    public int getNumeroOpzioni(){
+        return opzioni.guadagno.length;
+    }
+
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
 
+        opzioni.setOpzione(0);
         Risorsa[] opzioneScelta = opzioni.getOpzione();
         costo.add(opzioneScelta[0]);
 

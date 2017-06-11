@@ -34,6 +34,8 @@ public class MainGame {
      * Interfaccia utente
      */
     private Ui userInterface;
+
+    private String nomeGiocatore;
     //endregion
 
     protected MainGame(Applicazione applicazione) {
@@ -91,6 +93,7 @@ public class MainGame {
      */
     public void Login(String nome) throws Exception {
         client.Login(nome);
+        nomeGiocatore=nome;
     }
 
     /**
@@ -276,6 +279,10 @@ public class MainGame {
     }
     //endregion
 
+
+    public String getNomeGiocatore() {
+        return nomeGiocatore;
+    }
 
     /**
      * Mostra l'errore all'utente

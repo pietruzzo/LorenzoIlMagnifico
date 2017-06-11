@@ -1,5 +1,9 @@
 package graphic.Gui.Items;
 
+import Domain.Carta;
+import Domain.Effetti.Effetto;
+import Domain.Effetti.lista.ScambiaRisorse;
+import Domain.TesseraScomunica;
 import Domain.TipoCarta;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
@@ -25,11 +29,38 @@ public class CarteGioco{
    private final static int cartaScomW=30;
    private final static int cartaScomH=600;
 
-   private List<CartaGraphic> carte = new ArrayList<>();
+   private List<CartaGraphic> carte;
 
-   public CarteGioco(){
-      //TODO carica le carte da file, aggiungile alla lista
+   public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica){
+      carte = new ArrayList<>();
       //per le carte sviluppo, carica anche l aversione ingrandita
+      for (Carta c : carte){
+          CartaGraphic carta = new CartaGraphic(c.getNome(), c.getTipoCarta(), getImage(c.getNome(), c.getTipoCarta(), cartaW, cartaH), getImage(c.getNome(), c.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA));
+          int numOpzioniCosto=0;
+          int numOpzioniImmed=0;
+          int numOpzioniPerma=0;
+          for (Effetto e : c.getEffettoImmediato()){
+              if(e instanceof ScambiaRisorse && ((ScambiaRisorse)e).getNumeroOpzioni()>1){
+                  ScambiaRisorse scambio = (ScambiaRisorse) e;
+                  if (scambio.isCosto()){
+                      numOpzioniCosto=scambio.getNumeroOpzioni();
+                  } else {
+                      numOpzioniImmed=scambio.getNumeroOpzioni();
+                  }
+              }
+          }
+          for (Effetto e : c.getEffettoImmediato()){
+              if(e instanceof ScambiaRisorse && ((ScambiaRisorse)e).getNumeroOpzioni()>1){
+                  numOpzioniPerma=((ScambiaRisorse)e).getNumeroOpzioni();
+              }
+          }
+          if(numOpzioniCosto>1 || numOpzioniImmed>1 ||numOpzioniPerma>1) carta.setNumeroMaxScelte(numOpzioniCosto, numOpzioniImmed, numOpzioniPerma);
+          this.carte.add(carta);
+      }
+
+      for(TesseraScomunica t : tessereScomunica){
+         this.carte.add(new CartaGraphic(t.getNome(), t.getTipoCarta(), getImage(t.getNome(), t.getTipoCarta(), cartaScomW, cartaScomH), getImage(t.getNome(), t.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA)));
+      }
    }
 
    /**

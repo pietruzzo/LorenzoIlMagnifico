@@ -90,4 +90,5 @@ public class CasellaGraphic extends Rectangle {
         pedine.getChildren().remove(familiare);
     }
 
+
 }

@@ -44,7 +44,7 @@ public class PlanciaGiocatore extends Pane {
     CarteFuoriPlancia cartePersonaggio;
 
 
-    PlanciaGiocatore(){
+    public PlanciaGiocatore(){
 
         numCarteEdificio=0;
         numCarteTerritorio=0;
@@ -71,6 +71,7 @@ public class PlanciaGiocatore extends Pane {
         settaRisorse(new Risorsa());
 
         //CreaGruppo con immaginePlancia ed altri elementi del giocatore
+        //TODO implementa le carte fuori plancia
     }
 
     /**
@@ -97,23 +98,23 @@ public class PlanciaGiocatore extends Pane {
 
     public void aggiungiCarta(CartaGraphic carta) {
         if (carta.getTipoCarta() == TipoCarta.Edificio) {
-            carta.setX(PRIMACARTAX + numCarteEdificio * OFFSETX -carta.getImage().getWidth()/2);
-            carta.setY(EDIFICIOY -carta.getImage().getHeight()/2);
+            carta.setLayoutX(PRIMACARTAX + numCarteEdificio * OFFSETX -carta.getDimensioni().getWidth()/2);
+            carta.setLayoutY(EDIFICIOY -carta.getDimensioni().getHeight()/2);
             numCarteEdificio = numCarteEdificio + 1;
         } else if (carta.getTipoCarta() == TipoCarta.Territorio) {
-            carta.setX(PRIMACARTAX + numCarteTerritorio * OFFSETX -carta.getImage().getWidth()/2);
+            carta.setLayoutX(PRIMACARTAX + numCarteTerritorio * OFFSETX -carta.getDimensioni().getWidth()/2);
             numCarteTerritorio = numCarteTerritorio + 1;
-            carta.setY(TERRITORIOY -carta.getImage().getHeight()/2);
+            carta.setLayoutY(TERRITORIOY -carta.getDimensioni().getHeight()/2);
         } else {
-            carta.setX(PRIMACARTAX + 7 * OFFSETX);
+            carta.setLayoutX(PRIMACARTAX + 7 * OFFSETX);
             if (carta.getTipoCarta() == TipoCarta.Impresa) {
-                carta.setY(EDIFICIOY);
+                carta.setLayoutY(EDIFICIOY);
                 carta.setOnMouseClicked(mouseEvent -> {
                     carteImpresa.setVisible(true);});
                 carta.setOnDragExited(mouseEvent ->{
                     carteImpresa.setVisible(false);});
             } else {
-                carta.setY(TERRITORIOY);
+                carta.setLayoutY(TERRITORIOY);
                 carta.setOnMouseClicked(mouseEvent -> {
                     cartePersonaggio.setVisible(true);});
                 carta.setOnDragExited(mouseEvent ->{
@@ -136,8 +137,8 @@ class CarteFuoriPlancia extends Pane{
 
     void aggiungiCarta(CartaGraphic carta){
         CartaGraphic cartaAggiunta = carta.clone();
-        cartaAggiunta.setX(0);
-        cartaAggiunta.setY(0);
+        cartaAggiunta.setLayoutX(0);
+        cartaAggiunta.setLayoutY(0);
         boxCarte.getChildren().add(cartaAggiunta);
     }
 }

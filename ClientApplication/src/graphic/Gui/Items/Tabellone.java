@@ -1,6 +1,9 @@
 package graphic.Gui.Items;
 
 import Domain.ColoreDado;
+import Domain.Risorsa;
+import Domain.TesseraScomunica;
+import graphic.Gui.Controller;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -36,11 +39,12 @@ public class Tabellone extends AnchorPane{
     private CaselleGioco caselle;
     private DadiGraphic dadi;
     private CasellePunti punti;
+    private Controller callback;
+    private Map<GiocatoreGraphic, Rectangle> scomuniche;
 
 
 
-
-    public Tabellone(){
+    public Tabellone(Controller callback){
         ImageView immagineTabellone;
 
         //setta il tabellone in attesa della partita
@@ -59,30 +63,32 @@ public class Tabellone extends AnchorPane{
      * @param listaGiocatori giocatori partecipanti
      */
     @NotNull
-    public void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori){
+    public void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica){
 
         if (listaGiocatori.size()>2){
             ImageView immagineTabellone;
             this.getChildren().clear();
             immagineTabellone= new ImageView(caricaImmagineTabellone(listaGiocatori.size()));
         }
-        caselle = new CaselleGioco(listaGiocatori.size());
-        caselle.printOnAnchorPane(this);
+        caselle = new CaselleGioco(listaGiocatori.size(), this);
 
         punti= new CasellePunti(listaGiocatori);
 
         this.getChildren().addAll(punti, dadi);
+
+        //Inizializza scomunica
+        aggiungiCartaScomunica(tessereScomunica[0], 1);
+        aggiungiCartaScomunica(tessereScomunica[1], 2);
+        aggiungiCartaScomunica(tessereScomunica[2], 3);
+
+        scomuniche= new HashMap<>();
+        for(GiocatoreGraphic giocatore: listaGiocatori){
+            Rectangle scomunica = new Rectangle(15, 15, giocatore.getColoreGiocatore().getColore());
+            scomunica.setVisible(false);
+            scomuniche.put(giocatore, scomunica);
+        }
     }
 
-    public void aggiungiCarta(CartaGraphic carta, CasellaConCartaGraphic casella){
-
-        //Centra la carta nella casella
-        carta.setX(casella.getSpazioCartaX()-carta.getImage().getWidth()/2);
-        carta.setY(casella.getSpazioCartaY()-carta.getImage().getHeight()/2);
-
-        //Aggiungi la carta al Tabellone
-        this.getChildren().add(carta);
-    }
 
     /**
      * Rimuovi la carta indicata dal Tabellone
@@ -103,19 +109,26 @@ public class Tabellone extends AnchorPane{
         CasellaGraphic casella = caselle.getCasellabyId(idCasella);
         casella.aggiungiPedina(familiare);
 
-        if(true /*TODO:  idPalazzoConsiglio == idCasella*/){
+        if(idCasella==25){
             punti.updateOrdineGiro(giocatore);
+        }
+        else if(casella instanceof CasellaConCartaGraphic ){
+            CasellaConCartaGraphic c = (CasellaConCartaGraphic) casella;
+            if(c.getCartaAssociata()!=null){
+                callback.cartaTabelloneToGiocatore(c.getCartaAssociata());
+            }
         }
     }
 
     /**
-     * Rimuovi il familiare dalla casella indicata sul tabellone
+     * Rimuovi il familiare dalla sul tabellone
      * @param familiare
-     * @param idCasella
      */
-    public void rimuoviFamiliare( FamiliareGraphic familiare, int idCasella){
-        CasellaGraphic casella = caselle.getCasellabyId(idCasella);
-        casella.rimuoviFamiliare(familiare);
+    public void rimuoviFamiliare( FamiliareGraphic familiare){
+        for (CasellaGraphic c : caselle.getListaCaselle()) {
+            if(c.getPedine().getChildren().contains(familiare))
+                c.getPedine().getChildren().remove(familiare);
+        }
     }
 
     /**
@@ -123,39 +136,66 @@ public class Tabellone extends AnchorPane{
      * @param carta carta da aggiungere
      * @param periodo periodo a cui aggiungere la carta {1, 2, 3}
      */
-    public void aggiungiCartaScomunica(CartaGraphic carta, int periodo){
+    private void aggiungiCartaScomunica(CartaGraphic carta, int periodo){
 
-        carta.setX(POSIZIONE_SCOMUNICA[periodo-1].getX()-carta.getImage().getWidth()/2);
-        carta.setY(POSIZIONE_SCOMUNICA[periodo-1].getY()-carta.getImage().getHeight()/2);
+        carta.setLayoutX(POSIZIONE_SCOMUNICA[periodo-1].getX()-carta.getDimensioni().getWidth()/2);
+        carta.setLayoutY(POSIZIONE_SCOMUNICA[periodo-1].getY()-carta.getDimensioni().getHeight()/2);
         this.getChildren().add(carta);
     }
 
     /**
      * Aggiungi la carta sul campo associandola alla casella indicata
-     * @param casella
+     * @param idCasella
      * @param carta
      */
-    public void aggiungiCartaAzione(@NotNull CasellaConCartaGraphic casella,@NotNull CartaGraphic carta){
-        carta.setX(casella.getSpazioCartaX() - carta.getImage().getWidth()/2);
-        carta.setY(casella.getSpazioCartaY() - carta.getImage().getHeight()/2);
+    public void aggiungiCartaAzione(@NotNull int idCasella,@NotNull CartaGraphic carta){
+
+        CasellaConCartaGraphic casella = (CasellaConCartaGraphic) caselle.getCasellabyId(idCasella);
+        //centra la carta
+        carta.setLayoutX(casella.getSpazioCartaX() - carta.getDimensioni().getWidth()/2);
+        carta.setLayoutY(casella.getSpazioCartaY() - carta.getDimensioni().getHeight()/2);
+
+        //aggiungi la carta al tabellone
         carta.setVisible(true);
         this.getChildren().add(carta);
+
+        //Aggiungi la carta alla casella
+        casella.setCartaAssociata(carta);
     }
 
-    /**
-     * Rimuovi la carta indicata dal tabellone
-     * @param casella
-     * @param carta
-     */
-    public void rimuoviCartaAzione(@NotNull CasellaConCartaGraphic casella,@NotNull CartaGraphic carta){
-        this.getChildren().remove(carta);
-    }
+    public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){//TODO
+         }
 
+    public void rimuoviCarteTorre(){
+        for (CasellaGraphic c :caselle.getListaCaselle()){
+            if(c instanceof CasellaConCartaGraphic){
+                CasellaConCartaGraphic casT = (CasellaConCartaGraphic) c;
+                if(casT.getCartaAssociata()!=null){
+                    this.getChildren().remove(casT.getCartaAssociata());
+                    casT.setCartaAssociata(null);
+                }
+            }
+        }
+    }
 
     public void settaDadi(int nero, int bianco, int arancio){
         dadi.setFacce(nero, bianco, arancio);
     }
 
+
+    public void disabilitaCasella(int idCasella){
+        caselle.getCasellabyId(idCasella).setVisible(false);
+    }
+
+    public void aggiornaPunti(GiocatoreGraphic giocatore, Risorsa risorsa){
+        punti.setPuntiFede(giocatore, risorsa.getPuntiFede());
+        punti.setPuntiMilitari(giocatore, risorsa.getPuntiMilitari());
+        punti.setPuntiVittoria(giocatore, risorsa.getPuntiVittoria());
+    }
+
+    public  void azzeraPuntiFede(GiocatoreGraphic giocatore){
+        punti.setPuntiFede(giocatore, 0);
+    }
 
     @NotNull
     private Image caricaImmagineTabellone(int numGiocatori){

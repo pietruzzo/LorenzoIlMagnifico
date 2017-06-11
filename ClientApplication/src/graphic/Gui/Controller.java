@@ -1,5 +1,7 @@
 package graphic.Gui;
 
+import Domain.Risorsa;
+import graphic.Gui.Items.CartaGraphic;
 import lorenzo.Applicazione;
 import lorenzo.MainGame;
 
@@ -9,4 +11,6 @@ import lorenzo.MainGame;
  */
 public interface Controller {
     void setArgApplicationGui(MainGame mainGame);
+    void cartaTabelloneToGiocatore(CartaGraphic carta);
+    void riscossionePrivilegio(Risorsa risorse);
 }

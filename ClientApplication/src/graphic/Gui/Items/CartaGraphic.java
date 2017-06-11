@@ -2,10 +2,12 @@ package graphic.Gui.Items;
 
 import Domain.TipoCarta;
 import javafx.event.EventHandler;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -22,7 +24,7 @@ import javax.swing.border.StrokeBorder;
  *      rimuoviSceltaImmediataeCosto
  *      getIngrandimento -> per ottenere la carta ingrandita con le scelte
  */
-public class CartaGraphic extends ImageView {
+public class CartaGraphic extends Group {
 
     private static final Point2D POSIZIONESCELTAIMMEDIATO = new Point2D(135, 225);
     private static final Point2D POSIZIONESCELTACOSTO = new Point2D(20, 60);
@@ -35,6 +37,7 @@ public class CartaGraphic extends ImageView {
     private TipoCarta tipoCarta;
     private String nome;
     private Group ingrandimento;
+    private Dimension2D dimensioni;
 
     private int numSceltaCosto;
     private int numSceltaImmed;
@@ -48,7 +51,7 @@ public class CartaGraphic extends ImageView {
     private Integer sceltaCorrenteImmediato;
 
     CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita) {
-        super(immagineCarta);
+        super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
         this.nome = nome;
 
@@ -57,12 +60,27 @@ public class CartaGraphic extends ImageView {
         cartaIngranditaView.setFitWidth(cartaIngrandita.getWidth());
         cartaIngranditaView.setFitHeight(cartaIngrandita.getHeight());
         this.ingrandimento = new Group();
+        ingrandimento.setTranslateX(this.getLayoutX());
+        ingrandimento.setTranslateY(this.getLayoutY());
         this.ingrandimento.getChildren().add(cartaIngranditaView);
+        this.getChildren().add(ingrandimento);
+        ingrandimento.setVisible(false);
+
+        //setDimensioni
+        this.dimensioni = new Dimension2D(immagineCarta.getWidth(), immagineCarta.getHeight());
 
         //inizializza le scelte
         numSceltaPerm = 1;
         numSceltaCosto = 1;
         numSceltaImmed = 1;
+
+        //ingrandisci Carta
+        this.setOnMouseDragEntered(mouseDragEvent -> {
+            ingrandimento.setVisible(true);
+        });
+        this.setOnMouseDragExited(mouseDragEvent -> {
+            ingrandimento.setVisible(false);
+        });
     }
 
     public void setNumeroMaxScelte(int costo, int immediato, int permanente) {
@@ -71,8 +89,13 @@ public class CartaGraphic extends ImageView {
         this.numSceltaPerm = permanente;
     }
 
+    public Dimension2D getDimensioni(){
+        return this.dimensioni;
+    }
+
     public void generaSceltaImmediataeCosto() {
 
+        ingrandimento.setVisible(true);
         //Inizializza le scelte
         sceltaCorrenteCosto=null;
         sceltaCorrenteImmediato=null;
@@ -112,6 +135,7 @@ public class CartaGraphic extends ImageView {
 
     public void generaSceltaPermanente() {
 
+        ingrandimento.setVisible(true);
         //crea rettangoli
         permanente = new Rectangle[numSceltaPerm];
         setAree(permanente, POSIZIONESCELTAPERMANENTE, DIMENSIONESCELTAPERMANENTE);

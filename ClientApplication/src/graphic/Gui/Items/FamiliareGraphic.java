@@ -29,5 +29,7 @@ public class FamiliareGraphic extends Group {
 
     }
 
-
+    public ColoreDado getColore() {
+        return colore;
+    }
 }

@@ -270,6 +270,12 @@ public class Tabellone implements Serializable {
         return this.bonusVittoriaPerTerritori.get(numCarteTerritorio);
     }
 
+    /**
+     * @return lista delle Tessere Scomunica
+     */
+    public List<TesseraScomunica> getCarteScomunica() {
+        return carteScomunica;
+    }
 
     /**
      * Ritorna il bonus vittoria associato al numero di carte personaggio

@@ -1,6 +1,8 @@
 package graphic.Gui;
 
 
+import Domain.Risorsa;
+import graphic.Gui.Items.CartaGraphic;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,6 +60,7 @@ public class ControllerLogin implements Controller {
             mainGame.Login(nomeUtente);
             mainGame.AvviaUI(tipoInterfaccia);
             mainGame.VerificaInizioAutomatico();
+
         } catch (Exception e) {
             messaggioErrore.setText(e.getMessage());
         }
@@ -67,5 +70,15 @@ public class ControllerLogin implements Controller {
     @Override
     public void setArgApplicationGui(MainGame mainGame) {
         this.mainGame= mainGame;
+    }
+
+    @Override
+    public void cartaTabelloneToGiocatore(CartaGraphic carta) {
+
+    }
+
+    @Override
+    public void riscossionePrivilegio(Risorsa risorse) {
+
     }
 }

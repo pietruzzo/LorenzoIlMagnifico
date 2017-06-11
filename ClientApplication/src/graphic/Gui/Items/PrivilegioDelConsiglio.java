@@ -1,6 +1,7 @@
 package graphic.Gui.Items;
 
 import Domain.Risorsa;
+import graphic.Gui.Controller;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
@@ -33,11 +34,15 @@ public class PrivilegioDelConsiglio extends Pane{
 
     private Rectangle[] aree;
     private int numPergamene;
+    private Pane pannelloPadre;
+    private Controller callback;
 
-    PrivilegioDelConsiglio(int numPergamene){
+    PrivilegioDelConsiglio(int numPergamene, Pane pannelloPadre, Controller callback){
 
         super();
         this.numPergamene=numPergamene;
+        this.pannelloPadre=pannelloPadre;
+        this.callback=callback;
 
         this.setWidth(DIMENSIONEPANNELLO.getX());
         this.setHeight(DIMENSIONEPANNELLO.getY());
@@ -61,6 +66,11 @@ public class PrivilegioDelConsiglio extends Pane{
 
             this.getChildren().add(aree[i]);
         }
+        pannelloPadre.getChildren().add(this);
+    }
+
+    public static void generaPrivilegioDelConsiglio(int numPergamene, Pane pannelloPadre, Controller controllerUi){
+       new PrivilegioDelConsiglio(numPergamene, pannelloPadre, controllerUi);
     }
 
     private void toggleScelta(int i){
@@ -83,7 +93,8 @@ public class PrivilegioDelConsiglio extends Pane{
                     if (aree[j].getStroke()==Color.BLUE)
                     risorseSelezionate.add(RISORSEPRIVILEGIO[j]);
                 }
-                //TODO rispondi al server con le risorse
+                callback.riscossionePrivilegio(risorseSelezionate);
+                pannelloPadre.getChildren().remove(this);
             }
         }
     }

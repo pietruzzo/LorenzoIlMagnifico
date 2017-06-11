@@ -34,4 +34,6 @@ public class CasellaConCartaGraphic extends CasellaGraphic{
     public CartaGraphic getCartaAssociata() {
         return cartaAssociata;
     }
+
+    public void setCartaAssociata(CartaGraphic carta){ this.cartaAssociata=carta;}
 }

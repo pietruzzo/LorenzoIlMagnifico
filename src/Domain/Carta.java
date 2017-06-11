@@ -82,4 +82,8 @@ public abstract class Carta implements Serializable{
     public List<Effetto> getEffettoPermanente() {
         return EffettoPermanente;
     }
+
+    public String getNome() {
+        return Nome;
+    }
 }
