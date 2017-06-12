@@ -3,6 +3,7 @@ package server;
 import Domain.ColoreDado;
 import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Risorsa;
+import Domain.SpazioAzione;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -163,5 +164,16 @@ public class PartitaTest {
         assertFalse(michele.getRapportoVaticanoEffettuato());
         assertFalse(pietro.getRapportoVaticanoEffettuato());
         assertEquals(2, partita.getTurno());
+    }
+
+    @Test
+    public void piazzaFamiliare_PalazzoConsiglio()throws Exception {
+        GiocatoreRemoto michele = partita.getGiocatoriPartita().get(0);
+        partita.InizioNuovoTurno();
+
+        partita.PiazzaFamiliare(new PiazzaFamiliareDTO(michele.getIdGiocatore(), ColoreDado.NEUTRO, 25, 1));
+
+        //Piazzando nel palazzo del consiglio deve scegliere una pergamena
+        assertEquals(1, michele.getPrivilegiDaScegliere());
     }
 }

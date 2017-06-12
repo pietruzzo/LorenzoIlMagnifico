@@ -58,10 +58,12 @@ public class GiocatoreRemotoForTest extends GiocatoreRemoto {
 
     @Override
     public void SceltaPrivilegioConsiglio(int numPergamene) throws NetworkException {
+        this.incrementaPrivilegiDaScegliere();
     }
 
     @Override
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
+        this.setAzioneBonusDaEffettuare(true);
     }
 }
 

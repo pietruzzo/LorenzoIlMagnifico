@@ -199,6 +199,30 @@ public class SpazioAzioneTorreTest {
     }
 
     @Test
+    public void piazzaFamiliare_EffettoAnnullaBonusSpazioAzione() throws Exception {
+        CartaPersonaggio predicatore = (CartaPersonaggio)tabellone.getCartaByName("Predicatore");
+        giocatore.CartePersonaggio.add(predicatore);
+        //Necessari per prendere la carta
+        giocatore.Risorse.setRisorse(Risorsa.TipoRisorsa.PMILITARI, 10);
+
+        Carta crociata = tabellone.getCartaByName("Crociata");
+        spazioAzione.AssociaCarta(crociata);
+
+        spazioAzione.PiazzaFamiliare(familiare, 1);
+
+        assertEquals(familiare, spazioAzione.FamiliarePiazzato);
+        assertEquals(10, giocatore.Risorse.getMonete()); //Prese dall'effetto immediato della carta (+5)
+        assertEquals(2, giocatore.Risorse.getLegno()); //Non le prende dal bonus spazio azione per effetto del Predicatore
+        assertEquals(1, giocatore.Risorse.getPuntiFede()); //Presi dall'effetto immediato della carta
+        assertEquals(7, giocatore.Risorse.getPuntiMilitari()); //La crociata ne richiede 6 ma ne fa spendere solo 3
+
+        assertFalse(giocatore.getAzioneBonusDaEffettuare());
+        assertTrue(giocatore.CartePersonaggio.contains(predicatore));
+        assertTrue(giocatore.CarteImpresa.contains(crociata));
+        assertNull(spazioAzione.CartaAssociata);
+    }
+
+    @Test
     public void validaPiazzamentoFamiliare_Ok() throws Exception {
         Carta monastero = tabellone.getCartaByName("Monastero");
         spazioAzione.AssociaCarta(monastero);
@@ -281,7 +305,7 @@ public class SpazioAzioneTorreTest {
         Carta innalzareUnaStatua = tabellone.getCartaByName("InnalzareUnaStatua");
         spazioAzione.AssociaCarta(innalzareUnaStatua);
 
-        spazioAzione.AzioneBonusEffettuata(giocatore, 4, new Risorsa(Risorsa.TipoRisorsa.PIETRA, 2), 1);
+        spazioAzione.AzioneBonusEffettuata(giocatore, 4, new Risorsa(Risorsa.TipoRisorsa.PIETRA, 1), 1);
 
         assertNull(spazioAzione.FamiliarePiazzato);
         assertEquals(5, giocatore.Risorse.getMonete()); //Immutate
@@ -289,7 +313,8 @@ public class SpazioAzioneTorreTest {
         assertEquals(1, giocatore.Risorse.getPietra()); //Prese dal bonus EffettoAzioneBonus e spese per la carta
         assertEquals(2, giocatore.Risorse.getServi()); //Spesi per aumento valore
 
-        assertEquals(1, giocatore.getPrivilegiDaScegliere()); //Effetto carta
+        //funziona solo se eseguito da GiocatoreRemoto
+        //assertEquals(1, giocatore.getPrivilegiDaScegliere()); //Effetto carta
         assertFalse(giocatore.getAzioneBonusDaEffettuare());
         assertTrue(giocatore.CarteImpresa.contains(innalzareUnaStatua));
         assertNull(spazioAzione.CartaAssociata);

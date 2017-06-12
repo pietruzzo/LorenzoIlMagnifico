@@ -3,6 +3,7 @@ package Domain.Effetti;
 import Domain.*;
 import Domain.Effetti.lista.ScambiaRisorse;
 import Domain.Effetti.lista.effectInterface.*;
+import Exceptions.DomainException;
 import Exceptions.SaltaTurnoException;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
 import org.jetbrains.annotations.NotNull;
@@ -97,7 +98,7 @@ public class GestoreEffettiGiocatore  {
      * @apiNote La carta presente in Torre non deve essere stata ancora aggiunta a giocatore, costo ed azione vengono
      * sovrascritti, casella e risorseAllocate solo letti
      */
-    public void validaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella){
+    public void validaAzione(Risorsa costo, AtomicInteger azione, SpazioAzione casella) throws DomainException {
         validaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
     }
 
@@ -158,7 +159,7 @@ public class GestoreEffettiGiocatore  {
      * Applica tutti gli effetti che si scatenano all'inizio del turno
      * @param turno turno che sta per cominciare
      */
-    public void inizioTurno(int turno) {
+    public void inizioTurno(int turno) throws SaltaTurnoException {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
         for (Carta c : listaCarte) {

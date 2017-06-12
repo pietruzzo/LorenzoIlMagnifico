@@ -25,6 +25,6 @@ public class DisabilitaCasella extends Effetto implements Validabile {
 
     @Override
     public void valida(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa) throws SpazioAzioneDisabilitatoEffettoException{
-        if (casella!=null && caselleDisabilitate.contains(casella)) throw new SpazioAzioneDisabilitatoEffettoException();
+        if (casella!=null && caselleDisabilitate.contains(casella)) throw new SpazioAzioneDisabilitatoEffettoException("Questa casella è disabilitata per effetto di una carta!");
     }
 }
