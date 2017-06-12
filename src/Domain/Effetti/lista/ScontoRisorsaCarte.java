@@ -37,9 +37,10 @@ public class ScontoRisorsaCarte extends Effetto implements Azionabile, Validabil
                 Risorsa costoCarta= spazioAzioneTorre.getCartaAssociata().getCostoRisorse();
                 TipoCarta tipoCartaTorre = spazioAzioneTorre.getCartaAssociata().getTipoCarta();
 
-                costoCarta.sub(risorseBonus);
-                costoCarta = Risorsa.setNegToZero(costoCarta);
-                costo.sub(costoCarta);
+                Risorsa bonusApplicabile= Risorsa.sub(costoCarta, risorseBonus);
+                bonusApplicabile=Risorsa.setNegToZero(bonusApplicabile);
+                bonusApplicabile=Risorsa.sub(costoCarta, bonusApplicabile);
+                costo.sub(bonusApplicabile);
             }
         }
     }

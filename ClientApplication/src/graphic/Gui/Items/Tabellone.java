@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -31,7 +32,7 @@ public class Tabellone extends AnchorPane{
     private static final int DIMX = 863;
     private static final int DIMY = 1201;
     //Percorso dei tabelloni
-    private static final String URL = "file:"+System.getProperty("user.dir")+separator+"src"+separator+ "Risorse";
+    private static final String URL = "file:"+System.getProperty("user.dir")+separator+ "ClientApplication"+ separator + "Risorse"+ separator;
 
     private static final Point2D[] POSIZIONE_SCOMUNICA = {new Point2D(195, 785), new Point2D(258, 792), new Point2D(325, 782)};
 
@@ -51,6 +52,9 @@ public class Tabellone extends AnchorPane{
         immagineTabellone= new ImageView(caricaImmagineTabellone(2));
         immagineTabellone.setFitHeight(DIMY);
         immagineTabellone.setFitWidth(DIMX);
+        immagineTabellone.setVisible(true);
+        this.getChildren().add(immagineTabellone);
+
 
         //inizializza dadi
         dadi=new DadiGraphic();
@@ -199,7 +203,7 @@ public class Tabellone extends AnchorPane{
 
     @NotNull
     private Image caricaImmagineTabellone(int numGiocatori){
-        return new Image(URL+"Tabellone"+numGiocatori+"Players.jpg", DIMX, DIMY, true, true, true);
+        return new Image(URL+"Tabellone"+numGiocatori+"Players.jpg", DIMX, DIMY, false, false, false);
     }
 
 }

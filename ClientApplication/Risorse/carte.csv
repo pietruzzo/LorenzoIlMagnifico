@@ -390,7 +390,8 @@ TIPO	Personaggio
 PERIODO	1															
 COSTO	0	0	0	4	0	0	0									
 LISTA_EFFETTI																
-AumentaValoreAzione	false	Personaggio	2	0	0	0	1	0	0	0						
+AumentaValoreAzione	false	Personaggio	2													
+ScontoRisorseXCarte	false	Personaggio	0	0	0	1	0	0	0							
 END																
 																
 NOME	Ducato															
@@ -486,7 +487,7 @@ TIPO	Personaggio
 PERIODO	3															
 COSTO	0	0	0	5	0	0	0									
 LISTA_EFFETTI																
-ScambiaRisorse	true	0	0	0	0	0	0	0		1	0	0	0	0	0	0
+BonusRisorseXRisorse	true	PMILITARI	PVITTORIA	0.5												
 END																
 																
 NOME	Giardino															
@@ -578,7 +579,7 @@ END
 NOME	InnalzareUnaStatua															
 TIPO	Impresa															
 PERIODO	1															
-COSTO	0	0	0	8	0	0	0									
+COSTO	2	2	0	0	0	0	0									
 LISTA_EFFETTI																
 Pergamena	true	2														
 EndGame	false	4														
@@ -1010,7 +1011,7 @@ NOME	15
 TIPO	Scomunica															
 PERIODO	3															
 LISTA_EFFETTI																
-EndGame	false	-1	-1	-1	-1	0	0	0
+EndGame	false	-1	-1	-1	-1	0	0	0								
 END																
 																
 NOME	16															

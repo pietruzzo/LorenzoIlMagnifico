@@ -26,6 +26,7 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
 
         opzioni = new Opzioni(costi, guadagni, defaultChoice);
         this.costo = costo;
+        opzioni.setOpzione(0);
     }
 
     /**

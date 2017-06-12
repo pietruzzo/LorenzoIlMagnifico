@@ -11,18 +11,18 @@
 
 <Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
    <children>
-      <AnchorPane fx:id="pannello" prefHeight="1300.0" prefWidth="2000.0">
+      <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0">
          <children>
             <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                <top>
-                  <SplitPane dividerPositions="0.45" prefHeight="1300.0" prefWidth="2000.0" BorderPane.alignment="CENTER">
+                  <SplitPane disable="true" dividerPositions="0.41" prefHeight="1201.0" prefWidth="2135.0" BorderPane.alignment="CENTER">
                     <items>
-                      <AnchorPane id="tabelloneGridPane" fx:id="tabellonePane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                      <AnchorPane id="tabelloneGridPane" fx:id="tabellonePane" minHeight="0.0" minWidth="0.0" prefHeight="1201.0" prefWidth="863.0" />
                         <SplitPane dividerPositions="0.85" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                           <items>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="200.0" prefWidth="200.0" />
+                                    <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" />
                                     <GridPane id="infoPlayersGridPane" fx:id="infoGiocatoriPane">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="208.0" />

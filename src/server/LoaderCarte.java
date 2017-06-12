@@ -354,16 +354,17 @@ public class LoaderCarte {
                         if (rigaCorrente[1].equals("true")) immediati.add(new ScontoRisorsaCarte(card, stringToRisorsa(Arrays.copyOfRange(rigaCorrente, 3, 10))));
                             else permanenti.add(new ScontoRisorsaCarte(card, stringToRisorsa(Arrays.copyOfRange(rigaCorrente, 3, 10))));
                     } catch (Exception e){
-                        throw new IllegalArgumentException("ScontoRisorsePerCarte non riconosciuta correttamente");
+                        throw new IllegalArgumentException("ScontoRisorsePerCarte non riconosciuta correttamente"+ e.getMessage());
                     }
                     break;
                 case "BonusRisorseXRisorse":
                     try{
-                        //TipoRisorsa, RisorsaBonus//
                         Risorsa.TipoRisorsa tipoRisorsa1= Risorsa.TipoRisorsa.valueOf(rigaCorrente[2]);
-                        immediati.add(new BonusRisorseXRisorse(tipoRisorsa1, stringToRisorsa(Arrays.copyOfRange(rigaCorrente, 3, 10))));
+                        Risorsa.TipoRisorsa tipoRisorsa2= Risorsa.TipoRisorsa.valueOf(rigaCorrente[3]);
+                        double fattore = Double.parseDouble(rigaCorrente[4]);
+                        immediati.add(new BonusRisorseXRisorse(tipoRisorsa1, tipoRisorsa2, fattore));
                     } catch (Exception e){
-                        throw new IllegalArgumentException("ScontoRisorsePerCarte non riconosciuta correttamente");
+                        throw new IllegalArgumentException("BonusRisorseXRisorse non riconosciuto correttamente");
                     }
                     break;
                 case "LISTA_EFFETTI":

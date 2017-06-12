@@ -69,7 +69,12 @@ public class Applicazione extends Application {
         Scene gioco;
         Parent campo = null;
         try{
-            campo= getFXML("campo_gioco_scene.fxml", controllerCampoGioco);
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            campo = fxmlLoader.load(new FileInputStream(fxmlPath + "campo_gioco_scene.fxml"));
+
+            Object controllerFromFXML = fxmlLoader.getController();
+            controllerCampoGioco = (ControllerCampoGioco) controllerFromFXML;
+            controllerCampoGioco.setArgApplicationGui(this.mainGame);
             gioco = new Scene(campo);
             finestra.setTitle("Lorenzo il Magnifico");
             finestra.setScene(gioco);

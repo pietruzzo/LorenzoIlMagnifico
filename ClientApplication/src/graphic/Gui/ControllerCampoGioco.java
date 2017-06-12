@@ -5,17 +5,13 @@ import graphic.Gui.Items.*;
 import graphic.Gui.Items.Tabellone;
 import graphic.Ui;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
 import java.awt.*;
-import java.awt.Button;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,6 +36,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     private List<GiocatoreGraphic> giocatori;
     private PlanciaGiocatore plancia;
     private int idGiocatoreClient;
+    private HBox familiariDisponibili;
 
     @FXML private void initialize(){
 
@@ -60,11 +57,20 @@ public class ControllerCampoGioco implements Ui, Controller {
         tabelloneController = new Tabellone(this);
         tabellonePane.getChildren().add(tabelloneController);
 
+        //Bottone "Comincia subito"
+        javafx.scene.control.Button start = new javafx.scene.control.Button("Comincia adesso");
+        start.setOnMouseClicked(mouseEvent -> {
+            mainGame.IniziaPartita();
+            familiariPane.getChildren().remove(start);
+        });
+        familiariPane.getChildren().add(start);
+/*      TODO crea problemi
         //Inizializza la plancia del giocatore
         plancia = new PlanciaGiocatore();
+        planciaGiocatorePane.getChildren().add(plancia);
 
         //Aggiungi i messaggi all'area dei familiari
-        familiariPane.getChildren().add(messaggi);
+        familiariPane.getChildren().add(messaggi);*/
     }
 
     @Override
@@ -134,6 +140,13 @@ public class ControllerCampoGioco implements Ui, Controller {
 
             //Genera il mazzo di carte
             mazzo= new CarteGioco(tabellone.getMazzoCarte(), tessere);
+
+            //Disponi i Familiari disponibili
+            familiariDisponibili = new HBox();
+            familiariDisponibili.setSpacing(10);
+            familiariDisponibili.setLayoutX(920);
+            familiariDisponibili.setLayoutY(1000);
+            disponiFamiliari();
         });
     }
 
@@ -194,14 +207,16 @@ public class ControllerCampoGioco implements Ui, Controller {
             for (Integer i : carte.keySet()){
                 tabelloneController.aggiungiCartaAzione(i, mazzo.getCarta(carte.get(i)));
             }
+
+            //Disponi i familiari
+            disponiFamiliari();
         });
     }
 
     @Override
     public void iniziaMossa(int idGiocatore) {
-        //TODO rendi disponibili i familiari se è il tuo turno, altrimenti notifica di chi è il turno
         if(idGiocatore==idGiocatoreClient){
-            //tuo turno
+            abilitaFamiliari();
         } else {
             this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
         }
@@ -277,5 +292,27 @@ public class ControllerCampoGioco implements Ui, Controller {
             if(giocatore.getIdGiocatore()==idGiocatore) return giocatore;
         }
         throw new NullPointerException(idGiocatore+ " non è presente nella lista GiocatoriGraphic");
+    }
+
+    private void disponiFamiliari(){
+        familiariDisponibili.getChildren().clear();
+        for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
+            familiariDisponibili.getChildren().add(f);
+        }
+        abilitaFamiliari();
+    }
+
+    private void disabilitaFamiliari(){
+        for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
+            familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GRAY, null, null)));
+            familiariDisponibili.setDisable(true);
+        }
+    }
+
+    private void abilitaFamiliari(){
+        for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
+            familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GRAY, null, null)));
+            familiariDisponibili.setDisable(false);
+        }
     }
 }
