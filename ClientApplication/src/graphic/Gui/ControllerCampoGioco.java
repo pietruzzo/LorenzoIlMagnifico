@@ -7,6 +7,7 @@ import graphic.Ui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
@@ -28,11 +29,11 @@ public class ControllerCampoGioco implements Ui, Controller {
     @FXML GridPane infoGiocatoriPane;
     @FXML AnchorPane familiariPane;
     @FXML AnchorPane tabellonePane;
+    @FXML javafx.scene.control.Label messaggi;
 
     private MainGame mainGame;
     private Tabellone tabelloneController;
     private CarteGioco mazzo;
-    private Text messaggi;
     private List<GiocatoreGraphic> giocatori;
     private PlanciaGiocatore plancia;
     private int idGiocatoreClient;
@@ -59,11 +60,14 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         //Bottone "Comincia subito"
         javafx.scene.control.Button start = new javafx.scene.control.Button("Comincia adesso");
+        start.setDisable(false);
         start.setOnMouseClicked(mouseEvent -> {
             mainGame.IniziaPartita();
             familiariPane.getChildren().remove(start);
         });
         familiariPane.getChildren().add(start);
+
+
 /*      TODO crea problemi
         //Inizializza la plancia del giocatore
         plancia = new PlanciaGiocatore();
@@ -305,14 +309,16 @@ public class ControllerCampoGioco implements Ui, Controller {
     private void disabilitaFamiliari(){
         for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
             familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GRAY, null, null)));
-            familiariDisponibili.setDisable(true);
+
         }
+        familiariDisponibili.setDisable(true);
     }
 
     private void abilitaFamiliari(){
         for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
             familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GRAY, null, null)));
-            familiariDisponibili.setDisable(false);
+
         }
+        familiariDisponibili.setDisable(false);
     }
 }

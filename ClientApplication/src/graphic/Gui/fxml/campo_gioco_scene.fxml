@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
+<Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
    <children>
       <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0">
          <children>
             <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                <top>
-                  <SplitPane disable="true" dividerPositions="0.41" prefHeight="1201.0" prefWidth="2135.0" BorderPane.alignment="CENTER">
+                  <SplitPane dividerPositions="0.41" prefHeight="1201.0" prefWidth="2135.0" BorderPane.alignment="CENTER">
                     <items>
                       <AnchorPane id="tabelloneGridPane" fx:id="tabellonePane" minHeight="0.0" minWidth="0.0" prefHeight="1201.0" prefWidth="863.0" />
                         <SplitPane dividerPositions="0.85" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
@@ -36,7 +38,14 @@
                                     </GridPane>
                                  </children>
                               </VBox>
-                            <AnchorPane id="bottomAnchorPane" fx:id="familiariPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                            <AnchorPane id="bottomAnchorPane" fx:id="familiariPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Label fx:id="messaggi" layoutX="14.0" layoutY="144.0" textFill="#e40404">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children></AnchorPane>
                           </items>
                         </SplitPane>
                     </items>
