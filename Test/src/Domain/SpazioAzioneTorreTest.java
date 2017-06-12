@@ -188,7 +188,8 @@ public class SpazioAzioneTorreTest {
 
         assertEquals(familiare, spazioAzione.FamiliarePiazzato);
         assertEquals(4, giocatore.Risorse.getMonete()); //Spese per la carta (costa 2, ma viene scontata dall'effetto della dama)
-        assertEquals(3, giocatore.Risorse.getLegno()); //Prese dal bonus spazio azione
+        assertEquals(2, giocatore.Risorse.getLegno()); //Immutati
+        assertEquals(3, giocatore.Risorse.getPietra()); //Prese dal bonus spazio azione (torre personaggi)
 
         //funziona solo se eseguito da GiocatoreRemoto
         //assertEquals(1, giocatore.getPrivilegiDaScegliere()); //Presi dall'effetto immediato della carta

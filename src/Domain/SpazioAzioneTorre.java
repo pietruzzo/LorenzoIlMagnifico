@@ -162,15 +162,17 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
             if(this.CartaAssociata instanceof CartaTerritorio)
                 this.ValidaCartaTerritorio(giocatore, costoEffetti.getPuntiMilitari());
 
-            this.FamiliarePiazzato.Giocatore.PagaRisorse(costoCarta);
+            super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
+
+            giocatore.PagaRisorse(costoCarta);
             this.CartaAssociata.AssegnaGiocatore(giocatore);
             this.CartaAssociata = null;
         }
+        else
+            super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
 
         if(torreOccupata)
-            this.FamiliarePiazzato.Giocatore.PagaRisorse(malusTorreOccupata);
-
-        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
+            giocatore.PagaRisorse(malusTorreOccupata);
     }
 
     /**

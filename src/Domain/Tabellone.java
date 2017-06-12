@@ -466,10 +466,20 @@ public class Tabellone implements Serializable {
         for (Giocatore giocatore : this.Giocatori) {
             int pVittoriaToAdd = 0;
 
-            //1/4/10/20 Punti Vittoria per 3/4/5/6 carte territorio sulla propria plancia giocatore.
-            pVittoriaToAdd += this.getBonusVittoriaByTerritori(giocatore.CarteTerritorio.size());
-            //1/3/6/10/15/21 Punti Vittoria per 1/2/3/4/5/6 carte personaggio sulla propria plancia giocatore.
-            pVittoriaToAdd += this.getBonusVittoriaByPersonaggi(giocatore.CartePersonaggio.size());
+            //Se il giocatore non ha carte scomunica che evitano i punti per i territori
+            if(!giocatore.CarteScomunica.stream().anyMatch(c -> c.Nome == "17"));
+            {
+                //1/4/10/20 Punti Vittoria per 3/4/5/6 carte territorio sulla propria plancia giocatore.
+                pVittoriaToAdd += this.getBonusVittoriaByTerritori(giocatore.CarteTerritorio.size());
+            }
+
+            //Se il giocatore non ha carte scomunica che evitano i punti per i personaggi
+            if(!giocatore.CarteScomunica.stream().anyMatch(c -> c.Nome == "16"));
+            {
+                //1/3/6/10/15/21 Punti Vittoria per 1/2/3/4/5/6 carte personaggio sulla propria plancia giocatore.
+                pVittoriaToAdd += this.getBonusVittoriaByPersonaggi(giocatore.CartePersonaggio.size());
+            }
+
             //Guadagna il numero di Punti Vittoria indicato sullo spazio del tracciato dei Punti Fede sul quale si trova
             pVittoriaToAdd += this.getBonusVittoriaByPuntiFede(giocatore.Risorse.getPuntiFede());
             //Considera la classifica dei punti militari

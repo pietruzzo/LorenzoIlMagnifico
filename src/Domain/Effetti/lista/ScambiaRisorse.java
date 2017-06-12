@@ -9,6 +9,7 @@ import Domain.Risorsa;
 import Domain.SpazioAzione;
 import Exceptions.SpazioAzioneDisabilitatoEffettoException;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -83,7 +84,7 @@ public class ScambiaRisorse extends Effetto implements Validabile, Azionabile {
 
 }
 
-class Opzioni {
+class Opzioni implements Serializable {
     Risorsa[] pagamento;
     Risorsa[] guadagno;
     Integer opzione;

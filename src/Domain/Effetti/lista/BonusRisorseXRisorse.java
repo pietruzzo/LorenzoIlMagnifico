@@ -36,7 +36,8 @@ public class BonusRisorseXRisorse extends Effetto implements Azionabile{
         //Risorsa bonus = risorseBonus.multScalare(giocatore.getRisorse().getRisorse(tipoRisorsa));
         Risorsa bonus = new Risorsa(this.bonus, (int) (giocatore.getRisorse().getRisorse(origine)*fattoreBonus));
         Risorsa malus= applicaMalus(bonus, malusRisorsa);
-        costo.add(malus);
-        costo.sub(bonus);
+        /*costo.add(malus);
+        costo.sub(bonus);*/
+        costo.sub(malus);
     }
 }

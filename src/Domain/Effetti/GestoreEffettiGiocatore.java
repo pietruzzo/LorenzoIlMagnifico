@@ -154,7 +154,10 @@ public class GestoreEffettiGiocatore  {
         return effettuaAzione(costo, azione, casella, this.giocatoreCorrente.getRisorse());
     }
 
-
+    /**
+     * Applica tutti gli effetti che si scatenano all'inizio del turno
+     * @param turno turno che sta per cominciare
+     */
     public void inizioTurno(int turno) {
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
 
@@ -170,7 +173,10 @@ public class GestoreEffettiGiocatore  {
         azzeraTrigger(giocatoreCorrente.getListaCarte());
     }
 
-
+    /**
+     * Applica tutti gli effetti che si scatenano alla fine di ogni turno
+     * @param risorseGiocatore risorse del giocatore che vengono modificate dagli effetti delle carte
+     */
     public void endGame(Risorsa risorseGiocatore) {
         AtomicInteger modificaPuntiVittoria= new AtomicInteger(0);
         List<Carta> listaCarte = giocatoreCorrente.getListaCarte();
@@ -253,7 +259,7 @@ public class GestoreEffettiGiocatore  {
     private List<Effetto> estraiEffettoImmediato(SpazioAzione casella) {
         if (casella != null && casella instanceof SpazioAzioneTorre) {
             SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
-            if (spazioAzioneTorre.getCartaAssociata().getEffettoImmediato() != null) {
+            if (spazioAzioneTorre.getCartaAssociata() != null && spazioAzioneTorre.getCartaAssociata().getEffettoImmediato() != null) {
                 List<Effetto> listaEffetti = spazioAzioneTorre.getCartaAssociata().getEffettoImmediato();
 
                 //Esclude i costi dalla estrazione
