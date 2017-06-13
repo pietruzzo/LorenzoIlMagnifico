@@ -49,9 +49,11 @@ public class PlanciaGiocatore extends Pane {
         numCarteEdificio=0;
         numCarteTerritorio=0;
         carteImpresa = new CarteFuoriPlancia();
+        cartePersonaggio = new CarteFuoriPlancia();
 
-        this.setPrefSize(DIMPLANCIAX+150, DIMPLANCIAY);
+        this.setPrefSize(DIMPLANCIAX, DIMPLANCIAY);
         this.getChildren().add(carteImpresa);
+        this.getChildren().add(cartePersonaggio);
 
         //Upload immaginePlancia
         try {

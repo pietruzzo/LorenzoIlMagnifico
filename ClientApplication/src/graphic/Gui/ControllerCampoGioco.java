@@ -38,6 +38,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     private PlanciaGiocatore plancia;
     private int idGiocatoreClient;
     private HBox familiariDisponibili;
+    private javafx.scene.control.Button start;
 
     @FXML private void initialize(){
 
@@ -59,7 +60,7 @@ public class ControllerCampoGioco implements Ui, Controller {
         tabellonePane.getChildren().add(tabelloneController);
 
         //Bottone "Comincia subito"
-        javafx.scene.control.Button start = new javafx.scene.control.Button("Comincia adesso");
+        start = new javafx.scene.control.Button("Comincia adesso");
         start.setDisable(false);
         start.setOnMouseClicked(mouseEvent -> {
             mainGame.IniziaPartita();
@@ -118,32 +119,33 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void inizializzaPartita(Domain.Tabellone tabellone) {
-        Platform.runLater(()->{
+        //Inizializza i giocatori
+        giocatori=new ArrayList<>();
 
-            //Inizializza i giocatori
-            giocatori=new ArrayList<>();
-
-            for (Giocatore giocatore : tabellone.getGiocatori())
+        for (Giocatore giocatore : tabellone.getGiocatori())
+        {
+            if(giocatore.getNome().equals(mainGame.getNomeGiocatore()))
             {
-                if(giocatore.getNome().equals(mainGame.getNomeGiocatore()))
-                {
-                    giocatori.add(new GiocatoreGraphic(giocatore));
-                    plancia.settaRisorse(giocatore.getRisorse());
-                    idGiocatoreClient =giocatore.getIdGiocatore();
-                }
-                else giocatori.add(new GiocatoreGraphic(giocatore));
+                giocatori.add(new GiocatoreGraphic(giocatore));
+                //plancia.settaRisorse(giocatore.getRisorse());
+                idGiocatoreClient =giocatore.getIdGiocatore();
             }
+            else giocatori.add(new GiocatoreGraphic(giocatore));
+        }
 
-            //Ottieni tessere Scomunica
-            List<TesseraScomunica> tessere = tabellone.getCarteScomunica();
-            CartaGraphic[] carteScom = new CartaGraphic[3];
-            carteScom[0]=mazzo.getCarta(tessere.get(0).getNome());
-            carteScom[1]=mazzo.getCarta(tessere.get(1).getNome());
-            carteScom[2]=mazzo.getCarta(tessere.get(2).getNome());
+        //Genera il mazzo di carte
+        mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica());
+
+        //Ottieni tessere Scomunica
+        CartaGraphic[] carteScom = new CartaGraphic[3];
+        carteScom[0] = mazzo.getCarta(tabellone.getCarteScomunica().get(0).getNome());
+        carteScom[1] = mazzo.getCarta(tabellone.getCarteScomunica().get(1).getNome());
+        carteScom[2] = mazzo.getCarta(tabellone.getCarteScomunica().get(2).getNome());
+
+        Platform.runLater(() -> {
+            familiariPane.getChildren().remove(start);
+
             tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom);
-
-            //Genera il mazzo di carte
-            mazzo= new CarteGioco(tabellone.getMazzoCarte(), tessere);
 
             //Disponi i Familiari disponibili
             familiariDisponibili = new HBox();
@@ -196,19 +198,19 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void iniziaTurno(int[] ordineGiocatori, int[] dadi, Map<Integer, String> carte) {
-        Platform.runLater(()->{
+        Platform.runLater(()-> {
             //Rimuovi tutte le carte rimaste associate alle caselle
             tabelloneController.rimuoviCarteTorre();
             //Rimuovi tutti i familiari
-            for(GiocatoreGraphic g : giocatori){
-                for(FamiliareGraphic f: g.getFamiliari()){
+            for (GiocatoreGraphic g : giocatori) {
+                for (FamiliareGraphic f : g.getFamiliari()) {
                     tabelloneController.rimuoviFamiliare(f);
                 }
             }
             //Imposta i valori dei dadi
             tabelloneController.settaDadi(dadi[0], dadi[1], dadi[2]);
             //Aggiungi carte azione del nuovo turno
-            for (Integer i : carte.keySet()){
+            for (Integer i : carte.keySet()) {
                 tabelloneController.aggiungiCartaAzione(i, mazzo.getCarta(carte.get(i)));
             }
 

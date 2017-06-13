@@ -19,25 +19,32 @@ public class CasellaGraphic extends Rectangle {
         //Creo il rettangolo
         super(dimX, dimY);
 
+        this.id = id;
+
         //posiziona il rettangolo sul pannello centrandolo sulle coordinate
         this.setX(x-dimX/2);
         this.setY(y-dimY/2);
 
         //HBox settings
+        pedine = new HBox();
         pedine.setAlignment(Pos.CENTER);
+
         //Aggiunge l'evento Click
         this.setOnMouseClicked(mouseEvent -> {
             //TODO Call a method
         });
 
-        //Aggiunge l'evento che mostra la descrizione
-        this.setOnMouseDragEntered(mouseDragEvent -> descrizione.setVisible(true));
+        if(descrizione != null) {
+            //Aggiunge l'evento che mostra la descrizione
+            this.setOnMouseDragEntered(mouseDragEvent -> descrizione.setVisible(true));
 
-        //Aggiunge l'evento che nasconde la descrizione
-        this.setOnDragExited(dragEvent -> descrizione.setVisible(false));
+            //Aggiunge l'evento che nasconde la descrizione
+            this.setOnDragExited(dragEvent -> descrizione.setVisible(false));
+        }
 
         //descrizione
         this.descrizione=descrizione;
+
     }
 
     int getCasellaId() {

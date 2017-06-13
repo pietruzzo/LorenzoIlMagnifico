@@ -69,14 +69,16 @@ public class Tabellone extends AnchorPane{
     @NotNull
     public void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica){
 
-        if (listaGiocatori.size()>2){
+        if (listaGiocatori.size() > 2){
             ImageView immagineTabellone;
             this.getChildren().clear();
-            immagineTabellone= new ImageView(caricaImmagineTabellone(listaGiocatori.size()));
+            immagineTabellone = new ImageView(caricaImmagineTabellone(listaGiocatori.size()));
+            this.getChildren().add(immagineTabellone);
         }
+
         caselle = new CaselleGioco(listaGiocatori.size(), this);
 
-        punti= new CasellePunti(listaGiocatori);
+        punti = new CasellePunti(listaGiocatori);
 
         this.getChildren().addAll(punti, dadi);
 
@@ -471,7 +473,7 @@ class CasellePunti extends Group{
 
         for (int i = 0; i <puntiVittoria.length ; i++) {
 
-            puntiMilitari[i] = new Group();
+            puntiVittoria[i] = new Group();
             Point2D coordinate;
 
             if(i<NCASELLE_AB_EF-1){

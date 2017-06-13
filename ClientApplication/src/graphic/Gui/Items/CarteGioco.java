@@ -32,7 +32,7 @@ public class CarteGioco{
    private List<CartaGraphic> carte;
 
    public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica){
-      carte = new ArrayList<>();
+      this.carte = new ArrayList<>();
       //per le carte sviluppo, carica anche l aversione ingrandita
       for (Carta c : carte){
           CartaGraphic carta = new CartaGraphic(c.getNome(), c.getTipoCarta(), getImage(c.getNome(), c.getTipoCarta(), cartaW, cartaH), getImage(c.getNome(), c.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA));
@@ -49,7 +49,7 @@ public class CarteGioco{
                   }
               }
           }
-          for (Effetto e : c.getEffettoImmediato()){
+          for (Effetto e : c.getEffettoPermanente()){
               if(e instanceof ScambiaRisorse && ((ScambiaRisorse)e).getNumeroOpzioni()>1){
                   numOpzioniPerma=((ScambiaRisorse)e).getNumeroOpzioni();
               }
@@ -69,7 +69,7 @@ public class CarteGioco{
     * @throws NoSuchElementException se non trova la carta
     */
    public CartaGraphic getCarta(String nome) throws NoSuchElementException{
-      for (CartaGraphic carta: carte
+      for (CartaGraphic carta: this.carte
            ) {
          if (carta.getNome().equals(nome)) return carta;
       }

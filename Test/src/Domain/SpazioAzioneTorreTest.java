@@ -214,7 +214,7 @@ public class SpazioAzioneTorreTest {
         assertEquals(10, giocatore.Risorse.getMonete()); //Prese dall'effetto immediato della carta (+5)
         assertEquals(2, giocatore.Risorse.getLegno()); //Non le prende dal bonus spazio azione per effetto del Predicatore
         assertEquals(1, giocatore.Risorse.getPuntiFede()); //Presi dall'effetto immediato della carta
-        assertEquals(7, giocatore.Risorse.getPuntiMilitari()); //La crociata ne richiede 6 ma ne fa spendere solo 3
+        assertEquals(6, giocatore.Risorse.getPuntiMilitari()); //La crociata ne richiede 8 ma ne fa spendere solo 4
 
         assertFalse(giocatore.getAzioneBonusDaEffettuare());
         assertTrue(giocatore.CartePersonaggio.contains(predicatore));

@@ -247,8 +247,10 @@ public class GestoreEffettiGiocatore  {
      */
     private void azzeraTrigger(List<Carta> listaCarte) {
         for (Carta c : listaCarte) {
-            if (c.getEffettoPermanente() instanceof Trigger) {
-                ((Trigger) c).setDefaultTrigger();
+            for (Effetto e : c.getEffettoPermanente()) {
+                if (e instanceof Trigger) {
+                    ((Trigger) e).setDefaultTrigger();
+                }
             }
         }
     }

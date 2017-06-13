@@ -167,18 +167,17 @@ public class LoaderCarte {
                     immediati.add(new ScambiaRisorse(cost, gain, true));
                     break;
                 case "AnnullaBonusSpazioAz":
-                    List<Integer> caselle = new ArrayList<>();
+                    List<Integer> caselleDaAnnullare = new ArrayList<>();
                     try{
                         for (int j = 2; j < rigaCorrente.length; j++) {
-                            caselle.add(Integer.valueOf(rigaCorrente[j]));
+                            caselleDaAnnullare.add(Integer.valueOf(rigaCorrente[j]));
                         }
-                        Integer[] v= new Integer[caselle.size()];
-                        caselle.toArray(v);
+
                         if (rigaCorrente[1].equals("true")) {
-                            immediati.add(new AnnullaBonusSpazioAz(v));
+                            immediati.add(new AnnullaBonusSpazioAz(caselleDaAnnullare));
 
                         } else {
-                            permanenti.add(new AnnullaBonusSpazioAz(v));
+                            permanenti.add(new AnnullaBonusSpazioAz(caselleDaAnnullare));
                         }
                     } catch (Exception e){
                         throw new IllegalArgumentException("AnnullaBonusAzione non riconosciuta correttamente");
@@ -239,13 +238,13 @@ public class LoaderCarte {
                     {throw new IllegalArgumentException("Errore in BonusRisorseXCarte"+e.getMessage());}
                     break;
                 case "DisabilitaCasella":
-                    caselle = new ArrayList<>();
+                    List<Integer> caselleDaDisabilitare = new ArrayList<>();
                     try{
                         for (int j = 2; j < rigaCorrente.length; j++) {
-                            caselle.add(Integer.valueOf(rigaCorrente[j]));
+                            caselleDaDisabilitare.add(Integer.valueOf(rigaCorrente[j]));
                         }
-                        Integer[] v= new Integer[caselle.size()];
-                        caselle.toArray(v);
+                        Integer[] v= new Integer[caselleDaDisabilitare.size()];
+                        caselleDaDisabilitare.toArray(v);
                         if (rigaCorrente[1].equals("true")) {
                             immediati.add(new DisabilitaCasella(v));
 

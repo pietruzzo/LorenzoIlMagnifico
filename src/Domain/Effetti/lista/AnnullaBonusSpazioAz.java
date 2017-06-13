@@ -13,15 +13,12 @@ import java.util.List;
  */
 public class AnnullaBonusSpazioAz extends Effetto implements Validabile, Azionabile, Trigger{
     boolean trigger;
-    List<SpazioAzione> spaziSenzaBonus;
+    List<Integer> spaziSenzaBonus;
 
-    public AnnullaBonusSpazioAz(List<SpazioAzione> spaziAzione) {
+
+    public AnnullaBonusSpazioAz(List<Integer> spaziAzione) {
         this.trigger = false;
-        spaziSenzaBonus=spaziAzione;
-    }
-    public AnnullaBonusSpazioAz(Integer[] spaziAzione) {
-        this.trigger = false;
-        //TODO recupera caselle
+        this.spaziSenzaBonus = spaziAzione;
     }
 
     @Override
@@ -39,7 +36,7 @@ public class AnnullaBonusSpazioAz extends Effetto implements Validabile, Azionab
      * @param casella dal quale si ottiene il bonusCasella
      */
     private void scalaBonus(Risorsa costo, SpazioAzione casella){
-        if ((casella != null) && (casella instanceof SpazioAzioneTorre) && spaziSenzaBonus.contains(casella) && !trigger){
+        if ((casella != null) && (casella instanceof SpazioAzioneTorre) && spaziSenzaBonus.contains(casella.getIdSpazioAzione()) && !trigger){
             SpazioAzioneTorre spazioAzioneTorre = (SpazioAzioneTorre) casella;
             Risorsa bonusRisorse=spazioAzioneTorre.getBonusRisorse();
             costo.add(bonusRisorse);

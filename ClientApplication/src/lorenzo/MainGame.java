@@ -193,7 +193,13 @@ public class MainGame {
      */
     public void PartitaIniziata(Tabellone tabellone) {
         System.out.println(String.format("Partita è iniziata con %d giocatori", tabellone.getGiocatori().size()));
-        userInterface.inizializzaPartita(tabellone);
+        try {
+            userInterface.inizializzaPartita(tabellone);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -201,7 +207,13 @@ public class MainGame {
      */
     public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
         System.out.println("Turno iniziato");
-        userInterface.iniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
+        try {
+            userInterface.iniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -210,7 +222,13 @@ public class MainGame {
     public void IniziaMossa(int idGiocatore)
     {
         System.out.println(String.format("Tocca al giocatore con id %d", idGiocatore));
-        userInterface.iniziaMossa(idGiocatore);
+        try {
+            userInterface.iniziaMossa(idGiocatore);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -219,7 +237,13 @@ public class MainGame {
     public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
     {
         System.out.println(String.format("Sono stati scomunicati %d giocatori", idGiocatoriScomunicati.length));
-        userInterface.aggiungiScomunica(idGiocatoriScomunicati, periodo);
+        try {
+            userInterface.aggiungiScomunica(idGiocatoriScomunicati, periodo);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
 
@@ -229,7 +253,13 @@ public class MainGame {
     public void SceltaSostegnoChiesa()
     {
         System.out.println("Hai abbastanza punti fede per sostenere la chiesa, la vuoi sostenere?");
-        userInterface.sceltaSostegnoChiesa();
+        try {
+            userInterface.sceltaSostegnoChiesa();
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -239,13 +269,19 @@ public class MainGame {
     public void AggiornaGiocatore(UpdateGiocatoreDTO update)
     {
         System.out.println(String.format("Aggiornamento del giocatore %d", update.getIdGiocatore()));
-        //In base ai parametri ricevuti aggiorna solo le risorse o anche la posizione di un familiare
-        if(update.getColoreDado() == null && update.getIdSpazioAzione() == null)
-            userInterface.aggiornaRisorse(update.getIdGiocatore(), update.getRisorse());
-        else if(update.getColoreDado() == null && update.getIdSpazioAzione() != null)
-                userInterface.aggiornaDaAzioneBonus(update.getIdGiocatore(), update.getRisorse(), update.getIdSpazioAzione());
-        else
-            userInterface.aggiornaGiocatore(update.getIdGiocatore(), update.getRisorse(), update.getColoreDado(), update.getIdSpazioAzione());
+        try {
+            //In base ai parametri ricevuti aggiorna solo le risorse o anche la posizione di un familiare
+            if(update.getColoreDado() == null && update.getIdSpazioAzione() == null)
+                userInterface.aggiornaRisorse(update.getIdGiocatore(), update.getRisorse());
+            else if(update.getColoreDado() == null && update.getIdSpazioAzione() != null)
+                    userInterface.aggiornaDaAzioneBonus(update.getIdGiocatore(), update.getRisorse(), update.getIdSpazioAzione());
+            else
+                userInterface.aggiornaGiocatore(update.getIdGiocatore(), update.getRisorse(), update.getColoreDado(), update.getIdSpazioAzione());
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -254,7 +290,13 @@ public class MainGame {
      */
     public void SceltaPrivilegioConsiglio(int numPergamene) {
         System.out.println(String.format("Occorre scegliere %d privilegi del consiglio", numPergamene));
-        userInterface.visualizzaPrivilegioConsiglio(numPergamene);
+        try {
+            userInterface.visualizzaPrivilegioConsiglio(numPergamene);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -264,7 +306,13 @@ public class MainGame {
      */
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) {
         System.out.println(String.format("E' possibile effettuare un'azione di valore %d ", valoreAzione));
-        userInterface.effettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
+        try {
+            userInterface.effettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
 
     /**
@@ -275,7 +323,13 @@ public class MainGame {
     public void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati)
     {
         System.out.println(String.format("Partita finita! Ha vinto l'id %d", mappaRisultati.keySet().iterator().next()));
-        userInterface.finePartita(mappaRisultati);
+        try {
+            userInterface.finePartita(mappaRisultati);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
     }
     //endregion
 
@@ -289,6 +343,7 @@ public class MainGame {
      * @param message messaggio d'errore
      */
     public void MostraEccezione(String message) {
+        System.out.println(message);
         userInterface.stampaMessaggio(message);
     }
 

@@ -63,6 +63,7 @@ public class ControllerLogin implements Controller {
 
         } catch (Exception e) {
             messaggioErrore.setText(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
     }
