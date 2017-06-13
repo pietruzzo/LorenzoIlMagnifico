@@ -67,7 +67,7 @@ public class Tabellone extends AnchorPane{
      * @param listaGiocatori giocatori partecipanti
      */
     @NotNull
-    public void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica){
+    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica){
 
         if (listaGiocatori.size() > 2){
             ImageView immagineTabellone;
@@ -115,10 +115,7 @@ public class Tabellone extends AnchorPane{
         CasellaGraphic casella = caselle.getCasellabyId(idCasella);
         casella.aggiungiPedina(familiare);
 
-        if(idCasella==25){
-            punti.updateOrdineGiro(giocatore);
-        }
-        else if(casella instanceof CasellaConCartaGraphic ){
+        if(casella instanceof CasellaConCartaGraphic ){
             CasellaConCartaGraphic c = (CasellaConCartaGraphic) casella;
             if(c.getCartaAssociata()!=null){
                 callback.cartaTabelloneToGiocatore(c.getCartaAssociata());
@@ -203,6 +200,13 @@ public class Tabellone extends AnchorPane{
         punti.setPuntiFede(giocatore, 0);
     }
 
+    public void setOrdineTurno(List<GiocatoreGraphic> giocatori){
+        punti.rimuoviOrdineGiro();
+        for(GiocatoreGraphic g : giocatori){
+            punti.updateOrdineGiro(g);
+        }
+    }
+
     @NotNull
     private Image caricaImmagineTabellone(int numGiocatori){
         return new Image(URL+"Tabellone"+numGiocatori+"Players.jpg", DIMX, DIMY, false, false, false);
@@ -228,13 +232,13 @@ class DadiGraphic extends Group{
         Rectangle nero = new Rectangle(LATODADO, LATODADO, ColoreDado.NERO.getColore());
         Rectangle bianco = new Rectangle(LATODADO, LATODADO, ColoreDado.BIANCO.getColore());
 
-        nero.setX(DADIX[0]);
-        bianco.setX(DADIX[1]);
-        arancio.setX(DADIX[2]);
+        nero.setX(DADIX[0]- LATODADO/2);
+        bianco.setX(DADIX[1]- LATODADO/2);
+        arancio.setX(DADIX[2]- LATODADO/2);
 
-        nero.setY(DADIY);
-        bianco.setY(DADIY);
-        arancio.setY(DADIY);
+        nero.setY(DADIY- LATODADO/2);
+        bianco.setY(DADIY- LATODADO/2);
+        arancio.setY(DADIY- LATODADO/2);
 
         this.getChildren().addAll(nero, bianco, arancio);
 
@@ -242,13 +246,13 @@ class DadiGraphic extends Group{
         neroIm= new ImageView();
         biancoIm= new ImageView();
 
-        neroIm.setX(DADIX[0]);
-        biancoIm.setX(DADIX[1]);
-        arancioIm.setX(DADIX[2]);
+        neroIm.setX(DADIX[0]- LATODADO/2);
+        biancoIm.setX(DADIX[1]- LATODADO/2);
+        arancioIm.setX(DADIX[2]- LATODADO/2);
 
-        neroIm.setY(DADIY);
-        biancoIm.setY(DADIY);
-        arancioIm.setY(DADIY);
+        neroIm.setY(DADIY- LATODADO/2);
+        biancoIm.setY(DADIY- LATODADO/2);
+        arancioIm.setY(DADIY- LATODADO/2);
 
         arancioIm.setFitHeight(LATODADO);
         neroIm.setFitHeight(LATODADO);
@@ -258,6 +262,7 @@ class DadiGraphic extends Group{
         neroIm.setFitWidth(LATODADO);
         biancoIm.setFitWidth(LATODADO);
 
+        this.getChildren().addAll(neroIm, biancoIm, arancioIm);
         this.setVisible(false);
 
         uploadFacce();
@@ -307,8 +312,6 @@ class CasellePunti extends Group{
 
     private static final int NCASELLE_MILITARI = 26;
 
-    private static final Point2D INIZIOTOKENORDINE = new Point2D(679, 654);
-    private static final Point2D FINETOKENORDINE = new Point2D(679, 781);
 
     private static final int PUNTIFEDEY=893;
     private static final int[] PUNTIFEDEX= {73, 110, 150, 200, 260, 322, 370, 407, 444, 482, 518, 556, 594, 632, 668, 706};
@@ -344,7 +347,7 @@ class CasellePunti extends Group{
         for(GiocatoreGraphic giocatore: giocatori){
             Circle[] tokenGiocatore = new Circle[4];
             for (int i = 0; i < tokenGiocatore.length; i++) {
-                tokenGiocatore[i] =new Circle(30, giocatore.getColoreGiocatore().getColore());
+                tokenGiocatore[i] =new Circle(15, giocatore.getColoreGiocatore().getColore());
             }
             tokenAssociati.put(giocatore, tokenGiocatore);
         }
@@ -357,6 +360,11 @@ class CasellePunti extends Group{
 
         //Piazza Giocatori nella casella 0 ed aggiungi il token nascosto per l'ordine del turno
         for (GiocatoreGraphic giocatore: giocatori) {
+
+            tokenAssociati.get(giocatore)[0].setLayoutY(puntiVittoria[0].getChildren().size()*5);
+            tokenAssociati.get(giocatore)[1].setLayoutY(puntiMilitari[0].getChildren().size()*5);
+            tokenAssociati.get(giocatore)[2].setLayoutY(puntiFede[0].getChildren().size()*5);
+
             puntiVittoria[0].getChildren().add(tokenAssociati.get(giocatore)[0]);
             puntiFede[0].getChildren().add(tokenAssociati.get(giocatore)[1]);
             puntiMilitari[0].getChildren().add(tokenAssociati.get(giocatore)[2]);
@@ -388,10 +396,11 @@ class CasellePunti extends Group{
         Circle token = tokenAssociati.get(giocatore)[3];
 
         if (!token.isVisible()) {
-            numTokenPosPiazzati= numTokenPosPiazzati+1;
+
             tokenAssociati.get(giocatore)[3].setCenterX(ORDINETURNO[numTokenPosPiazzati].getX());
             tokenAssociati.get(giocatore)[3].setCenterY(ORDINETURNO[numTokenPosPiazzati].getY());
             tokenAssociati.get(giocatore)[3].setVisible(true);
+            numTokenPosPiazzati= numTokenPosPiazzati+1;
             return true;
         }
         return false;
@@ -432,8 +441,8 @@ class CasellePunti extends Group{
                     cella.getChildren().remove(token);
                     token.setCenterX(0);
                     token.setCenterY(0);
-                    token.setTranslateX(0);
-                    token.setTranslateY(0);
+                    token.setTranslateX(destinazione.getChildren().size()*5 -5);
+                    token.setTranslateY(destinazione.getChildren().size()*5 -5);
                     destinazione.getChildren().add(token);
                     break;
                 }

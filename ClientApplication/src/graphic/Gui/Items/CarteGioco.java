@@ -8,6 +8,7 @@ import Domain.TipoCarta;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,8 +27,8 @@ public class CarteGioco{
    private final static int CARTAWINGRANDITA=350;
    private final static int CARTAHINGRANDITA=538;
 
-   private final static int cartaScomW=30;
-   private final static int cartaScomH=600;
+   private final static int cartaScomW=65;
+   private final static int cartaScomH=112;
 
    private List<CartaGraphic> carte;
 
@@ -76,8 +77,11 @@ public class CarteGioco{
       throw new NoSuchElementException("Carta: "+nome+" non trovata");
    }
 
+    public List<CartaGraphic> getCarte() {
+        return carte;
+    }
 
-   /**
+    /**
     * @param nome
     * @param tipo
     * @return da Risorse l'immagina della carta richiesta della dimensione data dal tipo di carta
@@ -86,9 +90,11 @@ public class CarteGioco{
 
       String percorsoCompleto;
       if(tipo != TipoCarta.Scomunica){
-         percorsoCompleto = "file:"+percorsoFileDescrizione+"carteSviluppo"+separator+nome+".jpg";
+          percorsoCompleto = getClass().getResource("/Carte/carteSviluppo").getPath();
+          percorsoCompleto = "file:" + percorsoCompleto + separator + nome + ".jpg";
+          //"file:"+percorsoFileDescrizione+"carteSviluppo"+separator+nome+".jpg";
       } else {
-         percorsoCompleto = "file:"+percorsoFileDescrizione+"carteScomunica"+separator+nome+".png";
+         percorsoCompleto = percorsoFileDescrizione+"carteScomunica"+separator+nome+".png";
       }
       return new Image(percorsoCompleto, dimX, dimY, false, true);
    }

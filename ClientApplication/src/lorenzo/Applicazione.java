@@ -5,10 +5,12 @@ import graphic.Gui.ControllerCampoGioco;
 import graphic.Gui.ControllerLogin;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +36,6 @@ public class Applicazione extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Applicazione applicazioneCorrente = this;
-        //Platform.runLater(() -> mainGame= new MainGame(applicazioneCorrente));
         mainGame = new MainGame(applicazioneCorrente);
         finestra=stage;
         stage.show();
@@ -63,7 +64,7 @@ public class Applicazione extends Application {
      * Avvia il campo da gioco
      * @return controller del Campo di gioco
      */
-    public ControllerCampoGioco startGame() throws NullPointerException{
+    public ControllerCampoGioco startGame(){
 
         ControllerCampoGioco controllerCampoGioco = null;
         Scene gioco;
@@ -79,6 +80,9 @@ public class Applicazione extends Application {
             finestra.setTitle("Lorenzo il Magnifico");
             finestra.setScene(gioco);
             finestra.setFullScreen(true);
+            finestra.setOnCloseRequest(windowEvent -> {
+                chiudiApplicazione();
+            });
         } catch (IOException e){
             System.err.println("campo_gioco_scene.fxml non trovato, prova a controllare il PATH");
             stopGUI();
@@ -122,5 +126,10 @@ public class Applicazione extends Application {
 
     public Stage getFinestra(){
         return finestra;
+    }
+
+    public void chiudiApplicazione(){
+        Platform.exit();
+        System.exit(0);
     }
 }

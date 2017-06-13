@@ -19,6 +19,9 @@ public class CasellaGraphic extends Rectangle {
         //Creo il rettangolo
         super(dimX, dimY);
 
+        //Assegno colore trasparente all'area
+        this.setFill(Color.TRANSPARENT);
+
         this.id = id;
 
         //posiziona il rettangolo sul pannello centrandolo sulle coordinate

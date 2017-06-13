@@ -7,12 +7,14 @@ import graphic.Ui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
 import java.awt.*;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -68,14 +70,10 @@ public class ControllerCampoGioco implements Ui, Controller {
         });
         familiariPane.getChildren().add(start);
 
-
-/*      TODO crea problemi
         //Inizializza la plancia del giocatore
         plancia = new PlanciaGiocatore();
         planciaGiocatorePane.getChildren().add(plancia);
 
-        //Aggiungi i messaggi all'area dei familiari
-        familiariPane.getChildren().add(messaggi);*/
     }
 
     @Override
@@ -124,17 +122,32 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         for (Giocatore giocatore : tabellone.getGiocatori())
         {
+            giocatori.add(new GiocatoreGraphic(giocatore));
+
             if(giocatore.getNome().equals(mainGame.getNomeGiocatore()))
             {
-                giocatori.add(new GiocatoreGraphic(giocatore));
-                //plancia.settaRisorse(giocatore.getRisorse());
+                Platform.runLater(() -> plancia.settaRisorse(giocatore.getRisorse()));
                 idGiocatoreClient =giocatore.getIdGiocatore();
             }
-            else giocatori.add(new GiocatoreGraphic(giocatore));
         }
 
         //Genera il mazzo di carte
         mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica());
+        for (CartaGraphic cg : mazzo.getCarte()){
+            cg.setOnMouseEntered(mouseEvent -> {
+                Group ingrandimento = cg.getIngrandimento();
+                System.out.println("Mouse entered");
+                ingrandimento.setLayoutX(cg.getLayoutX()+70);
+                ingrandimento.setLayoutY(cg.getLayoutY()+120);
+                ingrandimento.setVisible(true);
+                tabelloneController.getChildren().add(ingrandimento);
+            });
+            cg.setOnMouseExited(mouseEvent -> {
+                System.out.println("Mouse exited");
+                tabelloneController.getChildren().remove(cg.getIngrandimento());
+            });
+        }
+
 
         //Ottieni tessere Scomunica
         CartaGraphic[] carteScom = new CartaGraphic[3];
@@ -144,15 +157,14 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         Platform.runLater(() -> {
             familiariPane.getChildren().remove(start);
-
             tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom);
 
             //Disponi i Familiari disponibili
             familiariDisponibili = new HBox();
+            pannello.getChildren().add(familiariDisponibili);
             familiariDisponibili.setSpacing(10);
             familiariDisponibili.setLayoutX(920);
             familiariDisponibili.setLayoutY(1000);
-            disponiFamiliari();
         });
     }
 
@@ -213,6 +225,13 @@ public class ControllerCampoGioco implements Ui, Controller {
             for (Integer i : carte.keySet()) {
                 tabelloneController.aggiungiCartaAzione(i, mazzo.getCarta(carte.get(i)));
             }
+
+            //Set ordine Turno
+            List<GiocatoreGraphic> ordineTurno = new ArrayList<>();
+            for(int i : ordineGiocatori){
+                ordineTurno.add(getGiocatorebyId(i));
+            }
+            tabelloneController.setOrdineTurno(ordineTurno);
 
             //Disponi i familiari
             disponiFamiliari();

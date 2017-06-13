@@ -3,6 +3,7 @@ package graphic.Gui.Items;
 import Domain.Risorsa;
 import Domain.TipoCarta;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +31,13 @@ public class PlanciaGiocatore extends Pane {
     private static final int TERRITORIOY=433;
     private static final int EDIFICIOY=143;
 
+    //Coord risorse plancia
+    private static final Point2D COORD_MONETE = new Point2D(152, 547);
+    private static final Point2D COORD_LEGNI = new Point2D(309, 548);
+    private static final Point2D COORD_PIETRE = new Point2D(461, 545);
+    private static final Point2D COORD_SERVI = new Point2D(595, 538);
+
+
     private int numCarteTerritorio;
     private int numCarteEdificio;
 
@@ -50,6 +58,16 @@ public class PlanciaGiocatore extends Pane {
         numCarteTerritorio=0;
         carteImpresa = new CarteFuoriPlancia();
         cartePersonaggio = new CarteFuoriPlancia();
+
+        monete=new Label();
+        legno= new Label();
+        pietra=new Label();
+        servi=new Label();
+
+        this.getChildren().add(monete);
+        this.getChildren().add(legno);
+        this.getChildren().add(pietra);
+        this.getChildren().add(servi);
 
         this.setPrefSize(DIMPLANCIAX, DIMPLANCIAY);
         this.getChildren().add(carteImpresa);
