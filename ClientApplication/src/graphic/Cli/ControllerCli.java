@@ -87,4 +87,8 @@ public class ControllerCli implements Ui {
     public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
 
     }
+
+    @Override
+    public void GiocatoreDisconnesso(int idGiocatoreDisconnesso) {
+    }
 }

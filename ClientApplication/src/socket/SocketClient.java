@@ -3,6 +3,7 @@ package socket;
 import Domain.DTO.AzioneBonusDTO;
 import Domain.DTO.PiazzaFamiliareDTO;
 import Domain.Risorsa;
+import Exceptions.NetworkException;
 import lorenzo.MainGame;
 import network.AbstractClient;
 
@@ -81,7 +82,7 @@ public class SocketClient extends AbstractClient {
      * Comunica al server di inziare la partita
      */
     @Override
-    public void IniziaPartita()  {
+    public void IniziaPartita() throws NetworkException  {
         this.socketClientProtocol.IniziaPartita();
     }
 
@@ -90,7 +91,7 @@ public class SocketClient extends AbstractClient {
      * @param risposta true se sostiene, con false il giocatore viene scomunicato
      */
     @Override
-    public void RispostaSostegnoChiesa(Boolean risposta) {
+    public void RispostaSostegnoChiesa(Boolean risposta) throws NetworkException {
         this.socketClientProtocol.RispostaSostegnoChiesa(risposta);
     }
 
@@ -99,7 +100,7 @@ public class SocketClient extends AbstractClient {
      * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
      */
     @Override
-    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO)   {
+    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException   {
         this.socketClientProtocol.PiazzaFamiliare(piazzaFamiliareDTO);
     }
 
@@ -108,7 +109,7 @@ public class SocketClient extends AbstractClient {
      * @param azioneBonusDTO parametri relativi all'azione bonus
      */
     @Override
-    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) {
+    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws NetworkException {
         this.socketClientProtocol.AzioneBonusEffettuata(azioneBonusDTO);
     }
 
@@ -117,7 +118,7 @@ public class SocketClient extends AbstractClient {
      * @param risorsa risorse da aggiungere al giocatore
      */
     @Override
-    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa){
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa) throws NetworkException{
         this.socketClientProtocol.RiscuotiPrivilegiDelConsiglio(risorsa);
     }
 
@@ -127,10 +128,20 @@ public class SocketClient extends AbstractClient {
      * @param sceltaEffetto indidce della scelta effettuata
      */
     @Override
-    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto)
+    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto) throws NetworkException
     {
         this.socketClientProtocol.SettaSceltaEffetti(nomeCarta, sceltaEffetto);
     }
+
+    /**
+     * Notifica il server della chiusura di un client
+     */
+    @Override
+    public void NotificaChiusuraClient() throws NetworkException
+    {
+        this.socketClientProtocol.NotificaChiusuraClient();
+    }
+
 
     /**
      * Avvia il thread che gestisce la ricezione dei messaggi da parte del server

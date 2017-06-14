@@ -275,9 +275,13 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
-
+        //TODO
     }
 
+    @Override
+    public void GiocatoreDisconnesso(int idGiocatoreDisconnesso) {
+        //TODO
+    }
 
     /**
      * Riscala il pannello

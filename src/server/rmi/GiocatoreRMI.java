@@ -152,4 +152,25 @@ public class GiocatoreRMI extends GiocatoreRemoto {
             throw new NetworkException(e);
         }
     }
+
+    /**
+     * Comunica ai client online la disconnessione di un giocatore
+     * @param idGiocatoreDisconnesso
+     */
+    @Override
+    public void ComunicaDisconnessione(int idGiocatoreDisconnesso) throws NetworkException {
+        try {
+            this.clientRMI.ComunicaDisconnessione(idGiocatoreDisconnesso);
+        } catch (RemoteException e) {
+            throw new NetworkException(e);
+        }
+    }
+
+    /**
+     * Comunica al server che il giocatore si sta disconnettendo
+     */
+    public void NotificaChiusuraClient()  {
+        this.getPartita().NotificaChiusuraClient(this);
+    }
+
 }

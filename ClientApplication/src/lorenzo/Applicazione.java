@@ -129,6 +129,7 @@ public class Applicazione extends Application {
     }
 
     public void chiudiApplicazione(){
+        mainGame.NotificaChiusuraClient();
         Platform.exit();
         System.exit(0);
     }

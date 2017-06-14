@@ -72,13 +72,24 @@ public abstract class GiocatoreRemoto extends Giocatore{
      */
     public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws NetworkException {}
 
+
+    /**
+     * Comunica ai client online la disconnessione di un giocatore
+     * @param idGiocatoreDisconnesso
+     */
+    public void ComunicaDisconnessione(int idGiocatoreDisconnesso) throws NetworkException {}
+
+    /**
+     * Gestisce l'evento di chiusura di un client
+     */
+    public void NotificaChiusuraClient(){}
+
     /**
      * Indica al client il numero di pergamene da scegliere
      * @param numPergamene numero di pergamene da scegliere
      */
     @Override
     public void SceltaPrivilegioConsiglio(int numPergamene) throws NetworkException {}
-
 
     /**
      * Comunica al client che può effettuare un'azione bonus

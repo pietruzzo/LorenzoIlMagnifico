@@ -146,4 +146,13 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     {
         GetGiocatoreById(idGiocatore).SettaSceltaEffetti(nomeCarta, sceltaEffetto);
     }
+
+    /**
+     * Gestisce l'evento di chiusura di un client
+     */
+    @Override
+    public void NotificaChiusuraClient(short idGiocatore) throws IOException
+    {
+        GetGiocatoreById(idGiocatore).NotificaChiusuraClient();
+    }
 }

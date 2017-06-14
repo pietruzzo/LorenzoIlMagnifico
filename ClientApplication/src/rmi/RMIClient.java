@@ -158,6 +158,21 @@ public class RMIClient extends AbstractClient implements IRMIClient {
             this.HandleException(e);
         }
     }
+
+    /**
+     * Notifica il server della chiusura di un client
+     */
+    @Override
+    public void NotificaChiusuraClient() throws NetworkException
+    {
+        try {
+            server.NotificaChiusuraClient(this.idGiocatore);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
+
+
     //endregion
 
     //region Chiamate dal server
@@ -245,6 +260,16 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     public void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati)
     {
         this.getMainGame().FinePartita(mappaRisultati);
+    }
+
+    /**
+     * Comunica ai client online la disconnessione di un giocatore
+     * @param idGiocatoreDisconnesso
+     */
+    @Override
+    public void ComunicaDisconnessione(int idGiocatoreDisconnesso)
+    {
+        this.getMainGame().ComunicaDisconnessione(idGiocatoreDisconnesso);
     }
     //endregion
 

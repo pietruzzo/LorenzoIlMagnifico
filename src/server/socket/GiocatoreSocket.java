@@ -7,6 +7,7 @@ import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.TipoAzione;
 import Exceptions.DomainException;
+import Exceptions.NetworkException;
 import server.GiocatoreRemoto;
 import server.Server;
 
@@ -73,7 +74,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      * Se ci sono 4 giocatori la partita inizia in automatico
      */
-    public void VerificaInizioPartita() {
+    public void VerificaInizioPartita() throws NetworkException{
         try {
             if(this.getPartita() != null)
                 this.getPartita().VerificaInizioAutomatico();
@@ -85,7 +86,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     /**
      *  Inizia la partita
      */
-    public void IniziaPartita(){
+    public void IniziaPartita() throws NetworkException{
         try {
             this.getPartita().IniziaPartita();
         } catch (DomainException e) {
@@ -105,7 +106,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * Gestisce l'evento relativo al tentato piazzamento di un familiare da parte di un client
      * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
      */
-    public void PiazzaFamiliare (PiazzaFamiliareDTO piazzaFamiliareDTO)
+    public void PiazzaFamiliare (PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException
     {
         try {
             this.getPartita().PiazzaFamiliare(piazzaFamiliareDTO);
@@ -119,7 +120,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * Gestisce l'evento relativo alla tentata azione bonus da parte di un client
      * @param azioneBonusDTO parametri relativi all'azione bonus
      */
-    public void AzioneBonusEffettuata (AzioneBonusDTO azioneBonusDTO)
+    public void AzioneBonusEffettuata (AzioneBonusDTO azioneBonusDTO) throws NetworkException
     {
         try {
             this.getPartita().AzioneBonusEffettuata(azioneBonusDTO);
@@ -137,6 +138,14 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         this.getPartita().RiscuotiPrivilegiDelConsiglio(this.getIdGiocatore(), risorsa);
     }
 
+    /**
+     * Gestisce l'evento di chiusura di un client
+     */
+    public void NotificaChiusuraClient()
+    {
+        this.getPartita().NotificaChiusuraClient(this);
+    }
+
     //endregion
 
     //region Messaggi dal server al client
@@ -144,7 +153,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * Comunica al client l'inzio della partita
      */
     @Override
-    public void PartitaIniziata(Tabellone tabellone)
+    public void PartitaIniziata(Tabellone tabellone) throws NetworkException
     {
         this.protocol.PartitaIniziata(tabellone);
     }
@@ -153,7 +162,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      *  Comunica al client l'inzio di un nuovo turno
      */
     @Override
-    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte)
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException
     {
         this.protocol.IniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
     }
@@ -163,7 +172,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * @param idGiocatore id del giocatore che deve effettuare la mossa
      */
     @Override
-    public void IniziaMossa(int idGiocatore)
+    public void IniziaMossa(int idGiocatore) throws NetworkException
     {
         this.protocol.IniziaMossa(idGiocatore);
     }
@@ -174,7 +183,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * @param periodo periodo nel quale avviene la scomunica
      */
     @Override
-    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) throws NetworkException
     {
         this.protocol.ComunicaScomunica(idGiocatoriScomunicati, periodo);
     }
@@ -183,7 +192,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * Comunica a determinati giocatori che devono scegliere se sostenere o meno la chiesa
      */
     @Override
-    public void SceltaSostegnoChiesa()
+    public void SceltaSostegnoChiesa() throws NetworkException
     {
         this.protocol.SceltaSostegnoChiesa();
     }
@@ -193,7 +202,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * @param update nuove caratteristiche del giocatore
      */
     @Override
-    public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) {
+    public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) throws NetworkException {
         this.protocol.AggiornaGiocatore(update);
     }
 
@@ -202,7 +211,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * @param numPergamene numero di pergamene da scegliere
      */
     @Override
-    public void SceltaPrivilegioConsiglio(int numPergamene) {
+    public void SceltaPrivilegioConsiglio(int numPergamene) throws NetworkException {
         this.incrementaPrivilegiDaScegliere();
         this.protocol.SceltaPrivilegioConsiglio(numPergamene);
     }
@@ -213,7 +222,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * @param valoreAzione valore dell'azione da svolgere
      */
     @Override
-    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse){
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException{
         this.setAzioneBonusDaEffettuare(true);
         this.protocol.EffettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
     }
@@ -223,8 +232,17 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
      */
     @Override
-    public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
+    public void ComunicaFinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws NetworkException {
         this.protocol.ComunicaFinePartita(mappaRisultati);
+    }
+
+    /**
+     * Comunica ai client online la disconnessione di un giocatore
+     * @param idGiocatoreDisconnesso
+     */
+    @Override
+    public void ComunicaDisconnessione(int idGiocatoreDisconnesso) throws NetworkException {
+        this.protocol.ComunicaDisconnessione(idGiocatoreDisconnesso);
     }
 
     //endregion

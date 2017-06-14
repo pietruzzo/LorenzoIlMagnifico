@@ -178,4 +178,25 @@ public class PartitaTest {
         //Piazzando nel palazzo del consiglio deve scegliere una pergamena
         assertEquals(1, michele.getPrivilegiDaScegliere());
     }
+
+    @Test
+    public void notificaChiusuraClient_TurnoNonDelGiocatore() throws Exception {
+        GiocatoreRemoto michele = partita.getGiocatoriPartita().get(0);
+        GiocatoreRemoto pietro = partita.getGiocatoriPartita().get(1);
+
+        //Aggiungo un terzo giocatore alla partita
+        partita.AggiungiGiocatore((short)3, "Carlo", new GiocatoreRemotoForTest());
+        partita.InizioNuovoTurno();
+
+        //E' il turno di michele
+        //Pietro si disconnette, quindi dopo michele toccherà a Carlo
+        partita.NotificaChiusuraClient(pietro);
+
+        partita.PiazzaFamiliare(new PiazzaFamiliareDTO(michele.getIdGiocatore(), ColoreDado.NEUTRO, 1, 3));
+
+        //Dev'essere il turno di Carlo
+        assertEquals(1, partita.getPeriodo());
+        assertEquals(1, partita.getTurno());
+        assertEquals(3, partita.getOrdineMossaCorrente());
+    }
 }

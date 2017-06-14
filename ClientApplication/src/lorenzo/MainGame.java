@@ -183,6 +183,14 @@ public class MainGame {
         }
     }
 
+    public void NotificaChiusuraClient()
+    {
+        try {
+            client.NotificaChiusuraClient();
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione chiusura client. %s", e.getMessage()));
+        }
+    }
     //endregion
 
 
@@ -325,6 +333,21 @@ public class MainGame {
         System.out.println(String.format("Partita finita! Ha vinto l'id %d", mappaRisultati.keySet().iterator().next()));
         try {
             userInterface.finePartita(mappaRisultati);
+        }
+        catch(Exception e)
+        {
+            this.MostraEccezione(e.getMessage());
+        }
+    }
+
+    /**
+     * Gestisce l'evento di disconnessione di un giocatore
+     */
+    public void ComunicaDisconnessione(int idGiocatoreDisconnesso)
+    {
+        System.out.println(String.format("Il giocatore %d non è più online", idGiocatoreDisconnesso));
+        try {
+            userInterface.GiocatoreDisconnesso(idGiocatoreDisconnesso);
         }
         catch(Exception e)
         {

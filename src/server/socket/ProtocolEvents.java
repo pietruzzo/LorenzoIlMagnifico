@@ -14,6 +14,7 @@ public class ProtocolEvents {
     public static final String AZIONE_BONUS_EFFETTUATA = "azioneBonusEffettuata";
     public static final String RISCUOTI_PRIVILEGIO = "riscuotiPrivilegio";
     public static final String SCELTA_EFFETTI = "sceltaEffetti";
+    public static final String CHIUSURA_CLIENT = "chiusuraClient";
 
     //Eventi lanciati dal server verso il client
     public static final String TIRATA_ECCEZIONE = "tirataEccezione";
@@ -26,6 +27,7 @@ public class ProtocolEvents {
     public static final String SCEGLI_PRIVILEGIO = "scegliPrivilegio";
     public static final String AZIONE_BONUS = "azioneBonus";
     public static final String FINE_PARTITA = "finePartita";
+    public static final String GIOCATORE_DISCONNESSO = "giocatoreDisconnesso";
 
     //Codici delle risposte date dal server al client (HTTP style)
     public static final int OK = 200;

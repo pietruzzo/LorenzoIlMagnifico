@@ -6,6 +6,7 @@ import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.TipoAzione;
+import Exceptions.NetworkException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -50,6 +51,7 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS_EFFETTUATA, this::AzioneBonusEffettuata);
         this.listaEventHandler.put(ProtocolEvents.RISCUOTI_PRIVILEGIO, this::RiscuotiPrivilegiDelConsiglio);
         this.listaEventHandler.put(ProtocolEvents.SCELTA_EFFETTI, this::SettaSceltaEffetti);
+        this.listaEventHandler.put(ProtocolEvents.CHIUSURA_CLIENT, this::NotificaChiusuraClient);
     }
 
     //region Handler eventi
@@ -87,7 +89,11 @@ public class SocketServerProtocol {
      */
     private void VerificaInizioPartita()
     {
-        this.giocatore.VerificaInizioPartita();
+        try {
+            this.giocatore.VerificaInizioPartita();
+        } catch (NetworkException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -95,7 +101,11 @@ public class SocketServerProtocol {
      */
     private void IniziaPartita()
     {
-        this.giocatore.IniziaPartita();
+        try {
+            this.giocatore.IniziaPartita();
+        } catch (NetworkException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -174,6 +184,21 @@ public class SocketServerProtocol {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Gestisce l'evento di chiusura di un client
+     */
+    public void NotificaChiusuraClient()
+    {
+        try {
+            short idGiocatore = (short) this.inputStream.readObject();
+            this.giocatore.NotificaChiusuraClient();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     //endregion
 
 
@@ -181,7 +206,7 @@ public class SocketServerProtocol {
     /**
      * Comunica l'eccezione al client
      */
-    public void ComunicaEccezione(String exceptionMessage)
+    public void ComunicaEccezione(String exceptionMessage) throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try{
@@ -190,7 +215,7 @@ public class SocketServerProtocol {
                 outputStream.flush();
             }
             catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -198,7 +223,7 @@ public class SocketServerProtocol {
     /**
      * Comunica ai client l'avvenuto inizio della partita
      */
-    public void PartitaIniziata(Tabellone tabellone)
+    public void PartitaIniziata(Tabellone tabellone) throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
@@ -206,7 +231,7 @@ public class SocketServerProtocol {
                 this.outputStream.writeObject(tabellone);
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -215,7 +240,7 @@ public class SocketServerProtocol {
     /**
      * Comunica ai client l'inizio di un nuovo turno
      */
-    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte)
+    public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
@@ -226,7 +251,7 @@ public class SocketServerProtocol {
 
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -235,7 +260,7 @@ public class SocketServerProtocol {
      * Comunica attraverso i socket al client l'inzio di una nuova mossa
      * @param idGiocatore id del giocatore che deve effettuare la mossa
      */
-    public void IniziaMossa(int idGiocatore)
+    public void IniziaMossa(int idGiocatore) throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
@@ -244,7 +269,7 @@ public class SocketServerProtocol {
 
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -254,7 +279,7 @@ public class SocketServerProtocol {
      * @param idGiocatoriScomunicati array degli id dei giocatori scomunicati
      * @param periodo periodo nel quale avviene la scomunica
      */
-    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
+    public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo) throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
@@ -264,7 +289,7 @@ public class SocketServerProtocol {
 
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -272,14 +297,14 @@ public class SocketServerProtocol {
     /**
      * Comunica al client che deve scegliere se sostenere o meno la chiesa
      */
-    public void SceltaSostegnoChiesa()
+    public void SceltaSostegnoChiesa() throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.SOSTEGNO_CHIESA);
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -288,14 +313,14 @@ public class SocketServerProtocol {
      * Notifica a tutti i client l'aggiornamento di un giocatore
      * @param update nuove caratteristiche del giocatore
      */
-    public void AggiornaGiocatore(UpdateGiocatoreDTO update) {
+    public void AggiornaGiocatore(UpdateGiocatoreDTO update) throws NetworkException {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.AGGIORNA_GIOCATORE);
                 this.outputStream.writeObject(update);
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -304,14 +329,14 @@ public class SocketServerProtocol {
      * Comunica al client il numero di pergamene da scegliere
      * @param numPergamene numero di pergamene da scegliere
      */
-    public void SceltaPrivilegioConsiglio(int numPergamene) {
+    public void SceltaPrivilegioConsiglio(int numPergamene) throws NetworkException {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.SCEGLI_PRIVILEGIO);
                 this.outputStream.writeObject(numPergamene);
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -322,7 +347,7 @@ public class SocketServerProtocol {
      * @param tipoAzioneBonus tipo di azione da svolgere
      * @param valoreAzione valore dell'azione da svolgere
      */
-    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse){
+    public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
                 this.outputStream.writeObject(ProtocolEvents.AZIONE_BONUS);
@@ -331,7 +356,7 @@ public class SocketServerProtocol {
                 this.outputStream.writeObject(bonusRisorse);
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
             }
         }
     }
@@ -340,7 +365,7 @@ public class SocketServerProtocol {
      * Comunica la fine della partita ai client
      * @param mappaRisultati mappa ordinata avente l'id del giocatore come chiave e i suoi punti vittoria come valore
      */
-    public void ComunicaFinePartita(HashMap<Short, Integer> mappaRisultati)
+    public void ComunicaFinePartita(HashMap<Short, Integer> mappaRisultati) throws NetworkException
     {
         synchronized (WRITE_TO_CLIENT_MUTEX) {
             try {
@@ -348,7 +373,23 @@ public class SocketServerProtocol {
                 this.outputStream.writeObject(mappaRisultati);
                 this.outputStream.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new NetworkException(e);
+            }
+        }
+    }
+
+    /**
+     * Comunica ai client online la disconnessione di un giocatore
+     * @param idGiocatoreDisconnesso
+     */
+    public void ComunicaDisconnessione(int idGiocatoreDisconnesso) throws NetworkException {
+        synchronized (WRITE_TO_CLIENT_MUTEX) {
+            try {
+                this.outputStream.writeObject(ProtocolEvents.GIOCATORE_DISCONNESSO);
+                this.outputStream.writeObject(idGiocatoreDisconnesso);
+                this.outputStream.flush();
+            } catch (IOException e) {
+                throw new NetworkException(e);
             }
         }
     }

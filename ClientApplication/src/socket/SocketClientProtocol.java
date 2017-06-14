@@ -6,6 +6,7 @@ import Domain.Risorsa;
 import Domain.Tabellone;
 import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.TipoAzione;
+import Exceptions.NetworkException;
 import lorenzo.MainGame;
 import server.socket.ProtocolEvents;
 
@@ -56,6 +57,7 @@ public class SocketClientProtocol {
         this.listaEventHandler.put(ProtocolEvents.SCEGLI_PRIVILEGIO, this::SceltaPrivilegioConsiglio);
         this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS, this::EffettuaAzioneBonus);
         this.listaEventHandler.put(ProtocolEvents.FINE_PARTITA, this::FinePartita);
+        this.listaEventHandler.put(ProtocolEvents.GIOCATORE_DISCONNESSO, this::ComunicaDisconnessione);
     }
 
     //region Handler Eventi del server
@@ -214,6 +216,21 @@ public class SocketClientProtocol {
     }
 
 
+    /**
+     * Gestisce l'evento di disconnessione di un giocatore
+     */
+    private void ComunicaDisconnessione()
+    {
+        try {
+            int idGiocatoreDisconnesso = (int) this.inputStream.readObject();
+            mainGame.ComunicaDisconnessione(idGiocatoreDisconnesso);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     //endregion
 
     //region Messaggi dal client al server
@@ -242,26 +259,26 @@ public class SocketClientProtocol {
     /**
      * La partita inizia automaticamente se è stato raggiunto il numero massimo di giocatori
      */
-    public void VerificaInizioAutomatico()
+    public void VerificaInizioAutomatico() throws NetworkException
     {
         try {
             outputStream.writeObject(ProtocolEvents.INIZIO_AUTOMATICO);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
 
     /**
      * Comunica al server di iniziare la partita
      */
-    public void IniziaPartita()
+    public void IniziaPartita() throws NetworkException
     {
         try {
             outputStream.writeObject(ProtocolEvents.INIZIA_PARTITA);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
 
@@ -269,14 +286,14 @@ public class SocketClientProtocol {
      * Comunica al server la risposta al sostegno della chiesa
      * @param risposta true se sostiene, con false il giocatore viene scomunicato
      */
-    public void RispostaSostegnoChiesa(Boolean risposta)
+    public void RispostaSostegnoChiesa(Boolean risposta) throws NetworkException
     {
         try {
             outputStream.writeObject(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA);
             outputStream.writeObject(risposta);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
 
@@ -284,13 +301,13 @@ public class SocketClientProtocol {
      * Comunica al server l'intenzione di piazzare un familiare nello spazio azione associato
      * @param piazzaFamiliareDTO parametri relativi al piazzamento del familiare
      */
-    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO)   {
+    public void PiazzaFamiliare(PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException   {
         try {
             outputStream.writeObject(ProtocolEvents.PIAZZA_FAMILIARE);
             outputStream.writeObject(piazzaFamiliareDTO);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
 
@@ -299,13 +316,13 @@ public class SocketClientProtocol {
      * Comunica al server l'intenzione di effettuare un'azione bonus
      * @param azioneBonusDTO parametri relativi all'azione bonus
      */
-    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO)   {
+    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws NetworkException   {
         try {
             outputStream.writeObject(ProtocolEvents.AZIONE_BONUS_EFFETTUATA);
             outputStream.writeObject(azioneBonusDTO);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
 
@@ -313,13 +330,13 @@ public class SocketClientProtocol {
      * Manda al server la scelta del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */
-    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa){
+    public void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa) throws NetworkException{
         try {
             outputStream.writeObject(ProtocolEvents.RISCUOTI_PRIVILEGIO);
             outputStream.writeObject(risorsa);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
 
@@ -328,7 +345,7 @@ public class SocketClientProtocol {
      * @param nomeCarta nome della carta alla quale impostare la scelta
      * @param sceltaEffetto indidce della scelta effettuata
      */
-    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto)
+    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto) throws NetworkException
     {
         try {
             outputStream.writeObject(ProtocolEvents.SCELTA_EFFETTI);
@@ -336,9 +353,23 @@ public class SocketClientProtocol {
             outputStream.writeObject(sceltaEffetto);
             outputStream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NetworkException(e);
         }
     }
+
+    /**
+     * Notifica il server della chiusura di un client
+     */
+    public void NotificaChiusuraClient() throws NetworkException
+    {
+        try {
+            outputStream.writeObject(ProtocolEvents.CHIUSURA_CLIENT);
+            outputStream.flush();
+        } catch (IOException e) {
+            throw new NetworkException(e);
+        }
+    }
+
     //endregion
 
     /**

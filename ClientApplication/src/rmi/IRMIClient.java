@@ -24,4 +24,5 @@ public interface IRMIClient extends Remote {
     void SceltaPrivilegioConsiglio(int numPergamene) throws RemoteException;
     void EffettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse) throws RemoteException;
     void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati) throws RemoteException;
+    void ComunicaDisconnessione(int idGiocatoreDisconnesso) throws RemoteException;
 }

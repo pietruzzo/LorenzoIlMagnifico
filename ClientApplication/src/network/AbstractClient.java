@@ -65,4 +65,5 @@ public abstract class AbstractClient {
 
     public abstract void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto) throws NetworkException;
 
+    public abstract void NotificaChiusuraClient() throws NetworkException;
 }

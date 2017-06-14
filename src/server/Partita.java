@@ -242,11 +242,30 @@ public class Partita  implements Serializable {
      */
     private void ComunicaInizioMossa(int idGiocatore)
     {
+        ArrayList<GiocatoreRemoto> giocatoriDisconnessi = new ArrayList<>();
+
         for (GiocatoreRemoto giocatore : this.giocatoriPartita) {
             try{ giocatore.IniziaMossa(idGiocatore); }
             catch (NetworkException e) {
-                System.out.println("Giocatore non più connesso");
+                System.out.println(String.format("Il giocatore %s non è più connesso", giocatore.getNome()));
+                giocatoriDisconnessi.add(giocatore);
             }
+        }
+
+        //Se qualche giocatore non è più connesso
+        if(giocatoriDisconnessi.size() > 0)
+        {
+            this.giocatoriPartita.remove(giocatoriDisconnessi);
+
+            for (GiocatoreRemoto giocatoreOffline : giocatoriDisconnessi) {
+                this.NotificaChiusuraClient(giocatoreOffline);
+            }
+        }
+
+        //Se si è disconnesso il giocatore che stava giocando viene iniziata una nuova mossa
+        if(giocatoriDisconnessi.stream().anyMatch(g -> g.getIdGiocatore() == idGiocatore))
+        {
+            this.IniziaNuovaMossa();
         }
     }
 
@@ -315,6 +334,28 @@ public class Partita  implements Serializable {
 
         //Verifica che ci siano le condizioni per iniziare una nuova mossa
         if(this.PuoCominciareUnaNuovaMossa())
+            this.IniziaNuovaMossa();
+    }
+
+
+    /**
+     * Gestisce l'evento di chiusura di un client
+     * @param giocatoreDisconnesso giocatore che si è disconnesso
+     */
+    public void NotificaChiusuraClient(GiocatoreRemoto giocatoreDisconnesso)
+    {
+        this.giocatoriPartita.remove(giocatoreDisconnesso);
+        this.tabellone.getGiocatori().remove(giocatoreDisconnesso);
+
+        for (GiocatoreRemoto giocatoreOnline : this.giocatoriPartita) {
+            try{ giocatoreOnline.ComunicaDisconnessione(giocatoreDisconnesso.getIdGiocatore()); }
+            catch (NetworkException e) {
+                System.out.println(String.format("Il giocatore %s non è più connesso", giocatoreOnline.getNome()));
+            }
+        }
+
+        //Se si è disconnesso il giocatore che stava giocando, comincia un nuovo turno
+        if(this.ordineMossaCorrente == giocatoreDisconnesso.getOrdineTurno())
             this.IniziaNuovaMossa();
     }
 

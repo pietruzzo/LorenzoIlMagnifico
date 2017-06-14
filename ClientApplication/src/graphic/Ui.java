@@ -104,4 +104,11 @@ public interface Ui {
      */
     public abstract void finePartita(LinkedHashMap<Short, Integer> mappaRisultati);
 
+
+    /**
+     * Notifica gli utenti della disconnessione di un giocatore
+     * @param idGiocatoreDisconnesso
+     */
+    public abstract void GiocatoreDisconnesso(int idGiocatoreDisconnesso);
+
 }
