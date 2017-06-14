@@ -165,9 +165,6 @@ public class CartaGraphic extends Group {
         return nome;
     }
 
-    public CartaGraphic clone() {
-        return this.clone();
-    }
 
     private void gestisciSceltaCosto(int i) {
 

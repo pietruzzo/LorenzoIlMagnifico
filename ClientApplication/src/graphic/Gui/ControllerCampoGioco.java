@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
@@ -28,7 +29,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     @FXML Pane vedononvedo;
     @FXML AnchorPane pannello;
     @FXML AnchorPane planciaGiocatorePane;
-    @FXML GridPane infoGiocatoriPane;
+    @FXML AnchorPane infoGiocatori;
     @FXML AnchorPane familiariPane;
     @FXML AnchorPane tabellonePane;
     @FXML javafx.scene.control.Label messaggi;
@@ -136,16 +137,13 @@ public class ControllerCampoGioco implements Ui, Controller {
         for (CartaGraphic cg : mazzo.getCarte()){
             cg.setOnMouseEntered(mouseEvent -> {
                 Group ingrandimento = cg.getIngrandimento();
-                System.out.println("Mouse entered");
                 ingrandimento.setLayoutX(cg.getLayoutX()+70);
                 ingrandimento.setLayoutY(cg.getLayoutY()+120);
                 ingrandimento.setVisible(true);
+                ingrandimento.toFront();
                 tabelloneController.getChildren().add(ingrandimento);
             });
-            cg.setOnMouseExited(mouseEvent -> {
-                System.out.println("Mouse exited");
-                tabelloneController.getChildren().remove(cg.getIngrandimento());
-            });
+            cg.setOnMouseExited(mouseEvent -> tabelloneController.getChildren().remove(cg.getIngrandimento()));
         }
 
 
@@ -235,6 +233,7 @@ public class ControllerCampoGioco implements Ui, Controller {
 
             //Disponi i familiari
             disponiFamiliari();
+
         });
     }
 
@@ -337,7 +336,7 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     private void abilitaFamiliari(){
         for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
-            familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GRAY, null, null)));
+            familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.LIGHTGREEN, null, null)));
 
         }
         familiariDisponibili.setDisable(false);
