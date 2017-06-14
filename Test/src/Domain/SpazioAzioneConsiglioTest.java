@@ -33,7 +33,6 @@ public class SpazioAzioneConsiglioTest {
         spazioAzione.PiazzaFamiliare(familiare, 1);
 
         assertEquals(1, spazioAzione.FamiliariPiazzati.size());
-        //assertEquals(1, giocatore.getPrivilegiDaScegliere());
     }
 
     @Test

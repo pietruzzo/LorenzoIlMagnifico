@@ -101,8 +101,6 @@ public class SpazioAzioneTorreTest {
         assertEquals(3, giocatore.Risorse.getLegno()); //Prese dal bonus spazio azione
         assertEquals(3, giocatore.Risorse.getPuntiMilitari()); //Presi dall'effetto immediato della carta
 
-        //funziona solo se eseguito da GiocatoreRemoto
-        //assertEquals(1, giocatore.getPrivilegiDaScegliere()); //Effetto immediato
         assertFalse(giocatore.getAzioneBonusDaEffettuare());
         assertTrue(giocatore.CarteImpresa.contains(costruireBastioni));
         assertNull(spazioAzione.CartaAssociata);
@@ -120,8 +118,6 @@ public class SpazioAzioneTorreTest {
         assertEquals(3, giocatore.Risorse.getLegno()); //Prese dal bonus spazio azione
         assertEquals(2, giocatore.Risorse.getPuntiMilitari()); //Presi dall'effetto immediato della carta
 
-        //funziona solo se eseguito da GiocatoreRemoto
-        //assertTrue(giocatore.getAzioneBonusDaEffettuare()); //Effetto immediato
         assertTrue(giocatore.CartePersonaggio.contains(capitano));
         assertNull(spazioAzione.CartaAssociata);
     }
@@ -191,8 +187,6 @@ public class SpazioAzioneTorreTest {
         assertEquals(2, giocatore.Risorse.getLegno()); //Immutati
         assertEquals(3, giocatore.Risorse.getPietra()); //Prese dal bonus spazio azione (torre personaggi)
 
-        //funziona solo se eseguito da GiocatoreRemoto
-        //assertEquals(1, giocatore.getPrivilegiDaScegliere()); //Presi dall'effetto immediato della carta
         assertFalse(giocatore.getAzioneBonusDaEffettuare());
         assertTrue(giocatore.CartePersonaggio.contains(cavaliere));
         assertNull(spazioAzione.CartaAssociata);

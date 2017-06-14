@@ -69,8 +69,8 @@ public class PartitaTest {
             partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 0 ));
         }
 
-        assertEquals(1, partita.getOrdineMossaCorrente());
-        assertEquals(2, partita.getTurno());
+        //La mossa corrente non è prevedibile in questo caso perchè dipende da quando è stato incontrato il primo privilegio del consiglio o azione bonus
+        assertEquals(1, partita.getTurno()); //Il turno  previsto è ancora il primo a causa delle scelte dei privilegi e azioni bonus
         assertEquals(1, partita.getPeriodo());
     }
 
@@ -86,26 +86,28 @@ public class PartitaTest {
         //Tutti e due i giocatori fanno un giro di mosse in modo da completare il turno
         for (GiocatoreRemoto giocatore : partita.getGiocatoriPartita()) {
             partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 1 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 0 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 0 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 0 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 8 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 4 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 2 ));
         }
 
         //Viene forzato il valore dei dadi a un valore alto così da non avere errori di validazione nel prendere le carte
         partita.getGiocatoriPartita().stream().forEach(g -> g.SettaValoreFamiliare(new int[]{7,7,7}));
+        //Forzo l'inizio di un nuovo turno che altrimenti non partirebbe a causa dei privilegi e azioni bonus
+        partita.InizioNuovoTurno();
 
         //Tutti e due i giocatori fanno un giro di mosse in modo da completare il turno
         for (GiocatoreRemoto giocatore : partita.getGiocatoriPartita()) {
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 1 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 0 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 0 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 0 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 5 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 6 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 5 ));
+            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 5 ));
         }
 
 
         //Dopo aver completato due giri di mosse i giocatori hanno abbastanza punti fede per poter scegliere
-        assertEquals(2, partita.getOrdineMossaCorrente());
-        assertEquals(2, partita.getTurno());
+        //La mossa corrente non è prevedibile in questo caso perchè dipende da quando è stato incontrato il primo privilegio del consiglio o azione bonus
+        assertEquals(2, partita.getTurno()); //Il turno rimane il secondo per i privilegi
         assertEquals(1, partita.getPeriodo());
     }
 
