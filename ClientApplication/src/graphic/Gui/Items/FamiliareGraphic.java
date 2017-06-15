@@ -16,10 +16,11 @@ import static java.io.File.separator;
  */
 public class FamiliareGraphic extends Group {
 
-    private static final String percorsoFileDescrizione = System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"Familiari"+separator;
+    private static final String percorsoFileDescrizione = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"Familiari"+separator;
     private static final int RAGGIO= 15;
 
     private ColoreDado colore;
+    private Image immagine;
 
     public FamiliareGraphic(ColoreGiocatore coloreGiocatore, ColoreDado coloreDado) {
         super();
@@ -27,9 +28,15 @@ public class FamiliareGraphic extends Group {
         Circle cerchioDado = new Circle(RAGGIO/2, coloreDado.getColore());
         this.getChildren().addAll(cerchioPedina, cerchioDado);
 
+        immagine= new Image(percorsoFileDescrizione+"Familiare"+coloreGiocatore.getColoreStringa()+coloreDado.getColoreString()+".png", 74, 120, true, false);
+
     }
 
     public ColoreDado getColore() {
         return colore;
+    }
+
+    public Image getImmagine(){
+        return immagine;
     }
 }

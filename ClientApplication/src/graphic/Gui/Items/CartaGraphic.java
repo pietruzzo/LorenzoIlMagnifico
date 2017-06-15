@@ -37,6 +37,7 @@ public class CartaGraphic extends Group {
     private TipoCarta tipoCarta;
     private String nome;
     private Group ingrandimento;
+    private Image cartaIngrandita;
     private Dimension2D dimensioni;
 
     private int numSceltaCosto;
@@ -54,6 +55,7 @@ public class CartaGraphic extends Group {
         super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
         this.nome = nome;
+        this.cartaIngrandita=cartaIngrandita;
 
         //setta ingrandimento
         ImageView cartaIngranditaView = new ImageView(cartaIngrandita);
@@ -156,6 +158,8 @@ public class CartaGraphic extends Group {
     public Group getIngrandimento(){
         return ingrandimento;
     }
+
+    public ImageView getNewImmagineIngrandita() {return new ImageView(cartaIngrandita);}
 
     public TipoCarta getTipoCarta() {
         return tipoCarta;

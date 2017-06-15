@@ -3,12 +3,13 @@ package graphic.Gui;
 
 import Domain.Risorsa;
 import graphic.Gui.Items.CartaGraphic;
-import javafx.application.Platform;
+import graphic.Gui.Items.CasellaGraphic;
+import graphic.Gui.Items.FamiliareGraphic;
+import graphic.Gui.Items.GiocatoreGraphic;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lorenzo.Applicazione;
 import lorenzo.MainGame;
 
 /**
@@ -74,12 +75,32 @@ public class ControllerLogin implements Controller {
     }
 
     @Override
-    public void cartaTabelloneToGiocatore(CartaGraphic carta) {
+    public void cartaTabelloneToGiocatore(CartaGraphic carta, GiocatoreGraphic giocatoreGraphic) {
 
     }
 
     @Override
     public void riscossionePrivilegio(Risorsa risorse) {
+
+    }
+
+    @Override
+    public void exitGame() {
+
+    }
+
+    @Override
+    public void giocaAdesso() {
+
+    }
+
+    @Override
+    public void selezionaFamiliare(FamiliareGraphic familiare, boolean piazzamentoPossibile) {
+
+    }
+
+    @Override
+    public void casellaSelezionata(CasellaGraphic casella) {
 
     }
 }

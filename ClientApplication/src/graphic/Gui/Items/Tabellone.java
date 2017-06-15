@@ -2,7 +2,6 @@ package graphic.Gui.Items;
 
 import Domain.ColoreDado;
 import Domain.Risorsa;
-import Domain.TesseraScomunica;
 import graphic.Gui.Controller;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
@@ -10,7 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -67,7 +65,9 @@ public class Tabellone extends AnchorPane{
      * @param listaGiocatori giocatori partecipanti
      */
     @NotNull
-    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica){
+    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica, Controller callback){
+
+        this.callback=callback;
 
         if (listaGiocatori.size() > 2){
             ImageView immagineTabellone;
@@ -76,7 +76,7 @@ public class Tabellone extends AnchorPane{
             this.getChildren().add(immagineTabellone);
         }
 
-        caselle = new CaselleGioco(listaGiocatori.size(), this);
+        caselle = new CaselleGioco(listaGiocatori.size(), this, callback);
 
         punti = new CasellePunti(listaGiocatori);
 
@@ -118,7 +118,7 @@ public class Tabellone extends AnchorPane{
         if(casella instanceof CasellaConCartaGraphic ){
             CasellaConCartaGraphic c = (CasellaConCartaGraphic) casella;
             if(c.getCartaAssociata()!=null){
-                callback.cartaTabelloneToGiocatore(c.getCartaAssociata());
+                callback.cartaTabelloneToGiocatore(c.getCartaAssociata(), giocatore);
             }
         }
     }
@@ -166,7 +166,7 @@ public class Tabellone extends AnchorPane{
         casella.setCartaAssociata(carta);
     }
 
-    public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){//TODO
+    public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){//TODO aggiunta scomunica
          }
 
     public void rimuoviCarteTorre(){
@@ -186,8 +186,16 @@ public class Tabellone extends AnchorPane{
     }
 
 
-    public void disabilitaCasella(int idCasella){
-        caselle.getCasellabyId(idCasella).setVisible(false);
+    public void disattivaCasella(int idCasella){
+        caselle.getCasellabyId(idCasella).disabilita();
+    }
+
+    public void attivaCasella(int idCasella){
+        caselle.getCasellabyId(idCasella).abilita();
+    }
+
+    public void isCasellaDisattiva(int idCasella){
+        caselle.getCasellabyId(idCasella).isDisattiva();
     }
 
     public void aggiornaPunti(GiocatoreGraphic giocatore, Risorsa risorsa){

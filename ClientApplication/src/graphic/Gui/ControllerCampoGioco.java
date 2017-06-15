@@ -8,14 +8,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
 import java.awt.*;
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,18 +28,18 @@ public class ControllerCampoGioco implements Ui, Controller {
     @FXML AnchorPane pannello;
     @FXML AnchorPane planciaGiocatorePane;
     @FXML AnchorPane infoGiocatori;
-    @FXML AnchorPane familiariPane;
     @FXML AnchorPane tabellonePane;
-    @FXML javafx.scene.control.Label messaggi;
+    @FXML TextArea messaggi;
 
     private MainGame mainGame;
     private Tabellone tabelloneController;
     private CarteGioco mazzo;
     private List<GiocatoreGraphic> giocatori;
     private PlanciaGiocatore plancia;
+    private AltriGiocatoriHBox infoGiocatoriController;
     private int idGiocatoreClient;
-    private HBox familiariDisponibili;
-    private javafx.scene.control.Button start;
+    private FamiliareGraphic familiareSelezionato;
+    private SelettoreFamiliariGraphic selettoreFamiliari;
 
     @FXML private void initialize(){
 
@@ -62,18 +60,17 @@ public class ControllerCampoGioco implements Ui, Controller {
         tabelloneController = new Tabellone(this);
         tabellonePane.getChildren().add(tabelloneController);
 
-        //Bottone "Comincia subito"
-        start = new javafx.scene.control.Button("Comincia adesso");
-        start.setDisable(false);
-        start.setOnMouseClicked(mouseEvent -> {
-            mainGame.IniziaPartita();
-            familiariPane.getChildren().remove(start);
-        });
-        familiariPane.getChildren().add(start);
 
         //Inizializza la plancia del giocatore
         plancia = new PlanciaGiocatore();
         planciaGiocatorePane.getChildren().add(plancia);
+
+        //Inizializza il pannello Selettore Familiari
+        selettoreFamiliari= new SelettoreFamiliariGraphic(this);
+        planciaGiocatorePane.getChildren().add(selettoreFamiliari);
+        selettoreFamiliari.setLayoutY(200);
+        selettoreFamiliari.setPrefWidth(400);
+        selettoreFamiliari.setPrefHeight(300);
 
     }
 
@@ -83,9 +80,14 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
-    public void cartaTabelloneToGiocatore(CartaGraphic carta) {
+    public void cartaTabelloneToGiocatore(CartaGraphic carta, GiocatoreGraphic giocatoreGraphic) {
         tabelloneController.rimuoviCarta(carta);
-        //TODO aggiungi alla plancia o alle info dei giocatori
+
+        if(giocatoreGraphic.getIdGiocatore()==idGiocatoreClient){
+            plancia.aggiungiCarta(carta);
+        } else {
+            infoGiocatoriController.addCarta(giocatoreGraphic, carta);
+        }
     }
 
     @Override
@@ -94,9 +96,36 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
+    public void exitGame() {
+        mainGame.closeClient();
+    }
+
+    @Override
+    public void giocaAdesso() {
+        mainGame.IniziaPartita();
+    }
+
+    @Override
+    public void selezionaFamiliare(FamiliareGraphic familiare, boolean selezionePossibile) {
+        if(selezionePossibile) familiareSelezionato=familiare;
+        else stampaMessaggio("Il familiare è già stato utilizzato");
+    }
+
+    @Override
+    public void casellaSelezionata(CasellaGraphic casella) {
+        if(casella.isDisattiva()){
+            stampaMessaggio("Non puoi piazzare il familiare in questa casella");
+        } else if(familiareSelezionato==null){
+            stampaMessaggio("Non hai selezionato il familiare");
+        } else {
+            //TODO Open scelta servitori
+        }
+    }
+
+    @Override
     public void disabilitaCaselle(int idSpazioAzione) {
         Platform.runLater(() -> {
-            tabelloneController.disabilitaCasella(idSpazioAzione);
+            tabelloneController.disattivaCasella(idSpazioAzione);
         });
 
     }
@@ -113,23 +142,25 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void stampaMessaggio(String stringa) {
-        Platform.runLater(() -> messaggi.setText(stringa));
+        Platform.runLater(() -> messaggi.appendText(stringa+"\n"));
     }
 
     @Override
     public void inizializzaPartita(Domain.Tabellone tabellone) {
         //Inizializza i giocatori
         giocatori=new ArrayList<>();
+        List<GiocatoreGraphic> giocatoriEsclusoCorrente = new ArrayList<>();
 
         for (Giocatore giocatore : tabellone.getGiocatori())
         {
-            giocatori.add(new GiocatoreGraphic(giocatore));
+            GiocatoreGraphic gg = new GiocatoreGraphic(giocatore);
+            giocatori.add(gg);
 
             if(giocatore.getNome().equals(mainGame.getNomeGiocatore()))
             {
                 Platform.runLater(() -> plancia.settaRisorse(giocatore.getRisorse()));
                 idGiocatoreClient =giocatore.getIdGiocatore();
-            }
+            } else giocatoriEsclusoCorrente.add(gg);
         }
 
         //Genera il mazzo di carte
@@ -154,16 +185,20 @@ public class ControllerCampoGioco implements Ui, Controller {
         carteScom[2] = mazzo.getCarta(tabellone.getCarteScomunica().get(2).getNome());
 
         Platform.runLater(() -> {
-            familiariPane.getChildren().remove(start);
-            tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom);
+            tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom, this);
 
-            //Disponi i Familiari disponibili
-            familiariDisponibili = new HBox();
-            pannello.getChildren().add(familiariDisponibili);
-            familiariDisponibili.setSpacing(10);
-            familiariDisponibili.setLayoutX(920);
-            familiariDisponibili.setLayoutY(1000);
+            //Genero infoGiocatoriController e lo inizializzo
+            infoGiocatoriController =new AltriGiocatoriHBox(giocatoriEsclusoCorrente, infoGiocatori);
+            for(Giocatore g : tabellone.getGiocatori()){
+                if(g.getIdGiocatore()!=this.idGiocatoreClient){
+                    infoGiocatoriController.setRisorse(getGiocatorebyId(g.getIdGiocatore()), g.getRisorse());
+                }
+            }
+
+            //Rimuovo bottone "AvviaPartita" e dispongo i familiari
+            selettoreFamiliari.inizializzaFamiliari(getGiocatorebyId(idGiocatoreClient).getFamiliari());
         });
+
     }
 
 
@@ -174,7 +209,7 @@ public class ControllerCampoGioco implements Ui, Controller {
             if(idGiocatore== idGiocatoreClient) {
                 plancia.settaRisorse(risorsa);
             } else {
-                //TODO Aggiorna informazioni giocatori
+                infoGiocatoriController.setRisorse(getGiocatorebyId(idGiocatore), risorsa);
             }
         });
     }
@@ -232,7 +267,7 @@ public class ControllerCampoGioco implements Ui, Controller {
             tabelloneController.setOrdineTurno(ordineTurno);
 
             //Disponi i familiari
-            disponiFamiliari();
+            selettoreFamiliari.setFamiliariInizioTurno();
 
         });
     }
@@ -240,9 +275,10 @@ public class ControllerCampoGioco implements Ui, Controller {
     @Override
     public void iniziaMossa(int idGiocatore) {
         if(idGiocatore==idGiocatoreClient){
-            abilitaFamiliari();
+            selettoreFamiliari.abiltaMossa();
         } else {
             this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
+            selettoreFamiliari.disabilitaMossa();
         }
     }
 
@@ -322,27 +358,4 @@ public class ControllerCampoGioco implements Ui, Controller {
         throw new NullPointerException(idGiocatore+ " non è presente nella lista GiocatoriGraphic");
     }
 
-    private void disponiFamiliari(){
-        familiariDisponibili.getChildren().clear();
-        for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
-            familiariDisponibili.getChildren().add(f);
-        }
-        abilitaFamiliari();
-    }
-
-    private void disabilitaFamiliari(){
-        for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
-            familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GRAY, null, null)));
-
-        }
-        familiariDisponibili.setDisable(true);
-    }
-
-    private void abilitaFamiliari(){
-        for(FamiliareGraphic f : getGiocatorebyId(idGiocatoreClient).getFamiliari()) {
-            familiariDisponibili.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.LIGHTGREEN, null, null)));
-
-        }
-        familiariDisponibili.setDisable(false);
-    }
 }

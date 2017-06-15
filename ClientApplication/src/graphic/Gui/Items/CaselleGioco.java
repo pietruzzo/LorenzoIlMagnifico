@@ -1,5 +1,6 @@
 package graphic.Gui.Items;
 
+import graphic.Gui.Controller;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
@@ -71,7 +72,7 @@ public class CaselleGioco {
 
     private ArrayList<CasellaGraphic> listaCaselle = new ArrayList<CasellaGraphic>();
 
-    public CaselleGioco(int numPlayers, AnchorPane pannello) {
+    public CaselleGioco(int numPlayers, AnchorPane pannello, Controller callBack) {
 
         for (int i = 0; i < COORDINATE_CASELLE.length; i++){
             Point2D coord= COORDINATE_CASELLE[i];
@@ -84,9 +85,9 @@ public class CaselleGioco {
             //Scelta tipo e creazione casella
             if (i<17){
                 listaCaselle.add(new CasellaConCartaGraphic(i,(int) coord.getX(), (int)coord.getY(), (int)dim.getWidth(), (int)dim.getHeight(),
-                        createDescrizione(pannello, i, coord), (int)COORDINATE_SPAZIO_CARTA[i].getX(), (int)COORDINATE_SPAZIO_CARTA[i].getY()));
+                        createDescrizione(pannello, i, coord), (int)COORDINATE_SPAZIO_CARTA[i].getX(), (int)COORDINATE_SPAZIO_CARTA[i].getY(), callBack));
             } else{
-            listaCaselle.add(new CasellaGraphic(i,(int) coord.getX(), (int)coord.getY(), (int)dim.getWidth(), (int)dim.getHeight(), createDescrizione(pannello, i, coord)));
+            listaCaselle.add(new CasellaGraphic(i,(int) coord.getX(), (int)coord.getY(), (int)dim.getWidth(), (int)dim.getHeight(), createDescrizione(pannello, i, coord), callBack));
             }
         }
 

@@ -1,23 +1,17 @@
 package graphic.Gui.Items;
 
-import Domain.Carta;
 import Domain.Risorsa;
 import Domain.TipoCarta;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-
-import java.awt.*;
 
 import static java.io.File.separator;
 
@@ -57,8 +51,8 @@ public class PlanciaGiocatore extends Pane {
     private Label servi;
 
     //pannello con le carte impresa ed edificio
-    CarteFuoriPlancia carteImpresa;
-    CarteFuoriPlancia cartePersonaggio;
+    CarteFuoriPlanciaPane carteImpresa;
+    CarteFuoriPlanciaPane cartePersonaggio;
 
 
     public PlanciaGiocatore(){
@@ -66,8 +60,8 @@ public class PlanciaGiocatore extends Pane {
         ImageView planciaView = null;
         numCarteEdificio=0;
         numCarteTerritorio=0;
-        carteImpresa = new CarteFuoriPlancia();
-        cartePersonaggio = new CarteFuoriPlancia();
+        carteImpresa = new CarteFuoriPlanciaPane();
+        cartePersonaggio = new CarteFuoriPlanciaPane();
         Rectangle areaCarteImpresa = new Rectangle(140, 240);
         Rectangle areaCartePersonaggio = new Rectangle(140, 240);
 
@@ -77,8 +71,8 @@ public class PlanciaGiocatore extends Pane {
         servi=new Label("Inizialize");
 
         //Scala e trasla la plancia
-        this.setTranslateY(30);
-        this.setTranslateX(250);
+        this.setTranslateY(60);
+        this.setTranslateX(180);
         this.setScaleX(0.7);
         this.setScaleY(0.7);
 
@@ -202,23 +196,3 @@ public class PlanciaGiocatore extends Pane {
     }
 }
 
-class CarteFuoriPlancia extends Pane{
-
-    HBox boxCarte;
-
-    CarteFuoriPlancia(){
-        super();
-        //this.setWidth(20);
-        //this.setHeight(250);
-        boxCarte= new HBox(50);
-        boxCarte.setAlignment(Pos.CENTER);
-        this.getChildren().add(boxCarte);
-        this.setVisible(false);
-    }
-
-    void aggiungiCarta(CartaGraphic carta){
-        carta.setLayoutX(0);
-        carta.setLayoutY(0);
-        boxCarte.getChildren().add(carta);
-    }
-}

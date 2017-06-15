@@ -1,6 +1,8 @@
 package graphic.Gui.Items;
 
+import graphic.Gui.Controller;
 import javafx.geometry.Pos;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,8 +16,9 @@ public class CasellaGraphic extends Rectangle {
     private int id;
     private WebView descrizione;
     private HBox pedine;
+    private boolean disattivata;
 
-    CasellaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione) {
+    CasellaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, Controller callBack) {
         //Creo il rettangolo
         super(dimX, dimY);
 
@@ -23,10 +26,15 @@ public class CasellaGraphic extends Rectangle {
         this.setFill(Color.TRANSPARENT);
 
         this.id = id;
+        this.disattivata=false;
 
         //posiziona il rettangolo sul pannello centrandolo sulle coordinate
         this.setX(x-dimX/2);
         this.setY(y-dimY/2);
+
+        //proprietà descrizione Casella
+        descrizione.setMaxWidth(100);
+        descrizione.setMaxHeight(50);
 
         //HBox settings
         pedine = new HBox();
@@ -34,15 +42,15 @@ public class CasellaGraphic extends Rectangle {
 
         //Aggiunge l'evento Click
         this.setOnMouseClicked(mouseEvent -> {
-            //TODO Call a method
+            callBack.casellaSelezionata(this);
         });
 
         if(descrizione != null) {
             //Aggiunge l'evento che mostra la descrizione
-            this.setOnMouseDragEntered(mouseDragEvent -> descrizione.setVisible(true));
+           //TODO da aggiungere se c'è tempo this.setOnMouseEntered(mouseEvent -> descrizione.setVisible(true));
 
             //Aggiunge l'evento che nasconde la descrizione
-            this.setOnDragExited(dragEvent -> descrizione.setVisible(false));
+            this.setOnMouseExited(mouseEvent -> descrizione.setVisible(false));
         }
 
         //descrizione
@@ -100,5 +108,14 @@ public class CasellaGraphic extends Rectangle {
         pedine.getChildren().remove(familiare);
     }
 
+    public void disabilita(){
+        this.disattivata=true;
+    }
+
+    public void abilita(){
+        this.disattivata=false;
+    }
+
+    public boolean isDisattiva(){return this.disattivata;}
 
 }

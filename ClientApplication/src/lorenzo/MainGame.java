@@ -357,6 +357,8 @@ public class MainGame {
     //endregion
 
 
+    public void closeClient(){applicazione.chiudiApplicazione();}
+
     public String getNomeGiocatore() {
         return nomeGiocatore;
     }

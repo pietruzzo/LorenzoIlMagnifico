@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -27,15 +28,10 @@
                         <VBox alignment="BOTTOM_CENTER" prefHeight="1201.0" prefWidth="1271.0">
                            <children>
                               <AnchorPane fx:id="infoGiocatori" prefHeight="593.0" prefWidth="1271.0" />
-                            <AnchorPane id="bottomAnchorPane" fx:id="familiariPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="1271.0">
+                              <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="460.0" prefWidth="1271.0">
                                  <children>
-                                    <Label fx:id="messaggi" layoutX="14.0" layoutY="144.0" textFill="#e40404">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <TextArea fx:id="messaggi" editable="false" layoutX="60.0" layoutY="8.0" prefHeight="110.0" prefWidth="1151.0" wrapText="true" />
                                  </children></AnchorPane>
-                              <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="500.0" prefWidth="1271.0" />
                            </children>
                         </VBox>
                      </children>

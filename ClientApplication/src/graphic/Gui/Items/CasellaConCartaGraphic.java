@@ -1,5 +1,6 @@
 package graphic.Gui.Items;
 
+import graphic.Gui.Controller;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
@@ -14,9 +15,9 @@ public class CasellaConCartaGraphic extends CasellaGraphic{
 
     private CartaGraphic cartaAssociata;
 
-    CasellaConCartaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, int spazioCartaX, int spazioCartaY) {
+    CasellaConCartaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, int spazioCartaX, int spazioCartaY, Controller callback) {
 
-        super(id, x, y, dimX, dimY, descrizione);
+        super(id, x, y, dimX, dimY, descrizione, callback);
 
         this.spazioCartaX=spazioCartaX;
         this.spazioCartaY=spazioCartaY;
