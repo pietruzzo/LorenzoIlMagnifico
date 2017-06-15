@@ -114,7 +114,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
      */
     @Override
     public void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO piazzaFamiliareDTO) throws IOException {
-        GetGiocatoreById(idGiocatore).getPartita().PiazzaFamiliare(piazzaFamiliareDTO);
+        GetGiocatoreById(idGiocatore).getPartita().PiazzaFamiliare(idGiocatore, piazzaFamiliareDTO);
     }
 
     /**
@@ -124,7 +124,7 @@ public class RMIServer extends AbstractServer implements IRMIServer {
      */
     @Override
     public void AzioneBonusEffettuata(short idGiocatore, AzioneBonusDTO azioneBonusDTO) throws IOException{
-        GetGiocatoreById(idGiocatore).getPartita().AzioneBonusEffettuata(azioneBonusDTO);
+        GetGiocatoreById(idGiocatore).getPartita().AzioneBonusEffettuata(idGiocatore, azioneBonusDTO);
     }
 
     /**

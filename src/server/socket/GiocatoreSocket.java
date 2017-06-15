@@ -109,7 +109,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     public void PiazzaFamiliare (PiazzaFamiliareDTO piazzaFamiliareDTO) throws NetworkException
     {
         try {
-            this.getPartita().PiazzaFamiliare(piazzaFamiliareDTO);
+            this.getPartita().PiazzaFamiliare(this.getIdGiocatore(), piazzaFamiliareDTO);
         } catch (DomainException e) {
             protocol.ComunicaEccezione(e.getMessage());
         }
@@ -123,7 +123,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     public void AzioneBonusEffettuata (AzioneBonusDTO azioneBonusDTO) throws NetworkException
     {
         try {
-            this.getPartita().AzioneBonusEffettuata(azioneBonusDTO);
+            this.getPartita().AzioneBonusEffettuata(this.getIdGiocatore(), azioneBonusDTO);
         } catch (DomainException e) {
             protocol.ComunicaEccezione(e.getMessage());
         }
