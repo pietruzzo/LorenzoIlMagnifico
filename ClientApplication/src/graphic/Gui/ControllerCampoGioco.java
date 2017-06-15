@@ -8,12 +8,15 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.SubScene;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,6 +43,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     private int idGiocatoreClient;
     private FamiliareGraphic familiareSelezionato;
     private SelettoreFamiliariGraphic selettoreFamiliari;
+    //private OpzioniMossa opzioniMossa;
 
     @FXML private void initialize(){
 
@@ -71,6 +75,9 @@ public class ControllerCampoGioco implements Ui, Controller {
         selettoreFamiliari.setLayoutY(200);
         selettoreFamiliari.setPrefWidth(400);
         selettoreFamiliari.setPrefHeight(300);
+
+        //Inizializza OpzioniMossa
+        //opzioniMossa=new OpzioniMossa(this);
 
     }
 
@@ -113,13 +120,43 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void casellaSelezionata(CasellaGraphic casella) {
+        Pane pannelloScelta=null;
         if(casella.isDisattiva()){
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         } else if(familiareSelezionato==null){
             stampaMessaggio("Non hai selezionato il familiare");
-        } else {
-            //TODO Open scelta servitori
+        } /*else if(!(casella instanceof CasellaConCartaGraphic)){
+            pannelloScelta = opzioniMossa.getScelta(familiareSelezionato, (CasellaConCartaGraphic)casella);
+        } else if(casella instanceof CasellaConCartaGraphic && ((CasellaConCartaGraphic) casella).getCartaAssociata()==null){
+            stampaMessaggio("Non puoi piazzare il familiare in questa casella");
+        } else{
+            pannelloScelta = opzioniMossa.getScelta(familiareSelezionato, casella);
+        }*/
+        else if(casella instanceof CasellaConCartaGraphic && ((CasellaConCartaGraphic) casella).getCartaAssociata()==null){
+            stampaMessaggio("Non puoi piazzare il familiare in questa casella");
+        }else {
+            try {
+                new OpzioniMossaAlternative(this, casella, familiareSelezionato, mainGame.getApplicazione()).setSubScene(pannello);
+            }catch (IOException e){
+                System.out.println("opzioni non caricate");
+            }
         }
+/*
+        if(pannelloScelta!=null){
+            //Aggiungo il pannello se non presente, lo centro e lo mostro
+            pannelloScelta.setLayoutX(pannello.getWidth()/2 - pannelloScelta.getWidth()/2);
+            pannelloScelta.setLayoutY(pannello.getHeight()/2 - pannelloScelta.getHeight()/2);
+            pannelloScelta.setVisible(true);
+            if(! pannello.getChildren().contains(pannelloScelta)){
+                pannello.getChildren().add(pannelloScelta);
+            }
+            pannelloScelta.toFront();
+        }*/
+    }
+
+    @Override
+    public void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori) {
+        mainGame.PiazzaFamiliare((short)idGiocatoreClient, f.getColore(), casella.getCasellaId(), servitori);
     }
 
     @Override
@@ -166,15 +203,19 @@ public class ControllerCampoGioco implements Ui, Controller {
         //Genera il mazzo di carte
         mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica());
         for (CartaGraphic cg : mazzo.getCarte()){
+            final Group[] ingrandimento = new Group[1];
             cg.setOnMouseEntered(mouseEvent -> {
-                Group ingrandimento = cg.getIngrandimento();
-                ingrandimento.setLayoutX(cg.getLayoutX()+70);
-                ingrandimento.setLayoutY(cg.getLayoutY()+120);
-                ingrandimento.setVisible(true);
-                ingrandimento.toFront();
-                tabelloneController.getChildren().add(ingrandimento);
+                ImageView iv  = cg.getNewImmagineIngrandita();
+                iv.setFitWidth(iv.getImage().getWidth()*0.7);
+                iv.setFitHeight(iv.getImage().getHeight()*0.7);
+                ingrandimento[0] = new Group(iv);
+                ingrandimento[0].setLayoutX(cg.getLayoutX()+70);
+                ingrandimento[0].setLayoutY(cg.getLayoutY()+120);
+                ingrandimento[0].setVisible(true);
+                ingrandimento[0].toFront();
+                tabelloneController.getChildren().add(ingrandimento[0]);
             });
-            cg.setOnMouseExited(mouseEvent -> tabelloneController.getChildren().remove(cg.getIngrandimento()));
+            cg.setOnMouseExited(mouseEvent -> tabelloneController.getChildren().remove(ingrandimento[0]));
         }
 
 
@@ -225,8 +266,10 @@ public class ControllerCampoGioco implements Ui, Controller {
             //Aggiorna il giocatore sul tabellone
             GiocatoreGraphic update = getGiocatorebyId(idGiocatore);
             tabelloneController.piazzaFamiliare(update, update.getFamiliare(coloreDado), idSpazioAzione);
+            selettoreFamiliari.familiareUsato(getGiocatorebyId(idGiocatore).getFamiliare(coloreDado));
             //Aggiorna le risorse del giocatore
             this.aggiornaRisorse(idGiocatore, risorsa);
+
         });
     }
 
@@ -276,6 +319,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     public void iniziaMossa(int idGiocatore) {
         if(idGiocatore==idGiocatoreClient){
             selettoreFamiliari.abiltaMossa();
+            selettoreFamiliari.toFront();
         } else {
             this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
             selettoreFamiliari.disabilitaMossa();

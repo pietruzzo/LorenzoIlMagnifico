@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class Applicazione extends Application {
 
-    private final String fxmlPath = System.getProperty("user.dir") + File.separator +"ClientApplication" + File.separator+ "src" +File.separator + "graphic" +File.separator +"Gui" +File.separator+ "fxml"+File.separator;
+    private static final String fxmlPath = System.getProperty("user.dir") + File.separator +"ClientApplication" + File.separator+ "src" +File.separator + "graphic" +File.separator +"Gui" +File.separator+ "fxml"+File.separator;
     /**
      * Finestra dell'interfaccia grafica
      */
@@ -50,7 +50,7 @@ public class Applicazione extends Application {
 
             try {
                 Parent login = null;
-                login= getFXML("login_scene.fxml", new ControllerLogin());
+                login= getFXML("login_scene.fxml");
                 finestra.setTitle("Login");
                 finestra.setScene(new Scene(login));
             } catch (IOException e) {
@@ -105,7 +105,8 @@ public class Applicazione extends Application {
      * @return la scena generata dal file
      * @throws IOException
      */
-    public Parent getFXML(String nomeFile, Controller controller) throws IOException{
+    public Parent getFXML(String nomeFile) throws IOException{
+        Controller controller;
         Parent parent;
         FXMLLoader fxmlLoader = new FXMLLoader();
         parent = fxmlLoader.load(new FileInputStream(fxmlPath + nomeFile));

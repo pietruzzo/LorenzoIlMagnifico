@@ -24,6 +24,7 @@ public class FamiliareGraphic extends Group {
 
     public FamiliareGraphic(ColoreGiocatore coloreGiocatore, ColoreDado coloreDado) {
         super();
+        this.colore =coloreDado;
         Circle cerchioPedina = new Circle(RAGGIO, coloreGiocatore.getColore());
         Circle cerchioDado = new Circle(RAGGIO/2, coloreDado.getColore());
         this.getChildren().addAll(cerchioPedina, cerchioDado);

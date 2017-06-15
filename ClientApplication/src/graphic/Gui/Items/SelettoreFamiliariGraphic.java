@@ -62,6 +62,7 @@ public class SelettoreFamiliariGraphic extends AnchorPane {
         for(FamiliareGraphic f : familiari){
             ImageView image = new ImageView(f.getImmagine());
             familiariInHbox.put(f, image);
+
             image.setOnMouseClicked(mouseEvent -> {
                 System.out.println("setOnCLick familiare");
                 if(image.getEffect()==coloreFamUsato) callback.selezionaFamiliare(f, false);
@@ -73,13 +74,15 @@ public class SelettoreFamiliariGraphic extends AnchorPane {
                 }
             });
             immaginiFamiliari.getChildren().add(image);
-            rimuoviGiocaAdesso();
+
         }
+        rimuoviGiocaAdesso();
 
         //Add HBox to Pane
         this.getChildren().add(immaginiFamiliari);
         this.setBottomAnchor(immaginiFamiliari, 80.0);
         this.setLeftAnchor(immaginiFamiliari, 10.00);
+        immaginiFamiliari.toFront();
     }
 
     public void setFamiliariInizioTurno(){
@@ -92,11 +95,11 @@ public class SelettoreFamiliariGraphic extends AnchorPane {
 
     public void familiareUsato(FamiliareGraphic familiare){
         familiariInHbox.get(familiare).setEffect(coloreFamUsato);
-        familiariInHbox.get(familiare).setEffect(coloreFamUsato);
     }
 
     public void abiltaMossa(){
         immaginiFamiliari.setDisable(false);
+        immaginiFamiliari.toFront();
     }
 
     public void disabilitaMossa(){

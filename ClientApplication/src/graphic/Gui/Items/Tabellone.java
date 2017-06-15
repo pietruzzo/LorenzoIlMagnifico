@@ -106,7 +106,6 @@ public class Tabellone extends AnchorPane{
 
     /**
      * Piazza il familiare nella casella indicata sul tabellone
-     * Se il familiare viene piazzato nel Palazzo del consiglio aggiorna i token di inizio turno
      * @param giocatore
      * @param familiare
      * @param idCasella

@@ -363,6 +363,8 @@ public class MainGame {
         return nomeGiocatore;
     }
 
+    public Applicazione getApplicazione(){return applicazione;}
+
     /**
      * Mostra l'errore all'utente
      * @param message messaggio d'errore

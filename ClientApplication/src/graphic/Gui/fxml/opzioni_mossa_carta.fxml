@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane fx:id="spazioCarta" prefHeight="200.0" prefWidth="350.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="350.0">
+         <children>
+            <Label layoutX="60.0" layoutY="69.0" text="Seleziona i Bonus a lato">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="59.0" layoutY="300.0" text="Scegli il numero di servi">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="numeroServi" layoutX="146.0" layoutY="374.0" prefHeight="24.0" prefWidth="66.0" promptText="Numero Servi" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
+            <Button fx:id="conferma" layoutX="160.0" layoutY="486.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="Conferma" />
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

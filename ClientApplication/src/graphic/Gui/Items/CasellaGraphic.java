@@ -58,7 +58,7 @@ public class CasellaGraphic extends Rectangle {
 
     }
 
-    int getCasellaId() {
+    public int getCasellaId() {
         return id;
     }
 
@@ -98,6 +98,7 @@ public class CasellaGraphic extends Rectangle {
      */
     public void aggiungiPedina(FamiliareGraphic familiare){
         pedine.getChildren().add(familiare);
+        familiare.toFront();
     }
 
     /**

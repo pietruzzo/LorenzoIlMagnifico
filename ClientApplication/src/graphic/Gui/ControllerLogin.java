@@ -103,4 +103,9 @@ public class ControllerLogin implements Controller {
     public void casellaSelezionata(CasellaGraphic casella) {
 
     }
+
+    @Override
+    public void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori) {
+
+    }
 }

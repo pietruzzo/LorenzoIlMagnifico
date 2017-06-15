@@ -19,4 +19,5 @@ public interface Controller {
     void giocaAdesso();
     void selezionaFamiliare(FamiliareGraphic familiare, boolean piazzamentoPossibile);
     void casellaSelezionata(CasellaGraphic casella);
+    void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori);
 }
