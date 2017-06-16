@@ -49,9 +49,14 @@ public class OpzioniMossaAlternative{
         }
 
         conferma.setOnMouseClicked(mouseEvent -> {
-            int numeroServi =Integer.parseInt(servi.getText());
-            callBack.mandaMossaAlServer(familiare, casella, numeroServi);
-            pannelloContenitore.getChildren().remove(scena);
+            try {
+                int numeroServi = Integer.parseInt(servi.getText());
+                callBack.mandaMossaAlServer(familiare, casella, numeroServi);
+                pannelloContenitore.getChildren().remove(scena);
+            } catch (Exception e){
+                System.out.println("Bad input, retry");
+            }
+
         });
     }
 

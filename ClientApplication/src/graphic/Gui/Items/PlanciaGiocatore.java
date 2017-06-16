@@ -145,8 +145,7 @@ public class PlanciaGiocatore extends Pane {
 
         settaRisorse(new Risorsa());
 
-        //CreaGruppo con immaginePlancia ed altri elementi del giocatore
-        //TODO implementa le carte fuori plancia
+        this.toBack();
     }
 
     /**

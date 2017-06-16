@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.SubScene;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -100,6 +99,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     @Override
     public void riscossionePrivilegio(Risorsa risorse) {
         mainGame.RiscuotiPrivilegiDelConsiglio(risorse);
+        this.stampaMessaggio("Hai riscosso il privilegio del consiglio");
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void casellaSelezionata(CasellaGraphic casella) {
-        Pane pannelloScelta=null;
+        //Pane pannelloScelta=null;
         if(casella.isDisattiva()){
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         } else if(familiareSelezionato==null){
@@ -169,7 +169,13 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void visualizzaPrivilegioConsiglio(int numeroPergamene) {
-        Platform.runLater(() -> PrivilegioDelConsiglio.generaPrivilegioDelConsiglio(numeroPergamene, tabellonePane, this));
+        Platform.runLater(() -> {
+            try {
+                new PrivilegioConsiglioController(numeroPergamene, pannello, this, mainGame.getApplicazione());
+            } catch (IOException e) {
+                stampaMessaggio("Errore nella generazione del privilegio del consiglio");
+            }
+        });
     }
 
     @Override
@@ -266,7 +272,8 @@ public class ControllerCampoGioco implements Ui, Controller {
             //Aggiorna il giocatore sul tabellone
             GiocatoreGraphic update = getGiocatorebyId(idGiocatore);
             tabelloneController.piazzaFamiliare(update, update.getFamiliare(coloreDado), idSpazioAzione);
-            selettoreFamiliari.familiareUsato(getGiocatorebyId(idGiocatore).getFamiliare(coloreDado));
+            if(idGiocatore==idGiocatoreClient)
+                selettoreFamiliari.familiareUsato(getGiocatorebyId(idGiocatore).getFamiliare(coloreDado));
             //Aggiorna le risorse del giocatore
             this.aggiornaRisorse(idGiocatore, risorsa);
 
@@ -319,6 +326,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     public void iniziaMossa(int idGiocatore) {
         if(idGiocatore==idGiocatoreClient){
             selettoreFamiliari.abiltaMossa();
+            this.stampaMessaggio("e' il TUO TURNO");
             selettoreFamiliari.toFront();
         } else {
             this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());

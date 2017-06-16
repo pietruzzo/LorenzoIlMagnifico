@@ -5,6 +5,7 @@ import graphic.Gui.Items.CartaGraphic;
 import graphic.Gui.Items.CasellaGraphic;
 import graphic.Gui.Items.FamiliareGraphic;
 import graphic.Gui.Items.GiocatoreGraphic;
+import lorenzo.Applicazione;
 import lorenzo.MainGame;
 
 /**
