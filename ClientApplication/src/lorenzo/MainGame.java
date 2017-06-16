@@ -131,10 +131,10 @@ public class MainGame {
      * Manda la richiesta di piazzamento al server
      * Effettua anche la validazione, in caso di errori viene mostrato l'errore a video
      */
-    public void PiazzaFamiliare(short idGiocatore, ColoreDado coloreDado, int idSpazioAzione, int servitoriAggiunti)
+    public void PiazzaFamiliare(ColoreDado coloreDado, int idSpazioAzione, int servitoriAggiunti)
     {
         try {
-            client.PiazzaFamiliare(new PiazzaFamiliareDTO(idGiocatore, coloreDado, idSpazioAzione, servitoriAggiunti));
+            client.PiazzaFamiliare(new PiazzaFamiliareDTO(coloreDado, idSpazioAzione, servitoriAggiunti));
         } catch (NetworkException e) {
             System.out.println(String.format("Fallita comunicazione piazzamento familiare. %s", e.getMessage()));
         }
@@ -142,15 +142,14 @@ public class MainGame {
 
     /**
      * Manda al server la richiesta di validazione e effettuazione dell'azione bonus
-     * @param idGiocatore id del giocatore che effettua l'azione
      * @param idSpazioAzione id dello spazio azione sul quale viene fatta l'azione
      * @param valoreAzione il valore dell'azione dato dall'effetto
      * @param bonusRisorse il bonus eventuale dato dall'effetto
      */
-    public void AzioneBonusEffettuata(short idGiocatore, int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti)
+    public void AzioneBonusEffettuata(int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti)
     {
         try {
-            client.AzioneBonusEffettuata(new AzioneBonusDTO(idGiocatore, idSpazioAzione, valoreAzione, bonusRisorse, servitoriAggiunti));
+            client.AzioneBonusEffettuata(new AzioneBonusDTO(idSpazioAzione, valoreAzione, bonusRisorse, servitoriAggiunti));
         } catch (NetworkException e) {
             System.out.println(String.format("Fallita comunicazione azione bonus. %s", e.getMessage()));
         }

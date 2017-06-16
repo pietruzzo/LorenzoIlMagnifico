@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class AzioneBonusDTO implements Serializable {
 
     //region Proprietà
-    private final short idGiocatore;
     private final int valoreAzione;
     private final int idSpazioAzione;
     private final Risorsa bonusRisorse;
@@ -18,10 +17,6 @@ public class AzioneBonusDTO implements Serializable {
     //endregion
 
     //region Getters
-    public short getIdGiocatore() {
-        return idGiocatore;
-    }
-
     public int getValoreAzione() {
         return valoreAzione;
     }
@@ -42,8 +37,7 @@ public class AzioneBonusDTO implements Serializable {
     /**
      * Costruttore
      */
-    public AzioneBonusDTO(short idGiocatore, int valoreAzione, int idSpazioAzione, Risorsa bonusRisorse, int servitoriAggiunti) {
-        this.idGiocatore = idGiocatore;
+    public AzioneBonusDTO(int valoreAzione, int idSpazioAzione, Risorsa bonusRisorse, int servitoriAggiunti) {
         this.valoreAzione = valoreAzione;
         this.idSpazioAzione = idSpazioAzione;
         this.bonusRisorse = bonusRisorse;

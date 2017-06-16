@@ -10,17 +10,12 @@ import java.io.Serializable;
 public class PiazzaFamiliareDTO implements Serializable{
 
     //region Proprietà
-    private final short idGiocatore;
     private final ColoreDado coloreDado;
     private final int idSpazioAzione;
     private final int servitoriAggiunti;
     //endregion
 
     //region Getters
-    public short getIdGiocatore() {
-        return idGiocatore;
-    }
-
     public ColoreDado getColoreDado() {
         return coloreDado;
     }
@@ -35,9 +30,8 @@ public class PiazzaFamiliareDTO implements Serializable{
     /**
      * Costruttore
      */
-    public PiazzaFamiliareDTO(short idGiocatore, ColoreDado coloreDado, int idSpazioAzione, int servitoriAggiunti)
+    public PiazzaFamiliareDTO(ColoreDado coloreDado, int idSpazioAzione, int servitoriAggiunti)
     {
-        this.idGiocatore = idGiocatore;
         this.coloreDado = coloreDado;
         this.idSpazioAzione = idSpazioAzione;
         this.servitoriAggiunti = servitoriAggiunti;

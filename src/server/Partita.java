@@ -297,8 +297,8 @@ public class Partita  implements Serializable {
      * Tenta di effettuare il piazzamento indicato nei parametri
      * @param pfDTO parametri indicanti il piazzamento da effettuare
      */
-    public void PiazzaFamiliare(PiazzaFamiliareDTO pfDTO) throws DomainException {
-        UpdateGiocatoreDTO update = this.tabellone.PiazzaFamiliare(pfDTO.getIdGiocatore(), pfDTO.getColoreDado(), pfDTO.getIdSpazioAzione(), pfDTO.getServitoriAggiunti());
+    public void PiazzaFamiliare(short idGiocatore, PiazzaFamiliareDTO pfDTO) throws DomainException {
+        UpdateGiocatoreDTO update = this.tabellone.PiazzaFamiliare(idGiocatore, pfDTO.getColoreDado(), pfDTO.getIdSpazioAzione(), pfDTO.getServitoriAggiunti());
         this.ComunicaAggiornaGiocatore(update);
 
         //Verifica che ci siano le condizioni per iniziare una nuova mossa
@@ -311,8 +311,8 @@ public class Partita  implements Serializable {
      * @param azioneBonusDTO parametri dell'azione
      * @throws DomainException eccezione di validazione
      */
-    public void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws DomainException {
-        UpdateGiocatoreDTO update = tabellone.AzioneBonusEffettuata(azioneBonusDTO.getIdGiocatore(), azioneBonusDTO.getIdSpazioAzione(),
+    public void AzioneBonusEffettuata(short idGiocatore, AzioneBonusDTO azioneBonusDTO) throws DomainException {
+        UpdateGiocatoreDTO update = tabellone.AzioneBonusEffettuata(idGiocatore, azioneBonusDTO.getIdSpazioAzione(),
                                                                     azioneBonusDTO.getValoreAzione(), azioneBonusDTO.getBonusRisorse(),
                                                                     azioneBonusDTO.getServitoriAggiunti());
         this.ComunicaAggiornaGiocatore(update);

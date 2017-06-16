@@ -156,7 +156,7 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori) {
-        mainGame.PiazzaFamiliare((short)idGiocatoreClient, f.getColore(), casella.getCasellaId(), servitori);
+        mainGame.PiazzaFamiliare(f.getColore(), casella.getCasellaId(), servitori);
     }
 
     @Override

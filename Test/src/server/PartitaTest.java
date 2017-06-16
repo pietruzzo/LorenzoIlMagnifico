@@ -63,10 +63,10 @@ public class PartitaTest {
         partita.getGiocatoriPartita().stream().forEach(g -> g.OttieniBonusRisorse(new Risorsa(100,100,100,100,100,100,100)));
 
         for (GiocatoreRemoto giocatore : partita.getGiocatoriPartita()) {
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 1 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 0 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 0 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 0 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 1 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 0 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 0 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 0 ));
         }
 
         //La mossa corrente non è prevedibile in questo caso perchè dipende da quando è stato incontrato il primo privilegio del consiglio o azione bonus
@@ -85,23 +85,23 @@ public class PartitaTest {
 
         //Tutti e due i giocatori fanno un giro di mosse in modo da completare il turno
         for (GiocatoreRemoto giocatore : partita.getGiocatoriPartita()) {
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 1 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 8 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 4 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 2 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 1 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 8 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 4 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 2 ));
         }
 
         //Viene forzato il valore dei dadi a un valore alto così da non avere errori di validazione nel prendere le carte
-        partita.getGiocatoriPartita().stream().forEach(g -> g.SettaValoreFamiliare(new int[]{7,7,7}));
+        partita.getGiocatoriPartita().stream().forEach(g -> g.SettaValoreFamiliare(new int[]{10,10,10}));
         //Forzo l'inizio di un nuovo turno che altrimenti non partirebbe a causa dei privilegi e azioni bonus
         partita.InizioNuovoTurno();
 
         //Tutti e due i giocatori fanno un giro di mosse in modo da completare il turno
         for (GiocatoreRemoto giocatore : partita.getGiocatoriPartita()) {
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 5 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 6 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 5 ));
-            partita.PiazzaFamiliare(new PiazzaFamiliareDTO(giocatore.getIdGiocatore(), ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 5 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NEUTRO, 1 + (4*(giocatore.getIdGiocatore()-1)), 5 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.BIANCO, 2 + (4*(giocatore.getIdGiocatore()-1)), 6 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NERO, 3 + (4*(giocatore.getIdGiocatore())), 5 ));
+            partita.PiazzaFamiliare(giocatore.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.ARANCIO, 4 + (4*(giocatore.getIdGiocatore()+1)), 5 ));
         }
 
 
@@ -173,7 +173,7 @@ public class PartitaTest {
         GiocatoreRemoto michele = partita.getGiocatoriPartita().get(0);
         partita.InizioNuovoTurno();
 
-        partita.PiazzaFamiliare(new PiazzaFamiliareDTO(michele.getIdGiocatore(), ColoreDado.NEUTRO, 25, 1));
+        partita.PiazzaFamiliare(michele.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NEUTRO, 25, 1));
 
         //Piazzando nel palazzo del consiglio deve scegliere una pergamena
         assertEquals(1, michele.getPrivilegiDaScegliere());
@@ -192,11 +192,30 @@ public class PartitaTest {
         //Pietro si disconnette, quindi dopo michele toccherà a Carlo
         partita.NotificaChiusuraClient(pietro);
 
-        partita.PiazzaFamiliare(new PiazzaFamiliareDTO(michele.getIdGiocatore(), ColoreDado.NEUTRO, 1, 3));
+        partita.PiazzaFamiliare(michele.getIdGiocatore(), new PiazzaFamiliareDTO(ColoreDado.NEUTRO, 1, 3));
 
         //Dev'essere il turno di Carlo
         assertEquals(1, partita.getPeriodo());
         assertEquals(1, partita.getTurno());
         assertEquals(3, partita.getOrdineMossaCorrente());
+    }
+
+    @Test
+    public void notificaChiusuraClient_TurnoDelGiocatore() throws Exception {
+        GiocatoreRemoto michele = partita.getGiocatoriPartita().get(0);
+        GiocatoreRemoto pietro = partita.getGiocatoriPartita().get(1);
+
+        //Aggiungo un terzo giocatore alla partita
+        partita.AggiungiGiocatore((short)3, "Carlo", new GiocatoreRemotoForTest());
+        partita.InizioNuovoTurno();
+
+        //E' il turno di michele
+        //Se si disconnette, toccherà a Pietro
+        partita.NotificaChiusuraClient(michele);
+
+        //Dev'essere il turno di Pietro
+        assertEquals(1, partita.getPeriodo());
+        assertEquals(1, partita.getTurno());
+        assertEquals(2, partita.getOrdineMossaCorrente());
     }
 }
