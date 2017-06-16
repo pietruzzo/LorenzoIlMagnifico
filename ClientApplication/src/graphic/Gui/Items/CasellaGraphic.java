@@ -4,21 +4,28 @@ import graphic.Gui.Controller;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebView;
+
+
+import static java.io.File.separator;
 
 /**
  * Created by pietro on 04/06/17.
  */
 public class CasellaGraphic extends Group {
 
+    private static Image immagineX = null;
+
     private int id;
     private WebView descrizione;
     private HBox pedine;
-    private boolean disattivata;
-    Rectangle areaAttiva;
+    private Rectangle areaAttiva;
+    private ImageView immagineCasellaDisattivata;
 
     CasellaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, Controller callBack) {
         //Creo il gruppo
@@ -29,7 +36,11 @@ public class CasellaGraphic extends Group {
         areaAttiva.setFill(Color.TRANSPARENT);
 
         this.id = id;
-        this.disattivata=false;
+
+        if(immagineX==null)
+            immagineX=new Image("file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"X-Rossa.png", dimX, dimY, true, true, false);
+        immagineCasellaDisattivata = new ImageView(immagineX);
+        immagineCasellaDisattivata.setVisible(false);
 
         //posiziona il rettangolo sul pannello centrandolo sulle coordinate
         this.setLayoutX(x-dimX/2);
@@ -59,7 +70,8 @@ public class CasellaGraphic extends Group {
         //descrizione
         this.descrizione=descrizione;
 
-        this.getChildren().addAll(pedine, areaAttiva);
+        this.getChildren().addAll(pedine,immagineCasellaDisattivata, areaAttiva);
+        areaAttiva.toFront();
         this.toFront();
 
     }
@@ -116,13 +128,15 @@ public class CasellaGraphic extends Group {
     }
 
     public void disabilita(){
-        this.disattivata=true;
+        immagineCasellaDisattivata.setVisible(true);
     }
 
     public void abilita(){
-        this.disattivata=false;
+
+        immagineCasellaDisattivata.setVisible(false);
+        areaAttiva.toFront();
     }
 
-    public boolean isDisattiva(){return this.disattivata;}
+    public boolean isDisattiva(){return immagineCasellaDisattivata.isVisible();}
 
 }

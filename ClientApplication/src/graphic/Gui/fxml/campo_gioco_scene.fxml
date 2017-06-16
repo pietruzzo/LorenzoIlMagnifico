@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
+<Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
    <children>
       <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0">
          <children>
@@ -28,9 +19,9 @@
                         <VBox alignment="BOTTOM_CENTER" prefHeight="1201.0" prefWidth="1271.0">
                            <children>
                               <AnchorPane fx:id="infoGiocatori" prefHeight="593.0" prefWidth="1271.0" />
-                              <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="460.0" prefWidth="1271.0">
+                              <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="440.0" prefWidth="1271.0">
                                  <children>
-                                    <TextArea fx:id="messaggi" editable="false" layoutX="60.0" layoutY="8.0" prefHeight="110.0" prefWidth="1151.0" wrapText="true" />
+                                    <TextArea fx:id="messaggi" editable="false" layoutX="60.0" layoutY="8.0" prefHeight="85.0" prefWidth="1151.0" wrapText="true" />
                                  </children></AnchorPane>
                            </children>
                         </VBox>

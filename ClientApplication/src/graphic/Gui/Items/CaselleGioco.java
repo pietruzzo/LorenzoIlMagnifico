@@ -1,5 +1,6 @@
 package graphic.Gui.Items;
 
+import Domain.TipoAzione;
 import graphic.Gui.Controller;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -175,7 +176,41 @@ public class CaselleGioco {
         return descrizione;
     }
 
+    /**
+     * Disabilita le caselle in relazione all'azione indicata
+     * @param tipoAzione tipo azione da effettuare
+     * @return celle disattivate
+     */
+    public Integer[] abilitaAzioneSpecifica(TipoAzione tipoAzione){
 
+        Integer[] celleDisattivate=null;
+        if(tipoAzione ==  TipoAzione.TORRE_EDIFICIO) celleDisattivate = mantieniAbilitati(5, 8);
+        else if(tipoAzione ==  TipoAzione.TORRE_TERRITORIO) celleDisattivate =mantieniAbilitati(1, 4);
+        else if(tipoAzione ==  TipoAzione.TORRE_IMPRESA) celleDisattivate =mantieniAbilitati(13, 16);
+        else if(tipoAzione ==  TipoAzione.TORRE_PERSONAGGIO) celleDisattivate =mantieniAbilitati(9, 12);
+        else if(tipoAzione ==  TipoAzione.TORRE) celleDisattivate =mantieniAbilitati(1, 16);
+        else if(tipoAzione ==  TipoAzione.PRODUZIONE) celleDisattivate =mantieniAbilitati(19, 19);
+        else if(tipoAzione ==  TipoAzione.RACCOLTO) celleDisattivate =mantieniAbilitati(17, 17);
+        return celleDisattivate;
+
+    }
+
+    /**
+     * disabilita il range di celle indicato
+     * @param da estremo escluso da disabilitazione
+     * @param a estremo escluso da disabilitazione
+     * @return lista di celle disabilitate effettivamente
+     */
+    private Integer[] mantieniAbilitati(int da, int a){
+        List<Integer> caselleDisabilitate = new ArrayList<>();
+        for (int i = 0; i <= listaCaselle.size(); i++) {
+            if(!listaCaselle.get(i).isDisattiva() && i<da && i>a) {
+                listaCaselle.get(i).disabilita();
+                caselleDisabilitate.add(i);
+            }
+        }
+        return caselleDisabilitate.toArray(new Integer[caselleDisabilitate.size()]);
+    }
 }
 
 

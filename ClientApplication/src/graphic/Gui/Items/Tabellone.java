@@ -2,6 +2,7 @@ package graphic.Gui.Items;
 
 import Domain.ColoreDado;
 import Domain.Risorsa;
+import Domain.TipoAzione;
 import graphic.Gui.Controller;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
@@ -40,6 +41,7 @@ public class Tabellone extends AnchorPane{
     private CasellePunti punti;
     private Controller callback;
     private Map<GiocatoreGraphic, Rectangle> scomuniche;
+    private Integer[]caselleDisabAzSpec;
 
 
 
@@ -187,6 +189,17 @@ public class Tabellone extends AnchorPane{
 
     public void disattivaCasella(int idCasella){
         caselle.getCasellabyId(idCasella).disabilita();
+    }
+
+    public void predisponiAzioneSpecifica(TipoAzione tipoAzione){
+        caselleDisabAzSpec = caselle.abilitaAzioneSpecifica(tipoAzione);
+    }
+
+    public void riattivaCaselleDaAzioneSpecifica(){
+        if(caselleDisabAzSpec!=null){
+            for (int i = 0; i < caselleDisabAzSpec.length; i++)
+                caselle.getCasellabyId(i).abilita();
+        }
     }
 
     public void attivaCasella(int idCasella){

@@ -42,7 +42,12 @@ public class ControllerCampoGioco implements Ui, Controller {
     private int idGiocatoreClient;
     private FamiliareGraphic familiareSelezionato;
     private SelettoreFamiliariGraphic selettoreFamiliari;
-    //private OpzioniMossa opzioniMossa;
+
+    //region Param EffettuaAzioneBonus
+    private boolean mossaSpecifica;
+    private int valoreAzione;
+    private Risorsa bonusRisorse;
+    //endregion
 
     @FXML private void initialize(){
 
@@ -75,8 +80,8 @@ public class ControllerCampoGioco implements Ui, Controller {
         selettoreFamiliari.setPrefWidth(400);
         selettoreFamiliari.setPrefHeight(300);
 
-        //Inizializza OpzioniMossa
-        //opzioniMossa=new OpzioniMossa(this);
+        //Inizializza mossaSpecifica
+        this.mossaSpecifica=false;
 
     }
 
@@ -120,18 +125,12 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void casellaSelezionata(CasellaGraphic casella) {
-        //Pane pannelloScelta=null;
+
         if(casella.isDisattiva()){
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         } else if(familiareSelezionato==null){
             stampaMessaggio("Non hai selezionato il familiare");
-        } /*else if(!(casella instanceof CasellaConCartaGraphic)){
-            pannelloScelta = opzioniMossa.getScelta(familiareSelezionato, (CasellaConCartaGraphic)casella);
-        } else if(casella instanceof CasellaConCartaGraphic && ((CasellaConCartaGraphic) casella).getCartaAssociata()==null){
-            stampaMessaggio("Non puoi piazzare il familiare in questa casella");
-        } else{
-            pannelloScelta = opzioniMossa.getScelta(familiareSelezionato, casella);
-        }*/
+        }
         else if(casella instanceof CasellaConCartaGraphic && ((CasellaConCartaGraphic) casella).getCartaAssociata()==null){
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         }else {
@@ -141,22 +140,16 @@ public class ControllerCampoGioco implements Ui, Controller {
                 System.out.println("opzioni non caricate");
             }
         }
-/*
-        if(pannelloScelta!=null){
-            //Aggiungo il pannello se non presente, lo centro e lo mostro
-            pannelloScelta.setLayoutX(pannello.getWidth()/2 - pannelloScelta.getWidth()/2);
-            pannelloScelta.setLayoutY(pannello.getHeight()/2 - pannelloScelta.getHeight()/2);
-            pannelloScelta.setVisible(true);
-            if(! pannello.getChildren().contains(pannelloScelta)){
-                pannello.getChildren().add(pannelloScelta);
-            }
-            pannelloScelta.toFront();
-        }*/
     }
 
     @Override
     public void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori) {
-        mainGame.PiazzaFamiliare(f.getColore(), casella.getCasellaId(), servitori);
+        if (mossaSpecifica){
+            mossaSpecifica=false;
+            mainGame.AzioneBonusEffettuata(casella.getCasellaId(), this.valoreAzione, this.bonusRisorse, servitori);
+        } else {
+            mainGame.PiazzaFamiliare(f.getColore(), casella.getCasellaId(), servitori);
+        }
     }
 
     @Override
@@ -180,7 +173,9 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void effettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse) {
-        //TODO
+        this.valoreAzione = valoreAzione;
+        this.bonusRisorse = bonusRisorse;
+        stampaMessaggio("Puoi effettuare un'azione di tipo "+tipoAzione.toString()+" con valore "+valoreAzione);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package graphic.Cli;
 
 import Domain.Risorsa;
-import com.sun.deploy.util.StringUtils;
-import javafx.print.PrintColor;
 
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
