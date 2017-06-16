@@ -6,7 +6,6 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -63,7 +62,7 @@ public class Printer {
      */
     public void stampa(String messaggio,  ColorCli colore)
     {
-        printer.println(String.format("%s%s%s", colore.getCodiceColore(), messaggio, "\u001B[0m"));
+        printer.println(String.format("%s%s%s", colore.getCodiceColore(), messaggio, ColorCli.TAG_CHIUSURA));
         printer.flush();
     }
 
@@ -77,10 +76,10 @@ public class Printer {
         //Stampa le torri
         for (int i = 4; i > 0; i--)
         {
-            String torre1 = Printer.rightPad(String.format("%d %s", i+ 0, carte.get(i + 0)), 28);
-            String torre2 = Printer.rightPad(String.format("%d %s", i+ 4, carte.get(i + 4)), 28);
-            String torre3 = Printer.rightPad(String.format("%d %s", i+ 8, carte.get(i + 8)), 28);
-            String torre4 = Printer.rightPad(String.format("%d %s", i+12, carte.get(i +12)), 28);
+            String torre1 = Printer.rightPad(String.format("%d %s", i+ 0, carte.get(i + 0)), carte.get(i + 0).contains("Presa da") ? 37 : 28);
+            String torre2 = Printer.rightPad(String.format("%d %s", i+ 4, carte.get(i + 4)), carte.get(i + 4).contains("Presa da") ? 37 : 28);
+            String torre3 = Printer.rightPad(String.format("%d %s", i+ 8, carte.get(i + 8)), carte.get(i + 8).contains("Presa da") ? 37 : 28);
+            String torre4 = Printer.rightPad(String.format("%d %s", i+12, carte.get(i +12)), carte.get(i +12).contains("Presa da") ? 37 : 28);
 
             this.stampa("| %s | | %s | | %s | | %s |", torre1, torre2, torre3, torre4);
         }

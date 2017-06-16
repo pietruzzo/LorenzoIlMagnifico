@@ -337,6 +337,10 @@ public class Tabellone implements Serializable {
         Giocatore giocatore = this.getGiocatoreById(idGiocatore);
         Familiare familiare = giocatore.getFamiliareByColor(coloreDado);
         SpazioAzione spazioAzione = this.getSpazioAzioneById(idSpazioAzione);
+
+        if(familiare.SpazioAzioneAttuale != null)
+            throw new DomainException(String.format("Hai già piazzato il familiare associato al dado %s", coloreDado.getColoreString()));
+
         spazioAzione.PiazzaFamiliare(familiare, servitoriAggiunti);
 
         return new UpdateGiocatoreDTO(idGiocatore, giocatore.getRisorse(), coloreDado, idSpazioAzione);
