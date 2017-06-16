@@ -2,6 +2,7 @@ package graphic.Gui.Items;
 
 import graphic.Gui.Controller;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -11,26 +12,28 @@ import javafx.scene.web.WebView;
 /**
  * Created by pietro on 04/06/17.
  */
-public class CasellaGraphic extends Rectangle {
+public class CasellaGraphic extends Group {
 
     private int id;
     private WebView descrizione;
     private HBox pedine;
     private boolean disattivata;
+    Rectangle areaAttiva;
 
     CasellaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, Controller callBack) {
-        //Creo il rettangolo
-        super(dimX, dimY);
+        //Creo il gruppo
+        super();
 
         //Assegno colore trasparente all'area
-        this.setFill(Color.TRANSPARENT);
+        areaAttiva = new Rectangle(dimX, dimY);
+        areaAttiva.setFill(Color.TRANSPARENT);
 
         this.id = id;
         this.disattivata=false;
 
         //posiziona il rettangolo sul pannello centrandolo sulle coordinate
-        this.setX(x-dimX/2);
-        this.setY(y-dimY/2);
+        this.setLayoutX(x-dimX/2);
+        this.setLayoutY(y-dimY/2);
 
         //proprietà descrizione Casella
         descrizione.setMaxWidth(100);
@@ -41,7 +44,7 @@ public class CasellaGraphic extends Rectangle {
         pedine.setAlignment(Pos.CENTER);
 
         //Aggiunge l'evento Click
-        this.setOnMouseClicked(mouseEvent -> {
+        areaAttiva.setOnMouseClicked(mouseEvent -> {
             callBack.casellaSelezionata(this);
         });
 
@@ -50,11 +53,14 @@ public class CasellaGraphic extends Rectangle {
            //TODO da aggiungere se c'è tempo this.setOnMouseEntered(mouseEvent -> descrizione.setVisible(true));
 
             //Aggiunge l'evento che nasconde la descrizione
-            this.setOnMouseExited(mouseEvent -> descrizione.setVisible(false));
+            //this.setOnMouseExited(mouseEvent -> descrizione.setVisible(false));
         }
 
         //descrizione
         this.descrizione=descrizione;
+
+        this.getChildren().addAll(pedine, areaAttiva);
+        this.toFront();
 
     }
 
@@ -73,24 +79,24 @@ public class CasellaGraphic extends Rectangle {
      */
     public void colorArea(Color colore){
         if (colore==null) {
-            this.setFill(Color.TRANSPARENT);
-            this.setOpacity(1);
+            areaAttiva.setFill(Color.TRANSPARENT);
+            areaAttiva.setOpacity(1);
         }
         else {
-            this.setFill(colore);
-            this.setOpacity(0.2);
+            areaAttiva.setFill(colore);
+            areaAttiva.setOpacity(0.2);
         }
     }
 
     /**
      * @return coordinata X del centro della casella
      */
-    public double getCenterX(){return (this.getX()+this.getWidth()/2);}
+    public double getCenterX(){return (areaAttiva.getX()+areaAttiva.getWidth()/2);}
 
     /**
      * @return coordinata Y del centro della casella
      */
-    public double getCenterY(){return (this.getX()+this.getWidth()/2);}
+    public double getCenterY(){return (areaAttiva.getX()+areaAttiva.getWidth()/2);}
 
     /**
      * Aggiungi la pedina alla casella

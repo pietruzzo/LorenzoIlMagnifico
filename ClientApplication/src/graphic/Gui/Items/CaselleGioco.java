@@ -49,22 +49,25 @@ public class CaselleGioco {
             new Point2D(507, 701)  //casella 25(Palazzo del consiglio)
     };
     private static final Point2D[] COORDINATE_SPAZIO_CARTA = {new Point2D(0, 0),
-            new Point2D(104, 130), //spazio carta associato 1
-            new Point2D(104, 286), //spazio carta associato 2
-            new Point2D(104, 434), //spazio carta associato 3
-            new Point2D(104, 588), //spazio carta associato 4
-            new Point2D(434, 130), //spazio carta associato 5
-            new Point2D(434, 286), //spazio carta associato 6
-            new Point2D(434, 434), //spazio carta associato 7
-            new Point2D(434, 588), //spazio carta associato 8
-            new Point2D(270, 130), //spazio carta associato 9
-            new Point2D(270, 286), //spazio carta associato 10
-            new Point2D(270, 434), //spazio carta associato 11
-            new Point2D(270, 588), //spazio carta associato 12
-            new Point2D(600, 130), //spazio carta associato 13
-            new Point2D(600, 286), //spazio carta associato 14
-            new Point2D(600, 434), //spazio carta associato 15
-            new Point2D(600, 588)  //spazio carta associato 16
+            new Point2D(104, 588), //spazio carta associato 1
+            new Point2D(104, 434), //spazio carta associato 2
+            new Point2D(104, 286), //spazio carta associato 3
+            new Point2D(104, 130), //spazio carta associato 4
+            new Point2D(434, 588), //spazio carta associato 5
+            new Point2D(434, 434), //spazio carta associato 6
+            new Point2D(434, 286), //spazio carta associato 7
+            new Point2D(434, 130), //spazio carta associato 8
+            new Point2D(270, 588), //spazio carta associato 9
+            new Point2D(270, 434), //spazio carta associato 10
+            new Point2D(270, 286), //spazio carta associato 11
+            new Point2D(270, 130), //spazio carta associato 12
+            new Point2D(600, 588), //spazio carta associato 13
+            new Point2D(600, 434), //spazio carta associato 14
+            new Point2D(600, 286), //spazio carta associato 15
+            new Point2D(600, 130)  //spazio carta associato 16
+
+
+
     };
 
     private static final Dimension2D DIMENSIONE_STANDARD= new Dimension2D(36, 36);
@@ -119,8 +122,8 @@ public class CaselleGioco {
      */
     public void getCoordbyId(int id, Double X, Double Y) {
         CasellaGraphic casella = getCasellabyId(id);
-        X = casella.getX();
-        Y = casella.getY();
+        X = casella.getLayoutX();
+        Y = casella.getLayoutY();
     }
 
     /**
