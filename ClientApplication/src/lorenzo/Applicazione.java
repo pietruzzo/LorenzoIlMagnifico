@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class Applicazione extends Application {
 
-    private static final String fxmlPath = System.getProperty("user.dir") + File.separator +"ClientApplication" + File.separator+ "src" +File.separator + "graphic" +File.separator +"Gui" +File.separator+ "fxml"+File.separator;
+    public static final String fxmlPath = System.getProperty("user.dir") + File.separator +"ClientApplication" + File.separator+ "src" +File.separator + "graphic" +File.separator +"Gui" +File.separator+ "fxml"+File.separator;
     /**
      * Finestra dell'interfaccia grafica
      */

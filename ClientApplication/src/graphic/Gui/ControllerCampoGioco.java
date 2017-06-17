@@ -41,7 +41,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     private AltriGiocatoriHBox infoGiocatoriController;
     private int idGiocatoreClient;
     private FamiliareGraphic familiareSelezionato;
-    private SelettoreFamiliariGraphic selettoreFamiliari;
+    private SelettoreFamiliariGraphicAlternative selettoreFamiliari;
 
     //region Param EffettuaAzioneBonus
     private boolean mossaSpecifica;
@@ -74,11 +74,8 @@ public class ControllerCampoGioco implements Ui, Controller {
         planciaGiocatorePane.getChildren().add(plancia);
 
         //Inizializza il pannello Selettore Familiari
-        selettoreFamiliari= new SelettoreFamiliariGraphic(this);
-        selettoreFamiliari.setLayoutY(200);
-        selettoreFamiliari.setPrefWidth(400);
-        selettoreFamiliari.setPrefHeight(300);
-        planciaGiocatorePane.getChildren().add(selettoreFamiliari);
+        selettoreFamiliari= new SelettoreFamiliariGraphicAlternative(this, planciaGiocatorePane);
+
 
         //Inizializza mossaSpecifica
         this.mossaSpecifica=false;
@@ -138,7 +135,6 @@ public class ControllerCampoGioco implements Ui, Controller {
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         }else {
             try {
-                    mandaMossaAlServer(familiareSelezionato, casella, 0);
                 new OpzioniMossaAlternative(this, casella, familiareSelezionato, mainGame.getApplicazione()).setSubScene(pannello);
             }catch (IOException e){
                 System.out.println("opzioni non caricate");
@@ -340,7 +336,6 @@ public class ControllerCampoGioco implements Ui, Controller {
         if(idGiocatore==idGiocatoreClient){
             selettoreFamiliari.abiltaMossa();
             this.stampaMessaggio("e' il TUO TURNO");
-            selettoreFamiliari.toFront();
         } else {
             this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
             selettoreFamiliari.disabilitaMossa();
