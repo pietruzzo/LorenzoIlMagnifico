@@ -6,36 +6,47 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
+<BorderPane prefHeight="510.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
+    <top>
+        <Pane prefHeight="210.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="450.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/LorenzoLogin.jpg" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+    </top>
    <center>
-      <AnchorPane prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="320.0" prefWidth="600.0" style="-fx-background-image: url('LoginScene.jpg'); -fx-background-size: 600 300; -fx-background-repeat: stretch;" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="usernameInput" layoutX="300.0" layoutY="122.0" />
-            <Button layoutX="426.0" layoutY="281.0" mnemonicParsing="false" onAction="#tryLogin" text="Play" />
-            <Label layoutX="147.0" layoutY="127.0" text="Username" />
-            <Label layoutX="147.0" layoutY="193.0" text="Comunicazione" />
-            <Label layoutX="147.0" layoutY="238.0" text="Interfaccia" />
-            <ChoiceBox fx:id="communicationChoice" layoutX="357.0" layoutY="188.0" prefHeight="25.0" prefWidth="114.0" />
-            <RadioButton fx:id="radioGui" layoutX="357.0" layoutY="237.0" mnemonicParsing="false" selected="true" text="GUI">
+
+            <TextField fx:id="usernameInput" layoutX="280.0" layoutY="43.0" prefHeight="25.0" prefWidth="157.0" />
+            <Button layoutX="151.0" layoutY="214.0" mnemonicParsing="false" onAction="#tryLogin" prefHeight="40.0" prefWidth="298.0" style="-fx-background-radius: 10px; -fx-font-size: 16px;                             -fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" text="Play" />
+            <Label layoutX="167.0" layoutY="47.0" text="Username" textFill="#a7cdd8" />
+            <Label layoutX="160.0" layoutY="95.0" text="Comunicazione" textFill="#a7cdd8" />
+            <Label layoutX="167.0" layoutY="138.0" text="Interfaccia" textFill="#a7cdd8" />
+            <ChoiceBox fx:id="communicationChoice" layoutX="282.0" layoutY="91.0" prefHeight="25.0" prefWidth="156.0" />
+            <RadioButton fx:id="radioGui" layoutX="300.0" layoutY="138.0" mnemonicParsing="false" selected="true" text="GUI" textFill="#a7cdd8">
                <toggleGroup>
                   <ToggleGroup fx:id="interfaccia" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="radioCli" layoutX="426.0" layoutY="237.0" mnemonicParsing="false" text="CLI" toggleGroup="$interfaccia" />
-            <Label layoutX="198.0" layoutY="38.0" text="Lorenzo il Magnifico" textFill="#fc0000">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="messaggioErrore" layoutX="147.0" layoutY="340.0" prefHeight="15.0" prefWidth="327.0" textFill="RED">
+            <RadioButton fx:id="radioCli" layoutX="382.0" layoutY="138.0" mnemonicParsing="false" text="CLI" textFill="#a7cdd8" toggleGroup="$interfaccia" />
+            <Label fx:id="messaggioErrore" layoutX="137.0" layoutY="170.0" prefHeight="37.0" prefWidth="327.0" textFill="#ff2b00">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
-         </children></AnchorPane>
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>

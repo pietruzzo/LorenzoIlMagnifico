@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -52,7 +53,10 @@ public class Applicazione extends Application {
                 Parent login = null;
                 login= getFXML("login_scene.fxml");
                 finestra.setTitle("Login");
+                finestra.getIcons().add(new Image("/LorenzoIcon.png"));
                 finestra.setScene(new Scene(login));
+                finestra.setResizable(false);
+                finestra.sizeToScene();
             } catch (IOException e) {
                 System.err.println("login_scene.fxml non trovato, prova a controllare il PATH");
                 stopGUI();
