@@ -5,11 +5,13 @@ import graphic.Gui.Items.*;
 import graphic.Gui.Items.Tabellone;
 import graphic.Ui;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
@@ -96,6 +98,7 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         if(giocatoreGraphic.getIdGiocatore()==idGiocatoreClient){
             plancia.aggiungiCarta(carta);
+            carta.setEventHandlerPermanente(pannello);
         } else {
             infoGiocatoriController.addCarta(giocatoreGraphic, carta);
         }
@@ -205,22 +208,22 @@ public class ControllerCampoGioco implements Ui, Controller {
         }
 
         //Genera il mazzo di carte
-        mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica());
-        for (CartaGraphic cg : mazzo.getCarte()){
+        mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica(), this);
+        /*for (CartaGraphic cg : mazzo.getCarte()){
             final Group[] ingrandimento = new Group[1];
             cg.setOnMouseEntered(mouseEvent -> {
-                ImageView iv  = cg.getNewImmagineIngrandita();
-                iv.setFitWidth(iv.getImage().getWidth()*0.7);
-                iv.setFitHeight(iv.getImage().getHeight()*0.7);
+                ImageView iv = cg.getNewImmagineIngrandita();
+                iv.setFitWidth(iv.getImage().getWidth() * 0.7);
+                iv.setFitHeight(iv.getImage().getHeight() * 0.7);
                 ingrandimento[0] = new Group(iv);
-                ingrandimento[0].setLayoutX(cg.getLayoutX()+70);
-                ingrandimento[0].setLayoutY(cg.getLayoutY()+120);
+                ingrandimento[0].setLayoutX(cg.getLayoutX() + 70);
+                ingrandimento[0].setLayoutY(cg.getLayoutY() + 120);
                 ingrandimento[0].setVisible(true);
                 ingrandimento[0].toFront();
                 tabelloneController.getChildren().add(ingrandimento[0]);
             });
             cg.setOnMouseExited(mouseEvent -> tabelloneController.getChildren().remove(ingrandimento[0]));
-        }
+        }*/
 
 
         //Ottieni tessere Scomunica

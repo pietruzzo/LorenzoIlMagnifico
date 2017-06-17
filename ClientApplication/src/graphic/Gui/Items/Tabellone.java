@@ -179,6 +179,9 @@ public class Tabellone extends AnchorPane{
         carta.setVisible(true);
         this.getChildren().add(carta);
 
+        //Aggiungi gli effetti per l'ingrandimento
+        carta.setEventHandlerIngrandisci(this);
+
         //Aggiungi la carta alla casella
         casella.setCartaAssociata(carta);
     }

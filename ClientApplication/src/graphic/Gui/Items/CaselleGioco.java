@@ -7,6 +7,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
+import java.awt.event.MouseEvent;
+import java.beans.EventHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -212,8 +214,3 @@ public class CaselleGioco {
         return caselleDisabilitate.toArray(new Integer[caselleDisabilitate.size()]);
     }
 }
-
-
-
-
-

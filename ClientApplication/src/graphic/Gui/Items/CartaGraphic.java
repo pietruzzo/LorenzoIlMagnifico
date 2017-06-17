@@ -1,6 +1,7 @@
 package graphic.Gui.Items;
 
 import Domain.TipoCarta;
+import graphic.Gui.ControllerCampoGioco;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -9,11 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-
-import javax.swing.border.StrokeBorder;
+import graphic.Gui.Controller;
+import static java.io.File.separator;
 
 /**
  * Created by pietro on 03/06/17.
@@ -34,6 +37,7 @@ public class CartaGraphic extends Group {
     private static final Point2D DIMENSIONESCELTACOSTO = new Point2D(100, 180);
     private static final Point2D DIMENSIONESCELTAPERMANENTE = new Point2D(175, 130);
 
+    private Controller callBack;
     private TipoCarta tipoCarta;
     private String nome;
     private Group ingrandimento;
@@ -51,11 +55,15 @@ public class CartaGraphic extends Group {
     private Integer sceltaCorrenteCosto;
     private Integer sceltaCorrenteImmediato;
 
-    CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita) {
+    private EventHandler<MouseEvent> ingrandisci;
+    private EventHandler<MouseEvent> rmIngrandisci;
+
+    CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita, ControllerCampoGioco callback) {
         super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
         this.nome = nome;
         this.cartaIngrandita=cartaIngrandita;
+        this.callBack=callback;
 
         //setta ingrandimento
         ImageView cartaIngranditaView = new ImageView(cartaIngrandita);
@@ -67,6 +75,7 @@ public class CartaGraphic extends Group {
         this.ingrandimento.getChildren().add(cartaIngranditaView);
         this.getChildren().add(ingrandimento);
         ingrandimento.setVisible(false);
+        generaSceltaImmediataeCosto();
 
         //setDimensioni
         this.dimensioni = new Dimension2D(immagineCarta.getWidth(), immagineCarta.getHeight());
@@ -76,13 +85,6 @@ public class CartaGraphic extends Group {
         numSceltaCosto = 1;
         numSceltaImmed = 1;
 
-        //ingrandisci Carta
-        this.setOnMouseDragEntered(mouseDragEvent -> {
-            ingrandimento.setVisible(true);
-        });
-        this.setOnMouseDragExited(mouseDragEvent -> {
-            ingrandimento.setVisible(false);
-        });
     }
 
     public void setNumeroMaxScelte(int costo, int immediato, int permanente) {
@@ -180,14 +182,13 @@ public class CartaGraphic extends Group {
         //Seleziona quella indicata
         costo[i].setFill(Color.GREEN);
 
-        tryNotifyServer();
+        //TODO tryNotifyServer();
 
     }
 
     private void gestisciSceltaImmediato(int i) {
 
         //Azzera tutte le scelte
-        //TODO si può anche non scegliere l'effetto immediato?
         for (Rectangle rettangolo : immediato) {
             rettangolo.setStroke(Color.BLUE);
         }
@@ -195,15 +196,14 @@ public class CartaGraphic extends Group {
         //Seleziona quella indicata
         immediato[i].setFill(Color.GREEN);
         //comunicala al server
-        tryNotifyServer();
+        //TODO tryNotifyServer();
 
     }
 
     private void gestisciSceltaPermanente(int i) {
 
-        if(permanente[i].getFill() == Color.GREEN){
+        if(permanente[i].getStroke() == Color.GREEN){
             //TODO deseleziona Scelta (Notifica il server)
-            permanente[i].setFill(Color.TRANSPARENT);
         } else {
             //Azzera tutte le scelte
             for (Rectangle rettangolo : permanente) {
@@ -211,7 +211,7 @@ public class CartaGraphic extends Group {
             }
 
             //Seleziona quella indicata
-            permanente[i].setFill(Color.GREEN);
+            permanente[i].setStroke(Color.GREEN);
             //comunicala al server
             //TODO comunica scelta permanente al server (SSE c'è più di una scelta nella carta)
         }
@@ -232,7 +232,7 @@ public class CartaGraphic extends Group {
                 vettoreAree[i].setX(posizScelta.getX());
                 vettoreAree[i].setX(posizScelta.getY() + dimScelta.getY() * i);
 
-                vettoreAree[i].setFill(Color.TRANSPARENT);
+                vettoreAree[i].setFill(Color.BLACK);
                 vettoreAree[i].setStroke(Color.BLUE);
                 vettoreAree[i].setStrokeWidth(3);
                 vettoreAree[i].setStrokeType(StrokeType.CENTERED);
@@ -242,10 +242,64 @@ public class CartaGraphic extends Group {
         }
     }
 
-    private void tryNotifyServer(){
 
-        if(this.sceltaCorrenteCosto!=null && this.sceltaCorrenteImmediato != null) {
-            //TODO comunica scelta immediato + costo
+    /**
+     * Aggiunge l'ingrandimento della carta sul pannello e ne gestisce posizione e visibilità
+     * L'ingrandimento si posizionerà vicino alle coordinate di this
+     * @param contenitore
+     */
+    public void setEventHandlerIngrandisci(Pane contenitore){
+        final Group[] gruppo = new Group[1];
+
+        this.ingrandisci = mouseEvent -> {
+            ImageView iv = this.getNewImmagineIngrandita();
+            iv.setFitWidth(iv.getImage().getWidth() * 0.7);
+            iv.setFitHeight(iv.getImage().getHeight() * 0.7);
+            gruppo[0] = new Group(iv);
+            gruppo[0].setLayoutX(this.getLayoutX() + 70);
+            gruppo[0].setLayoutY(this.getLayoutY() + 120);
+            gruppo[0].setVisible(true);
+            gruppo[0].toFront();
+            contenitore.getChildren().add(gruppo[0]);
+        };
+
+        this.rmIngrandisci = mouseEvent -> {
+            contenitore.getChildren().remove(gruppo[0]);
+        };
+
+        this.setOnMouseEntered(this.ingrandisci);
+        this.setOnMouseExited(this.rmIngrandisci);
+    }
+
+
+    public void setEventHandlerPermanente(Pane contenitore){
+
+        //Genero le scelte permanenti
+        this.rimuoviSceltaImmediataeCosto();
+        this.generaSceltaPermanente();
+        //Rimuovo i vecchi mouseHandler
+        this.removeEventHandler(MouseEvent.MOUSE_ENTERED, ingrandisci);
+        this.removeEventHandler(MouseEvent.MOUSE_EXITED, rmIngrandisci);
+
+        ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
+        ingrandimento.setLayoutX((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
+        ingrandimento.setVisible(true);
+
+        //Add Exit Button
+        try {
+            ImageView bottone = new ImageView(new Image("file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"buttonX.png", 50, 50, true, true, true));
+            bottone.setLayoutX(cartaIngrandita.getWidth());
+            bottone.setLayoutY(cartaIngrandita.getHeight()-bottone.getFitHeight());
+            ingrandimento.getChildren().add(bottone);
+
+            //mouseHandler per uscire dalla carta
+            bottone.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(false));
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
+        contenitore.getChildren().add(ingrandimento);
+
+        //mouseHandler per ingrandire la carta
+        this.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(true));
     }
 }

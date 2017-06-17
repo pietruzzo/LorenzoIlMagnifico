@@ -5,6 +5,7 @@ import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.ScambiaRisorse;
 import Domain.TesseraScomunica;
 import Domain.TipoCarta;
+import graphic.Gui.ControllerCampoGioco;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,11 +33,13 @@ public class CarteGioco{
 
    private List<CartaGraphic> carte;
 
-   public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica){
+   public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica, ControllerCampoGioco callback){
       this.carte = new ArrayList<>();
       //per le carte sviluppo, carica anche l aversione ingrandita
       for (Carta c : carte){
-          CartaGraphic carta = new CartaGraphic(c.getNome(), c.getTipoCarta(), getImage(c.getNome(), c.getTipoCarta(), cartaW, cartaH), getImage(c.getNome(), c.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA));
+          CartaGraphic carta = new CartaGraphic(c.getNome(), c.getTipoCarta(), getImage(c.getNome(), c.getTipoCarta(), cartaW, cartaH), getImage(c.getNome(), c.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA), callback);
+
+          //region setta numero scelte effetti
           int numOpzioniCosto=0;
           int numOpzioniImmed=0;
           int numOpzioniPerma=0;
@@ -56,11 +59,12 @@ public class CarteGioco{
               }
           }
           if(numOpzioniCosto>1 || numOpzioniImmed>1 ||numOpzioniPerma>1) carta.setNumeroMaxScelte(numOpzioniCosto, numOpzioniImmed, numOpzioniPerma);
+          //endregion
           this.carte.add(carta);
       }
 
       for(TesseraScomunica t : tessereScomunica){
-         this.carte.add(new CartaGraphic(t.getNome(), t.getTipoCarta(), getImage(t.getNome(), t.getTipoCarta(), cartaScomW, cartaScomH), getImage(t.getNome(), t.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA)));
+         this.carte.add(new CartaGraphic(t.getNome(), t.getTipoCarta(), getImage(t.getNome(), t.getTipoCarta(), cartaScomW, cartaScomH), getImage(t.getNome(), t.getTipoCarta(), CARTAWINGRANDITA, CARTAHINGRANDITA), callback));
       }
    }
 
