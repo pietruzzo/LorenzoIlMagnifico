@@ -12,15 +12,16 @@
 
 <AnchorPane prefHeight="250.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-       <Label layoutX="45.0" layoutY="33.0" text="Scegli il numero di servi">
+       <Label layoutX="55.0" layoutY="34.0" text="Scegli il numero di servi">
            <font>
                <Font size="20.0" />
            </font>
        </Label>
-       <TextField fx:id="numeroServi" layoutX="129.0" layoutY="89.0" prefHeight="1.0" prefWidth="71.0" promptText="Numero Servi" text="0">
+       <TextField fx:id="numeroServi" layoutX="140.0" layoutY="86.0" prefHeight="1.0" prefWidth="71.0" promptText="Numero Servi" text="0">
          <font>
             <Font size="20.0" />
          </font></TextField>
-       <Button fx:id="conferma" layoutX="166.0" layoutY="160.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="Conferma" />
+       <Button fx:id="conferma" layoutX="181.0" layoutY="160.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="Conferma" />
+      <Button fx:id="annulla" layoutX="26.0" layoutY="160.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="Annulla" />
    </children>
 </AnchorPane>

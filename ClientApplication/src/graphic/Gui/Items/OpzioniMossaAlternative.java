@@ -22,6 +22,7 @@ public class OpzioniMossaAlternative{
     private TextField servi;
     private AnchorPane areaCarta;
     private Pane pannelloContenitore;
+    private Button annulla;
 
     public OpzioniMossaAlternative(Controller callBack, CasellaGraphic casella, FamiliareGraphic familiare, Applicazione applicazione) throws IOException {
 
@@ -38,6 +39,7 @@ public class OpzioniMossaAlternative{
 
         conferma = (Button) parent.lookup("#conferma");
         servi = (TextField) parent.lookup("#numeroServi");
+        annulla = (Button) parent.lookup("#annulla");
 
 
         if(casella instanceof CasellaConCartaGraphic){
@@ -46,7 +48,7 @@ public class OpzioniMossaAlternative{
             cartaIm.setLayoutX(0);
             cartaIm.setLayoutY(0);
             cartaIm.setTranslateX(0);
-            cartaIm.setTranslateY(0);
+            cartaIm.setTranslateY(30);
             cartaIm.setVisible(true);
             areaCarta.getChildren().add(cartaIm);
         }
@@ -59,8 +61,9 @@ public class OpzioniMossaAlternative{
             } catch (Exception e){
                 System.out.println("Bad input, retry");
             }
-
         });
+
+        annulla.setOnMouseClicked(mouseEvent -> pannelloContenitore.getChildren().remove(scena));
     }
 
     public void setSubScene(Pane pannello) {

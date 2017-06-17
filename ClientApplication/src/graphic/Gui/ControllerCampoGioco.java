@@ -75,13 +75,16 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         //Inizializza il pannello Selettore Familiari
         selettoreFamiliari= new SelettoreFamiliariGraphic(this);
-        planciaGiocatorePane.getChildren().add(selettoreFamiliari);
         selettoreFamiliari.setLayoutY(200);
         selettoreFamiliari.setPrefWidth(400);
         selettoreFamiliari.setPrefHeight(300);
+        planciaGiocatorePane.getChildren().add(selettoreFamiliari);
 
         //Inizializza mossaSpecifica
         this.mossaSpecifica=false;
+
+        //Messaggi in secondo piano
+        messaggi.toBack();
 
     }
 
@@ -128,13 +131,14 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         if(casella.isDisattiva()){
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
-        } else if(familiareSelezionato==null){
+        } else if(familiareSelezionato==null && mossaSpecifica==false){
             stampaMessaggio("Non hai selezionato il familiare");
         }
         else if(casella instanceof CasellaConCartaGraphic && ((CasellaConCartaGraphic) casella).getCartaAssociata()==null){
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         }else {
             try {
+                    mandaMossaAlServer(familiareSelezionato, casella, 0);
                 new OpzioniMossaAlternative(this, casella, familiareSelezionato, mainGame.getApplicazione()).setSubScene(pannello);
             }catch (IOException e){
                 System.out.println("opzioni non caricate");

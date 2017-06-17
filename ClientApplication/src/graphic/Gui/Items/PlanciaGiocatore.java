@@ -22,7 +22,7 @@ import static java.io.File.separator;
 public class PlanciaGiocatore extends Pane {
 
     //posizione immagine plancia
-    private static final String pathPlancia = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"tavolaGiocatore.png";
+    private static final String pathPlancia = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator;
     //dimensioni della plancia giocatore
     private static final int DIMPLANCIAX=977;
     private static final int DIMPLANCIAY=622;
@@ -62,8 +62,8 @@ public class PlanciaGiocatore extends Pane {
         numCarteTerritorio=0;
         carteImpresa = new CarteFuoriPlanciaPane();
         cartePersonaggio = new CarteFuoriPlanciaPane();
-        Rectangle areaCarteImpresa = new Rectangle(140, 240);
-        Rectangle areaCartePersonaggio = new Rectangle(140, 240);
+        ImageView areaCarteImpresaButton=null;
+        ImageView areaCartePersonaggioButton = null;
 
         monete=new Label("Inizialize");
         legno= new Label("Inizialize");
@@ -80,7 +80,9 @@ public class PlanciaGiocatore extends Pane {
 
         //Upload immaginePlancia
         try {
-            planciaView = new ImageView(new Image(pathPlancia, DIMPLANCIAX, DIMPLANCIAY, false, false, false));
+            planciaView = new ImageView(new Image(pathPlancia+"tavolaGiocatore.png", DIMPLANCIAX, DIMPLANCIAY, false, false, false));
+            areaCarteImpresaButton= new ImageView(new Image(pathPlancia+"Carte"+separator+"carteSviluppo"+separator+"Impresa_1.jpg", 140, 240, true, true));
+            areaCartePersonaggioButton= new ImageView(new Image(pathPlancia+"Carte"+separator+"carteSviluppo"+separator+"Personaggio_1.jpg", 140, 240, true, true));
             this.getChildren().add(planciaView);
         } catch (NullPointerException e){
             System.err.println("Immagine della plancia Giocatore non travata in "+ pathPlancia);
@@ -107,35 +109,37 @@ public class PlanciaGiocatore extends Pane {
         pietra.setLayoutY(COORD_PIETRE.getY());
         servi.setLayoutY(COORD_SERVI.getY());
 
-        areaCarteImpresa.setLayoutX(PRIMACARTAX + 6.2 * OFFSETX);
-        areaCartePersonaggio.setLayoutX(PRIMACARTAX + 6.2 * OFFSETX);
-        areaCarteImpresa.setLayoutY(EDIFICIOY -areaCarteImpresa.getHeight()/2);
-        areaCartePersonaggio.setLayoutY(TERRITORIOY -areaCartePersonaggio.getHeight()/2);
+        areaCarteImpresaButton.setLayoutX(PRIMACARTAX + 6.2 * OFFSETX);
+        areaCartePersonaggioButton.setLayoutX(PRIMACARTAX + 6.2 * OFFSETX);
+        areaCarteImpresaButton.setLayoutY(EDIFICIOY -areaCarteImpresaButton.getFitHeight()/2);
+        areaCartePersonaggioButton.setLayoutY(TERRITORIOY -areaCartePersonaggioButton.getFitHeight()/2);
 
         //Set Effetti pannello carte Personaggio ed impresa
-        areaCartePersonaggio.setOnMouseClicked(mouseEvent -> {
+        ImageView finalAreaCartePersonaggioButton = areaCartePersonaggioButton;
+        areaCartePersonaggioButton.setOnMouseClicked(mouseEvent -> {
             if(!cartePersonaggio.isVisible()) {
                 cartePersonaggio.setVisible(true);
-                cartePersonaggio.setTranslateX((areaCartePersonaggio.getLayoutX()-cartePersonaggio.getWidth()) -30);
-                cartePersonaggio.setTranslateY(areaCartePersonaggio.getLayoutY());
+                cartePersonaggio.setTranslateX((finalAreaCartePersonaggioButton.getLayoutX()-cartePersonaggio.getWidth()) -30);
+                cartePersonaggio.setTranslateY(finalAreaCartePersonaggioButton.getLayoutY());
                 cartePersonaggio.toFront();
             }
             else cartePersonaggio.setVisible(false);
         });
 
-        areaCarteImpresa.setOnMouseClicked(mouseEvent -> {
+        ImageView finalAreaCarteImpresaButton = areaCarteImpresaButton;
+        areaCarteImpresaButton.setOnMouseClicked(mouseEvent -> {
             if(!carteImpresa.isVisible()) {
                 carteImpresa.setVisible(true);
-                carteImpresa.setTranslateX((areaCarteImpresa.getLayoutX()-carteImpresa.getWidth()) -30);
-                carteImpresa.setTranslateY(areaCarteImpresa.getLayoutY());
+                carteImpresa.setTranslateX((finalAreaCarteImpresaButton.getLayoutX()-carteImpresa.getWidth()) -30);
+                carteImpresa.setTranslateY(finalAreaCarteImpresaButton.getLayoutY());
                 carteImpresa.toFront();
             }
             else carteImpresa.setVisible(false);
         });
 
         //Aggiungi gli oggetti grafici alla plancia
-        this.getChildren().add(areaCarteImpresa);
-        this.getChildren().add(areaCartePersonaggio);
+        this.getChildren().add(areaCarteImpresaButton);
+        this.getChildren().add(areaCartePersonaggioButton);
         this.getChildren().add(carteImpresa);
         this.getChildren().add(cartePersonaggio);
         this.getChildren().add(monete);
