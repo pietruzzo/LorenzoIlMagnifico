@@ -203,7 +203,7 @@ public class CaselleGioco {
      */
     private Integer[] mantieniAbilitati(int da, int a){
         List<Integer> caselleDisabilitate = new ArrayList<>();
-        for (int i = 0; i <= listaCaselle.size(); i++) {
+        for (int i = 0; i < listaCaselle.size(); i++) {
             if(!listaCaselle.get(i).isDisattiva() && (i<da || i>a)) {
                 listaCaselle.get(i).disabilita();
                 caselleDisabilitate.add(i);

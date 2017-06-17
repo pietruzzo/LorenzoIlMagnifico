@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -331,15 +332,15 @@ class CasellePunti extends Group{
     //region punti notevoli per punteggio
     private static final Point2D PVITTORIA_A = new Point2D(35, 20);
     private static final Point2D PVITTORIA_B = new Point2D(822,20);
-    private static final Point2D PVITTORIA_C = new Point2D(841, 1165);
+    private static final Point2D PVITTORIA_C = new Point2D(841, 25);
     private static final Point2D PVITTORIA_D = new Point2D(828, 1181);
-    private static final Point2D PVITTORIA_E = new Point2D(35, 1181);
+    private static final Point2D PVITTORIA_E = new Point2D(821, 1181);
     private static final Point2D PVITTORIA_F = new Point2D(35, 1168);
     private static final Point2D PVITTORIA_G = new Point2D(20,1168);
     private static final Point2D PVITTORIA_H = new Point2D(20, 32);
 
     private static final int NCASELLE_AB_EF = 21;
-    private static final int NCASELLE_CD_GH = 21;
+    private static final int NCASELLE_CD_GH = 31;
 
 
     private static final Point2D INIZIOPMILITARI = new Point2D(764, 1086);
@@ -458,32 +459,33 @@ class CasellePunti extends Group{
      * @param gruppoAppartenenza puntiVittoria, PuntiMilitari, puntiFede
      */
     private void traslaToken(Circle token, Group destinazione, Group[] gruppoAppartenenza){
-        //inizializza la traslazione
-        TranslateTransition animazione = new TranslateTransition(Duration.millis(2000), token);
 
-        //imposta destinazione
-        animazione.setToX(destinazione.getLayoutX());
-        animazione.setToY(destinazione.getLayoutY());
+        Group cellaOrigine = getGruppodaToken(gruppoAppartenenza, token);
 
+        if(destinazione!=cellaOrigine) {
 
+            //inizializza la traslazione
+            TranslateTransition animazione = new TranslateTransition(Duration.millis(2000), token);
 
-        //Imposta azioni al termine della traslazione
-        animazione.setOnFinished(actionEvent -> {
+            //imposta destinazione
+            animazione.setToX(destinazione.getLayoutX() - cellaOrigine.getLayoutX());
+            animazione.setToY(destinazione.getLayoutY() - cellaOrigine.getLayoutY());
 
-            //individua "cella" di origine,  rimuovi l'elemento dalla sergente, azzera le transizioni, rilocalo nel nuovo gruppo
-            for (Group cella : gruppoAppartenenza){
-                if (cella.getChildren().contains(token)){
-                    cella.getChildren().remove(token);
-                    token.setCenterX(0);
-                    token.setCenterY(0);
-                    token.setTranslateX(destinazione.getChildren().size()*5 -5);
-                    token.setTranslateY(destinazione.getChildren().size()*5 -5);
-                    destinazione.getChildren().add(token);
-                    break;
-                }
-            }
-        });
+            //Imposta azioni al termine della traslazione
+            animazione.setOnFinished(actionEvent -> {
 
+                //individua "cella" di origine,  rimuovi l'elemento dalla sergente, azzera le transizioni, rilocalo nel nuovo gruppo
+                Group cella = getGruppodaToken(gruppoAppartenenza, token);
+                cella.getChildren().remove(token);
+                token.setCenterX(0);
+                token.setCenterY(0);
+                token.setTranslateX(destinazione.getChildren().size() * 5 - 5);
+                token.setTranslateY(destinazione.getChildren().size() * 5 - 5);
+                destinazione.getChildren().add(token);
+            });
+
+            animazione.play();
+        }
     }
 
     private void inizializzaPuntiMilitari(){
@@ -513,7 +515,7 @@ class CasellePunti extends Group{
 
     private void inizializzaPuntiVittoria(){
 
-        puntiVittoria = new Group[2* NCASELLE_AB_EF+NCASELLE_CD_GH -4];
+        puntiVittoria = new Group[2* (NCASELLE_AB_EF+NCASELLE_CD_GH) -4];
 
         for (int i = 0; i <puntiVittoria.length ; i++) {
 
@@ -521,13 +523,13 @@ class CasellePunti extends Group{
             Point2D coordinate;
 
             if(i<NCASELLE_AB_EF-1){
-                coordinate= calcolaPunto(PVITTORIA_A, PVITTORIA_B, i, NCASELLE_AB_EF);
+                coordinate= calcolaPunto(PVITTORIA_A, PVITTORIA_B, i, NCASELLE_AB_EF-1);
             } else if(i>=20 && i<50){
-                coordinate= calcolaPunto(PVITTORIA_C, PVITTORIA_D, i-20, NCASELLE_CD_GH);
+                coordinate= calcolaPunto(PVITTORIA_C, PVITTORIA_D, i-20, NCASELLE_CD_GH-1);
             } else if (i>=50 && i<70){
-                coordinate= calcolaPunto(PVITTORIA_E, PVITTORIA_F, i-50, NCASELLE_AB_EF);
+                coordinate= calcolaPunto(PVITTORIA_E, PVITTORIA_F, i-50, NCASELLE_AB_EF-1);
             } else{
-                coordinate= calcolaPunto(PVITTORIA_G, PVITTORIA_H, i-70, NCASELLE_CD_GH);
+                coordinate= calcolaPunto(PVITTORIA_G, PVITTORIA_H, i-70, NCASELLE_CD_GH-1);
             }
 
             puntiVittoria[i].setLayoutX(coordinate.getX());
@@ -548,9 +550,18 @@ class CasellePunti extends Group{
     private Point2D calcolaPunto(Point2D puntoInizio, Point2D puntoFine, int numCasellaDesiderata, int numCaselleTotali){
 
         //calcolo incremento tra una casella e la successiva
-        Point2D incremento = puntoFine.subtract(puntoInizio).multiply(1/numCaselleTotali);
+        Point2D incremento = puntoFine.subtract(puntoInizio).multiply(1/Double.valueOf(numCaselleTotali));
 
         //ritorno punto intermedio cercato
         return puntoInizio.add(incremento.multiply(numCasellaDesiderata));
+    }
+
+    private Group getGruppodaToken(Group[] gruppoAppartenenza, Circle token){
+        for (Group cella : gruppoAppartenenza){
+            if (cella.getChildren().contains(token)) {
+                return cella;
+            }
+        }
+        return null;
     }
 }

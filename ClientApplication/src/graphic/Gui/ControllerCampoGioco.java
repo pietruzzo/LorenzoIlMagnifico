@@ -251,7 +251,6 @@ public class ControllerCampoGioco implements Ui, Controller {
     public void aggiornaRisorse(int idGiocatore, Risorsa risorsa) {
         Platform.runLater(() -> {
             tabelloneController.aggiornaPunti(getGiocatorebyId(idGiocatore), risorsa);
-            tabelloneController.aggiornaPunti(getGiocatorebyId(idGiocatore), risorsa);
             if(idGiocatore== idGiocatoreClient) {
                 plancia.settaRisorse(risorsa);
             } else {
