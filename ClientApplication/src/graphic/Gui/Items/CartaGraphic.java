@@ -98,8 +98,7 @@ public class CartaGraphic extends Group {
     }
 
     public void generaSceltaImmediataeCosto() {
-
-        ingrandimento.setVisible(true);
+        
         //Inizializza le scelte
         sceltaCorrenteCosto=null;
         sceltaCorrenteImmediato=null;
