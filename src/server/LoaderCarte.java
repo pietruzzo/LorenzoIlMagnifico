@@ -336,7 +336,8 @@ public class LoaderCarte {
                                 esborso.add(stringToRisorsa(Arrays.copyOfRange(infoCarta.get(j).split("\t"), 1, 8)));
                                 guadagno.add(stringToRisorsa(Arrays.copyOfRange(infoCarta.get(j).split("\t"), 8, 15)));
                             }
-                        }while(infoCarta.get(j).startsWith("\t"));
+                            j=j+1;
+                        }while(infoCarta.size()>j && infoCarta.get(j).startsWith("\t"));
                         Risorsa[] v1, v2;
                         v1= new Risorsa[esborso.size()];
                         v2= new Risorsa[guadagno.size()];

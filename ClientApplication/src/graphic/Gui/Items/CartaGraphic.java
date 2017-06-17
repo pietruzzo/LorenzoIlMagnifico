@@ -292,7 +292,7 @@ public class CartaGraphic extends Group {
         this.removeEventHandler(MouseEvent.MOUSE_EXITED, rmIngrandisci);
 
         ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
-        ingrandimento.setLayoutX((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
+        ingrandimento.setLayoutY((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
         ingrandimento.setVisible(true);
 
         //Add Exit Button
@@ -305,7 +305,7 @@ public class CartaGraphic extends Group {
             //mouseHandler per uscire dalla carta
             bottone.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(false));
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.toString());
         }
         contenitore.getChildren().add(ingrandimento);
 

@@ -2,6 +2,7 @@ package graphic.Gui.Items;
 
 import Domain.Risorsa;
 import Domain.TipoCarta;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -38,6 +39,7 @@ public class AltriGiocatoriHBox extends HBox{
     private Image cartePersonaggio;
     private Image carteTerritorio;
     private Image carteEdificio;
+    private Image altriGiocatori;
 
     private Map<GiocatoreGraphic, AltroGiocatoreVBox> tabelle;
 
@@ -107,6 +109,8 @@ public class AltriGiocatoriHBox extends HBox{
         return carteEdificio;
     }
 
+    Image getAltriGiocatori() { return altriGiocatori; }
+
     private void  inizializzaImmagini(){
 
         this.moneta= uploadImage("moneta.png");
@@ -117,6 +121,7 @@ public class AltriGiocatoriHBox extends HBox{
         this.carteEdificio = uploadImage("Edificio.png");
         this.cartePersonaggio = uploadImage("Personaggio.png");
         this.carteImpresa = uploadImage("Impresa.png");
+        this.altriGiocatori = new Image("/AltriGiocatori.png");
 
     }
 
@@ -125,9 +130,10 @@ public class AltriGiocatoriHBox extends HBox{
     }
 }
 
-class AltroGiocatoreVBox extends VBox{
+class AltroGiocatoreVBox extends Pane{
 
     private static final double FATTORE_CARTE = 0.5;
+    private VBox informazioniGiocatore;
     private Label nomeGiocatore;
     private Label monete;
     private Label legno;
@@ -142,14 +148,15 @@ class AltroGiocatoreVBox extends VBox{
     AltroGiocatoreVBox(String nomeGiocatore, Color coloreGiocatore, AltriGiocatoriHBox risorse){
 
         super();
-        GridPane dettagliGiocatore = new GridPane();
-
+        this.informazioniGiocatore = new VBox();
         this.nomeGiocatore= new Label(nomeGiocatore);
 
         this.monete = new Label();
         this.legno = new Label();
         this.pietra = new Label();
         this.servi = new Label();
+
+        GridPane dettagliGiocatore = new GridPane();
 
         //proprietà label
         setProprietaLabel(this.monete);
@@ -166,6 +173,7 @@ class AltroGiocatoreVBox extends VBox{
         ImageView carteEdificioIm = new ImageView(risorse.getCarteEdificio());
         ImageView cartePersonaggioIm = new ImageView(risorse.getCartePersonaggio());
         ImageView carteImpresaIm = new ImageView(risorse.getCarteImpresa());
+        Image altriGiocatoriIm = risorse.getAltriGiocatori();
 
         //Inizializza CarteFuoriPlancia
         territorio= new CarteFuoriPlanciaPane();
@@ -191,19 +199,29 @@ class AltroGiocatoreVBox extends VBox{
 
         //proprietà nomeGiocatore
         this.nomeGiocatore.setTextFill(coloreGiocatore);
+        Color colore = new Color(0, 0, 0, 0.35);
+        this.nomeGiocatore.setBackground(new Background(new BackgroundFill(colore, new CornerRadii(20), new Insets(-5.0))));
         this.nomeGiocatore.setAlignment(Pos.CENTER);
         this.nomeGiocatore.setFont(new Font(40));
 
-
         //Proprietà this
-        this.setAlignment(Pos.CENTER);
-        this.setSpacing(20);
-        this.fillWidthProperty();
+        this.setPrefWidth(365);
+        this.setPrefHeight(400);
 
         //proprietà dettagliGiocatore
         dettagliGiocatore.setAlignment(Pos.CENTER_LEFT);
-        dettagliGiocatore.setHgap(30);
-        dettagliGiocatore.setVgap(15);
+        dettagliGiocatore.setHgap(40);
+        dettagliGiocatore.setVgap(12);
+
+        //Popola VBox
+        informazioniGiocatore.getChildren().addAll(this.nomeGiocatore, dettagliGiocatore);
+
+        //Proprietà VBox
+        informazioniGiocatore.setAlignment(Pos.CENTER);
+        informazioniGiocatore.setSpacing(20);
+        informazioniGiocatore.setLayoutX(65);
+        informazioniGiocatore.setLayoutY(45);
+
 
         //Proprietà SetOnClick carteFuoriPlancia
         setProprietaCarteFuoriPlancia(territorio, carteTerritorioIm);
@@ -211,14 +229,13 @@ class AltroGiocatoreVBox extends VBox{
         setProprietaCarteFuoriPlancia(personaggio, cartePersonaggioIm);
         setProprietaCarteFuoriPlancia(impresa, carteImpresaIm);
 
-        this.setWidth(300);
-        this.setHeight(300);
-        Image image = new Image("/AltriGiocatori.png");
-        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        BackgroundSize bz = new BackgroundSize(2.0, 2.0, true, true, true, false);
+        BackgroundImage backgroundImage = new BackgroundImage(altriGiocatoriIm, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bz);
         this.setBackground(new Background(backgroundImage));
+        //this.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
 
-        //Includi descrizione e dettagli in this
-        this.getChildren().addAll(this.nomeGiocatore, dettagliGiocatore);
+        this.getChildren().add(informazioniGiocatore);
+
     }
 
     void settaRisorse(Risorsa risorse){

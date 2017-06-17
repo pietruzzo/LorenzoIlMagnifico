@@ -1,6 +1,7 @@
 package server;
 
 import Domain.Carta;
+import Domain.Effetti.lista.ScambiaRisorse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class LoaderCarteTest {
         for(Carta c : mazzoCarte){
             i=i+1;
             System.out.println(i+" " +c.getTipoCarta()+" ");
+            if(c.getNome().equals("Falegnameria")) System.out.println(((ScambiaRisorse)c.getEffettoPermanente().get(0)).getNumeroOpzioni());
         }
     }
 }
