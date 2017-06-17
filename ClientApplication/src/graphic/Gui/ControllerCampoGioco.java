@@ -145,7 +145,6 @@ public class ControllerCampoGioco implements Ui, Controller {
     @Override
     public void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori) {
         if (mossaSpecifica){
-            mossaSpecifica=false;
             mainGame.AzioneBonusEffettuata(casella.getCasellaId(), this.valoreAzione, this.bonusRisorse, servitori);
         } else {
             mainGame.PiazzaFamiliare(f.getColore(), casella.getCasellaId(), servitori);
@@ -175,7 +174,11 @@ public class ControllerCampoGioco implements Ui, Controller {
     public void effettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse) {
         this.valoreAzione = valoreAzione;
         this.bonusRisorse = bonusRisorse;
-        stampaMessaggio("Puoi effettuare un'azione di tipo "+tipoAzione.toString()+" con valore "+valoreAzione);
+        this.mossaSpecifica=true;
+        Platform.runLater(()->{
+            stampaMessaggio("Puoi effettuare un'azione di tipo "+tipoAzione.toString()+" con valore "+valoreAzione);
+            tabelloneController.predisponiAzioneSpecifica(tipoAzione);
+        });
     }
 
     @Override
@@ -248,6 +251,7 @@ public class ControllerCampoGioco implements Ui, Controller {
     public void aggiornaRisorse(int idGiocatore, Risorsa risorsa) {
         Platform.runLater(() -> {
             tabelloneController.aggiornaPunti(getGiocatorebyId(idGiocatore), risorsa);
+            tabelloneController.aggiornaPunti(getGiocatorebyId(idGiocatore), risorsa);
             if(idGiocatore== idGiocatoreClient) {
                 plancia.settaRisorse(risorsa);
             } else {
@@ -258,7 +262,17 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void aggiornaDaAzioneBonus(int idGiocatore, Risorsa risorsa, int idSpazioAzione) {
-        //TODO
+        Platform.runLater(()->{
+            //Aggiorna le risorse del giocatore
+            this.aggiornaRisorse(idGiocatore, risorsa);
+            mossaSpecifica=false;
+
+            if(idGiocatore==idGiocatoreClient) {
+                plancia.aggiungiCarta(tabelloneController.rimuoviCartaSpazioAzione(idSpazioAzione));
+                tabelloneController.riattivaCaselleDaAzioneSpecifica();
+            }
+            else infoGiocatoriController.addCarta(getGiocatorebyId(idGiocatore), tabelloneController.rimuoviCartaSpazioAzione(idSpazioAzione));
+        });
     }
 
     @Override
@@ -363,7 +377,8 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void GiocatoreDisconnesso(int idGiocatoreDisconnesso) {
-        //TODO
+        Platform.runLater(()-> stampaMessaggio("Il giocatore" +idGiocatoreDisconnesso+ " si è ritirato, ma il gioco continua..."));
+
     }
 
     /**

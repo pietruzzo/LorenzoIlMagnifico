@@ -44,10 +44,10 @@ public class SelettoreFamiliariGraphic extends AnchorPane {
 
         //Aggiunta elementi al pannello
         this.getChildren().addAll(exitButton, giocaAdesso);
-        this.setBottomAnchor(exitButton, 20.0);
-        this.setLeftAnchor(exitButton, this.getWidth() -exitButton.getWidth()/2);
+        this.setBottomAnchor(exitButton, 0.0);
+        this.setLeftAnchor(exitButton, this.getWidth()/2 -exitButton.getWidth()/2);
         this.setBottomAnchor(giocaAdesso, 80.0);
-        this.setLeftAnchor(giocaAdesso, this.getWidth() -giocaAdesso.getWidth()/2);
+        this.setLeftAnchor(giocaAdesso, this.getWidth()/2 -giocaAdesso.getWidth()/2);
 
         //Colore Familiari usati
         coloreFamUsato= new ColorAdjust();
@@ -74,7 +74,7 @@ public class SelettoreFamiliariGraphic extends AnchorPane {
                 }
             });
             immaginiFamiliari.getChildren().add(image);
-
+            image.toFront();
         }
         rimuoviGiocaAdesso();
 
@@ -82,6 +82,7 @@ public class SelettoreFamiliariGraphic extends AnchorPane {
         this.getChildren().add(immaginiFamiliari);
         this.setBottomAnchor(immaginiFamiliari, 80.0);
         this.setLeftAnchor(immaginiFamiliari, 10.00);
+        this.toFront();
         immaginiFamiliari.toFront();
     }
 

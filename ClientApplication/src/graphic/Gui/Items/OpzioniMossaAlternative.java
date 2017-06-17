@@ -45,6 +45,9 @@ public class OpzioniMossaAlternative{
             Group cartaIm = ((CasellaConCartaGraphic) casella).getCartaAssociata().getIngrandimento();
             cartaIm.setLayoutX(0);
             cartaIm.setLayoutY(0);
+            cartaIm.setTranslateX(0);
+            cartaIm.setTranslateY(0);
+            cartaIm.setVisible(true);
             areaCarta.getChildren().add(cartaIm);
         }
 

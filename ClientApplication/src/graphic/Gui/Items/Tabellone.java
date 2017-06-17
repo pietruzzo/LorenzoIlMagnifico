@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +99,20 @@ public class Tabellone extends AnchorPane{
     }
 
 
+    /**
+     * Ottieni e rimuovi dal tabellone la carta associata allo spazio azione
+     * @param idSpazioAzione con carta associata
+     * @return carta associata allo spazio azione, null se non c'è carta associata
+     */
+    @Nullable
+    public CartaGraphic rimuoviCartaSpazioAzione(int idSpazioAzione){
+        CartaGraphic carta = null;
+        if(caselle.getCasellabyId(idSpazioAzione) instanceof CasellaConCartaGraphic){
+            carta= ((CasellaConCartaGraphic)caselle.getCasellabyId(idSpazioAzione)).getCartaAssociata();
+            rimuoviCarta(carta);
+        }
+        return carta;
+    }
     /**
      * Rimuovi la carta indicata dal Tabellone
      * @param carta
