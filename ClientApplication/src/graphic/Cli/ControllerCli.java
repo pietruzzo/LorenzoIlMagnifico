@@ -4,6 +4,7 @@ import Domain.*;
 import graphic.Ui;
 import lorenzo.MainGame;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,6 +23,8 @@ public class ControllerCli implements Ui {
     private GestoreComandi gestoreComandi;
     private Map<Integer, String> carteTabellone;
     private Map<Integer, String> giocatori;
+    private Map<Integer, String> coloriGiocatori;
+    private ArrayList<String> familiariDisponibili;
     private int idGiocatoreCorrente;
     private Risorsa risorse;
     private ArrayList<String> planciaCarte;
@@ -32,6 +35,8 @@ public class ControllerCli implements Ui {
         this.printer = new Printer();
         this.planciaCarte = new ArrayList<>();
         this.giocatori = new HashMap<>();
+        this.coloriGiocatori = new HashMap<>();
+        this.familiariDisponibili = new ArrayList<>();
         this.gestoreComandi = new GestoreComandi(this);
         this.printer.stampa("In attesa di altri giocatori..");
         this.printer.stampa("per iniziare digitare il comando 'iniziaPartita'.");
@@ -49,7 +54,8 @@ public class ControllerCli implements Ui {
         //Mostra i giocatori partecipanti
         for (Giocatore giocatore : tabellone.getGiocatori()) {
             this.giocatori.put((int)giocatore.getIdGiocatore(), giocatore.getNome());
-            this.printer.stampa("%d - %s", giocatore.getIdGiocatore(), giocatore.getNome());
+            this.coloriGiocatori.put((int)giocatore.getIdGiocatore(), ColorCli.getCodeColorCliByColoreGiocatore(giocatore.getColore()));
+            this.printer.stampa("%s %d - %s %s", coloriGiocatori.get((int)giocatore.getIdGiocatore()), giocatore.getIdGiocatore(), giocatore.getNome(), ColorCli.TAG_CHIUSURA);
 
             if(giocatore.getNome().equals(mainGame.getNomeGiocatore())) {
                 idGiocatoreCorrente = giocatore.getIdGiocatore();
@@ -58,6 +64,12 @@ public class ControllerCli implements Ui {
         }
     }
 
+    /**
+     * Inizia un nuovo turno di gioco
+     * @param ordineGiocatori array di idGiocatore ordinati secondo l'ordine di gioco
+     * @param dadi esito dei dadi nell'ordine nero bianco arancione
+     * @param carte mappa che collega l'id dello spazio azione con il nome della carta ad esso associata
+     */
     @Override
     public void iniziaTurno(int[] ordineGiocatori, int[] dadi, Map<Integer, String> carte) {
         this.printer.stampa("E' iniziato un nuovo turno!");
@@ -67,6 +79,11 @@ public class ControllerCli implements Ui {
         this.printer.stampa("Arancio: %d\n", dadi[2]);
 
         this.carteTabellone = carte;
+        this.familiariDisponibili = new ArrayList<>();
+        this.familiariDisponibili.add("w:bianco  ");
+        this.familiariDisponibili.add("o:arancio  ");
+        this.familiariDisponibili.add("b:nero  ");
+        this.familiariDisponibili.add("n:neutro  ");
     }
 
     /**
@@ -82,8 +99,13 @@ public class ControllerCli implements Ui {
         if(this.idGiocatoreCorrente == idGiocatore) {
             gestoreComandi.setComandiPiazzamentoFamiliare();
             this.printer.stampa("Tocca a te piazzare un familiare!");
-            this.printer.stampa("per effettuare l'azione digitare 'piazzaFamiliare colore idSpazioAzione servitoriAggiunti'");
-            this.printer.stampa("colori: w=bianco o=orance b=nero n=neutro");
+            this.printer.stampa("per effettuare l'azione digitare 'piazza colore idSpazioAzione servitoriAggiunti'");
+            String coloriDisponibili = "";
+            for (String colore : this.familiariDisponibili) {
+                coloriDisponibili += colore;
+            }
+            this.printer.stampa("colori disponibili: %s", coloriDisponibili);
+
         }
         else {
             gestoreComandi.setComandiDefault();
@@ -113,7 +135,7 @@ public class ControllerCli implements Ui {
     public void sceltaSostegnoChiesa() {
         this.gestoreComandi.setComandiSostegnoChiesa();
         this.printer.stampa("Hai abbastanza punti fede per sostenere la chiesa, la vuoi sostenere?");
-        this.printer.stampa("Per rispondere digitare 'sostegnoChiesa si/no'");
+        this.printer.stampa("Per rispondere digitare 'sostegno si/no'");
     }
 
     /**
@@ -125,7 +147,7 @@ public class ControllerCli implements Ui {
         this.printer.stampaTabellone(this.carteTabellone);
         this.printer.stampa("Per effetto di una carta, hai la possibilità di effettuare un'azione bonus!");
         this.printer.stampa("L'azione avrà un valore base di %d.");
-        this.printer.stampa("(per effettuare l'azione digitare 'azioneBonus idSpazioAzione servitoriAggiunti')");
+        this.printer.stampa("(per effettuare l'azione digitare 'bonus idSpazioAzione servitoriAggiunti')");
     }
 
     /**
@@ -137,7 +159,7 @@ public class ControllerCli implements Ui {
         this.gestoreComandi.setComandiRispostaPrivilegio();
         this.printer.stampa("Hai ottenuto %d privilegi del consiglio!", numeroPergamene);
         this.printer.stampaPrivilegi();
-        this.printer.stampa("(per scegliere il privilegio digitare 'sceltaPrivilegio' seguito dal numero corrispondente)");
+        this.printer.stampa("(per scegliere il privilegio digitare 'privilegio' seguito dal numero corrispondente)");
     }
 
     /**
@@ -168,6 +190,8 @@ public class ControllerCli implements Ui {
             this.risorse = risorsa.clone();
             this.printer.stampa("Aggiornamento del giocatore avvenuto con successo!");
 
+            this.familiariDisponibili.removeIf(x -> x.contains(coloreDado.getColoreString().toLowerCase()));
+
             if(idSpazioAzione <= 16 && !carteTabellone.get(idSpazioAzione).isEmpty())
             {
                 this.planciaCarte.add(carteTabellone.get(idSpazioAzione));
@@ -175,9 +199,20 @@ public class ControllerCli implements Ui {
         }
 
         if(idSpazioAzione <= 16) {
-            this.carteTabellone.replace(idSpazioAzione, String.format("Presa da %s", giocatori.get(idGiocatore)));
+            this.carteTabellone.replace(idSpazioAzione, String.format("%sPresa da %s %s", coloriGiocatori.get(idGiocatore), giocatori.get(idGiocatore), ColorCli.TAG_CHIUSURA));
         }
+    }
 
+    /**
+     * Aggiorna le risorse del giocatore
+     * @param idGiocatore
+     * @param risorsa
+     */
+    @Override
+    public void aggiornaRisorse(int idGiocatore, Risorsa risorsa) {
+        if(idGiocatoreCorrente == idGiocatore) {
+            this.risorse = risorsa.clone();
+        }
     }
 
     /**
@@ -192,7 +227,7 @@ public class ControllerCli implements Ui {
 
         int i = 1;
         for (Map.Entry<Short, Integer> entry : mappaRisultati.entrySet()) {
-            String giocatore = Printer.rightPad(giocatori.get(entry.getKey()), 10);
+            String giocatore = Printer.rightPad(giocatori.get((int)entry.getKey()), 10);
             Integer punteggio = entry.getValue();
 
             this.printer.stampa("%d - %s  %d", i, giocatore, punteggio);
@@ -237,11 +272,6 @@ public class ControllerCli implements Ui {
 
     @Override
     public void disabilitaCaselle(int idSpazioAzione) {
-
-    }
-
-    @Override
-    public void aggiornaRisorse(int idGiocatore, Risorsa risorsa) {
 
     }
 

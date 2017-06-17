@@ -48,7 +48,7 @@ public class GestoreComandi {
     public void setComandiRispostaPrivilegio()
     {
         comandi = new HashMap<>();
-        comandi.put("sceltaPrivilegio", this::sceltaPrivilegio);
+        comandi.put("privilegio", this::sceltaPrivilegio);
         this.addComandiDefault();
     }
 
@@ -58,7 +58,7 @@ public class GestoreComandi {
     public void setComandiSostegnoChiesa()
     {
         comandi = new HashMap<>();
-        comandi.put("sostegnoChiesa", this::rispostaSostegnoChiesa);
+        comandi.put("sostegno", this::rispostaSostegnoChiesa);
         this.addComandiDefault();
     }
 
@@ -68,7 +68,7 @@ public class GestoreComandi {
     public void setComandiPiazzamentoFamiliare()
     {
         comandi = new HashMap<>();
-        comandi.put("piazzaFamiliare", this::piazzaFamiliare);
+        comandi.put("piazza", this::piazzaFamiliare);
         this.addComandiDefault();
     }
 
@@ -78,7 +78,7 @@ public class GestoreComandi {
     public void setComandiAzioneBonus()
     {
         comandi = new HashMap<>();
-        comandi.put("azioneBonus", this::azioneBonusEffettuata);
+        comandi.put("bonus", this::azioneBonusEffettuata);
         this.addComandiDefault();
     }
 
@@ -136,7 +136,7 @@ public class GestoreComandi {
                     risorsa = new Risorsa(Risorsa.TipoRisorsa.MONETE, 2);
                     break;
                 case "4":
-                    risorsa = new Risorsa(Risorsa.TipoRisorsa.PVITTORIA, 2);
+                    risorsa = new Risorsa(Risorsa.TipoRisorsa.PMILITARI, 2);
                     break;
                 case "5":
                     risorsa = new Risorsa(Risorsa.TipoRisorsa.PFEDE, 1);
