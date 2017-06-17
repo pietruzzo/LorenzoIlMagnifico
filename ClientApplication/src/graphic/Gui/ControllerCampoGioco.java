@@ -155,6 +155,11 @@ public class ControllerCampoGioco implements Ui, Controller {
     }
 
     @Override
+    public void scegliEffetto(String nomeCarta, Integer codiceScelta) {
+        mainGame.SettaSceltaEffetti(nomeCarta, codiceScelta);
+    }
+
+    @Override
     public void disabilitaCaselle(int idSpazioAzione) {
         Platform.runLater(() -> {
             tabelloneController.disattivaCasella(idSpazioAzione);
@@ -207,17 +212,17 @@ public class ControllerCampoGioco implements Ui, Controller {
             } else giocatoriEsclusoCorrente.add(gg);
         }
 
-        //Genera il mazzo di carte
-        mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica(), this);
+            //Genera il mazzo di carte
+            mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica(), this);
 
 
-        //Ottieni tessere Scomunica
-        CartaGraphic[] carteScom = new CartaGraphic[3];
-        carteScom[0] = mazzo.getCarta(tabellone.getCarteScomunica().get(0).getNome());
-        carteScom[1] = mazzo.getCarta(tabellone.getCarteScomunica().get(1).getNome());
-        carteScom[2] = mazzo.getCarta(tabellone.getCarteScomunica().get(2).getNome());
+            //Ottieni tessere Scomunica
+            CartaGraphic[] carteScom = new CartaGraphic[3];
+            carteScom[0] = mazzo.getCarta(tabellone.getCarteScomunica().get(0).getNome());
+            carteScom[1] = mazzo.getCarta(tabellone.getCarteScomunica().get(1).getNome());
+            carteScom[2] = mazzo.getCarta(tabellone.getCarteScomunica().get(2).getNome());
 
-        Platform.runLater(() -> {
+            Platform.runLater(() -> {
             tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom, this);
 
             //Genero infoGiocatoriController e lo inizializzo
@@ -320,13 +325,16 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void iniziaMossa(int idGiocatore) {
-        if(idGiocatore==idGiocatoreClient){
-            selettoreFamiliari.abiltaMossa();
-            this.stampaMessaggio("e' il TUO TURNO");
-        } else {
-            this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
-            selettoreFamiliari.disabilitaMossa();
-        }
+        Platform.runLater(()->{
+            if(idGiocatore==idGiocatoreClient){
+                selettoreFamiliari.abiltaMossa();
+                this.stampaMessaggio("e' il TUO TURNO");
+            } else {
+                this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
+                selettoreFamiliari.disabilitaMossa();
+            }
+        });
+
     }
 
     @Override

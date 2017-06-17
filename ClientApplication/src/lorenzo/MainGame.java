@@ -200,13 +200,13 @@ public class MainGame {
      */
     public void PartitaIniziata(Tabellone tabellone) {
         System.out.println(String.format("Partita è iniziata con %d giocatori", tabellone.getGiocatori().size()));
-        try {
+        //try {
             userInterface.inizializzaPartita(tabellone);
-        }
-        catch(Exception e)
-        {
-            this.MostraEccezione(e.getMessage());
-        }
+        //}
+        //catch(Exception e)
+        //{
+        //    this.MostraEccezione(e.getMessage());
+        //}
     }
 
     /**

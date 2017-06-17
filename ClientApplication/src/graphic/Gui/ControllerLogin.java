@@ -110,4 +110,9 @@ public class ControllerLogin implements Controller {
     public void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori) {
 
     }
+
+    @Override
+    public void scegliEffetto(String nomeCarta, Integer codiceScelta) {
+
+    }
 }

@@ -21,4 +21,5 @@ public interface Controller {
     void selezionaFamiliare(FamiliareGraphic familiare, boolean piazzamentoPossibile);
     void casellaSelezionata(CasellaGraphic casella);
     void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori);
+    void scegliEffetto(String nomeCarta, Integer codiceScelta);
 }

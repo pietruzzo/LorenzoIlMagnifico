@@ -5,7 +5,7 @@ import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.ScambiaRisorse;
 import Domain.TesseraScomunica;
 import Domain.TipoCarta;
-import graphic.Gui.ControllerCampoGioco;
+import graphic.Gui.Controller;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public class CarteGioco{
 
    private List<CartaGraphic> carte;
 
-   public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica, ControllerCampoGioco callback){
+   public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica, Controller callback){
       this.carte = new ArrayList<>();
       //per le carte sviluppo, carica anche l aversione ingrandita
       for (Carta c : carte){
@@ -59,6 +59,7 @@ public class CarteGioco{
               }
           }
           if(numOpzioniCosto>1 || numOpzioniImmed>1 ||numOpzioniPerma>1) carta.setNumeroMaxScelte(numOpzioniCosto, numOpzioniImmed, numOpzioniPerma);
+          carta.generaSceltaImmediataeCosto();
           //endregion
           this.carte.add(carta);
       }

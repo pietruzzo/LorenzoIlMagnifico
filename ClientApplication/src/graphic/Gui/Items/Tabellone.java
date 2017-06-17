@@ -144,10 +144,12 @@ public class Tabellone extends AnchorPane{
      * Rimuovi il familiare dalla sul tabellone
      * @param familiare
      */
-    public void rimuoviFamiliare( FamiliareGraphic familiare){
-        for (CasellaGraphic c : caselle.getListaCaselle()) {
-            if(c.getPedine().getChildren().contains(familiare))
-                c.getPedine().getChildren().remove(familiare);
+    public synchronized void rimuoviFamiliare( FamiliareGraphic familiare){
+        if(caselle!=null) {
+            for (CasellaGraphic c : caselle.getListaCaselle()) {
+                if (c.getPedine().getChildren().contains(familiare))
+                    c.getPedine().getChildren().remove(familiare);
+            }
         }
     }
 
@@ -189,13 +191,15 @@ public class Tabellone extends AnchorPane{
     public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){//TODO aggiunta scomunica
          }
 
-    public void rimuoviCarteTorre(){
-        for (CasellaGraphic c :caselle.getListaCaselle()){
-            if(c instanceof CasellaConCartaGraphic){
-                CasellaConCartaGraphic casT = (CasellaConCartaGraphic) c;
-                if(casT.getCartaAssociata()!=null){
-                    this.getChildren().remove(casT.getCartaAssociata());
-                    casT.setCartaAssociata(null);
+    public synchronized void rimuoviCarteTorre(){
+        if(caselle!=null) {
+            for (CasellaGraphic c : caselle.getListaCaselle()) {
+                if (c instanceof CasellaConCartaGraphic) {
+                    CasellaConCartaGraphic casT = (CasellaConCartaGraphic) c;
+                    if (casT.getCartaAssociata() != null) {
+                        this.getChildren().remove(casT.getCartaAssociata());
+                        casT.setCartaAssociata(null);
+                    }
                 }
             }
         }

@@ -58,12 +58,15 @@ public class CartaGraphic extends Group {
     private EventHandler<MouseEvent> ingrandisci;
     private EventHandler<MouseEvent> rmIngrandisci;
 
-    CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita, ControllerCampoGioco callback) {
+    CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita, Controller callback) {
         super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
         this.nome = nome;
         this.cartaIngrandita=cartaIngrandita;
         this.callBack=callback;
+        this.costo=null;
+        this.immediato=null;
+        this.permanente=null;
 
         //setta ingrandimento
         ImageView cartaIngranditaView = new ImageView(cartaIngrandita);
@@ -75,7 +78,6 @@ public class CartaGraphic extends Group {
         this.ingrandimento.getChildren().add(cartaIngranditaView);
         this.getChildren().add(ingrandimento);
         ingrandimento.setVisible(false);
-        generaSceltaImmediataeCosto();
 
         //setDimensioni
         this.dimensioni = new Dimension2D(immagineCarta.getWidth(), immagineCarta.getHeight());
@@ -98,41 +100,50 @@ public class CartaGraphic extends Group {
     }
 
     public void generaSceltaImmediataeCosto() {
-        
-        //Inizializza le scelte
-        sceltaCorrenteCosto=null;
-        sceltaCorrenteImmediato=null;
-        //crea rettangoli
-        costo = new Rectangle[numSceltaCosto];
-        setAree(costo, POSIZIONESCELTACOSTO, DIMENSIONESCELTACOSTO);
 
-        //setonclick
-        for (int i = 0; i < numSceltaCosto; i++) {
-            int finalI = i;
-            costo[i].setOnMouseClicked(mouseEvent -> {
-                gestisciSceltaCosto(finalI);
-            });
+        if(numSceltaCosto>1) {
+            //Inizializza le scelte
+            sceltaCorrenteCosto = null;
+            sceltaCorrenteImmediato = null;
+            //crea rettangoli
+            costo = new Rectangle[numSceltaCosto];
+            setAree(costo, POSIZIONESCELTACOSTO, DIMENSIONESCELTACOSTO);
+            costo[0].setStroke(Color.GREEN);
+
+            //setonclick
+            for (int i = 0; i < numSceltaCosto; i++) {
+                int finalI = i;
+                costo[i].setOnMouseClicked(mouseEvent -> {
+                    gestisciSceltaCosto(finalI);
+                });
+            }
         }
 
-        //crea rettangoli
-        immediato = new Rectangle[numSceltaImmed];
-        setAree(immediato, POSIZIONESCELTAIMMEDIATO, DIMENSIONESCELTAIMMEDIATO);
+        if(numSceltaImmed>1) {
+            //crea rettangoli
+            immediato = new Rectangle[numSceltaImmed];
+            setAree(immediato, POSIZIONESCELTAIMMEDIATO, DIMENSIONESCELTAIMMEDIATO);
 
-        //setonclick
-        for (int i = 0; i < numSceltaImmed; i++) {
-            int finalI = i;
-            immediato[i].setOnMouseClicked(mouseEvent -> {
-                gestisciSceltaImmediato(finalI);
-            });
+            //setonclick
+            for (int i = 0; i < numSceltaImmed; i++) {
+                int finalI = i;
+                immediato[i].setOnMouseClicked(mouseEvent -> {
+                    gestisciSceltaImmediato(finalI);
+                });
+            }
         }
     }
 
     public void rimuoviSceltaImmediataeCosto(){
-        for (Rectangle scelta: costo){
-            ingrandimento.getChildren().remove(scelta);
+        if(costo !=null) {
+            for (Rectangle scelta : costo) {
+                ingrandimento.getChildren().remove(scelta);
+            }
         }
-        for (Rectangle scelta: immediato){
-            ingrandimento.getChildren().remove(immediato);
+        if(immediato != null) {
+            for (Rectangle scelta : immediato) {
+                ingrandimento.getChildren().remove(immediato);
+            }
         }
     }
 
@@ -143,14 +154,15 @@ public class CartaGraphic extends Group {
         permanente = new Rectangle[numSceltaPerm];
         setAree(permanente, POSIZIONESCELTAPERMANENTE, DIMENSIONESCELTAPERMANENTE);
 
-        //setonclick
-        for (int i = 0; i < numSceltaPerm; i++) {
-            int finalI = i;
-            permanente[i].setOnMouseClicked(mouseEvent -> {
-                gestisciSceltaPermanente(finalI);
-            });
+        if(numSceltaPerm>1) {
+            //setonclick
+            for (int i = 0; i < numSceltaPerm; i++) {
+                int finalI = i;
+                permanente[i].setOnMouseClicked(mouseEvent -> {
+                    gestisciSceltaPermanente(finalI);
+                });
+            }
         }
-
     }
 
     /**
@@ -181,7 +193,7 @@ public class CartaGraphic extends Group {
         //Seleziona quella indicata
         costo[i].setFill(Color.GREEN);
 
-        //TODO tryNotifyServer();
+        callBack.scegliEffetto(getNome(), i);
 
     }
 
@@ -195,14 +207,15 @@ public class CartaGraphic extends Group {
         //Seleziona quella indicata
         immediato[i].setFill(Color.GREEN);
         //comunicala al server
-        //TODO tryNotifyServer();
+        callBack.scegliEffetto(getNome(), i);
 
     }
 
     private void gestisciSceltaPermanente(int i) {
 
         if(permanente[i].getStroke() == Color.GREEN){
-            //TODO deseleziona Scelta (Notifica il server)
+            permanente[i].setStroke(Color.BLUE);
+            callBack.scegliEffetto(getNome(), null);
         } else {
             //Azzera tutte le scelte
             for (Rectangle rettangolo : permanente) {
@@ -212,7 +225,7 @@ public class CartaGraphic extends Group {
             //Seleziona quella indicata
             permanente[i].setStroke(Color.GREEN);
             //comunicala al server
-            //TODO comunica scelta permanente al server (SSE c'è più di una scelta nella carta)
+            callBack.scegliEffetto(getNome(), i);
         }
     }
 
@@ -231,10 +244,8 @@ public class CartaGraphic extends Group {
                 vettoreAree[i].setX(posizScelta.getX());
                 vettoreAree[i].setX(posizScelta.getY() + dimScelta.getY() * i);
 
-                vettoreAree[i].setFill(Color.BLACK);
                 vettoreAree[i].setStroke(Color.BLUE);
-                vettoreAree[i].setStrokeWidth(3);
-                vettoreAree[i].setStrokeType(StrokeType.CENTERED);
+                vettoreAree[i].setStrokeWidth(5);
                 vettoreAree[i].setVisible(true);
                 ingrandimento.getChildren().add(vettoreAree[i]);
             }
