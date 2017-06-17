@@ -26,7 +26,7 @@ public class TabelloneTest {
 
     @Before
     public void setUp() throws Exception {
-        Partita partita = new Partita(new Server());
+        Partita partita = new Partita();
         tabellone = partita.getTabellone();
         partita.AggiungiGiocatore((short)1, "Michele", new GiocatoreRemotoForTest());
         partita.AggiungiGiocatore((short)2, "Pietro", new GiocatoreRemotoForTest());

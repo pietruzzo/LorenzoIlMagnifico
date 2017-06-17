@@ -34,6 +34,8 @@ public class ControllerLogin implements Controller {
     @FXML private void initialize(){
         communicationChoice.setValue("RMI");
         communicationChoice.setItems(communicationChoiceBoxList);
+
+
     }
 
     @FXML

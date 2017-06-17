@@ -17,7 +17,7 @@ public class PartitaTest {
 
     @Before
     public void setUp() throws Exception {
-        partita = new Partita(new Server());
+        partita = new Partita();
         partita.AggiungiGiocatore((short)1, "Michele", new GiocatoreRemotoForTest());
         partita.AggiungiGiocatore((short)2, "Pietro", new GiocatoreRemotoForTest());
 

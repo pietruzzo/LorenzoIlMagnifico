@@ -94,7 +94,7 @@ public class Server {
         //se non ci sono partite ancora da iniziare ne crea una nuova
         if(partitaToStart == null)
         {
-            partitaToStart = new Partita(this);
+            partitaToStart = new Partita();
             this.listaPartite.add(partitaToStart);
 
             System.out.println("Partita Creata");
