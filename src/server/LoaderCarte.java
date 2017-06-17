@@ -297,6 +297,7 @@ public class LoaderCarte {
                 case "EffettuaAzioneSpecifica":
                     try{
                         tipoAzione=stringToTipoAzione(rigaCorrente[2]);
+                        if(tipoAzione==null) throw new IllegalArgumentException("Il tipo azione non è riconosciuto");
                         if(rigaCorrente.length<5) {
                             immediati.add(new EffettuaAzioneSpecifica(tipoAzione, new Risorsa(), Integer.valueOf(rigaCorrente[3])));
                         } else{
@@ -414,15 +415,11 @@ public class LoaderCarte {
         } else if(stringa.endsWith("\t")&& stringa.length()>1) return stringa.substring(0, stringa.length()-1);
         else return stringa;
     }
-    /*
-    private TipoCarta stringToTipoCarta (String s){
-        for (TipoCarta t : TipoCarta.values()){
-            if (t.toString().contains(s.toUpperCase())) return t;
-        }
-        return null;
-    }*/
+
+
     private TipoAzione stringToTipoAzione (String s){
 
+        if(s.toUpperCase().equals("TORRE")) return TipoAzione.TORRE;
         for (TipoAzione t : TipoAzione.values()){
             if (t.toString().contains(s.toUpperCase())) return t;
         }
