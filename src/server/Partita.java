@@ -24,6 +24,7 @@ public class Partita  implements Serializable {
     //region Proprieta
     private static final short MIN_GIOCATORI = 2;
     private static final short MAX_GIOCATORI = 2;
+    private static final short NUM_PERIODI = 3;
     private static final short NUM_DADI = 3;
     private static final Object MUTEX_PARTITA = new Object();
 
@@ -408,7 +409,7 @@ public class Partita  implements Serializable {
         }
         else //Altrimenti si prosegue normalmente
         {
-            if (this.periodo < 3)
+            if (this.periodo < this.NUM_PERIODI)
                 this.InizioNuovoTurno();
             else
                 this.FinePartita();
@@ -454,7 +455,7 @@ public class Partita  implements Serializable {
         //Se tutti i giocatori hanno effettuato il rapporto al vaticano si può andare avanti
         if(this.giocatoriPartita.stream().allMatch(g -> g.getRapportoVaticanoEffettuato()))
         {
-            if(periodo < 3)
+            if(periodo < this.NUM_PERIODI)
                 this.InizioNuovoTurno();
             else
                 this.FinePartita();

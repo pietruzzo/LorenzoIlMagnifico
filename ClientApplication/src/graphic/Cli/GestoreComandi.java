@@ -31,6 +31,7 @@ public class GestoreComandi {
         comandi = new HashMap<>();
         comandi.put("vediRisorse", this::vediRisorse);
         comandi.put("vediCarte", this::vediCarte);
+        comandi.put("vediDadi", this::vediDadi);
     }
 
     /**
@@ -40,6 +41,7 @@ public class GestoreComandi {
     {
         comandi.put("vediRisorse", this::vediRisorse);
         comandi.put("vediCarte", this::vediCarte);
+        comandi.put("vediDadi", this::vediDadi);
     }
 
     /**
@@ -182,12 +184,11 @@ public class GestoreComandi {
                 throw new ComandoNonValido("Lo spazio azione deve essere compreso tra 1 e 25");
 
             //TODO andarsi a prendere valore e risorsa
-            cli.mainGame.AzioneBonusEffettuata(idSpazioAzione, 7, new Risorsa(), servitoriAggiunti);
+            cli.mainGame.AzioneBonusEffettuata(idSpazioAzione, cli.valoreAzioneBonus, cli.risorsaAzioneBonus, servitoriAggiunti);
         }
         else
             throw new ComandoNonValido("Numero di parametri errato");
     }
-
 
     /**
      * Permette al giocatore di vedere le proprie risorse
@@ -203,6 +204,14 @@ public class GestoreComandi {
     public void vediCarte(String[] params)
     {
         cli.vediCartePlancia();
+    }
+
+    /**
+     * Permette al giocatore di vedere le proprie carte
+     */
+    public void vediDadi(String[] params)
+    {
+        cli.vediDadi();
     }
 
     /**

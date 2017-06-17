@@ -30,7 +30,7 @@ public class EffettuaAzioneSpecifica extends Effetto implements Azionabile {
     @Override
     public void aziona(Risorsa costo, int valoreAzione, SpazioAzione casella, List<Carta> carteGiocatore, Risorsa risorseAllocate, Risorsa malusRisorsa, Giocatore giocatore) {
         try {
-            giocatore.EffettuaAzioneBonus(this.azione, valoreAzione, bonusPerAzioneSpecifica);
+            giocatore.EffettuaAzioneBonus(this.azione, valoreAzioneSpecifica, bonusPerAzioneSpecifica);
         } catch (NetworkException e) {
             System.out.println("Giocatore non più connesso");
         }

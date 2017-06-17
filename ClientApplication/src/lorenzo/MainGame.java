@@ -149,7 +149,7 @@ public class MainGame {
     public void AzioneBonusEffettuata(int idSpazioAzione, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti)
     {
         try {
-            client.AzioneBonusEffettuata(new AzioneBonusDTO(idSpazioAzione, valoreAzione, bonusRisorse, servitoriAggiunti));
+            client.AzioneBonusEffettuata(new AzioneBonusDTO(valoreAzione, idSpazioAzione, bonusRisorse, servitoriAggiunti));
         } catch (NetworkException e) {
             System.out.println(String.format("Fallita comunicazione azione bonus. %s", e.getMessage()));
         }

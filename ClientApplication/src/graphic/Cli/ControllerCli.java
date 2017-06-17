@@ -28,6 +28,11 @@ public class ControllerCli implements Ui {
     private int idGiocatoreCorrente;
     private Risorsa risorse;
     private ArrayList<String> planciaCarte;
+    private int[] valoreDadi;
+    public int valoreAzioneBonus;
+    public Risorsa risorsaAzioneBonus;
+
+
 
 
     public ControllerCli(MainGame mainGame) {
@@ -40,7 +45,7 @@ public class ControllerCli implements Ui {
         this.gestoreComandi = new GestoreComandi(this);
         this.printer.stampa("In attesa di altri giocatori..");
         this.printer.stampa("per iniziare digitare il comando 'iniziaPartita'.");
-        this.printer.stampa("Dall'inizio della partita avrai sempre a disposizione i comandi:\nvediRisorse\nvediCarte\n");
+        this.printer.stampa("Dall'inizio della partita avrai sempre a disposizione i comandi:\nvediRisorse\nvediCarte\nvediDadi\n");
 
         new ReaderHandler().start();
     }
@@ -74,10 +79,9 @@ public class ControllerCli implements Ui {
     public void iniziaTurno(int[] ordineGiocatori, int[] dadi, Map<Integer, String> carte) {
         this.printer.stampa("E' iniziato un nuovo turno!");
         this.printer.stampa("In questo turno i dadi avranno i seguenti valori:");
-        this.printer.stampa("Nero:    %d", dadi[0]);
-        this.printer.stampa("Bianco:  %d", dadi[1]);
-        this.printer.stampa("Arancio: %d\n", dadi[2]);
 
+        this.valoreDadi = dadi;
+        this.vediDadi();
         this.carteTabellone = carte;
         this.familiariDisponibili = new ArrayList<>();
         this.familiariDisponibili.add("w:bianco  ");
@@ -121,7 +125,7 @@ public class ControllerCli implements Ui {
     @Override
     public void aggiungiScomunica(int[] idGiocatoriScomunicati, int periodo) {
         for (int i = 0; i < idGiocatoriScomunicati.length; i++) {
-            if(idGiocatoreCorrente != idGiocatoriScomunicati[i])
+            if(idGiocatoreCorrente == idGiocatoriScomunicati[i])
                 this.printer.stampa("Sei stato scomunicato!");
             else
                 this.printer.stampa("Il giocatore %s è stato scomunicato!", giocatori.get(idGiocatoriScomunicati[i]));
@@ -143,10 +147,12 @@ public class ControllerCli implements Ui {
      */
     @Override
     public void effettuaAzioneBonus(TipoAzione tipoAzione, int valoreAzione, Risorsa bonusRisorse) {
+        this.valoreAzioneBonus = valoreAzione;
+        this.risorsaAzioneBonus = bonusRisorse;
         this.gestoreComandi.setComandiAzioneBonus();
         this.printer.stampaTabellone(this.carteTabellone);
         this.printer.stampa("Per effetto di una carta, hai la possibilità di effettuare un'azione bonus!");
-        this.printer.stampa("L'azione avrà un valore base di %d.");
+        this.printer.stampa("L'azione avrà un valore base di %d.", valoreAzione);
         this.printer.stampa("(per effettuare l'azione digitare 'bonus idSpazioAzione servitoriAggiunti')");
     }
 
@@ -268,6 +274,16 @@ public class ControllerCli implements Ui {
         for (String carta : this.planciaCarte) {
             printer.stampa("%s", carta);
         }
+    }
+
+    /**
+     * mostra le risorse del giocatore
+     */
+    public void vediDadi()
+    {
+        this.printer.stampa("Nero:    %d", valoreDadi[0]);
+        this.printer.stampa("Bianco:  %d", valoreDadi[1]);
+        this.printer.stampa("Arancio: %d\n", valoreDadi[2]);
     }
 
     @Override

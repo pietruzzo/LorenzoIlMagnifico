@@ -61,6 +61,15 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        finally{
+            try {
+                inputStream.close();
+                outputStream.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //region Messaggi dal client al server
