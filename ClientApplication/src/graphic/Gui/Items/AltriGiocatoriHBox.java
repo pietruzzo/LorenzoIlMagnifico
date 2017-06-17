@@ -65,7 +65,6 @@ public class AltriGiocatoriHBox extends HBox{
         pannello.setTopAnchor(this, 30.0);
         pannello.setLeftAnchor(this, 50.0);
         pannello.setRightAnchor(this, 50.0);
-
     }
 
     public void setRisorse(GiocatoreGraphic giocatore, Risorsa risorsa){
@@ -211,6 +210,12 @@ class AltroGiocatoreVBox extends VBox{
         setProprietaCarteFuoriPlancia(edificio, carteEdificioIm);
         setProprietaCarteFuoriPlancia(personaggio, cartePersonaggioIm);
         setProprietaCarteFuoriPlancia(impresa, carteImpresaIm);
+
+        this.setWidth(300);
+        this.setHeight(300);
+        Image image = new Image("/AltriGiocatori.png");
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        this.setBackground(new Background(backgroundImage));
 
         //Includi descrizione e dettagli in this
         this.getChildren().addAll(this.nomeGiocatore, dettagliGiocatore);
