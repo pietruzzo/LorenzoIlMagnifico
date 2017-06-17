@@ -115,7 +115,6 @@ public class SelettoreFamiliariGraphicAlternative {
         for(ImageView f: familiariInGrid.values()){
             f.setVisible(true);
             f.setEffect(null);
-            disabilitaMossa();
         }
     }
 
