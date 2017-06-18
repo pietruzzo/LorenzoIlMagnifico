@@ -82,7 +82,6 @@ public class GameController implements Ui, ControllerCallBack {
 
         //Messaggi
         messaggi.toBack();
-        messaggi.setBackground(new Background(new BackgroundFill(new Color(0.1451, 0.1765, 0.7843, 0.502), null, null)));
     }
 
     @Override
@@ -271,8 +270,10 @@ public class GameController implements Ui, ControllerCallBack {
             //Aggiorna il giocatore sul tabellone
             GiocatoreGraphic update = getGiocatorebyId(idGiocatore);
             tabelloneController.piazzaFamiliare(update, update.getFamiliare(coloreDado), idSpazioAzione);
-            if(idGiocatore==idGiocatoreClient)
+            if(idGiocatore==idGiocatoreClient) {
                 selettoreFamiliari.familiareUsato(getGiocatorebyId(idGiocatore).getFamiliare(coloreDado));
+                familiareSelezionato = null;
+            }
             //Aggiorna le risorse del giocatore
             this.aggiornaRisorse(idGiocatore, risorsa);
 

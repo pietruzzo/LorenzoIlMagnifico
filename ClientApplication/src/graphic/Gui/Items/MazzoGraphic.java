@@ -95,7 +95,6 @@ public class MazzoGraphic {
       if(tipo != TipoCarta.Scomunica){
           percorsoCompleto = getClass().getResource("/Carte/carteSviluppo").getPath();
           percorsoCompleto = "file:" + percorsoCompleto + separator + nome + ".jpg";
-          //"file:"+percorsoFileDescrizione+"carteSviluppo"+separator+nome+".jpg";
       } else {
          percorsoCompleto = percorsoFileDescrizione+"carteScomunica"+separator+nome+".png";
       }

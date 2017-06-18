@@ -35,6 +35,7 @@ public class SpazioAzioneProduzione extends SpazioAzione  implements Serializabl
     @Override
     public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         this.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+        familiare.Giocatore.OttieniBonusRisorse(new Risorsa(0,0,0,2,0,1,0));
         super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliariPiazzati.add(familiare);
     }

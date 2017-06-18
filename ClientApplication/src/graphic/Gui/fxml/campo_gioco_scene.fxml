@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -7,9 +10,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="visibilePane" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.GameController">
+<Pane fx:id="visibilePane" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.GameController">
    <children>
-      <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0" style="-fx-background-image: url('wallpaper.jpg'); -fx-background-size: 2135 1201; -fx-background-repeat: stretch;" >
+      <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0" style="-fx-background-image: url('wallpaper.jpg'); -fx-background-size: 2135 1201; -fx-background-repeat: stretch;">
          <children>
             <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                <center>
@@ -21,7 +24,7 @@
                               <AnchorPane fx:id="infoGiocatori" prefHeight="593.0" prefWidth="1271.0" />
                               <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="440.0" prefWidth="1271.0">
                                  <children>
-                                    <TextArea fx:id="messaggi" editable="false" layoutX="60.0" layoutY="8.0" prefHeight="85.0" prefWidth="1151.0" wrapText="true" />
+                                       <TextArea fx:id="messaggi" editable="false" layoutX="60.0" layoutY="8.0" prefHeight="85.0" prefWidth="1151.0" wrapText="true" />
                                  </children></AnchorPane>
                            </children>
                         </VBox>
