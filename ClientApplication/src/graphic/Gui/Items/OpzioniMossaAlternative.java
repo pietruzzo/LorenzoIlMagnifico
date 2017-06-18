@@ -30,11 +30,11 @@ public class OpzioniMossaAlternative{
         Parent parent;
         if(casella instanceof CasellaConCartaGraphic) {
             parent = applicazione.getFXML("opzioni_mossa_carta.fxml");
-            scena = new SubScene(parent, 700, 600);
+            scena = new SubScene(parent, 700, 550);
         }
         else {
             parent= applicazione.getFXML("opzioni_mossa.fxml");
-            scena = new SubScene(parent, 350, 250);
+            scena = new SubScene(parent, 550, 285);
         }
 
         conferma = (Button) parent.lookup("#conferma");

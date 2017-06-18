@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="spazioCarta" prefHeight="200.0" prefWidth="350.0" />
       <AnchorPane prefHeight="200.0" prefWidth="350.0">
@@ -25,8 +26,8 @@
                <font>
                   <Font size="20.0" />
                </font></TextField>
-            <Button fx:id="conferma" layoutX="180.0" layoutY="486.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="Conferma" />
-            <Button fx:id="annulla" layoutX="28.0" layoutY="486.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" text="Annulla" />
+            <Button fx:id="conferma" layoutX="179.0" layoutY="440.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" text="Conferma" />
+            <Button fx:id="annulla" layoutX="25.0" layoutY="440.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#ffe40e, #ff5422), radial-gradient(center 50% -40%, radius 200%, #ee7714 45%, #ff6232 50%);" text="Annulla" />
          </children>
       </AnchorPane>
    </children>

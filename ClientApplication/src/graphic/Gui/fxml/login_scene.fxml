@@ -30,7 +30,7 @@
          <children>
 
             <TextField fx:id="usernameInput" layoutX="280.0" layoutY="43.0" prefHeight="25.0" prefWidth="157.0" />
-            <Button layoutX="151.0" layoutY="214.0" mnemonicParsing="false" onAction="#tryLogin" prefHeight="40.0" prefWidth="298.0" style="-fx-background-radius: 10px; -fx-font-size: 16px;                             -fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" text="Play" />
+            <Button layoutX="151.0" layoutY="214.0" mnemonicParsing="false" onAction="#tryLogin" prefHeight="40.0" prefWidth="298.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" text="Play" />
             <Label layoutX="167.0" layoutY="47.0" text="Username" textFill="#a7cdd8" />
             <Label layoutX="160.0" layoutY="95.0" text="Comunicazione" textFill="#a7cdd8" />
             <Label layoutX="167.0" layoutY="138.0" text="Interfaccia" textFill="#a7cdd8" />
