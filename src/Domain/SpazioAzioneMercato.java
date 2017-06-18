@@ -35,6 +35,9 @@ public class SpazioAzioneMercato extends SpazioAzione  implements Serializable {
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
 
+        if(familiare.Giocatore.Risorse.getServi() < servitoriAggiunti)
+            throw new DomainException("Non si dispone di servitori a sufficienza!");
+
         if(this.FamiliarePiazzato != null)
             throw new DomainException("Questo spazio azione è già occupato da un altro familiare!");
     }

@@ -44,6 +44,10 @@ public class SpazioAzioneRaccolto extends SpazioAzione  implements Serializable 
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         //Effettua prima le validazioni dovute al tabellone
         this.tabellone.ValidaPiazzamentoFamiliareRaccolto(familiare);
+
+        if(familiare.Giocatore.Risorse.getServi() < servitoriAggiunti)
+            throw new DomainException("Non si dispone di servitori a sufficienza!");
+
         super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
         if(this.FamiliariPiazzati.size() >= this.LimiteFamiliari)
             throw new DomainException("E' stato raggiunto il numero massimo di familiari per questo spazio azione!");

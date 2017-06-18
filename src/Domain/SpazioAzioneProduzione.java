@@ -44,6 +44,10 @@ public class SpazioAzioneProduzione extends SpazioAzione  implements Serializabl
     protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         //Effettua le validazioni del tabellone
         tabellone.ValidaPiazzamentoFamiliareProduzione(familiare);
+
+        if(familiare.Giocatore.Risorse.getServi() < servitoriAggiunti)
+            throw new DomainException("Non si dispone di servitori a sufficienza!");
+
         super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
 
         if(this.FamiliariPiazzati.size() >= this.LimiteFamiliari)

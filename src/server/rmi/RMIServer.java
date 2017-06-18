@@ -144,7 +144,8 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     @Override
     public void SettaSceltaEffetti(short idGiocatore, String nomeCarta, Integer sceltaEffetto) throws IOException
     {
-        GetGiocatoreById(idGiocatore).SettaSceltaEffetti(nomeCarta, sceltaEffetto);
+        GiocatoreRemoto giocatoreRemoto = GetGiocatoreById(idGiocatore);
+        giocatoreRemoto.getPartita().getTabellone().SettaSceltaEffetti(giocatoreRemoto, nomeCarta, sceltaEffetto);
     }
 
     /**

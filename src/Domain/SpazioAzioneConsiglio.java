@@ -30,6 +30,9 @@ public class SpazioAzioneConsiglio extends SpazioAzione  implements Serializable
     @Override
     public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException
     {
+        if(familiare.Giocatore.Risorse.getServi() < servitoriAggiunti)
+            throw new DomainException("Non si dispone di servitori a sufficienza!");
+
         super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
         super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliariPiazzati.add(familiare);

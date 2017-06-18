@@ -147,6 +147,18 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
         this.getPartita().RiscuotiPrivilegiDelConsiglio(this.getIdGiocatore(), risorsa);
     }
 
+
+    /**
+     * Permette di impostare l'opzione di default per lo scambio di risorse
+     * @param nomeCarta nome della carta da settare
+     * @param sceltaEffetto indidce della scelta
+     */
+    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto)
+    {
+        this.getPartita().getTabellone().SettaSceltaEffetti(this, nomeCarta, sceltaEffetto);
+    }
+
+
     /**
      * Gestisce l'evento di chiusura di un client
      */
