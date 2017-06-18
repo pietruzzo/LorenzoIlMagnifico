@@ -149,12 +149,13 @@ public class CartaGraphic extends Group {
 
     public void generaSceltaPermanente() {
 
-        ingrandimento.setVisible(true);
+
         //crea rettangoli
         permanente = new Rectangle[numSceltaPerm];
         setAree(permanente, POSIZIONESCELTAPERMANENTE, DIMENSIONESCELTAPERMANENTE);
 
         if(numSceltaPerm>1) {
+            ingrandimento.setVisible(true);
             //setonclick
             for (int i = 0; i < numSceltaPerm; i++) {
                 int finalI = i;
@@ -217,11 +218,6 @@ public class CartaGraphic extends Group {
 
     private void gestisciSceltaPermanente(int i) {
 
-        if(permanente[i].getStroke() == Color.GREEN){
-            permanente[i].setStroke(Color.BLUE);
-            permanente[i].setFill(Color.TRANSPARENT);
-            callBack.scegliEffetto(getNome(), null);
-        } else {
             //Azzera tutte le scelte
             for (Rectangle rettangolo : permanente) {
                 rettangolo.setStroke(Color.BLUE);
@@ -233,7 +229,6 @@ public class CartaGraphic extends Group {
             permanente[i].setFill(selectedColor);
             //comunicala al server
             callBack.scegliEffetto(getNome(), i);
-        }
     }
 
     /**
@@ -294,6 +289,7 @@ public class CartaGraphic extends Group {
     public void setEventHandlerPermanente(Pane contenitore){
 
         //Genero le scelte permanenti
+        ingrandimento.setVisible(false);
         this.rimuoviSceltaImmediataeCosto();
         this.generaSceltaPermanente();
         //Rimuovo i vecchi mouseHandler
@@ -304,7 +300,6 @@ public class CartaGraphic extends Group {
 
         ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
         ingrandimento.setLayoutY((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
-        ingrandimento.setVisible(true);
 
         //Add Exit Button
         try {

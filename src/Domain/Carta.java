@@ -60,13 +60,13 @@ public abstract class Carta implements Serializable{
 
         //Applica la scelta agli effetti immediati
         for (Effetto effetto : EffettoImmediato) {
-            if(effetto instanceof ScambiaRisorse)
+            if(effetto instanceof ScambiaRisorse && ((ScambiaRisorse)effetto).getNumeroOpzioni()>1)
                 ((ScambiaRisorse)effetto).SetDefaultChoice(sceltaEffetto);
         }
 
         //Applica la scelta agli effetti permanenti
         for (Effetto effetto : EffettoPermanente) {
-            if(effetto instanceof ScambiaRisorse)
+            if(effetto instanceof ScambiaRisorse && ((ScambiaRisorse)effetto).getNumeroOpzioni()>1)
                 ((ScambiaRisorse)effetto).SetDefaultChoice(sceltaEffetto);
         }
     }
