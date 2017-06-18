@@ -190,14 +190,7 @@ public class SocketServerProtocol {
      */
     public void NotificaChiusuraClient()
     {
-        try {
-            short idGiocatore = (short) this.inputStream.readObject();
-            this.giocatore.NotificaChiusuraClient();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        this.giocatore.NotificaChiusuraClient();
     }
     //endregion
 

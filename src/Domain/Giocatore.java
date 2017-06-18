@@ -252,21 +252,6 @@ public class Giocatore implements Serializable {
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
     }
 
-    /**
-     * Permette di impostare l'opzione di default per lo scambio di risorse
-     * @param nomeCarta nome della carta da settare
-     * @param sceltaEffetto indidce della scelta
-     */
-    public void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto)
-    {
-        Carta carta = this.getListaCarte().stream().filter(x -> x.Nome.equals(nomeCarta)).findFirst().orElse(null);
-
-        if(carta != null)
-            carta.SettaSceltaEffetti(sceltaEffetto);
-        else
-            System.out.println("Carta non trovata");
-    }
-
     public List<CartaEdificio> getCarteEdificio() {
         return CarteEdificio;
     }

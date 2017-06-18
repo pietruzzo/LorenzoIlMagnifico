@@ -529,6 +529,37 @@ public class Tabellone implements Serializable {
     }
 
     /**
+     * Permette di impostare l'opzione di default per lo scambio di risorse
+     * @param giocatore giocatore che sceglie l'effetto
+     * @param nomeCarta nome della carta da settare
+     * @param sceltaEffetto indidce della scelta
+     */
+    public void SettaSceltaEffetti(Giocatore giocatore, String nomeCarta, Integer sceltaEffetto)
+    {
+        Carta carta = null;
+
+        //Cerca la carta sul tabellone
+        for (Torre torre : this.Torri) {
+            for (SpazioAzioneTorre spazioAzione : torre.SpaziAzione) {
+                if(spazioAzione.CartaAssociata != null && spazioAzione.CartaAssociata.Nome.equals(nomeCarta)) {
+                    carta = spazioAzione.CartaAssociata;
+                    break;
+                }
+            }
+        }
+
+        //Se non la trova allora è già stata presa dal giocatore
+        if(carta == null)
+            carta = giocatore.getListaCarte().stream().filter(x -> x.Nome.equals(nomeCarta)).findFirst().orElse(null);
+
+        if(carta != null)
+            carta.SettaSceltaEffetti(sceltaEffetto);
+        else
+            System.out.println("Carta non trovata");
+
+    }
+
+    /**
      * Calcola i punteggi dei giocatori e stila la classifica
      * @return la mappa idGiocatore-Punteggio in ordine di classifica
      */

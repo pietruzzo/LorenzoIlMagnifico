@@ -70,6 +70,7 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
             throw new DomainException("A questo spazio azione non è associata alcuna carta!");
 
         Risorsa costoEffetti = super.ValidaValoreAzione(familiare, servitoriAggiunti);
+        costoEffetti.add(new Risorsa(Risorsa.TipoRisorsa.SERVI, servitoriAggiunti));
 
         //Calcola il malus dovuto dall'occupazione della torre
         //Se la torre è occupata il malus è di -3 monete

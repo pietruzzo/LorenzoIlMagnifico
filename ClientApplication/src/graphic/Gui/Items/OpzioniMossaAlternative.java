@@ -30,7 +30,7 @@ public class OpzioniMossaAlternative{
         Parent parent;
         if(casella instanceof CasellaConCartaGraphic) {
             parent = applicazione.getFXML("opzioni_mossa_carta.fxml");
-            scena = new SubScene(parent, 700, 550);
+            scena = new SubScene(parent, 550, 885);
         }
         else {
             parent= applicazione.getFXML("opzioni_mossa.fxml");
@@ -47,8 +47,8 @@ public class OpzioniMossaAlternative{
             Group cartaIm = ((CasellaConCartaGraphic) casella).getCartaAssociata().getIngrandimento();
             cartaIm.setLayoutX(0);
             cartaIm.setLayoutY(0);
-            cartaIm.setTranslateX(0);
-            cartaIm.setTranslateY(30);
+            cartaIm.setTranslateX(100);
+            cartaIm.setTranslateY(31);
             cartaIm.setVisible(true);
             areaCarta.getChildren().add(cartaIm);
         }
