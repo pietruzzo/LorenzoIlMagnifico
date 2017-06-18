@@ -1,20 +1,16 @@
 package graphic.Gui.Items;
 
 import Domain.TipoCarta;
-import graphic.Gui.ControllerCampoGioco;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
 import graphic.Gui.Controller;
 import static java.io.File.separator;
 
@@ -58,6 +54,8 @@ public class CartaGraphic extends Group {
     private EventHandler<MouseEvent> ingrandisci;
     private EventHandler<MouseEvent> rmIngrandisci;
 
+    private Color selectedColor;
+
     CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita, Controller callback) {
         super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
@@ -67,6 +65,7 @@ public class CartaGraphic extends Group {
         this.costo=null;
         this.immediato=null;
         this.permanente=null;
+        this.selectedColor = new Color(0, 1, 0, 0.3);
 
         //setta ingrandimento
         ImageView cartaIngranditaView = new ImageView(cartaIngrandita);
@@ -188,10 +187,12 @@ public class CartaGraphic extends Group {
         //Azzera tutte le scelte
         for (Rectangle rettangolo : costo) {
             rettangolo.setStroke(Color.BLUE);
+            rettangolo.setFill(Color.TRANSPARENT);
         }
 
         //Seleziona quella indicata
-        costo[i].setFill(Color.GREEN);
+        costo[i].setFill(selectedColor);
+        costo[i].setStroke(Color.GREEN);
 
         callBack.scegliEffetto(getNome(), i);
 
@@ -202,10 +203,12 @@ public class CartaGraphic extends Group {
         //Azzera tutte le scelte
         for (Rectangle rettangolo : immediato) {
             rettangolo.setStroke(Color.BLUE);
+            rettangolo.setFill(Color.TRANSPARENT);
         }
 
         //Seleziona quella indicata
-        immediato[i].setFill(Color.GREEN);
+        immediato[i].setFill(selectedColor);
+        immediato[i].setStroke(Color.GREEN);
         //comunicala al server
         callBack.scegliEffetto(getNome(), i);
 
@@ -215,15 +218,18 @@ public class CartaGraphic extends Group {
 
         if(permanente[i].getStroke() == Color.GREEN){
             permanente[i].setStroke(Color.BLUE);
+            permanente[i].setFill(Color.TRANSPARENT);
             callBack.scegliEffetto(getNome(), null);
         } else {
             //Azzera tutte le scelte
             for (Rectangle rettangolo : permanente) {
                 rettangolo.setStroke(Color.BLUE);
+                rettangolo.setFill(Color.TRANSPARENT);
             }
 
             //Seleziona quella indicata
             permanente[i].setStroke(Color.GREEN);
+            permanente[i].setFill(selectedColor);
             //comunicala al server
             callBack.scegliEffetto(getNome(), i);
         }
@@ -242,11 +248,13 @@ public class CartaGraphic extends Group {
             for (int i = 0; i < numScelta; i++) {
                 vettoreAree[i] = new Rectangle(dimScelta.getX(), dimScelta.getY() / numScelta);
                 vettoreAree[i].setX(posizScelta.getX());
-                vettoreAree[i].setX(posizScelta.getY() + dimScelta.getY() * i);
+                vettoreAree[i].setY(posizScelta.getY() + (dimScelta.getY() * i)/numScelta);
 
+                vettoreAree[i].setFill(Color.TRANSPARENT);
                 vettoreAree[i].setStroke(Color.BLUE);
-                vettoreAree[i].setStrokeWidth(5);
+                vettoreAree[i].setStrokeWidth(2);
                 vettoreAree[i].setVisible(true);
+                vettoreAree[i].toFront();
                 ingrandimento.getChildren().add(vettoreAree[i]);
             }
         }
@@ -290,6 +298,8 @@ public class CartaGraphic extends Group {
         //Rimuovo i vecchi mouseHandler
         this.removeEventHandler(MouseEvent.MOUSE_ENTERED, ingrandisci);
         this.removeEventHandler(MouseEvent.MOUSE_EXITED, rmIngrandisci);
+        this.setOnMouseEntered(null);
+        this.setOnMouseExited(null);
 
         ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
         ingrandimento.setLayoutY((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);

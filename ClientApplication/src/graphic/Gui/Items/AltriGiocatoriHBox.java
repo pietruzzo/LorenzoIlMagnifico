@@ -232,7 +232,7 @@ class AltroGiocatoreVBox extends Pane{
         BackgroundSize bz = new BackgroundSize(2.0, 2.0, true, true, true, false);
         BackgroundImage backgroundImage = new BackgroundImage(altriGiocatoriIm, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bz);
         this.setBackground(new Background(backgroundImage));
-        //this.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, null, null)));
+
 
         this.getChildren().add(informazioniGiocatore);
 
