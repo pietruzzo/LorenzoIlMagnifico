@@ -29,9 +29,7 @@ public class GestoreComandi {
     public void setComandiDefault()
     {
         comandi = new HashMap<>();
-        comandi.put("vediRisorse", this::vediRisorse);
-        comandi.put("vediCarte", this::vediCarte);
-        comandi.put("vediDadi", this::vediDadi);
+        this.addComandiDefault();
     }
 
     /**
@@ -42,6 +40,7 @@ public class GestoreComandi {
         comandi.put("vediRisorse", this::vediRisorse);
         comandi.put("vediCarte", this::vediCarte);
         comandi.put("vediDadi", this::vediDadi);
+        comandi.put("vediCosto", this::vediCosto);
     }
 
     /**
@@ -183,7 +182,6 @@ public class GestoreComandi {
             if(idSpazioAzione < 1 || idSpazioAzione > 25)
                 throw new ComandoNonValido("Lo spazio azione deve essere compreso tra 1 e 25");
 
-            //TODO andarsi a prendere valore e risorsa
             cli.mainGame.AzioneBonusEffettuata(idSpazioAzione, cli.valoreAzioneBonus, cli.risorsaAzioneBonus, servitoriAggiunti);
         }
         else
@@ -212,6 +210,19 @@ public class GestoreComandi {
     public void vediDadi(String[] params)
     {
         cli.vediDadi();
+    }
+
+    /**
+     * Permette al giocatore di vedere il costo della carta
+     */
+    public void vediCosto(String[] params) throws ComandoNonValido {
+        if(params.length == 1) {
+            String nomeCarta = params[0];
+
+            cli.vediCosto(nomeCarta);
+        }
+        else
+            throw new ComandoNonValido("Numero di parametri errato");
     }
 
     /**

@@ -24,6 +24,7 @@ public class ControllerCli implements Ui {
     private Map<Integer, String> carteTabellone;
     private Map<Integer, String> giocatori;
     private Map<Integer, String> coloriGiocatori;
+    private Map<String, Risorsa> mazzoCarte;
     private ArrayList<String> familiariDisponibili;
     private int idGiocatoreCorrente;
     private Risorsa risorse;
@@ -41,11 +42,12 @@ public class ControllerCli implements Ui {
         this.planciaCarte = new ArrayList<>();
         this.giocatori = new HashMap<>();
         this.coloriGiocatori = new HashMap<>();
+        this.mazzoCarte = new HashMap<>();
         this.familiariDisponibili = new ArrayList<>();
         this.gestoreComandi = new GestoreComandi(this);
         this.printer.stampa("In attesa di altri giocatori..");
         this.printer.stampa("per iniziare digitare il comando 'iniziaPartita'.");
-        this.printer.stampa("Dall'inizio della partita avrai sempre a disposizione i comandi:\nvediRisorse\nvediCarte\nvediDadi\n");
+        this.printer.stampa("Dall'inizio della partita avrai sempre a disposizione i comandi:\nvediRisorse\nvediCarte\nvediDadi\nvediCosto\n");
 
         new ReaderHandler().start();
     }
@@ -66,6 +68,12 @@ public class ControllerCli implements Ui {
                 idGiocatoreCorrente = giocatore.getIdGiocatore();
                 risorse = giocatore.getRisorse().clone();
             }
+        }
+
+        //Inizializza le carte
+        for(Carta carta : tabellone.getMazzoCarte())
+        {
+            mazzoCarte.put(carta.getNome(), carta.getCostoRisorse());
         }
     }
 
@@ -284,6 +292,21 @@ public class ControllerCli implements Ui {
         this.printer.stampa("Nero:    %d", valoreDadi[0]);
         this.printer.stampa("Bianco:  %d", valoreDadi[1]);
         this.printer.stampa("Arancio: %d\n", valoreDadi[2]);
+    }
+
+    /**
+     * mostra il costo della carta
+     */
+    public void vediCosto(String nomeCarta)
+    {
+        Risorsa costo = this.mazzoCarte.get(nomeCarta);
+
+        if(costo == null)
+            this.printer.stampa("Non è stata trovata nessuna carta con questo nome", ColorCli.ROSSO);
+        else {
+            this.printer.stampa("La carta %s ha un costo di:", nomeCarta);
+            this.printer.stampaRisorse(costo);
+        }
     }
 
     @Override
