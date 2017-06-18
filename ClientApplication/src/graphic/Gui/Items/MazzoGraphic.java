@@ -5,11 +5,9 @@ import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.ScambiaRisorse;
 import Domain.TesseraScomunica;
 import Domain.TipoCarta;
-import graphic.Gui.Controller;
+import graphic.Gui.ControllerCallBack;
 import javafx.scene.image.Image;
-import org.jetbrains.annotations.NotNull;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +18,7 @@ import static java.io.File.separator;
  * Created by pietro on 02/06/17.
  */
 
-public class CarteGioco{
+public class MazzoGraphic {
 
    private final static String percorsoFileDescrizione = "file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+ "Risorse" +separator+"Carte"+separator;
    private final static int cartaW=90;
@@ -33,7 +31,7 @@ public class CarteGioco{
 
    private List<CartaGraphic> carte;
 
-   public CarteGioco(List<Carta> carte, List<TesseraScomunica>tessereScomunica, Controller callback){
+   public MazzoGraphic(List<Carta> carte, List<TesseraScomunica>tessereScomunica, ControllerCallBack callback){
       this.carte = new ArrayList<>();
       //per le carte sviluppo, carica anche l aversione ingrandita
       for (Carta c : carte){

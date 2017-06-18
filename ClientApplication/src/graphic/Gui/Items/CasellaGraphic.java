@@ -1,9 +1,8 @@
 package graphic.Gui.Items;
 
-import graphic.Gui.Controller;
+import graphic.Gui.ControllerCallBack;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -27,7 +26,7 @@ public class CasellaGraphic extends Group {
     private Rectangle areaAttiva;
     private ImageView immagineCasellaDisattivata;
 
-    CasellaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, Controller callBack) {
+    CasellaGraphic(int id, int x, int y, int dimX, int dimY, WebView descrizione, ControllerCallBack callBack) {
         //Creo il gruppo
         super();
 

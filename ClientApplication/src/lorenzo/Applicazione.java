@@ -1,17 +1,14 @@
 package lorenzo;
 
-import graphic.Gui.Controller;
-import graphic.Gui.ControllerCampoGioco;
-import graphic.Gui.ControllerLogin;
+import graphic.Gui.ControllerCallBack;
+import graphic.Gui.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,9 +65,9 @@ public class Applicazione extends Application {
      * Avvia il campo da gioco
      * @return controller del Campo di gioco
      */
-    public ControllerCampoGioco startGame(){
+    public GameController startGame(){
 
-        ControllerCampoGioco controllerCampoGioco = null;
+        GameController gameController = null;
         Scene gioco;
         Parent campo = null;
         try{
@@ -78,8 +75,8 @@ public class Applicazione extends Application {
             campo = fxmlLoader.load(new FileInputStream(fxmlPath + "campo_gioco_scene.fxml"));
 
             Object controllerFromFXML = fxmlLoader.getController();
-            controllerCampoGioco = (ControllerCampoGioco) controllerFromFXML;
-            controllerCampoGioco.setArgApplicationGui(this.mainGame);
+            gameController = (GameController) controllerFromFXML;
+            gameController.setArgApplicationGui(this.mainGame);
             gioco = new Scene(campo);
             finestra.setTitle("Lorenzo il Magnifico");
             finestra.setScene(gioco);
@@ -91,7 +88,7 @@ public class Applicazione extends Application {
             System.err.println("campo_gioco_scene.fxml non trovato, prova a controllare il PATH");
             stopGUI();
         }
-        return controllerCampoGioco;
+        return gameController;
     }
 
     /**
@@ -110,15 +107,15 @@ public class Applicazione extends Application {
      * @throws IOException
      */
     public Parent getFXML(String nomeFile) throws IOException{
-        Controller controller;
+        ControllerCallBack controller;
         Parent parent;
         FXMLLoader fxmlLoader = new FXMLLoader();
         parent = fxmlLoader.load(new FileInputStream(fxmlPath + nomeFile));
 
         Object controllerFromFXML = fxmlLoader.getController();
 
-        if (controllerFromFXML instanceof Controller){
-            controller = (Controller) controllerFromFXML;
+        if (controllerFromFXML instanceof ControllerCallBack){
+            controller = (ControllerCallBack) controllerFromFXML;
             controller.setArgApplicationGui(this.mainGame);
 
         }

@@ -1,6 +1,7 @@
 package graphic.Gui.Items;
 
 import Domain.TipoCarta;
+import graphic.Gui.ControllerCallBack;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -11,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import graphic.Gui.Controller;
+
 import static java.io.File.separator;
 
 /**
@@ -33,7 +34,7 @@ public class CartaGraphic extends Group {
     private static final Point2D DIMENSIONESCELTACOSTO = new Point2D(100, 180);
     private static final Point2D DIMENSIONESCELTAPERMANENTE = new Point2D(175, 130);
 
-    private Controller callBack;
+    private ControllerCallBack callBack;
     private TipoCarta tipoCarta;
     private String nome;
     private Group ingrandimento;
@@ -56,7 +57,7 @@ public class CartaGraphic extends Group {
 
     private Color selectedColor;
 
-    CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita, Controller callback) {
+    CartaGraphic(String nome, TipoCarta tipoCarta, Image immagineCarta, Image cartaIngrandita, ControllerCallBack callback) {
         super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
         this.nome = nome;

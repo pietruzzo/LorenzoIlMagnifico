@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane fx:id="vedononvedo" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerCampoGioco">
+<Pane fx:id="visibilePane" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.GameController">
    <children>
       <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0" style="-fx-background-image: url('wallpaper.jpg'); -fx-background-size: 2135 1201; -fx-background-repeat: stretch;" >
          <children>

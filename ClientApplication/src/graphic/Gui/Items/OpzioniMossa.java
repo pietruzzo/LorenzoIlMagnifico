@@ -1,164 +1,75 @@
 package graphic.Gui.Items;
 
-import graphic.Gui.Controller;
-import javafx.geometry.Insets;
+import graphic.Gui.ControllerCallBack;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import lorenzo.Applicazione;
+
+import java.io.IOException;
 
 /**
  * Created by pietro on 15/06/17.
- * Caso con casella con carta e senza carta
  */
 public class OpzioniMossa {
 
-    private Controller callBack;
-    private final OpzioniMossaConCarta opzioniMossaConCarta;
-    private final OpzioniMossaSenzaCarta opzioniMossaSenzaCarta;
+    private SubScene scena;
+    private Button conferma;
+    private TextField servi;
+    private AnchorPane areaCarta;
+    private Pane pannelloContenitore;
+    private Button annulla;
 
-    public OpzioniMossa (Controller callback){
-        this.callBack=callback;
-        opzioniMossaConCarta = new OpzioniMossaConCarta(this);
-        opzioniMossaSenzaCarta = new OpzioniMossaSenzaCarta(this);
-    }
+    public OpzioniMossa(ControllerCallBack callBack, CasellaGraphic casella, FamiliareGraphic familiare, Applicazione applicazione) throws IOException {
 
-    public Pane getScelta(FamiliareGraphic familiare, CasellaConCartaGraphic casella){
-        opzioniMossaConCarta.generaOpzione(familiare, casella);
-        return opzioniMossaConCarta;
-    }
 
-    public Pane getScelta(FamiliareGraphic familiare, CasellaGraphic casella){
-        opzioniMossaSenzaCarta.generaOpzione(familiare, casella);
-        opzioniMossaSenzaCarta.setVisible(true);
-        return opzioniMossaSenzaCarta;
-    }
+        Parent parent;
+        if(casella instanceof CasellaConCartaGraphic) {
+            parent = applicazione.getFXML("opzioni_mossa_carta.fxml");
+            scena = new SubScene(parent, 550, 885);
+        }
+        else {
+            parent= applicazione.getFXML("opzioni_mossa.fxml");
+            scena = new SubScene(parent, 550, 285);
+        }
 
-    void settaOpzioni(FamiliareGraphic familiare, CasellaGraphic casella,  int numServi){
-        callBack.mandaMossaAlServer(familiare,casella, numServi);
-    }
+        conferma = (Button) parent.lookup("#conferma");
+        servi = (TextField) parent.lookup("#numeroServi");
+        annulla = (Button) parent.lookup("#annulla");
 
-}
 
-class OpzioniMossaConCarta extends Pane{
-    private HBox layoutGenerale;
-    private AnchorPane pannellinoOpzioni;
-    private Button confermaButton;
-    private TextField inputServi;
-    private OpzioniMossa opzMossa;
+        if(casella instanceof CasellaConCartaGraphic){
+            areaCarta= (AnchorPane) parent.lookup("#spazioCarta");
+            Group cartaIm = ((CasellaConCartaGraphic) casella).getCartaAssociata().getIngrandimento();
+            cartaIm.setLayoutX(0);
+            cartaIm.setLayoutY(0);
+            cartaIm.setTranslateX(100);
+            cartaIm.setTranslateY(31);
+            cartaIm.setVisible(true);
+            areaCarta.getChildren().add(cartaIm);
+        }
 
-    OpzioniMossaConCarta(OpzioniMossa opzioniMossa){
-
-        //inizializza oggetto
-        this.opzMossa=opzioniMossa;
-        this.setPrefWidth(700);
-        this.setPrefHeight(600);
-        layoutGenerale=new HBox();
-        pannellinoOpzioni = new AnchorPane();
-        this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        //Disegna il pannello
-        Label effettiLabel = new Label("<- Scegli gli effetti");
-        Label serviLabel = new Label("Scegli il numero di servi");
-
-        confermaButton = new Button("ConfermaScelta");
-        inputServi = new TextField("0");
-
-        //Posiziona ed ingrandisci elementi nel pannellino
-        pannellinoOpzioni.setTopAnchor(effettiLabel, 120.0);
-        pannellinoOpzioni.setLeftAnchor(effettiLabel, 80.0);
-
-        pannellinoOpzioni.setTopAnchor(serviLabel, 350.0);
-        pannellinoOpzioni.setLeftAnchor(serviLabel, 80.0);
-
-        pannellinoOpzioni.setTopAnchor(inputServi, 400.0);
-        pannellinoOpzioni.setLeftAnchor(inputServi, 80.0);
-
-        pannellinoOpzioni.setBottomAnchor(confermaButton, 100.0);
-        pannellinoOpzioni.setRightAnchor(confermaButton, 80.0);
-
-        //Add elementi
-        pannellinoOpzioni.getChildren().addAll(effettiLabel, serviLabel, confermaButton, inputServi);
-        this.getChildren().add(layoutGenerale);
-
-    }
-
-    void generaOpzione(FamiliareGraphic familiare, CasellaConCartaGraphic casella){
-
-        //Disegna le scelte multiple sulla carta
-        casella.getCartaAssociata().generaSceltaImmediataeCosto();
-        layoutGenerale.getChildren().clear();
-        layoutGenerale.getChildren().add(casella.getCartaAssociata().getIngrandimento());
-        layoutGenerale.getChildren().add(pannellinoOpzioni);
-        inputServi.setText("0");
-
-        //Azione sullaConferma
-        confermaButton.setOnMouseClicked(mouseEvent -> {
-            try{
-                int numServi = Integer.parseInt(inputServi.getText());
-                opzMossa.settaOpzioni(familiare, casella,  numServi);
+        conferma.setOnMouseClicked(mouseEvent -> {
+            try {
+                int numeroServi = Integer.parseInt(servi.getText());
+                callBack.mandaMossaAlServer(familiare, casella, numeroServi);
+                pannelloContenitore.getChildren().remove(scena);
             } catch (Exception e){
-                System.out.println("Scelta servi non valida" +e);
+                System.out.println("Bad input, retry");
             }
         });
-    }
-}
 
-class OpzioniMossaSenzaCarta extends Pane{
-
-    private AnchorPane pannellinoOpzioni;
-    private Button confermaButton;
-    private TextField inputServi;
-    private OpzioniMossa opzMossa;
-
-    OpzioniMossaSenzaCarta(OpzioniMossa opzioniMossa){
-
-        //inizializza oggetto
-        this.opzMossa = opzioniMossa;
-        this.setWidth(300);
-        this.setHeight(200);
-        this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        pannellinoOpzioni = new AnchorPane();
-
-        //Disegna il pannello
-        Label effettiLabel = new Label("<- Scegli gli effetti");
-        Label serviLabel = new Label("Scegli il numero di servi:");
-
-        confermaButton = new Button("ConfermaScelta");
-        inputServi = new TextField("0");
-
-        pannellinoOpzioni.setTopAnchor(serviLabel, 50.0);
-        pannellinoOpzioni.setLeftAnchor(serviLabel, 80.0);
-
-        pannellinoOpzioni.setTopAnchor(inputServi, 120.0);
-        pannellinoOpzioni.setLeftAnchor(inputServi, 80.0);
-
-        pannellinoOpzioni.setBottomAnchor(confermaButton, 30.0);
-        pannellinoOpzioni.setRightAnchor(confermaButton, 80.0);
-
-
-
-
-        //Add elementi
-        pannellinoOpzioni.getChildren().addAll(effettiLabel, serviLabel, confermaButton, inputServi);
-        this.getChildren().add(pannellinoOpzioni);
-
-
+        annulla.setOnMouseClicked(mouseEvent -> pannelloContenitore.getChildren().remove(scena));
     }
 
-    void generaOpzione(FamiliareGraphic familiare, CasellaGraphic casella){
-
-        inputServi.setText("0");
-
-        //Azione sullaConferma
-        confermaButton.setOnMouseClicked(mouseEvent -> {
-            try{
-                int numServi = Integer.parseInt(inputServi.getText());
-                opzMossa.settaOpzioni(familiare, casella, numServi);
-            } catch (Exception e){
-                System.out.println("Scelta servi non valida");
-            }
-        });
+    public void setSubScene(Pane pannello) {
+        this.pannelloContenitore=pannello;
+        scena.setLayoutX(pannello.getWidth() / 2 - scena.getWidth() / 2);
+        scena.setLayoutY(pannello.getHeight() / 2 - scena.getHeight() / 2);
+        pannello.getChildren().add(scena);
     }
 }

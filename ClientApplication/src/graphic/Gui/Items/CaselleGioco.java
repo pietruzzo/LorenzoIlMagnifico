@@ -1,14 +1,12 @@
 package graphic.Gui.Items;
 
 import Domain.TipoAzione;
-import graphic.Gui.Controller;
+import graphic.Gui.ControllerCallBack;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
-import java.awt.event.MouseEvent;
-import java.beans.EventHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -78,7 +76,7 @@ public class CaselleGioco {
 
     private ArrayList<CasellaGraphic> listaCaselle = new ArrayList<CasellaGraphic>();
 
-    public CaselleGioco(int numPlayers, AnchorPane pannello, Controller callBack) {
+    public CaselleGioco(int numPlayers, AnchorPane pannello, ControllerCallBack callBack) {
 
         for (int i = 0; i < COORDINATE_CASELLE.length; i++){
             Point2D coord= COORDINATE_CASELLE[i];

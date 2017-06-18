@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 /**
  * Created by pietro on 18/06/17.
  */
-public class Classifica {
+public class ClassificaGraphic {
 
     Label[] classificaLabel;
     private ImageView sfondo;
@@ -25,7 +25,7 @@ public class Classifica {
      * @param pannello pannello sul quale viene mostrato il risultato
      * @param risultati mappa con GiocatoreGraphic e pVittoria in ordine di classifica
      */
-    public Classifica(LinkedHashMap<GiocatoreGraphic, Integer> risultati, Pane pannello){
+    public ClassificaGraphic(LinkedHashMap<GiocatoreGraphic, Integer> risultati, Pane pannello){
 
         AnchorPane parent = null;
         classificaLabel = new Label[4];

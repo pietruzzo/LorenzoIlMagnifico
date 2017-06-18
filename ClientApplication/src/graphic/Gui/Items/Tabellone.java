@@ -3,13 +3,14 @@ package graphic.Gui.Items;
 import Domain.ColoreDado;
 import Domain.Risorsa;
 import Domain.TipoAzione;
-import graphic.Gui.Controller;
+import graphic.Gui.ControllerCallBack;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -41,13 +42,12 @@ public class Tabellone extends AnchorPane{
     private CaselleGioco caselle;
     private DadiGraphic dadi;
     private CasellePunti punti;
-    private Controller callback;
-    private Map<GiocatoreGraphic, Rectangle> scomuniche;
+    private ControllerCallBack callback;
     private Integer[]caselleDisabAzSpec;
 
 
 
-    public Tabellone(Controller callback){
+    public Tabellone(ControllerCallBack callback){
         ImageView immagineTabellone;
 
         //setta il tabellone in attesa della partita
@@ -69,7 +69,7 @@ public class Tabellone extends AnchorPane{
      * @param listaGiocatori giocatori partecipanti
      */
     @NotNull
-    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica, Controller callback){
+    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica, ControllerCallBack callback){
 
         this.callback=callback;
 
@@ -80,23 +80,20 @@ public class Tabellone extends AnchorPane{
             this.getChildren().add(immagineTabellone);
         }
 
+        //Iizializza gli SpaziAzione
         caselle = new CaselleGioco(listaGiocatori.size(), this, callback);
+
+
+        //Inizializza Immagini delle tessere scomunica
+        aggiungiCartaScomunica(tessereScomunica[0], 1);
+        aggiungiCartaScomunica(tessereScomunica[1], 2);
+        aggiungiCartaScomunica(tessereScomunica[2], 3);
+
 
         punti = new CasellePunti(listaGiocatori);
 
         this.getChildren().addAll(punti, dadi);
 
-        //Inizializza scomunica
-        aggiungiCartaScomunica(tessereScomunica[0], 1);
-        aggiungiCartaScomunica(tessereScomunica[1], 2);
-        aggiungiCartaScomunica(tessereScomunica[2], 3);
-
-        scomuniche= new HashMap<>();
-        for(GiocatoreGraphic giocatore: listaGiocatori){
-            Rectangle scomunica = new Rectangle(15, 15, giocatore.getColoreGiocatore().getColore());
-            scomunica.setVisible(false);
-            scomuniche.put(giocatore, scomunica);
-        }
     }
 
 
@@ -188,7 +185,14 @@ public class Tabellone extends AnchorPane{
         casella.setCartaAssociata(carta);
     }
 
-    public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){//TODO aggiunta scomunica
+    /**
+     * Aggiungi una scomunica ai giocatori indicati nel periodo indicato
+     * @param giocatori
+     * @param periodo
+     */
+    public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){
+        for(GiocatoreGraphic gc : giocatori)
+            punti.addScomunica(gc.getColoreGiocatore().getColore(), periodo);
          }
 
     public synchronized void rimuoviCarteTorre(){
@@ -363,10 +367,13 @@ class CasellePunti extends Group{
 
     private static final Point2D[] ORDINETURNO= {new Point2D(679, 654), new Point2D(679,697), new Point2D(679,739), new Point2D(679,782)};
 
+    private static Point2D[] POSIZIONI_SCOMUNICA = {new Point2D(170, 745), new Point2D(236, 750), new Point2D(328, 745)};
+
     private Group[] puntiVittoria;
     private Group[] puntiFede;
     private Group[] puntiMilitari;
     private int numTokenPosPiazzati;
+    private GridPane[]posizioniScomunica;
 
     /**
      * Circle[] usa le posizioni:
@@ -386,6 +393,7 @@ class CasellePunti extends Group{
 
         tokenAssociati=new HashMap();
         numTokenPosPiazzati = 0;
+        posizioniScomunica= new GridPane[3];
 
         for(GiocatoreGraphic giocatore: giocatori){
             Circle[] tokenGiocatore = new Circle[4];
@@ -399,6 +407,16 @@ class CasellePunti extends Group{
         inizializzaPuntiFede();
         inizializzaPuntiMilitari();
         inizializzaPuntiVittoria();
+
+        //Inizializzo le gridPane Scomunica e le aggiungo al gruppo
+        for (int i = 0; i < posizioniScomunica.length; i++) {
+            posizioniScomunica[i]= new GridPane();
+            posizioniScomunica[i].setLayoutX(POSIZIONI_SCOMUNICA[i].getX());
+            posizioniScomunica[i].setLayoutY(POSIZIONI_SCOMUNICA[i].getY());
+            posizioniScomunica[i].setHgap(5);
+            posizioniScomunica[i].setVgap(5);
+            this.getChildren().add(posizioniScomunica[i]);
+        }
 
 
         //Piazza Giocatori nella casella 0 ed aggiungi il token nascosto per l'ordine del turno
@@ -447,6 +465,23 @@ class CasellePunti extends Group{
             return true;
         }
         return false;
+    }
+
+    /**
+     * Aggiungi un rettangolo scomunica sulla carta scomunica disponendolo su 2 colonne
+     * @param colore
+     * @param periodo
+     */
+    public void addScomunica(Color colore, int periodo){
+        int nScomuniche = posizioniScomunica[periodo].getChildren().size();
+        Rectangle scom = new Rectangle(20, 20);
+        scom.setFill(colore);
+        scom.setStroke(Color.BLACK);
+        if(nScomuniche%2 ==0)
+            posizioniScomunica[periodo].add(scom, 0, nScomuniche/2);
+        else
+            posizioniScomunica[periodo].add(scom, 1, nScomuniche/2);
+        posizioniScomunica[periodo].toFront();
     }
 
 

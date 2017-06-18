@@ -3,17 +3,13 @@ package graphic.Gui.Items;
 import Domain.Risorsa;
 import Domain.TipoCarta;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +37,7 @@ public class AltriGiocatoriHBox extends HBox{
     private Image carteEdificio;
     private Image altriGiocatori;
 
-    private Map<GiocatoreGraphic, AltroGiocatoreVBox> tabelle;
+    private Map<GiocatoreGraphic, AltroGiocatorePane> tabelle;
 
     public AltriGiocatoriHBox (List<GiocatoreGraphic> giocatori, AnchorPane pannello){
 
@@ -51,7 +47,7 @@ public class AltriGiocatoriHBox extends HBox{
 
         tabelle = new HashMap<>();
         for(GiocatoreGraphic g : giocatori){
-            AltroGiocatoreVBox tabellaGiocatore = new AltroGiocatoreVBox(g.getNome(), g.getColoreGiocatore().getColore(), this);
+            AltroGiocatorePane tabellaGiocatore = new AltroGiocatorePane(g.getNome(), g.getColoreGiocatore().getColore(), this);
             tabelle.put(g, tabellaGiocatore);
             this.getChildren().add(tabellaGiocatore);
 
@@ -130,7 +126,7 @@ public class AltriGiocatoriHBox extends HBox{
     }
 }
 
-class AltroGiocatoreVBox extends Pane{
+class AltroGiocatorePane extends Pane{
 
     private static final double FATTORE_CARTE = 0.5;
     private VBox informazioniGiocatore;
@@ -145,7 +141,7 @@ class AltroGiocatoreVBox extends Pane{
     CarteFuoriPlanciaPane personaggio;
     CarteFuoriPlanciaPane impresa;
 
-    AltroGiocatoreVBox(String nomeGiocatore, Color coloreGiocatore, AltriGiocatoriHBox risorse){
+    AltroGiocatorePane(String nomeGiocatore, Color coloreGiocatore, AltriGiocatoriHBox risorse){
 
         super();
         this.informazioniGiocatore = new VBox();

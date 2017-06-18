@@ -15,7 +15,7 @@ import lorenzo.MainGame;
 /**
  * Created by pietro on 28/05/17.
  */
-public class ControllerLogin implements Controller {
+public class ControllerLogin implements ControllerCallBack {
 
     @FXML ChoiceBox communicationChoice;
     @FXML TextField usernameInput;

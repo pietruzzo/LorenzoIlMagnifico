@@ -5,14 +5,12 @@ import graphic.Gui.Items.*;
 import graphic.Gui.Items.Tabellone;
 import graphic.Ui;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
@@ -26,9 +24,9 @@ import java.util.Map;
 /**
  * Created by pietro on 31/05/17.
  */
-public class ControllerCampoGioco implements Ui, Controller {
+public class GameController implements Ui, ControllerCallBack {
 
-    @FXML Pane vedononvedo;
+    @FXML Pane visibilePane;
     @FXML AnchorPane pannello;
     @FXML AnchorPane planciaGiocatorePane;
     @FXML AnchorPane infoGiocatori;
@@ -37,13 +35,13 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     private MainGame mainGame;
     private Tabellone tabelloneController;
-    private CarteGioco mazzo;
+    private MazzoGraphic mazzo;
     private List<GiocatoreGraphic> giocatori;
     private PlanciaGiocatore plancia;
     private AltriGiocatoriHBox infoGiocatoriController;
     private int idGiocatoreClient;
     private FamiliareGraphic familiareSelezionato;
-    private SelettoreFamiliariGraphicAlternative selettoreFamiliari;
+    private SelettoreFamiliariGraphic selettoreFamiliari;
 
     //region Param EffettuaAzioneBonus
     private boolean mossaSpecifica;
@@ -53,11 +51,11 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @FXML private void initialize(){
 
-        //Setta le dimensioni della pannello principale 'vedononvedo'
+        //Setta le dimensioni della pannello principale 'visibilePane'
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
-        setPannelloDim(vedononvedo, width, height);
+        setPannelloDim(visibilePane, width, height);
 
         //riscala il campo per adattarsi al pannello principale
         double pannellow = pannello.getPrefWidth();
@@ -76,14 +74,15 @@ public class ControllerCampoGioco implements Ui, Controller {
         planciaGiocatorePane.getChildren().add(plancia);
 
         //Inizializza il pannello Selettore Familiari
-        selettoreFamiliari= new SelettoreFamiliariGraphicAlternative(this, planciaGiocatorePane);
+        selettoreFamiliari= new SelettoreFamiliariGraphic(this, planciaGiocatorePane);
 
 
         //Inizializza mossaSpecifica
         this.mossaSpecifica=false;
 
-        //Messaggi in secondo piano
+        //Messaggi
         messaggi.toBack();
+        messaggi.setBackground(new Background(new BackgroundFill(new Color(0.1451, 0.1765, 0.7843, 0.502), null, null)));
     }
 
     @Override
@@ -137,7 +136,7 @@ public class ControllerCampoGioco implements Ui, Controller {
             stampaMessaggio("Non puoi piazzare il familiare in questa casella");
         }else {
             try {
-                new OpzioniMossaAlternative(this, casella, familiareSelezionato, mainGame.getApplicazione()).setSubScene(pannello);
+                new OpzioniMossa(this, casella, familiareSelezionato, mainGame.getApplicazione()).setSubScene(pannello);
             }catch (IOException e){
                 System.out.println("opzioni non caricate");
             }
@@ -212,7 +211,7 @@ public class ControllerCampoGioco implements Ui, Controller {
         }
 
             //Genera il mazzo di carte
-            mazzo= new CarteGioco(tabellone.getMazzoCarte(), tabellone.getCarteScomunica(), this);
+            mazzo= new MazzoGraphic(tabellone.getMazzoCarte(), tabellone.getCarteScomunica(), this);
 
 
             //Ottieni tessere Scomunica
@@ -286,6 +285,7 @@ public class ControllerCampoGioco implements Ui, Controller {
             GiocatoreGraphic[] giocatori = new GiocatoreGraphic[idGiocatoriScomunicati.length];
             for (int i = 0; i < idGiocatoriScomunicati.length; i++) {
                 giocatori[i]=getGiocatorebyId(idGiocatoriScomunicati[i]);
+                if(idGiocatoriScomunicati[i]==idGiocatoreClient) stampaMessaggio("Sei stato scomunicato");
             }
             tabelloneController.aggiungiScomunicaGiocatori(giocatori, periodo);
         });
@@ -296,7 +296,7 @@ public class ControllerCampoGioco implements Ui, Controller {
         Platform.runLater(()-> {
             //Rimuovi tutte le carte rimaste associate alle caselle
             tabelloneController.rimuoviCarteTorre();
-            //Rimuovi tutti i familiari
+            //Rimuovi tutti i familiari sul campo
             for (GiocatoreGraphic g : giocatori) {
                 for (FamiliareGraphic f : g.getFamiliari()) {
                     tabelloneController.rimuoviFamiliare(f);
@@ -369,12 +369,12 @@ public class ControllerCampoGioco implements Ui, Controller {
         for(Short i : mappaRisultati.keySet())
             mappa.put(getGiocatorebyId(i), mappaRisultati.get(i));
 
-        new Classifica(mappa, pannello);
+        new ClassificaGraphic(mappa, pannello);
     }
 
     @Override
     public void GiocatoreDisconnesso(int idGiocatoreDisconnesso) {
-        Platform.runLater(()-> stampaMessaggio("Il giocatore" +idGiocatoreDisconnesso+ " si è ritirato, ma il gioco continua..."));
+        Platform.runLater(()-> stampaMessaggio("Il giocatore \"" +getGiocatorebyId(idGiocatoreDisconnesso).getNome()+ "\" si è ritirato, il gioco continua"));
 
     }
 

@@ -1,11 +1,9 @@
 package graphic.Gui.Items;
 
 import Domain.Risorsa;
-import graphic.Gui.Controller;
-import javafx.geometry.Point2D;
+import graphic.Gui.ControllerCallBack;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -34,9 +32,9 @@ public class PrivilegioConsiglioController {
     private int numPergamene;
     private Pane pannelloPadre;
     private AnchorPane pannelloPrivilegio;
-    private Controller callback;
+    private ControllerCallBack callback;
 
-    public PrivilegioConsiglioController(int numPergamene, Pane pannelloPadre, Controller callback, Applicazione loader) throws IOException {
+    public PrivilegioConsiglioController(int numPergamene, Pane pannelloPadre, ControllerCallBack callback, Applicazione loader) throws IOException {
 
         this.numPergamene=numPergamene;
         this.pannelloPadre=pannelloPadre;

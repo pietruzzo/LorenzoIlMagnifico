@@ -76,7 +76,7 @@ public class SpazioAzioneTorre extends SpazioAzione  implements Serializable
         //Se la torre è occupata il malus è di -3 monete
         Risorsa malusTorreOccupata = new Risorsa();
         if(torreOccupata)
-            this.CalcolaMalusTorreOccupata(familiare.Giocatore);
+            malusTorreOccupata= this.CalcolaMalusTorreOccupata(familiare.Giocatore);
 
         //Valuta se il giocatore rimarrebbe con tutte le risorse in positivo prendendo la carta
         //Considera il bonus dello spazio azione, il costo della carta, il malus della torre occupata e gli effetti delle carte (anche le carte scomunica)
