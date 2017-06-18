@@ -84,7 +84,6 @@ public class ControllerCampoGioco implements Ui, Controller {
 
         //Messaggi in secondo piano
         messaggi.toBack();
-
     }
 
     @Override
@@ -366,7 +365,11 @@ public class ControllerCampoGioco implements Ui, Controller {
 
     @Override
     public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
-        //TODO
+        LinkedHashMap<GiocatoreGraphic, Integer> mappa= new LinkedHashMap<>();
+        for(Short i : mappaRisultati.keySet())
+            mappa.put(getGiocatorebyId(i), mappaRisultati.get(i));
+
+        new Classifica(mappa, pannello);
     }
 
     @Override

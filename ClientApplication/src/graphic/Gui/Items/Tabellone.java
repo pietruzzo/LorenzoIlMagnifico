@@ -221,7 +221,7 @@ public class Tabellone extends AnchorPane{
     public void riattivaCaselleDaAzioneSpecifica(){
         if(caselleDisabAzSpec!=null){
             for (int i = 0; i < caselleDisabAzSpec.length; i++)
-                caselle.getCasellabyId(i).abilita();
+                caselle.getCasellabyId(caselleDisabAzSpec[i]).abilita();
         }
     }
 

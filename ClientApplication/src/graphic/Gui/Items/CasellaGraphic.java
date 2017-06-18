@@ -137,6 +137,7 @@ public class CasellaGraphic extends Group {
 
         immagineCasellaDisattivata.setVisible(false);
         areaAttiva.toFront();
+        immagineCasellaDisattivata.isVisible();
     }
 
     public boolean isDisattiva(){return immagineCasellaDisattivata.isVisible();}
