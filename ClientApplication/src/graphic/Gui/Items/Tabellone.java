@@ -367,7 +367,7 @@ class CasellePunti extends Group{
 
     private static final Point2D[] ORDINETURNO= {new Point2D(683, 657), new Point2D(683,700), new Point2D(683,742), new Point2D(683,785)};
 
-    private static Point2D[] POSIZIONI_SCOMUNICA = {new Point2D(170, 745), new Point2D(236, 750), new Point2D(328, 745)};
+    private static Point2D[] POSIZIONI_SCOMUNICA = {new Point2D(170, 745), new Point2D(236, 750), new Point2D(300, 745)};
 
     private Group[] puntiVittoria;
     private Group[] puntiFede;
