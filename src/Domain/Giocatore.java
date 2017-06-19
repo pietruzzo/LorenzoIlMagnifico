@@ -266,5 +266,15 @@ public class Giocatore implements Serializable {
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
 
     }
+
+    /**
+     * Ritorna true se il giocatore può effettuare azioni
+     * @return
+     */
+    public Boolean PuoFareAzioni()
+    {
+        return this.Familiari.stream().anyMatch(f -> f.SpazioAzioneAttuale == null
+                                            &&  ((!f.Neutro) || (this.Risorse.getServi() > 0)));
+    }
 }
 

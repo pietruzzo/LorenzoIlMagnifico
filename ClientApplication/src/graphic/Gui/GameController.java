@@ -158,8 +158,8 @@ public class GameController implements Ui, ControllerCallBack {
 
     @Override
     public void rispondiScomunica(boolean risposta) {
+        mainGame.RispostaSostegnoChiesa(risposta);
         if(risposta) {
-            mainGame.SceltaSostegnoChiesa();
             this.stampaMessaggio("Hai sostenuto la Chiesa");
         }
         else this.stampaMessaggio("Hai scelto di non sostenere la Chiesa e sei stato scomunicato");
