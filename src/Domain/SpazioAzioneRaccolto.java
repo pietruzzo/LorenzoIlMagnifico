@@ -37,7 +37,7 @@ public class SpazioAzioneRaccolto extends SpazioAzione  implements Serializable 
     public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
         this.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
         familiare.Giocatore.OttieniBonusRisorse(new Risorsa(1,1,1,0,0,0,0));
-        super.PiazzaFamiliare(familiare, servitoriAggiunti-MalusValore);
+        super.PiazzaFamiliare(familiare, servitoriAggiunti+MalusValore);
         this.FamiliariPiazzati.add(familiare);
     }
 
@@ -51,7 +51,7 @@ public class SpazioAzioneRaccolto extends SpazioAzione  implements Serializable 
             throw new DomainException("Non si dispone di servitori a sufficienza!");
 
         //Esegui validazione tramite effetti
-        AtomicInteger valoreAzione = new AtomicInteger(servitoriAggiunti+familiare.getValore()-this.MalusValore);
+        AtomicInteger valoreAzione = new AtomicInteger(servitoriAggiunti+familiare.getValore()+this.MalusValore);
         Risorsa costo = new Risorsa();
         familiare.Giocatore.gestoreEffettiGiocatore.validaAzione(costo, valoreAzione, this);
 
