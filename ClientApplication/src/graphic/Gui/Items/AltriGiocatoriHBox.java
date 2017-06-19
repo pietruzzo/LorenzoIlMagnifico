@@ -36,26 +36,22 @@ public class AltriGiocatoriHBox extends HBox{
     private Image carteTerritorio;
     private Image carteEdificio;
     private Image altriGiocatori;
+    private Pane pannelloPrincipale;
 
     private Map<GiocatoreGraphic, AltroGiocatorePane> tabelle;
 
-    public AltriGiocatoriHBox (List<GiocatoreGraphic> giocatori, AnchorPane pannello){
+    public AltriGiocatoriHBox (List<GiocatoreGraphic> giocatori, AnchorPane pannello, Pane pannelloPrincipale){
 
         super();
         pannello.getChildren().add(this);
         inizializzaImmagini();
+        this.pannelloPrincipale=pannelloPrincipale;
 
         tabelle = new HashMap<>();
         for(GiocatoreGraphic g : giocatori){
             AltroGiocatorePane tabellaGiocatore = new AltroGiocatorePane(g.getNome(), g.getColoreGiocatore().getColore(), this);
             tabelle.put(g, tabellaGiocatore);
             this.getChildren().add(tabellaGiocatore);
-
-            //AggiungiCarte fuori Plancia
-            pannello.getChildren().add(tabellaGiocatore.territorio);
-            pannello.getChildren().add(tabellaGiocatore.edificio);
-            pannello.getChildren().add(tabellaGiocatore.personaggio);
-            pannello.getChildren().add(tabellaGiocatore.impresa);
         }
 
         //Set proprietà per this
@@ -107,6 +103,8 @@ public class AltriGiocatoriHBox extends HBox{
 
     Image getAltriGiocatori() { return altriGiocatori; }
 
+    Pane getPannelloPrincipale() {return pannelloPrincipale; }
+
     private void  inizializzaImmagini(){
 
         this.moneta= uploadImage("moneta.png");
@@ -128,7 +126,7 @@ public class AltriGiocatoriHBox extends HBox{
 
 class AltroGiocatorePane extends Pane{
 
-    private static final double FATTORE_CARTE = 0.5;
+    private static final double FATTORE_CARTE = 0.6;
     private VBox informazioniGiocatore;
     private Label nomeGiocatore;
     private Label monete;
@@ -220,10 +218,10 @@ class AltroGiocatorePane extends Pane{
 
 
         //Proprietà SetOnClick carteFuoriPlancia
-        setProprietaCarteFuoriPlancia(territorio, carteTerritorioIm);
-        setProprietaCarteFuoriPlancia(edificio, carteEdificioIm);
-        setProprietaCarteFuoriPlancia(personaggio, cartePersonaggioIm);
-        setProprietaCarteFuoriPlancia(impresa, carteImpresaIm);
+        setProprietaCarteFuoriPlancia(territorio, carteTerritorioIm, risorse.getPannelloPrincipale());
+        setProprietaCarteFuoriPlancia(edificio, carteEdificioIm, risorse.getPannelloPrincipale());
+        setProprietaCarteFuoriPlancia(personaggio, cartePersonaggioIm, risorse.getPannelloPrincipale());
+        setProprietaCarteFuoriPlancia(impresa, carteImpresaIm, risorse.getPannelloPrincipale());
 
         BackgroundSize bz = new BackgroundSize(2.0, 2.0, true, true, true, false);
         BackgroundImage backgroundImage = new BackgroundImage(altriGiocatoriIm, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bz);
@@ -254,13 +252,14 @@ class AltroGiocatorePane extends Pane{
         if(carta.getTipoCarta()== TipoCarta.Impresa) impresa.aggiungiCarta(immagineCarta);
     }
 
-    private void setProprietaCarteFuoriPlancia(CarteFuoriPlanciaPane carte, ImageView icona){
-
+    private void setProprietaCarteFuoriPlancia(CarteFuoriPlanciaPane carte, ImageView icona, Pane tabellone){
+        tabellone.getChildren().add(carte);
         icona.setOnMouseEntered(mouseEvent -> {
-            carte.setLayoutX(500- carte.getWidth()/2);
-            carte.setLayoutY(300);
+            carte.setLayoutX(1500- carte.getWidth()/2);
+            carte.setLayoutY(400);
             carte.setVisible(true);
             carte.toFront();
+
         });
         icona.setOnMouseExited(mouseEvent -> carte.setVisible(false));
     }

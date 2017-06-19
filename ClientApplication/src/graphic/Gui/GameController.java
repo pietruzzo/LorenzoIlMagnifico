@@ -240,7 +240,7 @@ public class GameController implements Ui, ControllerCallBack {
             tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom, this);
 
             //Genero infoGiocatoriController e lo inizializzo
-            infoGiocatoriController =new AltriGiocatoriHBox(giocatoriEsclusoCorrente, infoGiocatori);
+            infoGiocatoriController =new AltriGiocatoriHBox(giocatoriEsclusoCorrente, infoGiocatori, pannello);
             for(Giocatore g : tabellone.getGiocatori()){
                 if(g.getIdGiocatore()!=this.idGiocatoreClient){
                     infoGiocatoriController.setRisorse(getGiocatorebyId(g.getIdGiocatore()), g.getRisorse());

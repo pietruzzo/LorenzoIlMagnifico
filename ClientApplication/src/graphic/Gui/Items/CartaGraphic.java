@@ -62,11 +62,11 @@ public class CartaGraphic extends Group {
         super(new ImageView(immagineCarta));
         this.tipoCarta = tipoCarta;
         this.nome = nome;
-        this.cartaIngrandita=cartaIngrandita;
-        this.callBack=callback;
-        this.costo=null;
-        this.immediato=null;
-        this.permanente=null;
+        this.cartaIngrandita = cartaIngrandita;
+        this.callBack = callback;
+        this.costo = null;
+        this.immediato = null;
+        this.permanente = null;
         this.selectedColor = new Color(0, 1, 0, 0.3);
 
         //setta ingrandimento
@@ -96,13 +96,13 @@ public class CartaGraphic extends Group {
         this.numSceltaPerm = permanente;
     }
 
-    public Dimension2D getDimensioni(){
+    public Dimension2D getDimensioni() {
         return this.dimensioni;
     }
 
     public void generaSceltaImmediataeCosto() {
 
-        if(numSceltaCosto>1) {
+        if (numSceltaCosto > 1) {
             //Inizializza le scelte
             sceltaCorrenteCosto = null;
             sceltaCorrenteImmediato = null;
@@ -120,7 +120,7 @@ public class CartaGraphic extends Group {
             }
         }
 
-        if(numSceltaImmed>1) {
+        if (numSceltaImmed > 1) {
             //crea rettangoli
             immediato = new Rectangle[numSceltaImmed];
             setAree(immediato, POSIZIONESCELTAIMMEDIATO, DIMENSIONESCELTAIMMEDIATO);
@@ -135,13 +135,13 @@ public class CartaGraphic extends Group {
         }
     }
 
-    public void rimuoviSceltaImmediataeCosto(){
-        if(costo !=null) {
+    public void rimuoviSceltaImmediataeCosto() {
+        if (costo != null) {
             for (Rectangle scelta : costo) {
                 ingrandimento.getChildren().remove(scelta);
             }
         }
-        if(immediato != null) {
+        if (immediato != null) {
             for (Rectangle scelta : immediato) {
                 ingrandimento.getChildren().remove(immediato);
             }
@@ -155,7 +155,7 @@ public class CartaGraphic extends Group {
         permanente = new Rectangle[numSceltaPerm];
         setAree(permanente, POSIZIONESCELTAPERMANENTE, DIMENSIONESCELTAPERMANENTE);
 
-        if(numSceltaPerm>1) {
+        if (numSceltaPerm > 1) {
             ingrandimento.setVisible(true);
             //setonclick
             for (int i = 0; i < numSceltaPerm; i++) {
@@ -170,11 +170,13 @@ public class CartaGraphic extends Group {
     /**
      * @return il gruppo della carta ingrandita (imageview + rettangoli gestiti delle scelte)
      */
-    public Group getIngrandimento(){
+    public Group getIngrandimento() {
         return ingrandimento;
     }
 
-    public ImageView getNewImmagineIngrandita() {return new ImageView(cartaIngrandita);}
+    public ImageView getNewImmagineIngrandita() {
+        return new ImageView(cartaIngrandita);
+    }
 
     public TipoCarta getTipoCarta() {
         return tipoCarta;
@@ -219,17 +221,17 @@ public class CartaGraphic extends Group {
 
     private void gestisciSceltaPermanente(int i) {
 
-            //Azzera tutte le scelte
-            for (Rectangle rettangolo : permanente) {
-                rettangolo.setStroke(Color.BLUE);
-                rettangolo.setFill(Color.TRANSPARENT);
-            }
+        //Azzera tutte le scelte
+        for (Rectangle rettangolo : permanente) {
+            rettangolo.setStroke(Color.BLUE);
+            rettangolo.setFill(Color.TRANSPARENT);
+        }
 
-            //Seleziona quella indicata
-            permanente[i].setStroke(Color.GREEN);
-            permanente[i].setFill(selectedColor);
-            //comunicala al server
-            callBack.scegliEffetto(getNome(), i);
+        //Seleziona quella indicata
+        permanente[i].setStroke(Color.GREEN);
+        permanente[i].setFill(selectedColor);
+        //comunicala al server
+        callBack.scegliEffetto(getNome(), i);
     }
 
     /**
@@ -245,7 +247,7 @@ public class CartaGraphic extends Group {
             for (int i = 0; i < numScelta; i++) {
                 vettoreAree[i] = new Rectangle(dimScelta.getX(), dimScelta.getY() / numScelta);
                 vettoreAree[i].setX(posizScelta.getX());
-                vettoreAree[i].setY(posizScelta.getY() + (dimScelta.getY() * i)/numScelta);
+                vettoreAree[i].setY(posizScelta.getY() + (dimScelta.getY() * i) / numScelta);
 
                 vettoreAree[i].setFill(Color.TRANSPARENT);
                 vettoreAree[i].setStroke(Color.BLUE);
@@ -261,9 +263,10 @@ public class CartaGraphic extends Group {
     /**
      * Aggiunge l'ingrandimento della carta sul pannello e ne gestisce posizione e visibilità
      * L'ingrandimento si posizionerà vicino alle coordinate di this
+     *
      * @param contenitore
      */
-    public void setEventHandlerIngrandisci(Pane contenitore){
+    public void setEventHandlerIngrandisci(Pane contenitore) {
         final Group[] gruppo = new Group[1];
 
         this.ingrandisci = mouseEvent -> {
@@ -287,7 +290,7 @@ public class CartaGraphic extends Group {
     }
 
 
-    public void setEventHandlerPermanente(Pane contenitore){
+    public void setEventHandlerPermanente(Pane contenitore) {
 
         //Genero le scelte permanenti
         ingrandimento.setVisible(false);
@@ -300,13 +303,12 @@ public class CartaGraphic extends Group {
         this.setOnMouseExited(null);
 
 
-
         //Add Exit Button
         try {
             Group bottone = new Group();
             Rectangle areaAttiva = new Rectangle(60, 60);
             areaAttiva.setFill(Color.TRANSPARENT);
-            ImageView bottoneIm = new ImageView(new Image("file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"buttonX.png", 50, 50, true, true, true));
+            ImageView bottoneIm = new ImageView(new Image("file:" + System.getProperty("user.dir") + separator + "ClientApplication" + separator + "Risorse" + separator + "buttonX.png", 50, 50, true, true, true));
             bottone.setLayoutX(cartaIngrandita.getWidth());
             bottone.setLayoutY(cartaIngrandita.getHeight());
             bottone.getChildren().addAll(bottoneIm, areaAttiva);
@@ -315,7 +317,7 @@ public class CartaGraphic extends Group {
             EventHandler<MouseEvent> eventoMouseOn = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    ingrandimento.setLayoutX(1178);
+                    ingrandimento.setLayoutX(1230);
                     ingrandimento.setLayoutY(257);
                     ingrandimento.setScaleX(0.6);
                     ingrandimento.setScaleY(0.6);
@@ -339,8 +341,8 @@ public class CartaGraphic extends Group {
             this.setOnMouseClicked(mouseEvent -> {
                 ingrandimento.setScaleX(1);
                 ingrandimento.setScaleY(1);
-                ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
-                ingrandimento.setLayoutY((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
+                ingrandimento.setLayoutX((contenitore.getWidth() - this.cartaIngrandita.getWidth()) / 2);
+                ingrandimento.setLayoutY((contenitore.getHeight() - this.cartaIngrandita.getHeight()) / 2);
                 ingrandimento.setVisible(true);
                 this.setOnMouseEntered(null);
                 this.setOnMouseExited(null);
