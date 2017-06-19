@@ -159,7 +159,7 @@ public class SocketClientProtocol {
     private void AggiornaGiocatore()
     {
         try {
-            UpdateGiocatoreDTO update = (UpdateGiocatoreDTO) this.inputStream.readObject();
+            UpdateGiocatoreDTO update = (UpdateGiocatoreDTO)this.inputStream.readObject();
             mainGame.AggiornaGiocatore(update);
         } catch (IOException e) {
             e.printStackTrace();

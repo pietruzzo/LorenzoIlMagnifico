@@ -194,6 +194,7 @@ public class Risorsa  implements Serializable {
         return new Risorsa(newRisorse);
     }
 
+
     /**
      * Verifica se due risorse hanno lo stesso valore
      * @param obj
