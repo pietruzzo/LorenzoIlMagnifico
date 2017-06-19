@@ -29,10 +29,10 @@ public class PlanciaGiocatore extends Pane {
     private static final double SCALA=0.7;
 
     //Coordinate al centro
-    private static final int PRIMACARTAX=148;
+    private static final int PRIMACARTAX=140;
     private static final int OFFSETX=137;
-    private static final int TERRITORIOY=390;
-    private static final int EDIFICIOY=120;
+    private static final int TERRITORIOY=380;
+    private static final int EDIFICIOY=117;
 
     //Coord risorse plancia
     private static final Point2D COORD_MONETE = new Point2D(152, 547);

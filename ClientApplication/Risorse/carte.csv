@@ -115,7 +115,7 @@ PERIODO	1
 VALORE	3															
 COSTO	0	0	0	0	0	0	0									
 LISTA_EFFETTI																
-ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	1	1	0	0	0
+ScambiaRisorse	false	0	0	0	0	0	0	0		0	0	1	1	0	0	0
 END																
 																
 NOME	Bosco															

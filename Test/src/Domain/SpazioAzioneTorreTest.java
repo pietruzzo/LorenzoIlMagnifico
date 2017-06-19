@@ -217,6 +217,32 @@ public class SpazioAzioneTorreTest {
     }
 
     @Test
+    public void piazzaFamiliare_EffettoAumentaValoreAzione() throws Exception {
+        CartaPersonaggio costruttore = (CartaPersonaggio)tabellone.getCartaByName("Costruttore");
+        giocatore.CartePersonaggio.add(costruttore);
+
+        //Torre edificio, ultimo piano
+        torre = tabellone.Torri.get(1);
+        spazioAzione = torre.SpaziAzione.get(3);
+        Carta zecca = tabellone.getCartaByName("Zecca");
+        spazioAzione.AssociaCarta(zecca);
+
+        spazioAzione.PiazzaFamiliare(familiare, 1);
+
+        assertEquals(familiare, spazioAzione.FamiliarePiazzato);
+        assertEquals(5, giocatore.Risorse.getMonete()); //Invariate
+        assertEquals(2, giocatore.Risorse.getLegno()); //Invariate per effetto del costruttore
+        assertEquals(0, giocatore.Risorse.getPietra()); //Ne spendo 2 invece di 3 per effetto del costruttore
+        assertEquals(2, giocatore.Risorse.getPuntiMilitari()); //Presi dal bonus spazio azione
+        assertEquals(5, giocatore.Risorse.getPuntiVittoria()); //Presi per effetto della zecca
+
+        assertFalse(giocatore.getAzioneBonusDaEffettuare());
+        assertTrue(giocatore.CartePersonaggio.contains(costruttore));
+        assertTrue(giocatore.CarteEdificio.contains(zecca));
+        assertNull(spazioAzione.CartaAssociata);
+    }
+
+    @Test
     public void validaPiazzamentoFamiliare_Ok() throws Exception {
         Carta monastero = tabellone.getCartaByName("Monastero");
         spazioAzione.AssociaCarta(monastero);

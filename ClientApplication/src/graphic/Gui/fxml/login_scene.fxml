@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="510.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
+<BorderPane prefHeight="510.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.ControllerLogin">
     <top>
         <Pane prefHeight="210.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
@@ -42,9 +42,9 @@
             </RadioButton>
             <RadioButton fx:id="radioCli" layoutX="382.0" layoutY="138.0" mnemonicParsing="false" text="CLI" textFill="#a7cdd8" toggleGroup="$interfaccia" />
             <Label fx:id="messaggioErrore" layoutX="137.0" layoutY="170.0" prefHeight="37.0" prefWidth="327.0" textFill="#ff2b00">
-               <font>
-                  <Font size="10.0" />
-               </font>
+                   <font>
+                      <Font size="10.0" />
+                   </font>
             </Label>
          </children>
       </AnchorPane>

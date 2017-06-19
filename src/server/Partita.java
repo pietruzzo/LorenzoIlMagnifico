@@ -23,7 +23,7 @@ public class Partita  implements Serializable {
 
     //region Proprieta
     private static final short MIN_GIOCATORI = 2;
-    private static final short MAX_GIOCATORI = 3;
+    private static final short MAX_GIOCATORI = 4;
     private static final short NUM_PERIODI = 3;
     private static final short NUM_DADI = 3;
     private static final Object MUTEX_PARTITA = new Object();

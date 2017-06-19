@@ -73,6 +73,20 @@ public class Giocatore implements Serializable {
     public int getPrivilegiDaScegliere() {
         return privilegiDaScegliere;
     }
+
+    /**
+     * @return colore del giocatore
+     */
+    public ColoreGiocatore getColore() {
+        return Colore;
+    }
+
+    /**
+     * @return nome del giocatore
+     */
+    public String getNome(){
+        return Nome;
+    }
     //endregion
 
     //region Setters
@@ -251,24 +265,6 @@ public class Giocatore implements Serializable {
      */
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
 
-    }
-
-    public List<CartaEdificio> getCarteEdificio() {
-        return CarteEdificio;
-    }
-
-    /**
-     * @return colore del giocatore
-     */
-    public ColoreGiocatore getColore() {
-        return Colore;
-    }
-
-    /**
-     * @return nome del giocatore
-     */
-    public String getNome(){
-        return Nome;
     }
 }
 

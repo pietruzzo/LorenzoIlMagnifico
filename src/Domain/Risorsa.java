@@ -3,6 +3,7 @@ package Domain;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by pietro on 15/05/17.
@@ -191,6 +192,22 @@ public class Risorsa  implements Serializable {
                 newRisorse[i] = 0;
         }
         return new Risorsa(newRisorse);
+    }
+
+    /**
+     * Verifica se due risorse hanno lo stesso valore
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Risorsa)
+        {
+            Risorsa risorsa = (Risorsa)obj;
+            return Arrays.equals(risorsa.getArrayRisorse(), this.getArrayRisorse());
+        }
+
+        return false;
     }
 
     /**

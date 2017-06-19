@@ -83,7 +83,7 @@ public class SelettoreFamiliariGraphic {
             familiariInGrid.put(f, image);
 
             image.setOnMouseClicked(mouseEvent -> {
-                System.out.println("setOnCLick familiare");
+                //System.out.println("setOnCLick familiare");
                 if(image.getEffect()==coloreFamUsato) callback.selezionaFamiliare(f, false);
                 else{
                     callback.selezionaFamiliare(f, true);

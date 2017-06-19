@@ -264,8 +264,8 @@ public class Tabellone extends AnchorPane{
 class DadiGraphic extends Group{
 
     private static final int LATODADO=50;
-    private static final int[] DADIX= {473, 552, 631};
-    private static final int DADIY=1110;
+    private static final int[] DADIX= {476, 555, 634};
+    private static final int DADIY=1116;
 
     private Image[] facceImg;
     private ImageView arancioIm;
@@ -365,7 +365,7 @@ class CasellePunti extends Group{
 
     private static final int NCASELLE_FEDE = 16;
 
-    private static final Point2D[] ORDINETURNO= {new Point2D(679, 654), new Point2D(679,697), new Point2D(679,739), new Point2D(679,782)};
+    private static final Point2D[] ORDINETURNO= {new Point2D(683, 657), new Point2D(683,700), new Point2D(683,742), new Point2D(683,785)};
 
     private static Point2D[] POSIZIONI_SCOMUNICA = {new Point2D(170, 745), new Point2D(236, 750), new Point2D(328, 745)};
 

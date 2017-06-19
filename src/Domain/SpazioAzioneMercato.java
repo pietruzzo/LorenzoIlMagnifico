@@ -1,6 +1,7 @@
 package Domain;
 
 import Exceptions.DomainException;
+import Exceptions.NetworkException;
 
 import java.io.Serializable;
 
@@ -28,6 +29,15 @@ public class SpazioAzioneMercato extends SpazioAzione  implements Serializable {
         this.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
         super.PiazzaFamiliare(familiare, servitoriAggiunti);
         this.FamiliarePiazzato = familiare;
+
+        //Se è stato piazzato sul quarto spazio azione mercato
+        if(this.BonusRisorse.equals(new Risorsa())) {
+            try {
+                familiare.Giocatore.SceltaPrivilegioConsiglio(2);
+            } catch (NetworkException e) {
+                System.out.println("Giocatore non più connesso");
+            }
+        }
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
