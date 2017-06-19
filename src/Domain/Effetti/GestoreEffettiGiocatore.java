@@ -55,7 +55,7 @@ public class GestoreEffettiGiocatore  {
         effettiImmediati = estraiEffettoImmediato(casella);
 
         //Filtra Carte Contesto Azione
-        List<Carta> carteCorrenti = selezionaCartePerTipo(getTipoAzione(casella), giocatoreCorrente.getListaCarte());
+        carteCorrenti = selezionaCartePerTipo(getTipoAzione(casella), giocatoreCorrente.getListaCarte());
 
         /*  Esegui ModificaValoreAzione
             Ipotizzo che gli effetti immediati non modifichino il valore dell'azione
@@ -116,8 +116,6 @@ public class GestoreEffettiGiocatore  {
 
         Risorsa costoRitorno = costo.clone();
         validaAzione(costo, azione, casella, risorseAllocate);
-        //Filtra Carte Contesto Azione
-        List<Carta> carteCorrenti = selezionaCartePerTipo(getTipoAzione(casella), giocatoreCorrente.getListaCarte());
 
         //esegui effetto immediato se di Azionabile
         if (effettiImmediati != null && !effettiImmediati.isEmpty()){
@@ -234,9 +232,9 @@ public class GestoreEffettiGiocatore  {
     private List<Carta> selezionaCartePerValore(int valoreAzione, List<Carta> lista) {
         List<Carta> carteFiltrate = new ArrayList<>();
         for (Carta c : lista){
-            if (c instanceof CartaTerritorio &&((CartaTerritorio) c).getValoreAzione()>=valoreAzione) carteFiltrate.add(c);
-            else if (c instanceof CartaEdificio &&((CartaEdificio) c).getValoreAzione()>=valoreAzione) carteFiltrate.add(c);
-            else carteFiltrate.add(c);
+            if (c instanceof CartaTerritorio &&((CartaTerritorio) c).getValoreAzione()<=valoreAzione) carteFiltrate.add(c);
+            else if (c instanceof CartaEdificio &&((CartaEdificio) c).getValoreAzione()<=valoreAzione) carteFiltrate.add(c);
+            else if(!(c instanceof CartaEdificio || c instanceof CartaTerritorio)) carteFiltrate.add(c);
         }
         return carteFiltrate;
     }
