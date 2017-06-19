@@ -364,11 +364,13 @@ public class GameController implements Ui, ControllerCallBack {
 
     @Override
     public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
-        LinkedHashMap<GiocatoreGraphic, Integer> mappa= new LinkedHashMap<>();
-        for(Short i : mappaRisultati.keySet())
-            mappa.put(getGiocatorebyId(i), mappaRisultati.get(i));
+        Platform.runLater(() ->{
+            LinkedHashMap<GiocatoreGraphic, Integer> mappa= new LinkedHashMap<>();
+            for(Short i : mappaRisultati.keySet())
+                mappa.put(getGiocatorebyId(i), mappaRisultati.get(i));
 
-        new ClassificaGraphic(mappa, pannello);
+            new ClassificaGraphic(mappa, pannello);
+        });
     }
 
     @Override
