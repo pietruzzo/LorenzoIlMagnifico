@@ -192,7 +192,7 @@ public class Tabellone extends AnchorPane{
      */
     public void aggiungiScomunicaGiocatori (GiocatoreGraphic[] giocatori, int periodo){
         for(GiocatoreGraphic gc : giocatori)
-            punti.addScomunica(gc.getColoreGiocatore().getColore(), periodo);
+            punti.addScomunica(gc.getColoreGiocatore().getColore(), periodo-1);
          }
 
     public synchronized void rimuoviCarteTorre(){
@@ -470,18 +470,18 @@ class CasellePunti extends Group{
     /**
      * Aggiungi un rettangolo scomunica sulla carta scomunica disponendolo su 2 colonne
      * @param colore
-     * @param periodo
+     * @param posizione
      */
-    public void addScomunica(Color colore, int periodo){
-        int nScomuniche = posizioniScomunica[periodo].getChildren().size();
+    public void addScomunica(Color colore, int posizione){
+        int nScomuniche = posizioniScomunica[posizione].getChildren().size();
         Rectangle scom = new Rectangle(20, 20);
         scom.setFill(colore);
         scom.setStroke(Color.BLACK);
         if(nScomuniche%2 ==0)
-            posizioniScomunica[periodo].add(scom, 0, nScomuniche/2);
+            posizioniScomunica[posizione].add(scom, 0, nScomuniche/2);
         else
-            posizioniScomunica[periodo].add(scom, 1, nScomuniche/2);
-        posizioniScomunica[periodo].toFront();
+            posizioniScomunica[posizione].add(scom, 1, nScomuniche/2);
+        posizioniScomunica[posizione].toFront();
     }
 
 
