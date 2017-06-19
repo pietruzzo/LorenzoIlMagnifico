@@ -3,9 +3,7 @@ package Domain;
 import Domain.DTO.UpdateGiocatoreDTO;
 import Domain.Effetti.Effetto;
 import Exceptions.DomainException;
-import Exceptions.NetworkException;
 import server.LoaderCarte;
-import server.Partita;
 
 import java.io.Serializable;
 import java.util.*;
@@ -90,9 +88,6 @@ public class Tabellone implements Serializable {
         //endregion
 
         //region Creazioe carte
-        String nome;
-        List<Effetto> effetto = new ArrayList<Effetto>();
-
         List<Carta> carte = new LoaderCarte().getListaCarte();
         this.mazzoCarte = carte.stream().filter(c -> !(c instanceof TesseraScomunica)).collect(Collectors.toList());
 
@@ -103,42 +98,6 @@ public class Tabellone implements Serializable {
             Carta cartaScomunica = tessereScomunica.stream().filter(t -> t.Periodo == periodo).findFirst().orElse(null);
             this.carteScomunica.add((TesseraScomunica)cartaScomunica);
         }
-
-        /*
-        for (int period = 1; period <= 3; period++)
-        {
-            //Aggiunge le 3 carte scomunica
-            this.carteScomunica.add(new TesseraScomunica("", period, effetto));
-
-            for(int tipo = 0; tipo < 4; tipo++)
-            {
-                for (int num = 0; num < 8; num++)
-                {
-                    nome = String.format("%d_%d_%d", period, tipo, num);
-
-                    //Ci sono 8 carte di ogni tipo per ogni periodo
-                    switch (tipo)
-                    {
-                        case 0:
-                            this.mazzoCarte.add(new CartaTerritorio(nome, period,2,  effetto, effetto));
-                            break;
-
-                        case 1:
-                            this.mazzoCarte.add(new CartaEdificio(nome, period, 2, effetto, effetto));
-                            break;
-
-                        case 2:
-                            this.mazzoCarte.add(new CartaPersonaggio(nome, period, effetto, effetto));
-                            break;
-
-                        case 3:
-                            this.mazzoCarte.add(new CartaImpresa(nome, period, effetto, effetto));
-                            break;
-                    }
-                }
-            }
-        }
-        */
         //endregion
 
         //region Set del bonus vittoria per punti fede

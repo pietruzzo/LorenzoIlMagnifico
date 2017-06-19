@@ -233,6 +233,7 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
      */
     @Override
     public void ComunicaAggiornaGiocatore(UpdateGiocatoreDTO update) throws NetworkException {
+        update.setRisorse(update.getRisorse().clone());
         this.protocol.AggiornaGiocatore(update);
     }
 

@@ -14,7 +14,7 @@ public class UpdateGiocatoreDTO implements Serializable {
 
     //region Proprietà
     private final int idGiocatore;
-    private final Risorsa risorse;
+    private Risorsa risorse;
     private final ColoreDado coloreDado;
     private final Integer idSpazioAzione;
     //endregion
@@ -34,6 +34,10 @@ public class UpdateGiocatoreDTO implements Serializable {
 
     public Integer getIdSpazioAzione() {
         return idSpazioAzione;
+    }
+
+    public void setRisorse(Risorsa risorse) {
+        this.risorse = risorse;
     }
     //endregion
 
