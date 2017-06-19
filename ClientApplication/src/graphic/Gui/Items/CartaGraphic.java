@@ -2,6 +2,7 @@ package graphic.Gui.Items;
 
 import Domain.TipoCarta;
 import graphic.Gui.ControllerCallBack;
+import graphic.Gui.GameController;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -298,8 +299,7 @@ public class CartaGraphic extends Group {
         this.setOnMouseEntered(null);
         this.setOnMouseExited(null);
 
-        ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
-        ingrandimento.setLayoutY((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
+
 
         //Add Exit Button
         try {
@@ -312,14 +312,43 @@ public class CartaGraphic extends Group {
             bottone.getChildren().addAll(bottoneIm, areaAttiva);
             ingrandimento.getChildren().add(bottone);
 
+            EventHandler<MouseEvent> eventoMouseOn = new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    ingrandimento.setLayoutX(1178);
+                    ingrandimento.setLayoutY(257);
+                    ingrandimento.setScaleX(0.6);
+                    ingrandimento.setScaleY(0.6);
+                    ingrandimento.setVisible(true);
+                    bottone.setVisible(false);
+                }
+            };
+            this.setOnMouseEntered(eventoMouseOn);
+            this.setOnMouseExited(mouseEvent1 -> ingrandimento.setVisible(false));
+
             //mouseHandler per uscire dalla carta
-            areaAttiva.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(false));
+            areaAttiva.setOnMouseClicked(mouseEvent -> {
+                ingrandimento.setVisible(false);
+                this.setOnMouseEntered(eventoMouseOn);
+                this.setOnMouseExited(mouseEvent1 -> ingrandimento.setVisible(false));
+            });
+
+            contenitore.getChildren().add(ingrandimento);
+
+            //mouseHandler per ingrandire la carta
+            this.setOnMouseClicked(mouseEvent -> {
+                ingrandimento.setScaleX(1);
+                ingrandimento.setScaleY(1);
+                ingrandimento.setLayoutX((contenitore.getWidth()-this.cartaIngrandita.getWidth())/2);
+                ingrandimento.setLayoutY((contenitore.getHeight()-this.cartaIngrandita.getHeight())/2);
+                ingrandimento.setVisible(true);
+                this.setOnMouseEntered(null);
+                this.setOnMouseExited(null);
+                bottone.setVisible(true);
+            });
+
         } catch (NullPointerException e) {
             System.out.println(e.toString());
         }
-        contenitore.getChildren().add(ingrandimento);
-
-        //mouseHandler per ingrandire la carta
-        this.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(true));
     }
 }

@@ -250,6 +250,7 @@ public class Giocatore implements Serializable {
      * @param valoreAzione valore dell'azione da svolgere
      */
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) throws NetworkException {
+
     }
 
     public List<CartaEdificio> getCarteEdificio() {
