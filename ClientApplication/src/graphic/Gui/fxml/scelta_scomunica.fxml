@@ -6,16 +6,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="332.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.Image?>
+<AnchorPane stylesheets="@/style.css" prefHeight="332.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="immagine" fitHeight="359.0" fitWidth="477.0">
+          <Image url="@/pergamenaScomunica.png" />
       </ImageView>
-      <Button fx:id="siLabel" layoutX="66.0" layoutY="197.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="141.0" text="Si">
+      <Button fx:id="siLabel" layoutX="271.0" layoutY="197.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="141.0" text="Si" styleClass="green">
          <font>
             <Font name="System Italic" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="noLabel" layoutX="271.0" layoutY="197.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="141.0" text="No">
+      <Button fx:id="noLabel" layoutX="66.0" layoutY="197.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="141.0" text="No" styleClass="red">
          <font>
             <Font name="System Italic" size="24.0" />
          </font>

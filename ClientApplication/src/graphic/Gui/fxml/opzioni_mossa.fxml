@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="285.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane stylesheets="@/style.css" prefHeight="285.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
        <ImageView fitHeight="350.0" fitWidth="550.0" pickOnBounds="true" preserveRatio="true">
            <image>
@@ -24,7 +24,7 @@
          <font>
             <Font size="20.0" />
          </font></TextField>
-        <Button fx:id="conferma" layoutX="317.0" layoutY="168.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" text="Conferma" />
-        <Button fx:id="annulla" layoutX="95.0" layoutY="168.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#ffe40e, #ff5422), radial-gradient(center 50% -40%, radius 200%, #ee7714 45%, #ff6232 50%);" text="Annulla" />
+        <Button fx:id="conferma" layoutX="317.0" layoutY="168.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" styleClass="green" text="Conferma" />
+        <Button fx:id="annulla" layoutX="95.0" layoutY="168.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0"   styleClass="red" text="Annulla" />
    </children>
 </AnchorPane>

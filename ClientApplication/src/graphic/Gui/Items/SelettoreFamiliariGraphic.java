@@ -1,7 +1,9 @@
 package graphic.Gui.Items;
 
 import graphic.Gui.ControllerCallBack;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -51,12 +53,19 @@ public class SelettoreFamiliariGraphic {
         skipButton = (Button) parent.lookup("#skipButton");
         familiari = (GridPane) parent.lookup("#familiariGrid");
 
-        //Carica immagini bottoni
-        Image image = new Image(PERCORSOIMG+"buttonExit.png", exitButton.getPrefWidth(), exitButton.getPrefHeight(), false, false, true);
-        exitButton.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
+        exitButton.setText("Esci");
+        exitButton.getStyleClass().add("red");
+        skipButton.setText("Salta azione");
+        skipButton.getStyleClass().add("blu");
+        giocaAdesso.setText("Inizia");
+        giocaAdesso.getStyleClass().add("green");
 
-        image = new Image(PERCORSOIMG+"buttonStart.png", exitButton.getPrefWidth(), exitButton.getPrefHeight(), false, false, true);
-        giocaAdesso.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
+        //Carica immagini bottoni
+        //Image image = new Image(PERCORSOIMG+"buttonExit.png", exitButton.getPrefWidth(), exitButton.getPrefHeight(), false, false, true);
+        //exitButton.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
+
+        //image = new Image(PERCORSOIMG+"buttonStart.png", exitButton.getPrefWidth(), exitButton.getPrefHeight(), false, false, true);
+        //giocaAdesso.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
 
         //set spazio gridpane
         familiari.setHgap(25);

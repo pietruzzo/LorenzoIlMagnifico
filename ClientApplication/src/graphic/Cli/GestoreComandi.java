@@ -80,6 +80,7 @@ public class GestoreComandi {
     {
         comandi = new HashMap<>();
         comandi.put("bonus", this::azioneBonusEffettuata);
+        comandi.put("salta", this::azioneBonusSaltata);
         this.addComandiDefault();
     }
 
@@ -183,6 +184,19 @@ public class GestoreComandi {
                 throw new ComandoNonValido("Lo spazio azione deve essere compreso tra 1 e 25");
 
             cli.mainGame.AzioneBonusEffettuata(idSpazioAzione, cli.valoreAzioneBonus, cli.risorsaAzioneBonus, servitoriAggiunti);
+        }
+        else
+            throw new ComandoNonValido("Numero di parametri errato");
+    }
+
+    /**
+     * Manda al server la comunicazione per il salto dell'azione bonus
+     * @throws ComandoNonValido
+     */
+    public void azioneBonusSaltata(String[] params) throws ComandoNonValido
+    {
+        if(params.length == 0) {
+            cli.mainGame.AzioneBonusSaltata();
         }
         else
             throw new ComandoNonValido("Numero di parametri errato");
