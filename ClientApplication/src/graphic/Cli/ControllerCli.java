@@ -161,7 +161,7 @@ public class ControllerCli implements Ui {
         this.printer.stampaTabellone(this.carteTabellone);
         this.printer.stampa("Per effetto di una carta, hai la possibilità di effettuare un'azione bonus!");
         this.printer.stampa("L'azione avrà un valore base di %d.", valoreAzione);
-        this.printer.stampa("(per effettuare l'azione digitare 'bonus idSpazioAzione servitoriAggiunti')");
+        this.printer.stampa("(per effettuare l'azione digitare 'bonus idSpazioAzione servitoriAggiunti' oppure 'salta' per saltare l'azione)");
     }
 
     /**

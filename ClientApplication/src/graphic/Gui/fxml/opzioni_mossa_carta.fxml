@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="885.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox stylesheets="@/style.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="885.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="spazioCarta" prefHeight="600.0" prefWidth="550.0">
          <children>
@@ -36,8 +36,8 @@
                <font>
                   <Font size="20.0" />
                </font></TextField>
-            <Button fx:id="conferma" layoutX="308.0" layoutY="172.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#f0ff35, #a9ff00), radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" text="Conferma" />
-            <Button fx:id="annulla" layoutX="103.0" layoutY="172.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" style="-fx-background-radius: 10px; -fx-font-size: 16px; -fx-background-color: linear-gradient(#ffe40e, #ff5422), radial-gradient(center 50% -40%, radius 200%, #ee7714 45%, #ff6232 50%);" text="Annulla" />
+            <Button fx:id="conferma" layoutX="308.0" layoutY="172.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" styleClass="green" text="Conferma" />
+            <Button fx:id="annulla" layoutX="103.0" layoutY="172.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" styleClass="red" text="Annulla" />
          </children>
       </AnchorPane>
    </children>
