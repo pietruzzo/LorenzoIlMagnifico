@@ -1,5 +1,7 @@
 package graphic.Gui.Items;
 
+import Domain.ColoreDado;
+import Domain.ColoreGiocatore;
 import Domain.Risorsa;
 import Domain.TipoCarta;
 import javafx.geometry.Insets;
@@ -192,7 +194,8 @@ class AltroGiocatorePane extends Pane{
         dettagliGiocatore.add(carteImpresaIm, 3, 3);
 
         //proprietà nomeGiocatore
-        this.nomeGiocatore.setTextFill(coloreGiocatore);
+        if(coloreGiocatore!= ColoreGiocatore.VERDE.getColore()) this.nomeGiocatore.setTextFill(coloreGiocatore);
+        else this.nomeGiocatore.setTextFill(new Color(0, 0.9804, 0.0745, 1));
         Color colore = new Color(0, 0, 0, 0.35);
         this.nomeGiocatore.setBackground(new Background(new BackgroundFill(colore, new CornerRadii(20), new Insets(-5.0))));
         this.nomeGiocatore.setAlignment(Pos.CENTER);
