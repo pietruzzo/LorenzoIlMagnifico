@@ -157,6 +157,15 @@ public class GameController implements Ui, ControllerCallBack {
     }
 
     @Override
+    public void rispondiScomunica(boolean risposta) {
+        if(risposta) {
+            mainGame.SceltaSostegnoChiesa();
+            this.stampaMessaggio("Hai sostenuto la Chiesa");
+        }
+        else this.stampaMessaggio("Hai scelto di non sostenere la Chiesa e sei stato scomunicato");
+    }
+
+    @Override
     public void disabilitaCaselle(int idSpazioAzione) {
         Platform.runLater(() -> {
             tabelloneController.disattivaCasella(idSpazioAzione);
@@ -339,29 +348,7 @@ public class GameController implements Ui, ControllerCallBack {
 
     @Override
     public void sceltaSostegnoChiesa() {
-        Platform.runLater(()->{
-            Pane scelta = new Pane();
-            Text domanda = new Text("Vuoi sostenere la chiesa?");
-            javafx.scene.control.Button b1, b2;
-            b1= new javafx.scene.control.Button("Si");
-            b2= new javafx.scene.control.Button("No");
-            HBox hbox = new HBox(b1, b2);
-            VBox vbox =new VBox(domanda, hbox);
-            hbox.setAlignment(Pos.CENTER);
-            vbox.setAlignment(Pos.CENTER);
-            scelta.setPrefWidth(300);
-            scelta.setPrefHeight(200);
-            scelta.setTranslateX(700);
-            scelta.setTranslateY(700);
-            pannello.getChildren().add(scelta);
-            b1.setOnMouseClicked(mouseEvent -> {
-                mainGame.SceltaSostegnoChiesa();
-                pannello.getChildren().remove(scelta);
-            });
-            b1.setOnMouseClicked(mouseEvent -> {
-                pannello.getChildren().remove(scelta);
-            });
-        });
+        Platform.runLater(()-> new ScomunicaGraphic(pannello, this));
     }
 
     @Override

@@ -115,4 +115,9 @@ public class ControllerLogin implements ControllerCallBack {
     public void scegliEffetto(String nomeCarta, Integer codiceScelta) {
 
     }
+
+    @Override
+    public void rispondiScomunica(boolean risposta) {
+
+    }
 }

@@ -22,4 +22,5 @@ public interface ControllerCallBack {
     void casellaSelezionata(CasellaGraphic casella);
     void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori);
     void scegliEffetto(String nomeCarta, Integer codiceScelta);
+    void rispondiScomunica(boolean risposta);
 }
