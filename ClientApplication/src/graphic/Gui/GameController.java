@@ -240,7 +240,7 @@ public class GameController implements Ui, ControllerCallBack {
             tabelloneController.settaTabelloneDefinitivo(giocatori, carteScom, this);
 
             //Genero infoGiocatoriController e lo inizializzo
-            infoGiocatoriController =new AltriGiocatoriHBox(giocatoriEsclusoCorrente, infoGiocatori);
+            infoGiocatoriController =new AltriGiocatoriHBox(giocatoriEsclusoCorrente, infoGiocatori, pannello);
             for(Giocatore g : tabellone.getGiocatori()){
                 if(g.getIdGiocatore()!=this.idGiocatoreClient){
                     infoGiocatoriController.setRisorse(getGiocatorebyId(g.getIdGiocatore()), g.getRisorse());
@@ -364,11 +364,13 @@ public class GameController implements Ui, ControllerCallBack {
 
     @Override
     public void finePartita(LinkedHashMap<Short, Integer> mappaRisultati) {
-        LinkedHashMap<GiocatoreGraphic, Integer> mappa= new LinkedHashMap<>();
-        for(Short i : mappaRisultati.keySet())
-            mappa.put(getGiocatorebyId(i), mappaRisultati.get(i));
+        Platform.runLater(() ->{
+            LinkedHashMap<GiocatoreGraphic, Integer> mappa= new LinkedHashMap<>();
+            for(Short i : mappaRisultati.keySet())
+                mappa.put(getGiocatorebyId(i), mappaRisultati.get(i));
 
-        new ClassificaGraphic(mappa, pannello);
+            new ClassificaGraphic(mappa, pannello);
+        });
     }
 
     @Override
