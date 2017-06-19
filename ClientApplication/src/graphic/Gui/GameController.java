@@ -166,6 +166,13 @@ public class GameController implements Ui, ControllerCallBack {
     }
 
     @Override
+    public void saltaAzioneBonus() {
+        mainGame.AzioneBonusSaltata();
+        tabelloneController.riattivaCaselleDaAzioneSpecifica();
+        mossaSpecifica=false;
+    }
+
+    @Override
     public void disabilitaCaselle(int idSpazioAzione) {
         Platform.runLater(() -> {
             tabelloneController.disattivaCasella(idSpazioAzione);
@@ -189,6 +196,7 @@ public class GameController implements Ui, ControllerCallBack {
         this.valoreAzione = valoreAzione;
         this.bonusRisorse = bonusRisorse;
         this.mossaSpecifica=true;
+        selettoreFamiliari.nascondiSaltaAzButton(false);
         Platform.runLater(()->{
             stampaMessaggio("Puoi effettuare un'azione di tipo "+tipoAzione.toString()+" con valore "+valoreAzione);
             tabelloneController.predisponiAzioneSpecifica(tipoAzione);
@@ -264,7 +272,7 @@ public class GameController implements Ui, ControllerCallBack {
             //Aggiorna le risorse del giocatore
             this.aggiornaRisorse(idGiocatore, risorsa);
             mossaSpecifica=false;
-
+            selettoreFamiliari.nascondiSaltaAzButton(true);
             if(idGiocatore==idGiocatoreClient) {
                 plancia.aggiungiCarta(tabelloneController.rimuoviCartaSpazioAzione(idSpazioAzione));
                 tabelloneController.riattivaCaselleDaAzioneSpecifica();

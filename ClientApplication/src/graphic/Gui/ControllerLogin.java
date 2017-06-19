@@ -120,4 +120,9 @@ public class ControllerLogin implements ControllerCallBack {
     public void rispondiScomunica(boolean risposta) {
 
     }
+
+    @Override
+    public void saltaAzioneBonus() {
+
+    }
 }

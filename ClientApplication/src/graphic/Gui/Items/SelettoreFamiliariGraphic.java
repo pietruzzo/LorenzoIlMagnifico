@@ -25,6 +25,7 @@ public class SelettoreFamiliariGraphic {
     private GridPane familiari;
     private Button exitButton;
     private Button giocaAdesso;
+    private Button skipButton;
     private Map<FamiliareGraphic, ImageView> familiariInGrid;
     private ColorAdjust coloreFamUsato;
     private ColorAdjust coloreFamSelezionato;
@@ -47,6 +48,7 @@ public class SelettoreFamiliariGraphic {
         //Carica gli elementi della scena
         exitButton = (Button) parent.lookup("#exitButton");
         giocaAdesso = (Button) parent.lookup("#playButton");
+        skipButton = (Button) parent.lookup("#skipButton");
         familiari = (GridPane) parent.lookup("#familiariGrid");
 
         //Carica immagini bottoni
@@ -59,9 +61,16 @@ public class SelettoreFamiliariGraphic {
         //set spazio gridpane
         familiari.setHgap(25);
         familiari.setVgap(10);
+
+        //Nascondi skipButton
+        nascondiSaltaAzButton(true);
         //SetOnClick bottoni
-        giocaAdesso.setOnMouseClicked(mouseEvent -> callback.giocaAdesso());
+        this.giocaAdesso.setOnMouseClicked(mouseEvent -> callback.giocaAdesso());
         this.exitButton.setOnMouseClicked(mouseEvent -> callback.exitGame());
+        this.skipButton.setOnMouseClicked(mouseEvent -> {
+            callback.saltaAzioneBonus();
+            this.nascondiSaltaAzButton(true);
+        });
 
         //Set dei colori
         coloreFamUsato= new ColorAdjust();
@@ -128,6 +137,11 @@ public class SelettoreFamiliariGraphic {
 
     public void rimuoviGiocaAdesso(){
         ((AnchorPane)giocaAdesso.getParent()).getChildren().remove(giocaAdesso);
+    }
+
+    public void nascondiSaltaAzButton(boolean scelta){
+        if (scelta) skipButton.setVisible(false);
+        else skipButton.setVisible(true);
     }
 
 }

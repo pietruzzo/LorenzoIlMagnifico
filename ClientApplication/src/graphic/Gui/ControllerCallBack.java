@@ -23,4 +23,5 @@ public interface ControllerCallBack {
     void mandaMossaAlServer(FamiliareGraphic f, CasellaGraphic casella, int servitori);
     void scegliEffetto(String nomeCarta, Integer codiceScelta);
     void rispondiScomunica(boolean risposta);
+    void saltaAzioneBonus();
 }
