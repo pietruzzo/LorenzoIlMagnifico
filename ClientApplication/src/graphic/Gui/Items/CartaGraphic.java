@@ -303,13 +303,17 @@ public class CartaGraphic extends Group {
 
         //Add Exit Button
         try {
-            ImageView bottone = new ImageView(new Image("file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"buttonX.png", 50, 50, true, true, true));
+            Group bottone = new Group();
+            Rectangle areaAttiva = new Rectangle(60, 60);
+            areaAttiva.setFill(Color.TRANSPARENT);
+            ImageView bottoneIm = new ImageView(new Image("file:"+System.getProperty("user.dir")+separator+"ClientApplication"+separator+"Risorse"+separator+"buttonX.png", 50, 50, true, true, true));
             bottone.setLayoutX(cartaIngrandita.getWidth());
-            bottone.setLayoutY(cartaIngrandita.getHeight()-bottone.getFitHeight());
+            bottone.setLayoutY(cartaIngrandita.getHeight());
+            bottone.getChildren().addAll(bottoneIm, areaAttiva);
             ingrandimento.getChildren().add(bottone);
 
             //mouseHandler per uscire dalla carta
-            bottone.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(false));
+            areaAttiva.setOnMouseClicked(mouseEvent -> ingrandimento.setVisible(false));
         } catch (NullPointerException e) {
             System.out.println(e.toString());
         }
