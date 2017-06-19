@@ -44,15 +44,6 @@ public class MainGame {
 
     @Deprecated
     public void Start() throws InterruptedException {
-        /*
-        this.SetConnessioneServer();
-        Random rnd = new Random();
-        int rndNumber = rnd.nextInt(10);
-        this.Login("michele" +rndNumber);
-        */
-        //this.IniziaPartita();
-
-        //applicazione.startLogin();
     }
 
     /**
@@ -211,7 +202,7 @@ public class MainGame {
      * Metodo chiamato quando viene confermato l'inizio di una nuova partita
      */
     public void PartitaIniziata(Tabellone tabellone) {
-        System.out.println(String.format("Partita è iniziata con %d giocatori", tabellone.getGiocatori().size()));
+        //System.out.println(String.format("Partita è iniziata con %d giocatori", tabellone.getGiocatori().size()));
         //try {
             userInterface.inizializzaPartita(tabellone);
         //}
@@ -225,7 +216,7 @@ public class MainGame {
      * Metodo chiamato quando inizia un nuovo turno
      */
     public void IniziaTurno(int[] ordineGiocatori, int[] esitoDadi, HashMap<Integer, String> mappaCarte) {
-        System.out.println("Turno iniziato");
+        //System.out.println("Turno iniziato");
         try {
             userInterface.iniziaTurno(ordineGiocatori, esitoDadi, mappaCarte);
         }
@@ -240,7 +231,7 @@ public class MainGame {
      */
     public void IniziaMossa(int idGiocatore)
     {
-        System.out.println(String.format("Tocca al giocatore con id %d", idGiocatore));
+        //System.out.println(String.format("Tocca al giocatore con id %d", idGiocatore));
         try {
             userInterface.iniziaMossa(idGiocatore);
         }
@@ -255,7 +246,7 @@ public class MainGame {
      */
     public void ComunicaScomunica(int[] idGiocatoriScomunicati, int periodo)
     {
-        System.out.println(String.format("Sono stati scomunicati %d giocatori", idGiocatoriScomunicati.length));
+        //System.out.println(String.format("Sono stati scomunicati %d giocatori", idGiocatoriScomunicati.length));
         try {
             userInterface.aggiungiScomunica(idGiocatoriScomunicati, periodo);
         }
@@ -271,7 +262,7 @@ public class MainGame {
      */
     public void SceltaSostegnoChiesa()
     {
-        System.out.println("Hai abbastanza punti fede per sostenere la chiesa, la vuoi sostenere?");
+        //System.out.println("Hai abbastanza punti fede per sostenere la chiesa, la vuoi sostenere?");
         try {
             userInterface.sceltaSostegnoChiesa();
         }
@@ -287,7 +278,7 @@ public class MainGame {
      */
     public void AggiornaGiocatore(UpdateGiocatoreDTO update)
     {
-        System.out.println(String.format("Aggiornamento del giocatore %d", update.getIdGiocatore()));
+        //System.out.println(String.format("Aggiornamento del giocatore %d", update.getIdGiocatore()));
         try {
             //In base ai parametri ricevuti aggiorna solo le risorse o anche la posizione di un familiare
             if(update.getColoreDado() == null && update.getIdSpazioAzione() == null)
@@ -308,7 +299,7 @@ public class MainGame {
      * @param numPergamene numero di pergamene da scegliere
      */
     public void SceltaPrivilegioConsiglio(int numPergamene) {
-        System.out.println(String.format("Occorre scegliere %d privilegi del consiglio", numPergamene));
+        //System.out.println(String.format("Occorre scegliere %d privilegi del consiglio", numPergamene));
         try {
             userInterface.visualizzaPrivilegioConsiglio(numPergamene);
         }
@@ -324,7 +315,7 @@ public class MainGame {
      * @param valoreAzione valore dell'azione da svolgere
      */
     public void EffettuaAzioneBonus(TipoAzione tipoAzioneBonus, int valoreAzione, Risorsa bonusRisorse) {
-        System.out.println(String.format("E' possibile effettuare un'azione di valore %d ", valoreAzione));
+        //System.out.println(String.format("E' possibile effettuare un'azione di valore %d ", valoreAzione));
         try {
             userInterface.effettuaAzioneBonus(tipoAzioneBonus, valoreAzione, bonusRisorse);
         }
@@ -341,7 +332,7 @@ public class MainGame {
      */
     public void FinePartita(LinkedHashMap<Short, Integer> mappaRisultati)
     {
-        System.out.println(String.format("Partita finita! Ha vinto l'id %d", mappaRisultati.keySet().iterator().next()));
+        //System.out.println(String.format("Partita finita! Ha vinto l'id %d", mappaRisultati.keySet().iterator().next()));
         try {
             userInterface.finePartita(mappaRisultati);
         }
@@ -356,7 +347,7 @@ public class MainGame {
      */
     public void ComunicaDisconnessione(int idGiocatoreDisconnesso)
     {
-        System.out.println(String.format("Il giocatore %d non è più online", idGiocatoreDisconnesso));
+        //System.out.println(String.format("Il giocatore %d non è più online", idGiocatoreDisconnesso));
         try {
             userInterface.GiocatoreDisconnesso(idGiocatoreDisconnesso);
         }
@@ -381,7 +372,7 @@ public class MainGame {
      * @param message messaggio d'errore
      */
     public void MostraEccezione(String message) {
-        System.out.println(message);
+        //System.out.println(message);
         userInterface.stampaMessaggio(message);
     }
 

@@ -336,11 +336,7 @@ public class Tabellone implements Serializable {
      */
     public Boolean EsistonoFamiliariPiazzabili()
     {
-        return this.Giocatori.stream().anyMatch(g ->
-                g.Familiari.stream().anyMatch(
-                        f -> f.SpazioAzioneAttuale == null
-                        &&  ((!f.Neutro) || (g.Risorse.getServi() > 0))
-                ));
+        return this.Giocatori.stream().anyMatch(g -> g.PuoFareAzioni());
     }
     //endregion
 

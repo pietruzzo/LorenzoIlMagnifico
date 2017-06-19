@@ -231,9 +231,17 @@ public class Partita  implements Serializable {
      */
     private GiocatoreRemoto GetNextGiocatore()
     {
-        return this.giocatoriPartita.stream().filter(g -> g.getOrdineTurno() > this.ordineMossaCorrente)
+        GiocatoreRemoto giocatoreRemoto = this.giocatoriPartita.stream().filter(g -> g.getOrdineTurno() > this.ordineMossaCorrente)
                                                 .sorted(Comparator.comparingInt(Giocatore::getOrdineTurno))
                                                 .findFirst().orElse(null);
+
+        if(giocatoreRemoto == null || giocatoreRemoto.PuoFareAzioni())
+            return giocatoreRemoto;
+        else
+        {
+            this.ordineMossaCorrente = giocatoreRemoto.getOrdineTurno();
+            return GetNextGiocatore();
+        }
     }
 
     /**
