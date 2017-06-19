@@ -26,21 +26,54 @@
     text-area-background: linear-gradient(rgba(178, 169, 156, 0.2), rgba(177, 169, 145, 0.2)) ;
     -fx-background-color: text-area-background;
     -fx-text-fill: white;
+    -fx-background-radius: 50px;
 }
 
 .text-area .content {
     -fx-background-color: text-area-background ;
+    -fx-background-radius: 50px;
 }
 
 .text-area .scroll-pane {
     -fx-background-color: text-area-background;
+    -fx-background-radius: 50px;
 }
 
 .text-area .scroll-pane .viewport{
     -fx-background-color: text-area-background;
+    -fx-background-radius: 50px;
 }
 
 
 .text-area .scroll-pane .content{
     -fx-background-color: text-area-background;
+}
+
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-bar .increment-button {
+    visibility: hidden;
+}
+
+.text-area .scroll-bar .decrement-button {
+    visibility: hidden;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-bar:vertical .track-background {
+    visibility: hidden;
+}
+
+.text-area .scroll-bar:vertical .track {
+    visibility: hidden;
+}
+
+.text-area .hide-thumb .scroll-bar:vertical .thumb {
+    -fx-background-color: transparent;
 }
