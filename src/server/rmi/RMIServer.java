@@ -128,6 +128,17 @@ public class RMIServer extends AbstractServer implements IRMIServer {
     }
 
     /**
+     * Evento scatenato dal client quando l'utente salta l'azione bonus
+     * @param idGiocatore id del giocatore che ha effettuato la chiamata
+     */
+    @Override
+    public void AzioneBonusSaltata(short idGiocatore) throws IOException{
+        GiocatoreRemoto giocatoreRemoto = GetGiocatoreById(idGiocatore);
+        giocatoreRemoto.setAzioneBonusDaEffettuare(false);
+        giocatoreRemoto.getPartita().AzioneBonusSaltata();
+    }
+
+    /**
      * Gestisce l'evento di riscossione del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */

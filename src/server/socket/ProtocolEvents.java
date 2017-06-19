@@ -12,6 +12,7 @@ public class ProtocolEvents {
     public static final String RISPOSTA_SOSTEGNO_CHIESA = "rispostaSostegnoChiesa";
     public static final String PIAZZA_FAMILIARE = "piazzaFamiliare";
     public static final String AZIONE_BONUS_EFFETTUATA = "azioneBonusEffettuata";
+    public static final String AZIONE_BONUS_SALTATA = "azioneBonusSaltata";
     public static final String RISCUOTI_PRIVILEGIO = "riscuotiPrivilegio";
     public static final String SCELTA_EFFETTI = "sceltaEffetti";
     public static final String CHIUSURA_CLIENT = "chiusuraClient";

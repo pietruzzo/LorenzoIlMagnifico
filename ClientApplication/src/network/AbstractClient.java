@@ -61,6 +61,8 @@ public abstract class AbstractClient {
 
     public abstract void AzioneBonusEffettuata(AzioneBonusDTO azioneBonusDTO) throws NetworkException;
 
+    public abstract void AzioneBonusSaltata() throws NetworkException;
+
     public abstract void RiscuotiPrivilegiDelConsiglio(Risorsa risorsa) throws NetworkException;
 
     public abstract void SettaSceltaEffetti(String nomeCarta, Integer sceltaEffetto) throws NetworkException;

@@ -139,6 +139,15 @@ public class GiocatoreSocket extends GiocatoreRemoto implements Runnable {
     }
 
     /**
+     * Evento scatenato dal client quando l'utente salta l'azione bonus
+     */
+    public void AzioneBonusSaltata() throws NetworkException
+    {
+        this.setAzioneBonusDaEffettuare(false);
+        this.getPartita().AzioneBonusSaltata();
+    }
+
+    /**
      * Gestisce l'evento relativo alla scelta del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */

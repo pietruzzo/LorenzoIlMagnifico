@@ -156,6 +156,18 @@ public class MainGame {
     }
 
     /**
+     * Comunica al server che il giocatore salta la propria azione bonus
+     */
+    public void AzioneBonusSaltata()
+    {
+        try {
+            client.AzioneBonusSaltata();
+        } catch (NetworkException e) {
+            System.out.println(String.format("Fallita comunicazione azione bonus saltata. %s", e.getMessage()));
+        }
+    }
+
+    /**
      * Manda al server la scelta del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */
