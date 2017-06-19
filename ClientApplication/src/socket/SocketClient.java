@@ -114,6 +114,14 @@ public class SocketClient extends AbstractClient {
     }
 
     /**
+     * Comunica al server il salto dell'azione bonus
+     */
+    @Override
+    public void AzioneBonusSaltata() throws NetworkException {
+        this.socketClientProtocol.AzioneBonusSaltata();
+    }
+
+    /**
      * Manda al server la scelta del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */

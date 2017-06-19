@@ -49,6 +49,7 @@ public class SocketServerProtocol {
         this.listaEventHandler.put(ProtocolEvents.RISPOSTA_SOSTEGNO_CHIESA, this::RispostaSostegnoChiesa);
         this.listaEventHandler.put(ProtocolEvents.PIAZZA_FAMILIARE, this::PiazzaFamiliare);
         this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS_EFFETTUATA, this::AzioneBonusEffettuata);
+        this.listaEventHandler.put(ProtocolEvents.AZIONE_BONUS_SALTATA, this::AzioneBonusSaltata);
         this.listaEventHandler.put(ProtocolEvents.RISCUOTI_PRIVILEGIO, this::RiscuotiPrivilegiDelConsiglio);
         this.listaEventHandler.put(ProtocolEvents.SCELTA_EFFETTI, this::SettaSceltaEffetti);
         this.listaEventHandler.put(ProtocolEvents.CHIUSURA_CLIENT, this::NotificaChiusuraClient);
@@ -150,6 +151,18 @@ public class SocketServerProtocol {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gestisce l'evento relativo al salto dell'azione bonus da parte di un client
+     */
+    private void AzioneBonusSaltata()
+    {
+        try {
+            this.giocatore.AzioneBonusSaltata();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

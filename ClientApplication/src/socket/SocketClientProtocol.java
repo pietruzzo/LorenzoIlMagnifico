@@ -327,6 +327,18 @@ public class SocketClientProtocol {
     }
 
     /**
+     * Comunica al server il salto dell'azione bonus
+     */
+    public void AzioneBonusSaltata() throws NetworkException   {
+        try {
+            outputStream.writeObject(ProtocolEvents.AZIONE_BONUS_SALTATA);
+            outputStream.flush();
+        } catch (IOException e) {
+            throw new NetworkException(e);
+        }
+    }
+
+    /**
      * Manda al server la scelta del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */

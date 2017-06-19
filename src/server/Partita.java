@@ -321,6 +321,17 @@ public class Partita  implements Serializable {
             this.IniziaNuovaMossa();
     }
 
+
+    /**
+     * Chiamato se il giocatore sceglie di non effettuare l'azione bonus
+     */
+    public void AzioneBonusSaltata()
+    {
+        //Verifica che ci siano le condizioni per iniziare una nuova mossa
+        if(this.PuoCominciareUnaNuovaMossa())
+            this.IniziaNuovaMossa();
+    }
+
     /**
      * Aggiorna le risorse del giocatore in seguito alla scelta di un privilegio del consiglio
      * @param idGiocatore id del giocatore che ha ottenuto il privilegio

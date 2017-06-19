@@ -132,6 +132,18 @@ public class RMIClient extends AbstractClient implements IRMIClient {
     }
 
     /**
+     * Comunica al server il salto dell'azione bonus
+     */
+    @Override
+    public void AzioneBonusSaltata() throws NetworkException {
+        try {
+            server.AzioneBonusSaltata(this.idGiocatore);
+        } catch (IOException e) {
+            this.HandleException(e);
+        }
+    }
+
+    /**
      * Manda al server la scelta del privilegio del consiglio
      * @param risorsa risorse da aggiungere al giocatore
      */
