@@ -7,6 +7,9 @@ import graphic.Gui.ControllerCallBack;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -276,7 +279,7 @@ class DadiGraphic extends Group{
 
         super();
         Rectangle arancio = new Rectangle(LATODADO, LATODADO, ColoreDado.ARANCIO.getColore());
-        Rectangle nero = new Rectangle(LATODADO, LATODADO, ColoreDado.NERO.getColore());
+        Rectangle nero = new Rectangle(LATODADO, LATODADO, new Color(0.3765, 0.3765, 0.3765, 1));
         Rectangle bianco = new Rectangle(LATODADO, LATODADO, ColoreDado.BIANCO.getColore());
 
         nero.setX(DADIX[0]- LATODADO/2);
