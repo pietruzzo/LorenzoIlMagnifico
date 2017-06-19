@@ -71,7 +71,7 @@ public class PlanciaGiocatore extends Pane {
         servi=new Label("Inizialize");
 
         //Scala e trasla la plancia
-        this.setTranslateY(60);
+        this.setTranslateY(220);//60
         this.setTranslateX(180);
         this.setScaleX(0.7);
         this.setScaleY(0.7);

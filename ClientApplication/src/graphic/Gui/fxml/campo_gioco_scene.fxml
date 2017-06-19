@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,9 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.text.Font?>
-<Pane stylesheets="@/style.css" fx:id="visibilePane" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.GameController">
+
+<Pane fx:id="visibilePane" scaleShape="false" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.Gui.GameController">
    <children>
       <AnchorPane fx:id="pannello" prefHeight="1201.0" prefWidth="2135.0" style="-fx-background-image: url('wallpaper.jpg'); -fx-background-size: 2135 1201; -fx-background-repeat: stretch;">
          <children>
@@ -22,10 +23,10 @@
                       <AnchorPane id="tabelloneGridPane" fx:id="tabellonePane" minHeight="0.0" minWidth="0.0" prefHeight="1201.0" prefWidth="863.0" />
                         <VBox alignment="BOTTOM_CENTER" prefHeight="1201.0" prefWidth="1271.0">
                            <children>
-                              <AnchorPane fx:id="infoGiocatori" prefHeight="593.0" prefWidth="1271.0" />
-                              <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="440.0" prefWidth="1271.0">
+                              <AnchorPane fx:id="infoGiocatori" prefHeight="406.0" prefWidth="1271.0" />
+                              <AnchorPane id="planciaGiocatore" fx:id="planciaGiocatorePane" prefHeight="699.0" prefWidth="1271.0">
                                  <children>
-                                     <TextArea fx:id="messaggi" editable="false" layoutX="55.0" layoutY="8.0" prefHeight="120.0" prefWidth="1151.0" wrapText="true">
+                                     <TextArea fx:id="messaggi" editable="false" layoutX="111.0" layoutY="14.0" prefHeight="280.0" prefWidth="1050.0" wrapText="true">
                                         <font>
                                             <Font size="16.0" />
                                         </font>

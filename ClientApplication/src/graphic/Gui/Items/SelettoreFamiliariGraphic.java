@@ -88,7 +88,7 @@ public class SelettoreFamiliariGraphic {
         coloreFamSelezionato = new ColorAdjust(0.3, 0.3, 0.3, 0.3);
 
         //Aggiungi a pannelloPrincipale
-        parent.setLayoutY(120);
+        parent.setLayoutY(280);
         pannelloPrincipale.getChildren().add(parent);
     }
 

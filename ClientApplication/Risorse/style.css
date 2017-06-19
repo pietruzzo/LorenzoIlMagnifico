@@ -21,3 +21,26 @@
     -fx-font-size: 18px;
     -fx-background-color: linear-gradient(#72ffd4, #2cffe6), radial-gradient(center 50% -40%, radius 200%, #72ffd4 45%, #3edfff 50%);
 }
+
+.text-area {
+    text-area-background: linear-gradient(rgba(178, 169, 156, 0.2), rgba(177, 169, 145, 0.2)) ;
+    -fx-background-color: text-area-background;
+    -fx-text-fill: white;
+}
+
+.text-area .content {
+    -fx-background-color: text-area-background ;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: text-area-background;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: text-area-background;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: text-area-background;
+}
