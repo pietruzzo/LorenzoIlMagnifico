@@ -373,7 +373,8 @@ TIPO	Personaggio
 PERIODO	1															
 COSTO	0	0	0	4	0	0	0									
 LISTA_EFFETTI																
-AumentaValoreAzione	false	Edificio	2	1	1	0	0	0	0	0						
+AumentaValoreAzione	false	Edificio	2	1	1	0	0	0	0	0
+ScontoRisorseXCarte	false	Edificio	1	1	0	0	0	0	0
 END																
 																
 NOME	Crociata															
