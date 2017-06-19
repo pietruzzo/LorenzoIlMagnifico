@@ -274,10 +274,13 @@ public class GameController implements Ui, ControllerCallBack {
             mossaSpecifica=false;
             selettoreFamiliari.nascondiSaltaAzButton(true);
             if(idGiocatore==idGiocatoreClient) {
-                plancia.aggiungiCarta(tabelloneController.rimuoviCartaSpazioAzione(idSpazioAzione));
+                this.cartaTabelloneToGiocatore(tabelloneController.rimuoviCartaSpazioAzione(idSpazioAzione), getGiocatorebyId(idGiocatore));
                 tabelloneController.riattivaCaselleDaAzioneSpecifica();
             }
+            //Se la casella prevede una carta
             else infoGiocatoriController.addCarta(getGiocatorebyId(idGiocatore), tabelloneController.rimuoviCartaSpazioAzione(idSpazioAzione));
+
+            this.aggiornaRisorse(idGiocatore, risorsa);
         });
     }
 
