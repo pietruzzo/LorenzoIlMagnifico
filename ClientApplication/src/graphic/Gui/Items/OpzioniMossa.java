@@ -1,6 +1,6 @@
 package graphic.Gui.Items;
 
-import graphic.Gui.ControllerCallBack;
+import graphic.Gui.ControllerCallback;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
@@ -24,7 +24,7 @@ public class OpzioniMossa {
     private Pane pannelloContenitore;
     private Button annulla;
 
-    public OpzioniMossa(ControllerCallBack callBack, CasellaGraphic casella, FamiliareGraphic familiare, Applicazione applicazione) throws IOException {
+    public OpzioniMossa(ControllerCallback callBack, CasellaGraphic casella, FamiliareGraphic familiare, Applicazione applicazione) throws IOException {
 
 
         Parent parent;

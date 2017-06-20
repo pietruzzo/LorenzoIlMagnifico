@@ -3,13 +3,10 @@ package graphic.Gui.Items;
 import Domain.ColoreDado;
 import Domain.Risorsa;
 import Domain.TipoAzione;
-import graphic.Gui.ControllerCallBack;
+import graphic.Gui.ControllerCallback;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -45,12 +42,12 @@ public class Tabellone extends AnchorPane{
     private CaselleGioco caselle;
     private DadiGraphic dadi;
     private CasellePunti punti;
-    private ControllerCallBack callback;
+    private ControllerCallback callback;
     private Integer[]caselleDisabAzSpec;
 
 
 
-    public Tabellone(ControllerCallBack callback){
+    public Tabellone(ControllerCallback callback){
         ImageView immagineTabellone;
 
         //setta il tabellone in attesa della partita
@@ -72,7 +69,7 @@ public class Tabellone extends AnchorPane{
      * @param listaGiocatori giocatori partecipanti
      */
     @NotNull
-    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica, ControllerCallBack callback){
+    public synchronized void settaTabelloneDefinitivo(List<GiocatoreGraphic> listaGiocatori, CartaGraphic[] tessereScomunica, ControllerCallback callback){
 
         this.callback=callback;
 

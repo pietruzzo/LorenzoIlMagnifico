@@ -15,7 +15,7 @@ import lorenzo.MainGame;
 /**
  * Created by pietro on 28/05/17.
  */
-public class ControllerLogin implements ControllerCallBack {
+public class ControllerLogin implements ControllerCallback {
 
     @FXML ChoiceBox communicationChoice;
     @FXML TextField usernameInput;
@@ -29,7 +29,7 @@ public class ControllerLogin implements ControllerCallBack {
     private MainGame mainGame;
 
     /**
-     * Metodo che inizializza alcuni elementi grafici del login_stage
+     * Inizializza alcuni elementi grafici del login_stage
      */
     @FXML private void initialize(){
         communicationChoice.setValue("RMI");
@@ -38,6 +38,9 @@ public class ControllerLogin implements ControllerCallBack {
 
     }
 
+    /**
+     * Prova a connettersi con il server comunicando lo username scelto
+     */
     @FXML
     private void tryLogin(){
         MainGame.TipoConnessione tipoConnessione;
@@ -71,6 +74,7 @@ public class ControllerLogin implements ControllerCallBack {
 
     }
 
+    //region override
     @Override
     public void setArgApplicationGui(MainGame mainGame) {
         this.mainGame= mainGame;
@@ -125,4 +129,5 @@ public class ControllerLogin implements ControllerCallBack {
     public void saltaAzioneBonus() {
 
     }
+    //endregion
 }

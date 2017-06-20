@@ -15,7 +15,7 @@
                <Image url="@/LoginScene.jpg" />
            </image>
        </ImageView>
-       <Label layoutX="145.0" layoutY="34.0" prefHeight="44.0" prefWidth="240.0" text="Scegli il numero di servitori" textFill="#a7cdd8">
+       <Label layoutX="145.0" layoutY="34.0" prefHeight="44.0" prefWidth="280.0" text="Scegli il numero di servitori" textFill="#a7cdd8">
            <font>
                <Font size="20.0" />
            </font>

@@ -6,12 +6,8 @@ import graphic.Gui.Items.Tabellone;
 import graphic.Ui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import lorenzo.MainGame;
 
 import java.awt.*;
@@ -24,7 +20,7 @@ import java.util.Map;
 /**
  * Created by pietro on 31/05/17.
  */
-public class GameController implements Ui, ControllerCallBack {
+public class GameController implements Ui, ControllerCallback {
 
     @FXML Pane visibilePane;
     @FXML AnchorPane pannello;
@@ -91,13 +87,15 @@ public class GameController implements Ui, ControllerCallBack {
 
     @Override
     public void cartaTabelloneToGiocatore(CartaGraphic carta, GiocatoreGraphic giocatoreGraphic) {
-        tabelloneController.rimuoviCarta(carta);
+        if (carta!=null) {
+            tabelloneController.rimuoviCarta(carta);
 
-        if(giocatoreGraphic.getIdGiocatore()==idGiocatoreClient){
-            plancia.aggiungiCarta(carta);
-            carta.setEventHandlerPermanente(pannello);
-        } else {
-            infoGiocatoriController.addCarta(giocatoreGraphic, carta);
+            if (giocatoreGraphic.getIdGiocatore() == idGiocatoreClient) {
+                plancia.aggiungiCarta(carta);
+                carta.setEventHandlerPermanente(pannello);
+            } else {
+                infoGiocatoriController.addCarta(giocatoreGraphic, carta);
+            }
         }
     }
 
@@ -348,9 +346,9 @@ public class GameController implements Ui, ControllerCallBack {
         Platform.runLater(()->{
             if(idGiocatore==idGiocatoreClient){
                 selettoreFamiliari.abiltaMossa();
-                this.stampaMessaggio("e' il TUO TURNO");
+                this.stampaMessaggio("E' il tuo turno");
             } else {
-                this.stampaMessaggio("e' il turno di "+getGiocatorebyId(idGiocatore).getNome());
+                this.stampaMessaggio("E' il turno di "+getGiocatorebyId(idGiocatore).getNome());
                 selettoreFamiliari.disabilitaMossa();
             }
         });

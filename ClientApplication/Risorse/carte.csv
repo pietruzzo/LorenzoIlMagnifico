@@ -161,7 +161,7 @@ TIPO	Personaggio
 PERIODO	3															
 COSTO	0	0	0	4	0	0	0									
 LISTA_EFFETTI																
-ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	1
+ScambiaRisorse	true	0	0	0	0	0	0	0		0	0	0	0	0	0	2
 EffettuaAzioneSpecifica	true	Raccolto	4													
 END																
 																
@@ -829,7 +829,7 @@ Pergamena	true	1
 EndGame	false	3														
 END																
 																
-NOME	TagliaPietre															
+NOME	Tagliapietre
 TIPO	Edificio															
 PERIODO	1															
 VALORE	3															

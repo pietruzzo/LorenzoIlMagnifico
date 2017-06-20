@@ -243,6 +243,33 @@ public class SpazioAzioneTorreTest {
     }
 
     @Test
+    public void piazzaFamiliare_CartaScomunica() throws Exception {
+        TesseraScomunica otto = (TesseraScomunica)tabellone.getTesseraScomunicaByName("8");
+        giocatore.CarteScomunica.add(otto);
+
+        //Torre personaggio, penultimo piano
+        torre = tabellone.Torri.get(2);
+        spazioAzione = torre.SpaziAzione.get(2);
+        Carta cardinale = tabellone.getCartaByName("Cardinale");
+        spazioAzione.AssociaCarta(cardinale);
+
+        familiare.setValore(6);
+        spazioAzione.PiazzaFamiliare(familiare, 3);
+
+        assertEquals(familiare, spazioAzione.FamiliarePiazzato);
+        assertEquals(1, giocatore.Risorse.getMonete()); //Spese per la carta
+        assertEquals(2, giocatore.Risorse.getLegno()); //Invariate
+        assertEquals(3, giocatore.Risorse.getPietra()); //Prese dal bonus spazio azione
+        assertEquals(2, giocatore.Risorse.getPuntiFede()); //Presi dal bonus Cardinale
+        assertEquals(0, giocatore.Risorse.getPuntiVittoria()); //Invariati
+
+        assertFalse(giocatore.getAzioneBonusDaEffettuare());
+        assertTrue(giocatore.CarteScomunica.contains(otto));
+        assertTrue(giocatore.CartePersonaggio.contains(cardinale));
+        assertNull(spazioAzione.CartaAssociata);
+    }
+
+    @Test
     public void validaPiazzamentoFamiliare_Ok() throws Exception {
         Carta monastero = tabellone.getCartaByName("Monastero");
         spazioAzione.AssociaCarta(monastero);

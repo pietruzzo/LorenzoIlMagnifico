@@ -1,12 +1,9 @@
 package graphic.Gui.Items;
 
-import graphic.Gui.ControllerCallBack;
-import javafx.css.PseudoClass;
+import graphic.Gui.ControllerCallback;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import lorenzo.Applicazione;
@@ -23,7 +20,7 @@ import static java.io.File.separator;
 public class SelettoreFamiliariGraphic {
 
     private static final String PERCORSOIMG = "file:"+System.getProperty("user.dir") + separator + "ClientApplication" + separator + "Risorse" + separator;
-    private ControllerCallBack callback;
+    private ControllerCallback callback;
     private GridPane familiari;
     private Button exitButton;
     private Button giocaAdesso;
@@ -32,7 +29,7 @@ public class SelettoreFamiliariGraphic {
     private ColorAdjust coloreFamUsato;
     private ColorAdjust coloreFamSelezionato;
 
-    public SelettoreFamiliariGraphic(ControllerCallBack callback, AnchorPane pannelloPrincipale){
+    public SelettoreFamiliariGraphic(ControllerCallback callback, AnchorPane pannelloPrincipale){
 
         AnchorPane parent =null;
         this.callback=callback;

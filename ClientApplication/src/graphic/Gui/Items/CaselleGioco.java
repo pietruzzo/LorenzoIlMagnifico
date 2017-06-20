@@ -1,7 +1,7 @@
 package graphic.Gui.Items;
 
 import Domain.TipoAzione;
-import graphic.Gui.ControllerCallBack;
+import graphic.Gui.ControllerCallback;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
@@ -76,7 +76,7 @@ public class CaselleGioco {
 
     private ArrayList<CasellaGraphic> listaCaselle = new ArrayList<CasellaGraphic>();
 
-    public CaselleGioco(int numPlayers, AnchorPane pannello, ControllerCallBack callBack) {
+    public CaselleGioco(int numPlayers, AnchorPane pannello, ControllerCallback callBack) {
 
         for (int i = 0; i < COORDINATE_CASELLE.length; i++){
             Point2D coord= COORDINATE_CASELLE[i];
@@ -189,8 +189,8 @@ public class CaselleGioco {
         else if(tipoAzione ==  TipoAzione.TORRE_IMPRESA) celleDisattivate =mantieniAbilitati(13, 16);
         else if(tipoAzione ==  TipoAzione.TORRE_PERSONAGGIO) celleDisattivate =mantieniAbilitati(9, 12);
         else if(tipoAzione ==  TipoAzione.TORRE) celleDisattivate =mantieniAbilitati(1, 16);
-        else if(tipoAzione ==  TipoAzione.PRODUZIONE) celleDisattivate =mantieniAbilitati(19, 19);
-        else if(tipoAzione ==  TipoAzione.RACCOLTO) celleDisattivate =mantieniAbilitati(17, 17);
+        else if(tipoAzione ==  TipoAzione.PRODUZIONE) celleDisattivate =mantieniAbilitati(17, 18);
+        else if(tipoAzione ==  TipoAzione.RACCOLTO) celleDisattivate =mantieniAbilitati(19, 20);
         return celleDisattivate;
 
     }

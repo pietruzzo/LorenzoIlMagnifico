@@ -5,7 +5,7 @@ import Domain.Effetti.Effetto;
 import Domain.Effetti.lista.ScambiaRisorse;
 import Domain.TesseraScomunica;
 import Domain.TipoCarta;
-import graphic.Gui.ControllerCallBack;
+import graphic.Gui.ControllerCallback;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class MazzoGraphic {
 
    private List<CartaGraphic> carte;
 
-   public MazzoGraphic(List<Carta> carte, List<TesseraScomunica>tessereScomunica, ControllerCallBack callback){
+   public MazzoGraphic(List<Carta> carte, List<TesseraScomunica>tessereScomunica, ControllerCallback callback){
       this.carte = new ArrayList<>();
       //per le carte sviluppo, carica anche l aversione ingrandita
       for (Carta c : carte){

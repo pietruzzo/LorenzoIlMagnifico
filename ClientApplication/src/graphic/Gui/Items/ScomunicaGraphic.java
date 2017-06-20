@@ -1,6 +1,6 @@
 package graphic.Gui.Items;
 
-import graphic.Gui.ControllerCallBack;
+import graphic.Gui.ControllerCallback;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,9 +18,9 @@ import java.nio.file.Paths;
 public class ScomunicaGraphic {
 
     private AnchorPane parent;
-    private ControllerCallBack controller;
+    private ControllerCallback controller;
 
-    public ScomunicaGraphic(Pane pannelloPrincipale, ControllerCallBack controller){
+    public ScomunicaGraphic(Pane pannelloPrincipale, ControllerCallback controller){
 
         this.controller = controller;
         parent = null;

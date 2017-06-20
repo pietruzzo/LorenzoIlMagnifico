@@ -1,6 +1,6 @@
 package lorenzo;
 
-import graphic.Gui.ControllerCallBack;
+import graphic.Gui.ControllerCallback;
 import graphic.Gui.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -107,15 +107,15 @@ public class Applicazione extends Application {
      * @throws IOException
      */
     public Parent getFXML(String nomeFile) throws IOException{
-        ControllerCallBack controller;
+        ControllerCallback controller;
         Parent parent;
         FXMLLoader fxmlLoader = new FXMLLoader();
         parent = fxmlLoader.load(new FileInputStream(fxmlPath + nomeFile));
 
         Object controllerFromFXML = fxmlLoader.getController();
 
-        if (controllerFromFXML instanceof ControllerCallBack){
-            controller = (ControllerCallBack) controllerFromFXML;
+        if (controllerFromFXML instanceof ControllerCallback){
+            controller = (ControllerCallback) controllerFromFXML;
             controller.setArgApplicationGui(this.mainGame);
 
         }
