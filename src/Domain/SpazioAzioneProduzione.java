@@ -1,44 +1,91 @@
 package Domain;
 
+import Exceptions.DomainException;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Portatile on 13/05/2017.
  */
-public class SpazioAzioneProduzione extends SpazioAzione {
+public class SpazioAzioneProduzione extends SpazioAzione  implements Serializable {
 
     protected int LimiteFamiliari;
     protected List<Familiare> FamiliariPiazzati;
     protected int MalusValore;
+    protected Tabellone tabellone;
 
     /**
      * Costruttore
      */
-    public SpazioAzioneProduzione(int valore, int limiteFamiliari, int malusValore)
+    public SpazioAzioneProduzione(int valore, int limiteFamiliari, int malusValore, Tabellone tabellone)
     {
-        super(valore, 0,0,0,0,0);
+        super(valore, new Risorsa());
         this.FamiliariPiazzati = new ArrayList<>();
         this.LimiteFamiliari = limiteFamiliari;
         this.MalusValore = malusValore;
+        this.tabellone = tabellone;
         this.Tipo = TipoSpazioAzione.Produzione;
     }
 
     /**
      * Consente di piazzare un familiare nello spazioAzione, previa verifica
      */
-    public void PiazzaFamiliare(Familiare familiare) throws Exception {
-        this.ValidaPiazzamentoFamiliare(familiare);
+    @Override
+    public void PiazzaFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
+        this.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+        familiare.Giocatore.OttieniBonusRisorse(new Risorsa(0,0,0,2,0,1,0));
+        super.PiazzaFamiliare(familiare, servitoriAggiunti+MalusValore);
         this.FamiliariPiazzati.add(familiare);
-        super.PiazzaFamiliare(familiare);
     }
 
     /** Verifica se è possibile piazzare il familiare nello spazio azione */
-    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+    @Override
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare, int servitoriAggiunti) throws DomainException {
+        //Effettua le validazioni del tabellone
+        tabellone.ValidaPiazzamentoFamiliareProduzione(familiare);
+
+        if(familiare.Giocatore.Risorse.getServi() < servitoriAggiunti)
+            throw new DomainException("Non si dispone di servitori a sufficienza!");
+
+        //Esegui validazione tramite effetti
+        AtomicInteger valoreAzione = new AtomicInteger(servitoriAggiunti+familiare.getValore()+this.MalusValore);
+        Risorsa costo = new Risorsa();
+        familiare.Giocatore.gestoreEffettiGiocatore.validaAzione(costo, valoreAzione, this);
+
+        if ( valoreAzione.get() < 1 )
+            throw new DomainException(String.format("E' necessario un valore complessivo di almeno 1 per poter piazzare un familiare!"));
+
+        if (! Risorsa.sub(familiare.Giocatore.getRisorse(), costo).isPositivo())
+            throw new DomainException(String.format("Non possiedi le risorse sufficienti"));
+
+        //super.ValidaPiazzamentoFamiliare(familiare, servitoriAggiunti);
+
         if(this.FamiliariPiazzati.size() >= this.LimiteFamiliari)
-            throw new Exception("E' stato raggiunto il numero massimo di familiari per questo spazio azione!");
+            throw new DomainException("E' stato raggiunto il numero massimo di familiari per questo spazio azione!");
         if(this.FamiliariPiazzati.stream().anyMatch(x -> x.Giocatore.Colore == familiare.Giocatore.Colore && x.Neutro == familiare.Neutro))
-            throw new Exception("E' già presente un familiare di questo colore in questo spazio azione!");
-        super.ValidaPiazzamentoFamiliare(familiare);
+            throw new DomainException("E' già presente un familiare di questo colore in questo spazio azione!");
+    }
+
+    /**
+     * Toglie tutti i familiari dallo spazio azione
+     */
+    @Override
+    protected void RimuoviFamiliari() {
+        this.FamiliariPiazzati = new ArrayList<>();
+    }
+
+    /**
+     * Metodo per effettuare azioni bonus nello spazio azione Produzione, ovvero senza piazzamento familiare
+     * Attiva tutti gli effetti delle carte Edificio con valore sufficiente
+     * @param giocatore giocatore che effettua l'azione
+     * @param valoreAzione valore dell'azione
+     */
+    @Override
+    protected void AzioneBonusEffettuata(Giocatore giocatore, int valoreAzione, Risorsa bonusRisorse, int servitoriAggiunti) throws DomainException {
+        super.ValidaValoreAzioneBonus(giocatore, valoreAzione, servitoriAggiunti);
+        super.AzioneBonusEffettuata(giocatore, valoreAzione, bonusRisorse, servitoriAggiunti);
     }
 }

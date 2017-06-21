@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox stylesheets="@/style.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="885.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane fx:id="spazioCarta" prefHeight="600.0" prefWidth="550.0">
+         <children>
+            <ImageView fitHeight="600.0" fitWidth="550.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/ChooseCard.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="285.0" prefWidth="550.0">
+         <children>
+            <ImageView fitHeight="350.0" fitWidth="550.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/LoginScene.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="155.0" layoutY="41.0" text="Scegli il numero di servitori" textFill="#a7cdd8">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="numeroServi" layoutX="242.0" layoutY="99.0" prefHeight="24.0" prefWidth="66.0" promptText="Numero Servi" text="0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
+            <Button fx:id="conferma" layoutX="308.0" layoutY="172.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" styleClass="green" text="Conferma" />
+            <Button fx:id="annulla" layoutX="103.0" layoutY="172.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="139.0" styleClass="red" text="Annulla" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

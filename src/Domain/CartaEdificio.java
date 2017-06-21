@@ -1,63 +1,48 @@
 package Domain;
 
+import Domain.Effetti.Effetto;
+import Exceptions.DomainException;
+
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by Portatile on 12/05/2017.
  */
-public class CartaEdificio extends Carta {
+public class CartaEdificio extends Carta  implements Serializable {
 
-    //region Proprieta
-    protected int CostoLegni;
-    protected int CostoPietre;
-    protected int CostoServitori;
-    protected int CostoMonete;
-    //endregion
-
+    private int valoreAzione;
     /**
      * Costruttore
      */
-    public CartaEdificio(String nome, int periodo, Effetto effettoImmediato, Effetto effettoPermanente
-                        , int costoLegni, int costoPietre, int costoServitori, int costoMonete)
+    public CartaEdificio (String nome, int periodo, int valoreAz,  List<Effetto> effettoImmediato, List<Effetto> effettoPermanente)
     {
         super(nome, periodo, effettoImmediato, effettoPermanente);
-        this.CostoLegni = costoLegni;
-        this.CostoPietre = costoPietre;
-        this.CostoServitori = costoServitori;
-        this.CostoMonete = costoMonete;
+        this.valoreAzione=valoreAz;
+    }
+
+    public int getValoreAzione() {
+        return valoreAzione;
     }
 
     /**
      * Verifica se il giocatore ha la possibilità di prendere la carta
      */
-    public void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre, Boolean torreOccupata) throws Exception {
+    public void ValidaPresaCarta(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre) throws DomainException {
         //Verifica se il giocatore ha abbastanza spazio per prendere la carta
         if(giocatore.CarteEdificio.size() >= 6)
-            throw new Exception("E' stato raggiunto il limite di carte Edificio.");
-
-        //Verifica la presenza sufficiente di Monete
-        if(torreOccupata && giocatore.Monete < 3)
-            throw new Exception("Siccome la torre è occupata, sono necessarie almeno 3 monete per prendere la carta.");
-
-        //Validazione risorse
-        if( (giocatore.Legni + spazioAzioneTorre.BonusLegni) < this.CostoLegni
-        ||  (giocatore.Pietre + spazioAzioneTorre.BonusPietre) < this.CostoPietre
-        ||  (giocatore.Servitori + spazioAzioneTorre.BonusServitori) < this.CostoServitori
-        ||  (giocatore.Monete + spazioAzioneTorre.BonusMonete) < this.CostoMonete
-        ||  (torreOccupata && (giocatore.Monete + spazioAzioneTorre.BonusMonete - this.CostoMonete >= 3))
-        )
-            throw new Exception("Non si dispone di risorse sufficienti per poter prendere la carta.");
+            throw new DomainException("E' stato raggiunto il limite di carte Edificio.");
     }
 
     /**
      * Associa la carta al giocatore
      */
-    public void AssegnaGiocatore(Giocatore giocatore, SpazioAzioneTorre spazioAzioneTorre, Boolean torreOccupata)
-    {
+    public void AssegnaGiocatore(Giocatore giocatore) {
         giocatore.CarteEdificio.add(this);
+    }
 
-        int costoMonete = this.CostoMonete;
-        if(torreOccupata)
-            costoMonete += 3;
-
-        giocatore.PagaRisorse(this.CostoLegni, this.CostoPietre, this.CostoServitori, costoMonete);
+    @Override
+    public TipoCarta getTipoCarta() {
+        return TipoCarta.Edificio;
     }
 }

@@ -1,33 +1,40 @@
 package Domain;
 
-import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by Portatile on 12/05/2017.
  */
-public class Familiare {
+public class Familiare  implements Serializable {
 
     //region Proprieta
     protected Giocatore Giocatore;
-    protected Color ColoreDado;
+    protected ColoreDado ColoreDado;
     protected Boolean Neutro;
-    protected int Valore;
+    private int Valore;
     protected SpazioAzione SpazioAzioneAttuale;
 
     public void SetSpazioAzioneAttuale(SpazioAzione spazioAzione)
     {
         this.SpazioAzioneAttuale = spazioAzione;
     }
+    public int getValore() { return Valore; }
+    public void setValore(int valore) { Valore = valore;  }
     //endregion
 
     /**
      * Costruttore
      */
-    public Familiare(Giocatore giocatore, Color coloreDado, Boolean neutro)
+    public Familiare(Giocatore giocatore, ColoreDado coloreDado)
     {
         this.Giocatore = giocatore;
         this.ColoreDado = coloreDado;
-        this.Neutro = neutro;
+
+        if(coloreDado == ColoreDado.NEUTRO)
+            this.Neutro = true;
+        else
+            this.Neutro = false;
+
         this.Valore = 0;
     }
 
@@ -37,9 +44,7 @@ public class Familiare {
     public void OttieniBonusSpazioAzione()
     {
         if(this.SpazioAzioneAttuale != null)
-            this.Giocatore.OttieniBonusSpazioAzione(this.SpazioAzioneAttuale.BonusLegni, this.SpazioAzioneAttuale.BonusPietre,
-                                                    this.SpazioAzioneAttuale.BonusServitori, this.SpazioAzioneAttuale.BonusMonete,
-                                                    this.SpazioAzioneAttuale.BonusMilitare);
+            this.Giocatore.OttieniBonusRisorse(SpazioAzioneAttuale.BonusRisorse);
     }
 }
 

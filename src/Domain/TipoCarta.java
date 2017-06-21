@@ -4,6 +4,7 @@ package Domain;
  * Created by Portatile on 13/05/2017.
  */
 public enum TipoCarta {
+    Scomunica(0),
     Territorio(1),
     Edificio(2),
     Personaggio(3),

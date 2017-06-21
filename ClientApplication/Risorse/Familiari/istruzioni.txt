@@ -1,0 +1,3 @@
+In questa cartella devono essere inserite le immagini dei Familiari con il seguente nome file:
+
+    ( vedi "...ClientApplication/graphics/Items/GiocatoreGraphic.java/FamigliareGraphic" )

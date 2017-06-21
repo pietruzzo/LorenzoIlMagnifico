@@ -1,12 +1,17 @@
 package Domain;
 
+import Exceptions.DomainException;
+
+import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Portatile on 13/05/2017.
  */
-public class Torre {
+public class Torre  implements Serializable {
 
     //region Proprieta
     protected TipoCarta Tipo;
@@ -47,20 +52,10 @@ public class Torre {
                     break;
             }
 
-            SpaziAzione.add(new SpazioAzioneTorre(valore, bonusLegni, bonusPietre, bonusMonete, bonusMilitare ));
+            SpaziAzione.add(new SpazioAzioneTorre(valore, new Risorsa(bonusLegni, bonusPietre,0, bonusMonete,0, bonusMilitare,0), this));
         }
     }
 
-    /**
-     * Consente di piazzare un familiare nella torre, sullo spazio azione indicato dal valore
-     */
-    public void PiazzaFamiliare(Familiare familiare, int valore) throws Exception {
-        this.ValidaPiazzamentoFamiliare(familiare);
-
-        SpazioAzioneTorre spazioAzione = this.GetSpazioAzioneByValore(valore);
-        Boolean torreOccupata = this.TorreOccupata();
-        spazioAzione.PiazzaFamiliare(familiare, torreOccupata);
-    }
 
     /**
      * Ritorna lo spazioAzione dato il suo valore (univoco nella torre)
@@ -72,18 +67,65 @@ public class Torre {
     /**
      * Ritorna true se la torre risulta occupata da un qualsiasi altro familiare
      */
-    private Boolean TorreOccupata() {
+    protected Boolean TorreOccupata() {
         return this.SpaziAzione.stream().anyMatch(x -> x.FamiliarePiazzato != null);
     }
 
     /**
      * Verifica se è possibile piazzare il familiare nella torre
      */
-    private void ValidaPiazzamentoFamiliare(Familiare familiare) throws Exception {
+    protected void ValidaPiazzamentoFamiliare(Familiare familiare) throws DomainException {
         if(this.SpaziAzione.stream().anyMatch(x -> x.FamiliarePiazzato != null
                                                 && x.FamiliarePiazzato.Giocatore == familiare.Giocatore
                                                 && x.FamiliarePiazzato.Neutro == familiare.Neutro))
-            throw new Exception("Non è possibile piazzare un altro familiare dello stesso colore nella torre!");
+            throw new DomainException("Non è possibile piazzare un altro familiare dello stesso colore nella torre!");
     }
 
+    /**
+     * Associa le carte agli spazi azione
+     */
+    protected void PescaCarte(int periodo, List<Carta> carteDisponibili)
+    {
+        List<Carta> carteDaPescare;
+        int numeroSpaziAzione = this.SpaziAzione.size(); //sempre 4
+
+        //region Scelta carte da pescare
+        switch (this.Tipo)
+        {
+            case Territorio:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaTerritorio)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            case Personaggio:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaPersonaggio)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            case Impresa:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaImpresa)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            case Edificio:
+                carteDaPescare = carteDisponibili.stream().filter(c -> c.Periodo == periodo && c instanceof CartaEdificio)
+                        .limit(numeroSpaziAzione)
+                        .collect(Collectors.toList());
+                break;
+
+            default:
+                carteDaPescare = new ArrayList<>();
+                break;
+        }
+        //endregion
+
+        //Associa una carta ad ogni spazio azione
+        for (int i = 0; i < carteDaPescare.size(); i++)
+        {
+            this.SpaziAzione.get(i).AssociaCarta(carteDaPescare.get(i));
+        }
+    }
 }
